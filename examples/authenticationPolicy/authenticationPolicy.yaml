@@ -1,0 +1,11 @@
+apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+kind: AuthenticationPolicy
+metadata:
+  name: authentication-policy-via-crossplane-1
+spec:
+  forProvider:
+    compartmentId: ocid1.tenancy.oc1..xxxxxx
+    passwordPolicy:
+      - isLowercaseCharactersRequired: True
+        isNumericCharactersRequired: True
+        minimumPasswordLength: 8

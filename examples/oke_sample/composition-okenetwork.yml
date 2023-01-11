@@ -1,0 +1,684 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: okenetwork
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oci.platformref.crossplane.io/v1alpha1
+    kind: OkeNetwork
+  resources:
+  # VCN
+  - name: vcn
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Vcn
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.vcnId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.vcn.dnsLabel
+      toFieldPath: spec.forProvider.dnsLabel
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.vcn.name
+      toFieldPath: spec.forProvider.displayName
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.vcn.cidrBlocks
+      toFieldPath: spec.forProvider.cidrBlocks
+  
+  # Security Lists
+  - name: sl-empty
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: SecurityList
+      metadata:
+        labels:
+          name: empty
+      spec:
+        forProvider:
+          displayName: empty
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.slEmptyId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  
+  # NSGs
+  # NSG: OKE
+  - name: nsg-oke
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroup
+      metadata:
+        labels:
+          nsg: oke
+      spec:
+        forProvider:
+          displayName: oke
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nsgOkeId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  - name: nsg-rule-oke-to-oke-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: oke
+          direction: EGRESS
+          protocol: all
+          stateless: true
+          description: Permit all traffic to OKE (from OKE)
+          destinationType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgOkeId
+        toFieldPath: spec.forProvider.destination
+  - name: nsg-rule-oke-to-oke-i
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: oke
+          direction: INGRESS
+          protocol: all
+          stateless: true
+          description: Permit all traffic to OKE (from OKE)
+          sourceType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgOkeId
+        toFieldPath: spec.forProvider.source
+  - name: nsg-rule-bastion-to-oke-i
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: oke
+          direction: INGRESS
+          protocol: all
+          stateless: false
+          description: Permit all traffic to OKE (from bastion)
+          sourceType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgBastionId
+        toFieldPath: spec.forProvider.source
+  - name: nsg-rule-lb-to-oke-i
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: oke
+          direction: INGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all TCP traffic to OKE (from LB)
+          sourceType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgLbId
+        toFieldPath: spec.forProvider.source
+  - name: nsg-rule-oke-to-inet-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: oke
+          direction: EGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all traffic to OKE (from OKE)
+          destinationType: CIDR_BLOCK
+          destination: 0.0.0.0/0
+          tcpOptions:
+          - destinationPortRange:
+            - min: 443
+              max: 443
+
+  # NSG: bastion
+  - name: nsg-bastion
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroup
+      metadata:
+        labels:
+          nsg: bastion
+      spec:
+        forProvider:
+          displayName: bastion
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nsgBastionId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  - name: nsg-rule-bastion-to-oke-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: bastion
+          direction: EGRESS
+          protocol: all
+          stateless: false
+          description: Permit all traffic to OKE
+          destinationType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgOkeId
+        toFieldPath: spec.forProvider.destination
+  - name: nsg-rule-bastion-to-inet-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: bastion
+          direction: EGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all HTTPs to the Internet
+          destinationType: CIDR_BLOCK
+          destination: 0.0.0.0/0
+  - name: nsg-rule-bastion-to-lb-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: bastion
+          direction: EGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all TCP traffic to the LB NSG
+          destinationType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgLbId
+        toFieldPath: spec.forProvider.destination
+  - name: nsg-rule-ssh-to-bastion-i
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: bastion
+          direction: INGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit SSH traffic to the bastion
+          sourceType: CIDR_BLOCK
+          tcpOptions:
+          - destinationPortRange:
+            - min: 22
+              max: 22
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.permittedAccessCidr
+      toFieldPath: spec.forProvider.source
+  
+  # NSG: LB
+  - name: nsg-lb
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroup
+      metadata:
+        labels:
+          nsg: lb
+      spec:
+        forProvider:
+          displayName: lb
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nsgLbId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  - name: nsg-rule-bastion-to-lb-i
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: lb
+          direction: INGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all TCP traffic from bastion
+          sourceType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgBastionId
+        toFieldPath: spec.forProvider.source
+  - name: nsg-rule-lb-to-oke-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: lb
+          direction: EGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all TCP traffic to OKE
+          destinationType: NETWORK_SECURITY_GROUP
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.nsgOkeId
+        toFieldPath: spec.forProvider.destination
+
+  # Gateways
+  - name: igw
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: InternetGateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: this
+          enabled: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.igwId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  - name: natgw
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NATGateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: this
+          blockTraffic: false
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.natgwId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  
+  # Route Tables
+  - name: rt-private
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: RouteTable
+      metadata:
+        labels:
+          type: private
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: private
+          routeRules:
+          - description: Default route
+            destinationType: CIDR_BLOCK
+            destination: 0.0.0.0/0
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.rtPrivateId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.natgwId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+  - name: rt-public
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: RouteTable
+      metadata:
+        labels:
+          type: public
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: public
+          routeRules:
+          - description: Default route
+            destinationType: CIDR_BLOCK
+            destination: 0.0.0.0/0
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.rtPublicId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.igwId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+  
+  # Subnets
+  - name: subnet-oke
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        name: subnet-oke
+        labels:
+          subnet: oke
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          dnsLabel: oke
+          displayName: oke
+          prohibitInternetIngress: true
+          securityListIdsSelector:
+            matchLabels:
+              name: empty
+          routeTableIdSelector: 
+            matchLabels:
+              type: private
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.subnetOkeId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.subnetCidrs.oke
+      toFieldPath: spec.forProvider.cidrBlock
+  - name: subnet-bastion
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        name: subnet-bastion
+        labels:
+          subnet: bastion
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          dnsLabel: bastion
+          displayName: bastion
+          prohibitInternetIngress: false
+          securityListIdsSelector:
+            matchLabels:
+              name: empty
+          routeTableIdSelector: 
+            matchLabels:
+              type: public
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.subnetBastionId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.subnetCidrs.bastion
+      toFieldPath: spec.forProvider.cidrBlock
+  - name: subnet-lb
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        name: subnet-lb
+        labels:
+          subnet: lb
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          dnsLabel: lb
+          displayName: lb
+          prohibitInternetIngress: true
+          securityListIdsSelector:
+            matchLabels:
+              name: empty
+          routeTableIdSelector: 
+            matchLabels:
+              type: private
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.subnetLbId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.subnetCidrs.lb
+      toFieldPath: spec.forProvider.cidrBlock
+    
+  # Instances
+  - name: instance-bastion
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Instance
+      spec:
+        forProvider:
+          createVnicDetails:
+          - subnetIdSelector:
+              matchLabels:
+                subnet: bastion
+            nsgIdsSelector:
+              matchLabels:
+                nsg: bastion
+          sourceDetails:
+          - sourceType: image
+            sourceId: ""
+          dnsLabel: bastion
+          displayName: bastion
+          shapeConfig:
+          - memoryInGbs: 8
+            ocpus: 1
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.publicIp
+      toFieldPath: status.bastionPublicIp
+    - type: CombineToComposite
+      combine:
+        variables:
+          - fromFieldPath: status.bastionPublicIp
+        strategy: string
+        string:
+          fmt: "ssh -L 8080:%s:8080 opc@%s"
+      toFieldPath: status.lbSshCommand
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.bastion.shape
+      toFieldPath: spec.forProvider.shape
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.ad
+      toFieldPath: spec.forProvider.availabilityDomain
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.bastion.imgId
+      toFieldPath: spec.forProvider.sourceDetails[0].sourceId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.bastion.sshPublicKeys
+      toFieldPath: spec.forProvider.metadata.ssh_authorized_keys
+  
+  # OKE
+  - name: oke-cluster
+    base:
+      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      kind: Cluster
+      metadata:
+        name: oke-cluster
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          endpointConfig:
+            - subnetIdSelector:
+                matchLabels:
+                  subnet: oke
+              isPublicIpEnabled: false
+              nsgIdsSelector:
+                matchLabels:
+                  nsg: oke
+          options:
+            - serviceLbSubnetIdsSelector:
+                matchLabels:
+                  subnet: lb
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.okeClusterId
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.endpoints[0].privateEndpoint
+      toFieldPath: status.okeClusterIp
+    - type: CombineToComposite
+      combine:
+        variables:
+          - fromFieldPath: status.okeClusterIp
+          - fromFieldPath: status.bastionPublicIp
+        strategy: string
+        string:
+          fmt: "ssh -L 6443:%s opc@%s"
+      toFieldPath: status.bastionSshCommand
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.oke.name
+      toFieldPath: spec.forProvider.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.oke.k8sVer
+      toFieldPath: spec.forProvider.kubernetesVersion
+  - name: oke-pool-a1
+    base:
+      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      kind: NodePool
+      spec:
+        forProvider:
+          name: "a1"
+          clusterIdSelector:
+            matchControllerRef: true
+          nodeConfigDetails:
+          - placementConfigs:
+            - subnetIdSelector:
+                matchLabels:
+                  subnet: oke
+            nsgIdsSelector:
+              matchLabels:
+                nsg: oke
+          nodeShape: VM.Standard.A1.Flex
+          nodeShapeConfig:
+          - memoryInGbs: 16
+            ocpus: 2
+          nodeSourceDetails:
+          - sourceType : "image"
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.compartmentId
+        toFieldPath: spec.forProvider.compartmentId
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.k8sVer
+        toFieldPath: spec.forProvider.kubernetesVersion
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.ad
+        toFieldPath: spec.forProvider.nodeConfigDetails[0].placementConfigs[0].availabilityDomain
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.a1.size
+        toFieldPath: spec.forProvider.nodeConfigDetails[0].size
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.a1.imgId
+        toFieldPath: spec.forProvider.nodeSourceDetails[0].imageId
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.a1.sshPublicKey
+        toFieldPath: spec.forProvider.sshPublicKey
+  - name: oke-pool-e4
+    base:
+      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      kind: NodePool
+      spec:
+        forProvider:
+          name: "e4"
+          clusterIdSelector:
+            matchControllerRef: true
+          nodeConfigDetails:
+          - placementConfigs:
+            - subnetIdSelector:
+                matchLabels:
+                  subnet: oke
+            nsgIdsSelector:
+              matchLabels:
+                nsg: oke
+          nodeShape: VM.Standard.E4.Flex
+          nodeShapeConfig:
+          - memoryInGbs: 16
+            ocpus: 2
+          nodeSourceDetails:
+          - sourceType : "image"
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.compartmentId
+        toFieldPath: spec.forProvider.compartmentId
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.k8sVer
+        toFieldPath: spec.forProvider.kubernetesVersion
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.ad
+        toFieldPath: spec.forProvider.nodeConfigDetails[0].placementConfigs[0].availabilityDomain
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.e4.size
+        toFieldPath: spec.forProvider.nodeConfigDetails[0].size
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.e4.imgId
+        toFieldPath: spec.forProvider.nodeSourceDetails[0].imageId
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.oke.nodePools.e4.sshPublicKey
+        toFieldPath: spec.forProvider.sshPublicKey

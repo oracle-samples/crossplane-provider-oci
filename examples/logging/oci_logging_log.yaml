@@ -1,0 +1,16 @@
+apiVersion: logging.oci.jet.crossplane.io/v1alpha1
+kind: Log
+metadata:
+  name: logginglog
+spec:
+  forProvider:
+    displayName: "logginglog"
+    logType: "SERVICE"
+    logGroupIdRef:
+      name: loggroup-via-crossplane
+    configuration:
+      - source:
+          - category: "write"
+            resource: "ocid1.bucket.oc1.phx.ssss"
+            service: "objectstorage"
+            sourceType: "OCISERVICE"

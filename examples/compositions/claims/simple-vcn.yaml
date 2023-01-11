@@ -1,0 +1,10 @@
+apiVersion: oci.jet.crossplane.io/v1alpha1
+kind: OciSimpleVcn
+metadata:
+  name: simpleocivcn
+spec:
+  parameters:
+    compartmentId: "ocid1.compartment.oc1..xxx"
+    vcnDisplayName: simpleVCNviaCP
+    cidrBlocks :
+      - "10.0.0.0/16"

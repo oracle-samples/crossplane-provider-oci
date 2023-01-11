@@ -1,0 +1,9 @@
+apiVersion: objectstorage.oci.jet.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  name: bucket-via-crossplane4
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane4
+    namespace: "id8pypxcqtqs"

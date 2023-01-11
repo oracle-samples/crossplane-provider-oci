@@ -1,0 +1,78 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NetworkSecurityGroup
+metadata:
+  name: web
+spec:
+  forProvider:
+    # compartmentId: ocid1...
+    compartmentIdRef: 
+      name : compartment-via-crossplane5
+    vcnIdRef:
+      name: vcn-via-crossplane5
+    displayName: "web"
+---
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NetworkSecurityGroupSecurityRule
+metadata:
+  name: app443toinet
+spec:
+  forProvider:
+    networkSecurityGroupIdRef:
+      name: app
+    protocol: "6" # tcp
+    direction: "EGRESS"
+    destination: "0.0.0.0/0"
+    destinationType: "CIDR_BLOCK"
+    tcpOptions:
+      - destinationPortRange:
+        - min: 443
+          max: 443
+---
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NetworkSecurityGroupSecurityRule
+metadata:
+  name: webwebtoapp
+spec:
+  forProvider:
+    networkSecurityGroupIdRef:
+      name: web
+    protocol: "6" # tcp
+    direction: "EGRESS"
+    destinationRef:
+      name: app
+    destinationType: "NETWORK_SECURITY_GROUP"
+    tcpOptions:
+      - destinationPortRange:
+        - min: 8443
+          max: 8443
+---
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NetworkSecurityGroup
+metadata:
+  name: app
+spec:
+  forProvider:
+    # compartmentId: ocid1....
+    compartmentIdRef: 
+      name : compartment-via-crossplane5
+    vcnIdRef:
+      name: vcn-via-crossplane5
+    displayName: "app"
+---
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NetworkSecurityGroupSecurityRule
+metadata:
+  name: appwebtoapp
+spec:
+  forProvider:
+    networkSecurityGroupIdRef:
+      name: app
+    protocol: "6" # tcp
+    direction: "INGRESS"
+    sourceRef:
+      name: web
+    sourceType: "NETWORK_SECURITY_GROUP"
+    tcpOptions:
+      - destinationPortRange:
+        - min: 8443
+          max: 8443

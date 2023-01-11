@@ -1,0 +1,11 @@
+apiVersion: oci.jet.crossplane.io/v1alpha1
+kind: OciVcn
+metadata:
+  name: ocivcn
+spec:
+  parameters:
+    compartmentId: "ocid1.compartment.oc1..xxx"
+    vcnDisplayName: VCNviaCrossPlane
+    cidrBlocks :
+      - "10.0.0.0/16"
+    subnetCidr: "10.0.4.0/24"

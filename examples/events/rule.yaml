@@ -1,0 +1,16 @@
+apiVersion: events.oci.jet.crossplane.io/v1alpha1
+kind: Rule
+metadata:
+  name: rule-via-crossplane
+spec:
+  forProvider:
+    actions:
+      - actions:
+          - actionType: "OSS"
+            isEnabled: true
+            streamId: ocid1.stream.oc1.phx.sss
+    compartmentIdRef:
+      name: compartment-via-crossplane1
+    condition: "{}"
+    displayName: rule-via-crossplane
+    isEnabled: true

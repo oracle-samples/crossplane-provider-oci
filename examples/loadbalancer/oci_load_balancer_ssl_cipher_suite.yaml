@@ -1,0 +1,10 @@
+apiVersion: load.oci.jet.crossplane.io/v1alpha1
+kind: BalancerSSLCipherSuite
+metadata:
+  name: lbciphersuite
+spec:
+  forProvider:
+    loadBalancerIdRef:
+      name: loadbalancer-via-crossplane
+    name: "lbciphersuite"
+    ciphers: ["AES128-SHA","AES256-SHA"]

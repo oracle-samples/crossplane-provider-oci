@@ -1,0 +1,12 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: LoadBalancerBackendSet
+metadata:
+  name: nwlbbendset-via-crossplane5
+spec:
+  forProvider:
+    healthChecker:
+      - protocol: "TCP"
+    networkLoadBalancerIdRef: 
+      name: nwlb-via-crossplane
+    name: "nwlbbendset-via-crossplane5"
+    policy: "FIVE_TUPLE"

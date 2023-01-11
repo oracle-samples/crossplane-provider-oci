@@ -1,44 +1,80 @@
-*This repository acts as a template for all of Oracle’s GitHub repositories. It contains information about the guidelines for those repositories. All files and sections contained in this template are mandatory, and a GitHub app ensures alignment with these guidelines. To get started with a new repository, replace the italic paragraphs with the respective text for your project.*
+# Terrajet Oci Provider
 
-# Project name
+`provider-jet-oci` is a [Crossplane](https://crossplane.io/) provider that
+is built using [Terrajet](https://github.com/crossplane/terrajet) code
+generation tools and exposes XRM-conformant managed resources for the
+Oci API.
 
-*Describe your project's features, functionality and target audience*
+## Getting Started
 
-## Installation
+Install the provider by using the following command after changing the image tag
+to the [latest release](https://github.com/crossplane-contrib/provider-jet-oci/releases):
+```
+kubectl crossplane install provider crossplane/provider-jet-oci:v0.1.0
+```
 
-*Provide detailed step-by-step installation instructions*
+Alternatively, you can use declarative installation:
+```
+kubectl apply -f examples/install.yaml
+```
 
-## Documentation
+Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
 
-*Developer-oriented documentation can be published on GitHub, but all product documentation must be published on <https://docs.oracle.com>*
+You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-jet-oci).
 
-## Examples
+## Developing
 
-*Describe any included examples or provide a link to a demo/tutorial*
+Run code-generation pipeline:
+```console
+go run cmd/generator/main.go "$PWD"
+```
 
-## Help
+Run against a Kubernetes cluster:
 
-*Inform users on where to get help or how to receive official support from Oracle (if applicable)*
+```console
+make run
+```
 
-## Contributing
+Build, push, and install:
 
-*If your project has specific contribution requirements, update the CONTRIBUTING.md file to ensure those requirements are clearly explained*
+```console
+make all
+```
 
-This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md)
+Build binary:
 
-## Security
+```console
+make build
+```
 
-Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
+## Report a Bug
 
-## License
+For filing bugs, suggesting improvements, or requesting new features, please
+open an [issue](https://github.com/crossplane-contrib/provider-jet-oci/issues).
 
-*The correct copyright notice format for both documentation and software is*
-    "Copyright (c) [year,] year Oracle and/or its affiliates."
-*You must include the year the content was first released (on any platform) and the most recent year in which it was revised*
+## Contact
 
-Copyright (c) 2022 Oracle and/or its affiliates.
+Please use the following to reach members of the community:
 
-*Replace this statement if your project is not licensed under the UPL*
+* Slack: Join our [slack channel](https://slack.crossplane.io)
+* Forums:
+  [crossplane-dev](https://groups.google.com/forum/#!forum/crossplane-dev)
+* Twitter: [@crossplane_io](https://twitter.com/crossplane_io)
+* Email: [info@crossplane.io](mailto:info@crossplane.io)
 
-Released under the Universal Permissive License v1.0 as shown at
-<https://oss.oracle.com/licenses/upl/>.
+## Governance and Owners
+
+provider-jet-oci is run according to the same
+[Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
+and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
+structure as the core Crossplane project.
+
+## Code of Conduct
+
+provider-jet-oci adheres to the same [Code of
+Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
+as the core Crossplane project.
+
+## Licensing
+
+provider-jet-oci is under the Apache 2.0 license.

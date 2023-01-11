@@ -1,0 +1,11 @@
+apiVersion: functions.oci.jet.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  name: application-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane
+    displayName: application-via-crossplane
+    subnetIdsRefs:
+      - name: subnet-via-crossplane

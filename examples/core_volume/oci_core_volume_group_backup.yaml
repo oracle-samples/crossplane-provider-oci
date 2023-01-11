@@ -1,0 +1,13 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: VolumeGroupBackup
+metadata:
+  name: volumegroupbackup
+spec:
+  forProvider:
+    compartmentIdRef:
+      name : compartment-via-crossplane5
+    volumeGroupIdRef:
+      name : volumegroup1
+    
+    
+    

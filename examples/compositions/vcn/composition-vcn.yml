@@ -1,0 +1,232 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: ocivcn.oci.io
+  labels:
+    provider: oci
+    resource: vcn
+    config : withIG_withNAT_withSubNet
+
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oci.jet.crossplane.io/v1alpha1
+    kind: XOciVcn
+
+  resources:
+  # VCN
+  - name: vcn
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Vcn
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.vcnId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.vcnDisplayName
+      toFieldPath: spec.forProvider.displayName
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.cidrBlocks
+      toFieldPath: spec.forProvider.cidrBlocks
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.enableIPV6
+      toFieldPath: spec.forProvider.enableIPV6 
+
+  - name: nsg-forvcn
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroup
+      metadata:
+        labels:
+          nsg: forvcn
+      spec:
+        forProvider:
+          displayName: forvcn
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nsgId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+
+
+  
+  - name: nsg-rule-vcn-to-inet-e
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NetworkSecurityGroupSecurityRule
+      spec:
+        forProvider:
+          networkSecurityGroupIdSelector:
+            matchLabels:
+              nsg: forvcn
+          direction: EGRESS
+          protocol: "6"
+          stateless: false
+          description: Permit all traffic to OKE (from OKE)
+          destinationType: CIDR_BLOCK
+          destination: 0.0.0.0/0
+          tcpOptions:
+          - destinationPortRange:
+            - min: 443
+              max: 443
+
+  # Gateways
+  - name: igw
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: InternetGateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: internetgateway
+          enabled: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.igwId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+
+  - name: natgw
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: NATGateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: natgateway
+          blockTraffic: false
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.natgwId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+  
+  # # Route Tables
+  # - name: rt-private
+  #   base:
+  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     kind: RouteTable
+  #     metadata:
+  #       labels:
+  #         type: private
+  #     spec:
+  #       forProvider:
+  #         vcnIdSelector:
+  #           matchControllerRef: true
+  #         displayName: private
+  #         routeRules:
+  #           - description: "Default route"
+  #             destinationType: CIDR_BLOCK
+  #             destination: "0.0.0.0/0"
+  #             networkEntityId: "placeholder"
+  #   patches:
+  #   - type: ToCompositeFieldPath
+  #     fromFieldPath: status.atProvider.id
+  #     toFieldPath: status.rtPrivateId
+  #   - type: FromCompositeFieldPath
+  #     fromFieldPath: spec.parameters.compartmentId
+  #     toFieldPath: spec.forProvider.compartmentId
+  #   - type: FromCompositeFieldPath
+  #     fromFieldPath: status.igwId
+  #     toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+  #     policy:
+  #       fromFieldPath: Required
+
+  - name: rt-public
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: RouteTable
+      metadata:
+        labels:
+          type: public
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName: public
+          routeRules:
+          - description: Default route
+            destinationType: CIDR_BLOCK
+            destination: 0.0.0.0/0
+            networkEntityId: "placeholder"
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.rtPublicId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.igwId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+      policy:
+        fromFieldPath: Required  
+
+    # Security Lists
+  - name: sl-empty
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: SecurityList
+      metadata:
+        labels:
+          name: empty
+      spec:
+        forProvider:
+          displayName: empty
+          vcnIdSelector:
+            matchControllerRef: true
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.slEmptyId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+
+
+  - name: subnet-oke
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        name: subnet-oke
+        labels:
+          subnet: oke
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          # dnsLabel: oke
+          displayName: oke
+          prohibitInternetIngress: true
+          securityListIdsSelector:
+            matchLabels:
+              name: empty
+          routeTableIdSelector: 
+            matchLabels:
+              type: public
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.subnetOkeId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.subnetCidr
+      toFieldPath: spec.forProvider.cidrBlock
+ 

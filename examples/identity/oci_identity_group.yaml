@@ -1,0 +1,9 @@
+apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: group-via-crossplane
+spec:
+  forProvider:
+    compartmentId: "ocid1.tenancy.oc1..sssss"
+    description: "Compartment created via crossplane"
+    name: "group-via-crossplane"

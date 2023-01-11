@@ -1,0 +1,11 @@
+apiVersion: artifacts.oci.jet.crossplane.io/v1alpha1
+kind: Repository
+metadata:
+  name: repository-via-crossplane1
+spec:
+  forProvider:
+    compartmentIdRef:
+      name : compartment-via-crossplane5
+    isImmutable: false
+    repositoryType: "GENERIC"
+    displayName: "repository-via-crossplane1"

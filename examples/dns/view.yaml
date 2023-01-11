@@ -1,0 +1,9 @@
+apiVersion: dns.oci.jet.crossplane.io/v1alpha1
+kind: View
+metadata:
+  name: view-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    scope: PRIVATE

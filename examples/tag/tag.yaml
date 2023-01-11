@@ -1,0 +1,10 @@
+apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+kind: Tag
+metadata:
+  name: tag-via-crossplane-1
+spec:
+  forProvider:
+    description: "Tag created via crossplane."
+    name: "Tag-via-crossplane-1"
+    tagNamespaceIdRef:
+      name: "tag-namespace-via-crossplane-1"

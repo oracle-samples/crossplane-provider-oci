@@ -1,0 +1,12 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: LoadBalancerListener
+metadata:
+  name: nwlblistener-via-crossplane
+spec:
+  forProvider:
+    networkLoadBalancerIdRef: 
+      name: nwlb-via-crossplane
+    defaultBackendSetName: "nwlbbendset-via-crossplane5"
+    name: "nwlblistener-via-crossplane"
+    port: 80
+    protocol: "TCP"

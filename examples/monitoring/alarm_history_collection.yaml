@@ -1,0 +1,4 @@
+apiVersion: monitoring.oci.jet.crossplane.io/v1alpha1
+kind: AlarmHistoryCollection
+metadata:
+  name: alarm-history-collection-via-crossplane

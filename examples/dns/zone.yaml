@@ -1,0 +1,10 @@
+apiVersion: dns.oci.jet.crossplane.io/v1alpha1
+kind: Zone
+metadata:
+  name: zone-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    name: crossplane.test
+    zoneType: PRIMARY

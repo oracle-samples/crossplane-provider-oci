@@ -1,0 +1,13 @@
+apiVersion: servicemesh.oci.jet.crossplane.io/v1alpha1
+kind: VirtualService
+metadata:
+  name: virtual-service-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    meshIdRef:
+      name: mesh-via-crossplane
+    name: virtual-service-via-crossplane
+    hosts:
+      - "*.com"

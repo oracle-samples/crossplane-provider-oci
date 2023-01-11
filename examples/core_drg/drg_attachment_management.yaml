@@ -1,0 +1,7 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: DrgAttachmentManagement
+metadata:
+  name: drg-attachment-management-via-crossplane
+spec:
+  forProvider:
+    

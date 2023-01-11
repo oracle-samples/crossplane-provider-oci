@@ -1,0 +1,9 @@
+apiVersion: load.oci.jet.crossplane.io/v1alpha1
+kind: BalancerCertificate
+metadata:
+  name: lbcertificate-via-crossplane
+spec:
+  forProvider:
+    loadBalancerIdRef:
+      name: loadbalancer-via-crossplane
+    certificateName: "lbcertificate-via-crossplane"

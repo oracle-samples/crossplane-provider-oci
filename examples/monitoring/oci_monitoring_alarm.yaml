@@ -1,0 +1,18 @@
+apiVersion: monitoring.oci.jet.crossplane.io/v1alpha1
+kind: Alarm
+metadata:
+  name: alarm-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef:
+      name : compartment-via-crossplane5
+    destinations:
+      - "ocid1.onstopic.oc1.phx.sss"
+    displayName: "High CPU Utilization"
+    isEnabled: false
+    metricCompartmentIdRef:
+      name: compartment-via-crossplane5
+    namespace: "oci_computeagent"
+    query: "CpuUtilization[10m].percentile(0.9) < 85"
+    severity: "WARNING"
+

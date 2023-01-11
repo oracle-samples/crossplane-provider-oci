@@ -1,0 +1,341 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: okecluster
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oci.jet.crossplane.io/v1alpha1
+    kind: CompositeContainerEngine
+  resources:
+
+  - name: compartment 
+    base:
+      apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+      kind: Compartment
+      spec:
+        forProvider:
+          compartmentId: "ocid1.compartment.oc1..sssss"
+          description: "Compartment via crossplane to test OKE"
+          name: "compartmentokecluster201"
+          enableDelete : True
+
+  - name: vcn
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Vcn
+      metadata:
+        name: vcn
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          region: "ap-hyderabad-1"
+          cidrBlocks: [10.0.0.0/16]
+          dnsLabel: "vcnoke"
+          displayName : "oke-vcn"
+    patches:
+      - type: ToCompositeFieldPath
+        fromFieldPath: status.atProvider.id
+        toFieldPath:  status.vcnId
+      - type: ToCompositeFieldPath
+        fromFieldPath: status.atProvider.dhcpOptionsId
+        toFieldPath:  status.defaultDHCPOptionsId
+
+  - name: okeSecurityList
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: SecurityList
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          vcnIdSelector:
+            matchControllerRef: true
+          displayName:  "oke-securitylist"
+          egressSecurityRules :
+            # - stateless : false
+            - destination : "0.0.0.0/0"
+              # destination_type: "CIDR_BLOCK"
+              protocol: "all" 
+          ingressSecurityRules :
+            # - stateless: false
+            - source: "0.0.0.0/0"
+              # sourceType: "CIDR_BLOCK"
+              protocol: "all"
+            #   tcpOptions:
+            #     min: 22
+            #     max: 22
+            # - stateless: false
+            #   source: "0.0.0.0/0"
+            #   sourceType: "CIDR_BLOCK"
+            #   protocol: "1"
+            #   icmpOptions:
+            #     min: 3
+            #     max: 4
+            # - stateless: false
+            #   source: "10.0.0.0/16"
+            #   sourceType: "CIDR_BLOCK"
+            #   protocol: "1"
+            #   icmpOptions:
+            #     min: 3
+  
+  # - name: privatesecuritylist
+  #   base:
+  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     kind: SecurityList
+  #     spec:
+  #       forProvider:
+  #         compartmentIdSelector:
+  #           matchControllerRef: true
+  #         vcnIdSelector:
+  #           matchControllerRef: true
+  #         displayName:  "security-list-for-private-subnet"
+  #         egressSecurityRules :
+  #           - stateless : false
+  #             destination : "0.0.0.0/0"
+  #             destination_type: "CIDR_BLOCK"
+  #             protocol: "all" 
+  #         ingress_security_rules :
+  #           - stateless: false
+  #             source: "10.0.0.0/16"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "6"
+  #             tcpOptions:
+  #               min: 22
+  #               max: 22
+  #           - stateless: false
+  #             source: "0.0.0.0/0"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "1"
+  #             icmpOptions:
+  #               min: 3
+  #               max: 4
+  #           - stateless: false
+  #             source: "10.0.0.0/16"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "1"
+  #             icmpOptions:
+  #               min: 3
+
+  # - name: publicsecuritylist
+  #   base:
+  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     kind: SecurityList
+  #     spec:
+  #       forProvider:
+  #         compartmentIdSelector:
+  #           matchControllerRef: true
+  #         vcnIdSelector:
+  #           matchControllerRef: true
+  #         displayName:  "security-list-for-public-subnet"
+  #         egressSecurityRules :
+  #           - stateless : false
+  #             destination : "0.0.0.0/0"
+  #             destination_type: "CIDR_BLOCK"
+  #             protocol: "all" 
+  #         ingress_security_rules :
+  #           - stateless: false
+  #             source: "0.0.0.0/0"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "6"
+  #             tcpOptions:
+  #               min: 22
+  #               max: 22
+  #           - stateless: false
+  #             source: "0.0.0.0/0"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "1"
+  #             icmpOptions:
+  #               min: 3
+  #               max: 4
+  #           - stateless: false
+  #             source: "10.0.0.0/16"
+  #             sourceType: "CIDR_BLOCK"
+  #             protocol: "1"
+  #             icmpOptions:
+  #               min: 3
+
+  # - name: privatesubnet
+  #   base:
+  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     kind: Subnet
+  #     metadata:
+  #       labels:
+  #         access: privatesubnet
+  #     spec:
+  #       forProvider:
+  #         compartmentIdSelector:
+  #           matchControllerRef: true
+  #         vcnIdSelector:
+  #           matchControllerRef: true
+  #         cidrBlock: "10.0.1.0/24"
+  #         displayName : "private-subnet"
+  #   patches:
+  #     - type: ToCompositeFieldPath
+  #       fromFieldPath: status.atProvider.id
+  #       toFieldPath:  status.privateSubnetId
+
+
+# # TODO propogate natgwy route id
+#   - name: natgwy
+#     base:
+#       apiVersion: core.oci.jet.crossplane.io/v1alpha1
+#       kind: NATGateway
+#       spec:
+#         forProvider:
+#           compartmentIdSelector:
+#             matchControllerRef: true
+#           vcnIdSelector:
+#             matchControllerRef: true
+#     # patches:
+#     # - type: ToCompositeFieldPath
+#     #   fromFieldPath: status.atProvider.id
+#     #   toFieldPath:  status.privateSubnetId
+
+
+  - name: oke-internetgwy
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: InternetGateway
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          vcnIdSelector:
+            matchControllerRef: true
+        enabled : true
+        displayName : "oke-igwy"
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath:  status.igId
+
+
+  - name: okecluster
+    base:
+      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      kind: Cluster
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          kubernetesVersion : "v1.22.5"
+          name: "default" # Will be overriden
+          vcnIdSelector:
+            matchControllerRef: true
+          options:
+            - serviceLbSubnetIdSelector: 
+                matchLabels:
+                  access: lbSubnetAD1
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.parameters.name
+        toFieldPath: spec.forProvider.name
+
+  - name: okenodepool
+    base:
+      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      kind: NodePool
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          kubernetesVersion : "v1.22.5"
+          name: "default" # Will be overriden
+          clusterIdSelector:
+            matchControllerRef: true
+          nodeConfigDetails:
+            - placementConfigs:
+              - availabilityDomain : "raMT:AP-HYDERABAD-1-AD-1"
+                subnetId : ""
+              size : 2
+          nodeShape: "VM.Standard2.1"
+          nodeSourceDetails:
+            - imageId : "ocid1.image.oc1.ap-hyderabad-1.sssss"
+              sourceType : "image"
+    patches:
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.privateSubnetId
+        toFieldPath: spec.forProvider.nodeConfigDetails[0].placementConfigs[0].subnetId
+      - type: FromCompositeFieldPath
+        fromFieldPath: spec.parameters.name
+        toFieldPath: spec.forProvider.name
+        # policy:
+        #   fromFieldPath: Required
+
+  - name: oke-routetable
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: RouteTable
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          vcnIdSelector:
+            matchControllerRef: true
+          routeRules:
+            - description: "Route Table rules"
+              destination: "0.0.0.0/0"
+              networkEntityId: ""
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.igId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+
+  - name: worker-subnet-ad1
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        labels:
+          access: workerSubnetAD1
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          vcnIdSelector:
+            matchControllerRef: true
+          securityListIdSelector:
+            matchControllerRef: true   #TODO
+          cidrBlock: "10.0.10.0/24"
+          availabilityDomain : "raMT:AP-HYDERABAD-1-AD-1"
+          displayName : "workerSubnetAD1"
+          dnsLabel : "worker1"
+          routeTableIdSelector : 
+            matchControllerRef: true
+    patches:
+      - type: ToCompositeFieldPath
+        fromFieldPath: status.atProvider.id
+        toFieldPath:  status.privateSubnetId
+
+  - name: loadbalancer-subnet-ad1
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Subnet
+      metadata:
+        labels:
+          access: lbSubnetAD1
+      spec:
+        forProvider:
+          compartmentIdSelector:
+            matchControllerRef: true
+          vcnIdSelector:
+            matchControllerRef: true
+          securityListIdSelector:
+            matchControllerRef: true   #TODO
+          DHCPOptionsId: ""
+          cidrBlock: "10.0.20.0/24"
+          availabilityDomain : "raMT:AP-HYDERABAD-1-AD-1"
+          displayName : "lbSubnetAD1"
+          dnsLabel : "lb1"
+          routeTableIdSelector : 
+            matchControllerRef: true
+    patches:
+      # - type: ToCompositeFieldPath
+      #   fromFieldPath: status.atProvider.id
+      #   toFieldPath:  status.privateSubnetId
+      - type: FromCompositeFieldPath
+        fromFieldPath: status.defaultDHCPOptionsId
+        toFieldPath:  spec.forProvider.DHCPOptionsId
+        

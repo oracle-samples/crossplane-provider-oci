@@ -1,0 +1,13 @@
+apiVersion: healthchecks.oci.jet.crossplane.io/v1alpha1
+kind: HTTPMonitor
+metadata:
+  name: http-monitor-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    displayName: http-monitor-via-crossplane
+    intervalInSeconds: 30
+    protocol: HTTPS
+    targets:
+      - www.example.com 

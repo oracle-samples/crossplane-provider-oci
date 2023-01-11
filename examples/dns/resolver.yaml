@@ -1,0 +1,8 @@
+apiVersion: dns.oci.jet.crossplane.io/v1alpha1
+kind: Resolver
+metadata:
+  name: resolver-via-crossplane
+spec:
+  forProvider:
+    resolverId: ocid1.dnsresolver.oc1.phx.sss
+    scope: PRIVATE

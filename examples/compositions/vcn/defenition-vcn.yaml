@@ -1,0 +1,68 @@
+
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xocivcns.oci.jet.crossplane.io  
+spec:
+  group: oci.jet.crossplane.io
+  names:
+    kind: XOciVcn    
+    plural: xocivcns
+  claimNames:             
+    kind: OciVcn
+    plural: ocivcns
+
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                parameters:
+                  description: VCN Configurations
+                  type: object
+                  properties:
+                    compartmentId:
+                      description: Compartment ID where the VCN belongs
+                      type: string
+                    vcnDisplayName:
+                      description: Diplay name of VCN .
+                      type: string
+                    cidrBlocks:
+                      description: CIDR Blocks for VCN
+                      type: array
+                      items:
+                        type: string
+                    subnetCidr:
+                      description: CIDR Block for Subnet in the VCN 
+                      type: string
+                    enableIPV6:
+                      description: Enable IPV6 support for VCN 
+                      type: boolean
+                      default: false
+                  required:
+                    - compartmentId
+                    - subnetCidr
+                    - vcnDisplayName
+              required:
+                - parameters
+            status:
+              type: object
+              properties:
+                vcnId:
+                  description: vcn OCID
+                  type: string
+                igwId: 
+                  description: vcn internet gateway OCID
+                  type: string
+                natgwId: 
+                  description: vcn nat gateway OCID
+                  type: string
+
+
+

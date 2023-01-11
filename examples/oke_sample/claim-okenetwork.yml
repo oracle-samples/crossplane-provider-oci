@@ -1,0 +1,42 @@
+apiVersion: oci.platformref.crossplane.io/v1alpha1
+kind: OkeNetwork
+metadata:
+  name: oketest
+spec:
+  # the compartment OCID to deploy into
+  compartmentId: ocid1.compartment....
+  vcn:
+    name: cp-oke
+    cidrBlocks:
+    - 192.168.0.0/22
+    dnsLabel: cpoke
+  subnetCidrs:
+    oke: 192.168.0.0/24
+    lb: 192.168.1.0/24
+    bastion: 192.168.2.0/29
+  # the CIDR (your public IP) to permit SSH access to the bastion
+  permittedAccessCidr: x.x.x.x/32
+  bastion:
+    # get OCID from https://docs.oracle.com/en-us/iaas/images/
+    imgId: ocid1.image.oc1.phx.sssss
+    shape: VM.Standard.A1.Flex
+    # paste the contents of your SSH public key
+    sshPublicKeys: "ssh-rsa ..."
+  oke:
+    name: cptest
+    # pick an available version that's listed in the output of "oci ce cluster-options get --cluster-option-id all"
+    k8sVer: v1.24.1
+    nodePools:
+      a1:
+        # get the image OCIDs via the OCI CLI (use Cloud Shell):
+        #   oci ce node-pool-options get --node-pool-option-id <cluster_ocid>
+        imgId: ocid1.image.oc1.phx.sssss
+        size: 1
+        sshPublicKey: "ssh-rsa ..."
+      e4:
+        imgId: ocid1.image.oc1.phx.sssss
+        size: 1
+        sshPublicKey: "ssh-rsa ..."
+  # get from Compute > Instance > New screen (the AD name is shown on the Instance creation screen)
+  #   Can also get from OCI CLI: oci iam availability-domain list
+  ad: abcd:PHX-AD-2

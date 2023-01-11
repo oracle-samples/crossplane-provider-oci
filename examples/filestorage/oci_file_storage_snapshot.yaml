@@ -1,0 +1,9 @@
+apiVersion: file.oci.jet.crossplane.io/v1alpha1
+kind: StorageSnapshot
+metadata:
+  name: filesnapshot-via-crossplane1
+spec:
+  forProvider:
+    name : "filesnapshot-via-crossplane1"
+    fileSystemIdRef: 
+      name : filesys-via-crossplane1

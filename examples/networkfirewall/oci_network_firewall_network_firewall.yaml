@@ -1,0 +1,12 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: FirewallNetworkFirewall
+metadata:
+  name: nwfw-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    subnetIdRef: 
+      name : subnet-via-crossplane
+    networkFirewallPolicyIdRef:
+      name : nwfwpolicy-via-crossplane

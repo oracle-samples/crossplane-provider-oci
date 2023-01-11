@@ -1,0 +1,12 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: DrgRouteDistributionStatement
+metadata:
+  name: drg-route-distribution-statement-via-crossplane
+spec:
+  forProvider:
+    drgRouteDistributionIdRef: 
+      name : drg-route-distribution-via-crossplane
+    action: ACCEPT
+    priority: 100
+    matchCriteria:
+      - matchType: MATCH_ALL

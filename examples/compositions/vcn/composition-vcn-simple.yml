@@ -1,0 +1,33 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: simplevcn.oci.io
+  labels:
+    provider: oci
+    resource: vcn
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oci.jet.crossplane.io/v1alpha1
+    kind: XOciSimpleVcn
+
+  resources:
+  # VCN
+  - name: vcn
+    base:
+      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      kind: Vcn
+    patches:
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.vcnId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.vcnDisplayName
+      toFieldPath: spec.forProvider.displayName
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.cidrBlocks
+      toFieldPath: spec.forProvider.cidrBlocks
+  

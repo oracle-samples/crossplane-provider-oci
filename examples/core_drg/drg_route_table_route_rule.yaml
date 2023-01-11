@@ -1,0 +1,12 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: DrgRouteTableRouteRule
+metadata:
+  name: drg-route-distribution-via-crossplane
+spec:
+  forProvider:
+    drgRouteTableIdRef:
+      name: drg-route-table-via-crossplane
+    destination: 192.168.1.0/24
+    destinationType: CIDR_BLOCK
+    nextHopDrgAttachmentIdRef:
+      name: drg-attachment-via-crossplane

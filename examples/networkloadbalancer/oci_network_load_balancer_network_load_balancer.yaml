@@ -1,0 +1,11 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: LoadBalancerNetworkLoadBalancer
+metadata:
+  name: nwlb-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane5
+    subnetIdRef:
+      name : subnet-via-crossplane5
+    displayName: "eg_load_balancer"

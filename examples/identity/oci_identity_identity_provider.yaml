@@ -1,0 +1,14 @@
+apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+kind: IdentityProvider
+metadata:
+  name: identity-provider-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef:
+      name: compartment-via-crossplane1
+    description: "identity provider created via crossplane"
+    name: "identity-provider-via-crossplane"
+    metadata: "asdasdasdas"
+    metadataUrl: test.com
+    productType: ADFS
+    protocol: SAML2

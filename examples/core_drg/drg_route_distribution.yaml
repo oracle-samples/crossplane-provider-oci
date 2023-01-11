@@ -1,0 +1,10 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: DrgRouteDistribution
+metadata:
+  name: drg-route-distribution-via-crossplane
+spec:
+  forProvider:
+    drgIdRef: 
+      name : drg-via-crossplane
+    displayName: drg-route-distribution-via-crossplane
+    distributionType: IMPORT

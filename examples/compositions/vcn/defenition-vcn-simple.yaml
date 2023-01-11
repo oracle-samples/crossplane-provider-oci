@@ -1,0 +1,47 @@
+
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xocisimplevcns.oci.jet.crossplane.io  
+spec:
+  group: oci.jet.crossplane.io
+  names:
+    kind: XOciSimpleVcn    
+    plural: xocisimplevcns
+  claimNames:             
+    kind: OciSimpleVcn
+    plural: ocisimplevcns
+
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                parameters:
+                  description: VCN Configurations
+                  type: object
+                  properties:
+                    compartmentId:
+                      description: Compartment ID where the VCN belongs
+                      type: string
+                    vcnDisplayName:
+                      description: Diplay name of VCN .
+                      type: string
+                    cidrBlocks:
+                      description: CIDR Blocks for VCN
+                      type: array
+                      items:
+                        type: string
+                  required:
+                    - compartmentId
+                    - vcnDisplayName
+              required:
+                - parameters
+          required:
+            - spec

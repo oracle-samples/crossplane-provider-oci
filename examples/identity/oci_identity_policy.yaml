@@ -1,0 +1,11 @@
+apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  name: policy-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef:
+      name: compartment-via-crossplane5
+    description: "Policy created via crossplane"
+    name: "policy-via-crossplane"
+    statements : ["Allow group group-via-crossplane to read instances in compartment compartment-via-crossplane5"]

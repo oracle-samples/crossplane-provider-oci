@@ -1,0 +1,195 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: okenetworks.oci.platformref.crossplane.io
+spec:
+  group: oci.platformref.crossplane.io
+  names:
+    kind: OkeNetwork
+    plural: okenetworks
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              compartmentId:
+                type: string
+                description: The Compartment OCID to deploy resources into.
+              vcn:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name to use for the environment.
+                  cidrBlocks:
+                    type: array
+                    description: Array of CIDR blocks to use for the VCN (one or more).
+                    items:
+                      type: string
+                  dnsLabel:
+                    type: string
+                    description: DNS label to use.
+                required:
+                - name
+                - cidrBlocks
+                - dnsLabel
+              permittedAccessCidr:
+                type: string
+                description: The CIDR to permit access to the bastion.
+              bastion:
+                type: object
+                properties:
+                  imgId:
+                    type: string
+                    description: The OCID of the compute image to use for the bastion instance.
+                  shape:
+                    type: string
+                    description: The Compute shape to use for the bastion instance.
+                  sshPublicKeys:
+                    type: string
+                    description: The public key(s) to use for the bastion instance.
+                required:
+                - imgId
+                - shape
+                - sshPublicKeys
+              oke:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the OKE cluster.
+                  k8sVer:
+                    type: string
+                    description: The version of K8s to deploy for OKE.
+                  nodePools:
+                    type: object
+                    properties:
+                      a1:
+                        type: object
+                        description: Configuration settings for the A1 OKE Node Pool
+                        properties:
+                          imgId:
+                            type: string
+                            description: The OCID of the compute image to use for A1 OKE node pools.
+                          size:
+                            type: integer
+                            description: The number of compute instances for the A1 node pool.
+                          sshPublicKey:
+                            type: string
+                            description: The public key to use (for SSH authentication).
+                        required:
+                        - imgId
+                        - size
+                        - sshPublicKey
+                      e4:
+                        type: object
+                        description: Configuration settings for the E4 OKE Node Pool
+                        properties:
+                          imgId:
+                            type: string
+                            description: The OCID of the compute image to use for E4 OKE node pools.
+                          size:
+                            type: integer
+                            description: The number of compute instances for the E4 node pool.
+                          sshPublicKey:
+                            type: string
+                            description: The public key to use (for SSH authentication).
+                        required:
+                        - imgId
+                        - size
+                        - sshPublicKey
+                    required:
+                    - a1
+                    - e4
+                required:
+                - name
+                - k8sVer
+                - nodePools
+              subnetCidrs:
+                type: object
+                properties:
+                  oke:
+                    type: string
+                    description: The CIDR to use for the OKE Subnet.
+                  bastion:
+                    type: string
+                    description: The CIDR to use for the bastion Subnet.
+                  lb:
+                    type: string
+                    description: The CIDR to use for the LB Subnet.
+                required:
+                - oke
+                - bastion
+                - lb
+              ad:
+                type: string
+                description: The availability domain to use.
+            required:
+            - compartmentId
+            - vcn
+            - permittedAccessCidr
+            - bastion
+            - oke
+            - subnetCidrs
+            - ad
+          status:
+            type: object
+            properties:
+              vcnId:
+                description: VCN OCID
+                type: string
+              slEmptyId:
+                description: OCID of the empty Security List
+                type: string
+              subnetOkeId:
+                description: OCID of the OKE Subnet
+                type: string
+              subnetLbId:
+                description: OCID of the OKE Subnet
+                type: string
+              subnetBastionId:
+                description: OCID of the bastion Subnet
+                type: string
+              rtPrivateId:
+                description: OCID of the private Route Table
+                type: string
+              rtPublicId:
+                description: OCID of the public Route Table
+                type: string
+              igwId:
+                description: OCID of the Internet Gateway
+                type: string
+              natgwId:
+                description: OCID of the NAT Gateway
+                type: string
+              nsgOkeId:
+                description: OCID of the OKE NSG
+                type: string
+              nsgBastionId:
+                description: OCID of the bastion NSG
+                type: string
+              nsgLbId:
+                description: OCID of the LB NSG
+                type: string
+              okeClusterId:
+                description: OCID of the OKE cluster
+                type: string
+              bastionPublicIp:
+                description: Public IP of the bastion instance.
+                type: string
+              bastionSshCommand:
+                description: SSH command to connect to the bastion.
+                type: string
+              okeClusterIp:
+                description: The IP address of the OKE cluster.
+                type: string
+              lbSshCommand:
+                description: SSH command to port forward to the LB.
+                type: string
+              

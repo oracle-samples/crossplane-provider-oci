@@ -1,0 +1,11 @@
+apiVersion: servicemesh.oci.jet.crossplane.io/v1alpha1
+kind: Mesh
+metadata:
+  name: mesh-via-crossplane
+spec:
+  forProvider:
+    certificateAuthorities:
+      - id: ocid1.certificateauthority.oc1.phx.sssss
+    compartmentIdRef:
+      name: compartment-via-crossplane1
+    displayName: crossplane-service-mesh

@@ -1,0 +1,13 @@
+apiVersion: load.oci.jet.crossplane.io/v1alpha1
+kind: BalancerBackendSet
+metadata:
+  name: lbbackendset-via-crossplane
+spec:
+  forProvider:
+    healthChecker:
+      - protocol: "HTTP"
+        urlPath: "/healthcheck"
+    loadBalancerIdRef:
+      name: loadbalancer-via-crossplane
+    name: "lbbackendset-via-crossplane"
+    policy: "LEAST_CONNECTIONS"

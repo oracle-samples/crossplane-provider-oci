@@ -1,0 +1,43 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: FirewallNetworkFirewallPolicy
+metadata:
+  name: nwfwpolicy-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef:
+      name :  compartment-via-crossplane1
+    decryptionProfiles:
+      - key : "decrypt"
+        type : "SslInboundInspection"
+    applicationLists:
+      - key : "appList1"
+        type : "TCP"
+        minimumPort: 0
+        maximumPort: 100
+    ipAddressLists:
+      - ipAddressListName : "ipa"
+        ipAddressListValue : 
+          - 1.1.1.1
+          - 2.2.2.2
+      - ipAddressListName : "ipb"
+        ipAddressListValue : 
+          - 1.2.2.1 
+          - 2.2.3.2
+    decryptionRules:
+      - name: "test-security-rules"
+        condition:
+          - destinations:
+              - ipa 
+            sources: 
+              - ipb
+        action : "NO_DECRYPT"
+    securityRules:
+      - name : "security-rules"
+        condition :
+          - applications : 
+              - appList1
+            sources : 
+              - ipb
+            destinations : 
+              - ipa
+        action : "ALLOW"

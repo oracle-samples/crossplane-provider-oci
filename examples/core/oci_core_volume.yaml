@@ -1,0 +1,11 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: Volume
+metadata:
+  name: volume1
+spec:
+  forProvider:
+    availabilityDomain: "AnvB:PHX-AD-1"
+    compartmentIdRef:
+      name : compartment-via-crossplane5
+    
+    

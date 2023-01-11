@@ -1,0 +1,8 @@
+apiVersion: file.oci.jet.crossplane.io/v1alpha1
+kind: StorageExportSet
+metadata:
+  name: fileexportset-via-crossplane1
+spec:
+  forProvider:
+    mountTargetIdRef: 
+      name: filemount-via-crossplane1

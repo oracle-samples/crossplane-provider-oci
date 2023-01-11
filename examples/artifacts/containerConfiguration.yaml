@@ -1,0 +1,10 @@
+apiVersion: artifacts.oci.jet.crossplane.io/v1alpha1
+kind: ContainerConfiguration
+metadata:
+  name: container-configuration-via-crossplane-1
+spec:
+  forProvider:
+    isRepositoryCreatedOnFirstPush: False
+    compartmentIdRef: 
+      name : compartment-via-crossplane5
+    

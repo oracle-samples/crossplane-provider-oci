@@ -1,0 +1,14 @@
+apiVersion: load.oci.jet.crossplane.io/v1alpha1
+kind: BalancerPathRouteSet
+metadata:
+  name: lbpathrouteset
+spec:
+  forProvider:
+    loadBalancerIdRef:
+      name: loadbalancer-via-crossplane
+    name: "lbpathrouteset"
+    pathRoutes:
+      - backendSetName: "lbbackendset-via-crossplane"
+        path: "/example/video/123"
+        pathMatchType:
+          - matchType: "EXACT_MATCH"

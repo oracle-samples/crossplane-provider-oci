@@ -1,0 +1,10 @@
+apiVersion: core.oci.jet.crossplane.io/v1alpha1
+kind: NATGateway
+metadata:
+  name: natgw-via-crossplane5
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane5
+    vcnIdRef:
+      name: vcn-via-crossplane5

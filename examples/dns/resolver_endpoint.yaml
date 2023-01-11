@@ -1,0 +1,12 @@
+apiVersion: dns.oci.jet.crossplane.io/v1alpha1
+kind: ResolverEndpoint
+metadata:
+  name: resolver-endpoint-via-crossplane
+spec:
+  forProvider:
+    resolverId: ocid1.dnsresolver.oc1.phx.xxx
+    isForwarding: False
+    isListening: True
+    name: crossplane
+    subnetId: ocid1.subnet.oc1.phx.xxx
+    scope: PRIVATE

@@ -1,0 +1,11 @@
+apiVersion: file.oci.jet.crossplane.io/v1alpha1
+kind: StorageMountTarget
+metadata:
+  name: filemount-via-crossplane1
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name :  compartment-via-crossplane1
+    subnetIdRef: 
+      name : subnet-via-crossplane
+    availabilityDomain: "AnvB:PHX-AD-1"

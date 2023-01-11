@@ -1,0 +1,11 @@
+apiVersion: network.oci.jet.crossplane.io/v1alpha1
+kind: LoadBalancerBackend
+metadata:
+  name: nwlbbackend-via-crossplane
+spec:
+  forProvider:
+    networkLoadBalancerIdRef: 
+      name: nwlb-via-crossplane
+    backendSetName: "nwlbbendset-via-crossplane5"
+    ipAddress: "10.0.0.3"
+    port: 10

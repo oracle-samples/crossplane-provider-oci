@@ -1,0 +1,12 @@
+apiVersion: file.oci.jet.crossplane.io/v1alpha1
+kind: StorageReplication
+metadata:
+  name: filereplica-via-crossplane1
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name :  compartment-via-crossplane1
+    sourceIdRef: 
+      name : filesys-via-crossplane1
+    targetIdRef: 
+      name : filesys-via-crossplane2

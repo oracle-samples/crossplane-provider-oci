@@ -1,0 +1,11 @@
+apiVersion: functions.oci.jet.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  name: function-via-crossplane
+spec:
+  forProvider:
+    applicationIdRef:
+      name: application-via-crossplane
+    displayName: function-via-crossplane
+    image: phx.ocir.io/dex-us-phoenix-1-manual/test:test1
+    memoryInMbs: "1024"

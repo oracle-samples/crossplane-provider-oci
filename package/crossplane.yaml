@@ -1,0 +1,8 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  name: provider-jet-oci
+spec:
+  controller:
+    #image: DOCKER_REGISTRY/provider-jet-oci-controller:VERSION
+    image: hyd.ocir.io/axddifxif86p/provider-jet-oci-controller-amd64:0.0.1

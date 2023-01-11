@@ -1,0 +1,11 @@
+apiVersion: servicemesh.oci.jet.crossplane.io/v1alpha1
+kind: AccessPolicy
+metadata:
+  name: access-policy-via-crossplane
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : compartment-via-crossplane1
+    meshIdRef:
+      name: mesh-via-crossplane
+    name: access-policy-via-crossplane
