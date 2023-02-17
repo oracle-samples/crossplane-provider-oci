@@ -69,12 +69,20 @@ provider-jet-oci is run according to the same
 and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
 structure as the core Crossplane project.
 
+## Contributing
+
+This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md)
+
 ## Code of Conduct
 
 provider-jet-oci adheres to the same [Code of
 Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
 as the core Crossplane project.
 
-## Licensing
+## Security
+
+Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
+
+## License
 
 provider-jet-oci is under the Apache 2.0 license.
