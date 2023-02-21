@@ -5,12 +5,19 @@ is built using [Terrajet](https://github.com/crossplane/terrajet) code
 generation tools and exposes XRM-conformant managed resources for the
 Oci API.
 
-## Getting Started
+## Installing the provider
 
-Install the provider by using the following command after changing the image tag
-to the [latest release](https://github.com/crossplane-contrib/provider-jet-oci/releases):
+Install the provider by using the following steps and commands
+
+Build the provider and push to docker registry
 ```
-kubectl crossplane install provider crossplane/provider-jet-oci:v0.1.0
+make all
+```
+
+After pushing to the docker registry run the below command to install the provider
+`repoName` is the docker registry repo to which the image is pushed.
+```
+kubectl crossplane install provider <repoName> /provider-jet-oci:v0.1.0
 ```
 
 Alternatively, you can use declarative installation:
@@ -20,7 +27,6 @@ kubectl apply -f examples/install.yaml
 
 Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
 
-You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-jet-oci).
 
 ## Developing
 
@@ -71,7 +77,7 @@ structure as the core Crossplane project.
 
 ## Contributing
 
-This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md)
+This project is not accepting external contributions at this time. For bugs or enhancement requests, please file a GitHub issue unless it’s security related. When filing a bug remember that the better written the bug is, the more likely it is to be fixed. If you think you’ve found a security vulnerability, do not raise a GitHub issue and follow the instructions in our [security policy](./SECURITY.md).
 
 ## Code of Conduct
 
