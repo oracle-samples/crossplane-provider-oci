@@ -6,6 +6,7 @@ generation tools and exposes XRM-conformant managed resources for the
 Oci API.
 
 ## Getting Started
+### Install the provider
 
 Install the provider by using the following command after changing the image tag
 to the [latest release](https://github.com/crossplane-contrib/provider-jet-oci/releases):
