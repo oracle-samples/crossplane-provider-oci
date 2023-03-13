@@ -3,7 +3,7 @@ module github.com/crossplane-contrib/provider-jet-oci
 go 1.17
 
 require (
-	github.com/crossplane/crossplane-runtime v0.15.1-0.20220315141414-988c9ba9c255
+	github.com/crossplane/crossplane-runtime v0.16.1
 	github.com/crossplane/crossplane-tools v0.0.0-20220310165030-1f43fc12793e
 	github.com/crossplane/terrajet v0.4.0-rc.0.0.20220510203225-5e7094f2ea5c
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
