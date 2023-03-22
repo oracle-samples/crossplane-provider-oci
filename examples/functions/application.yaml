@@ -1,4 +1,4 @@
-apiVersion: functions.oci.jet.crossplane.io/v1alpha1
+apiVersion: functions.oci.upbound.io/v1alpha1
 kind: Application
 metadata:
   name: application-via-crossplane

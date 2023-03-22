@@ -1,19 +1,6 @@
----
-apiVersion: pkg.crossplane.io/v1alpha1
-kind: ControllerConfig
-metadata:
-  name: jet-oci-config
-  labels:
-    app: crossplane-provider-jet-oci
-spec:
-  image: crossplane/provider-jet-oci-controller:v0.1.0
-  args: ["-d"]
----
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: crossplane-provider-jet-oci
+  name: provider-oci
 spec:
-  package: crossplane/provider-jet-oci:v0.1.0
-  controllerConfigRef:
-    name: jet-oci-config
+  package: oracle/provider-oci:v0.1.0

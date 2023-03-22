@@ -15,7 +15,7 @@ limitations under the License.
 */
 package events
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -24,19 +24,19 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["actions.actions.function_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/functions/v1alpha1.Function",
+			Type: "github.com/oracle/provider-oci/apis/functions/v1alpha1.Function",
 		}
 
 		r.References["actions.actions.stream_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/streaming/v1alpha1.Stream",
+			Type: "github.com/oracle/provider-oci/apis/streaming/v1alpha1.Stream",
 		}
 
 		r.References["actions.actions.topic_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/ons/v1alpha1.NotificationTopic",
+			Type: "github.com/oracle/provider-oci/apis/ons/v1alpha1.NotificationTopic",
 		}
 	})
 }

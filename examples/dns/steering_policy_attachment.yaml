@@ -1,4 +1,4 @@
-apiVersion: dns.oci.jet.crossplane.io/v1alpha1
+apiVersion: dns.oci.upbound.io/v1alpha1
 kind: SteeringPolicyAttachment
 metadata:
   name: steering-policy-attachment-via-crossplane

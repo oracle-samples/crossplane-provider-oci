@@ -17,7 +17,7 @@ limitations under the License.
 package common
 
 const (
-	SelfPackagePath = "github.com/crossplane-contrib/provider-jet-oci/config/common"
+	SelfPackagePath = "github.com/oracle/provider-oci/config/common"
 
 	VersionAlpha1 = "v1alpha1"
 )

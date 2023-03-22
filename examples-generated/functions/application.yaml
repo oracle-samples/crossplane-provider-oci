@@ -1,0 +1,36 @@
+apiVersion: functions.oci.upbound.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: functions/v1alpha1/application
+  labels:
+    testing.upbound.io/example-name: test_application
+  name: test-application
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    config: ${var.application_config}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.application_display_name}
+    freeformTags:
+      Department: Finance
+    imagePolicyConfig:
+    - isPolicyEnabled: ${var.application_image_policy_config_is_policy_enabled}
+      keyDetails:
+      - kmsKeyId: ${oci_kms_key.test_key.id}
+    networkSecurityGroupIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    subnetIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    syslogUrl: ${var.application_syslog_url}
+    traceConfig:
+    - domainId: ${oci_functions_domain.test_domain.id}
+      isEnabled: ${var.application_trace_config_is_enabled}
+
+---
+

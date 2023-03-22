@@ -1,17 +1,5 @@
 /*
-Copyright 2021 The Crossplane Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Copyright 2021 Upbound Inc.
 */
 
 package main
@@ -27,8 +15,8 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	tjcontroller "github.com/crossplane/terrajet/pkg/controller"
-	"github.com/crossplane/terrajet/pkg/terraform"
+	tjcontroller "github.com/upbound/upjet/pkg/controller"
+	"github.com/upbound/upjet/pkg/terraform"
 	"gopkg.in/alecthomas/kingpin.v2"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -36,12 +24,12 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/crossplane-contrib/provider-jet-oci/apis"
-	"github.com/crossplane-contrib/provider-jet-oci/apis/v1alpha1"
-	"github.com/crossplane-contrib/provider-jet-oci/config"
-	"github.com/crossplane-contrib/provider-jet-oci/internal/clients"
-	"github.com/crossplane-contrib/provider-jet-oci/internal/controller"
-	"github.com/crossplane-contrib/provider-jet-oci/internal/features"
+	"github.com/oracle/provider-oci/apis"
+	"github.com/oracle/provider-oci/apis/v1alpha1"
+	"github.com/oracle/provider-oci/config"
+	"github.com/oracle/provider-oci/internal/clients"
+	"github.com/oracle/provider-oci/internal/controller"
+	"github.com/oracle/provider-oci/internal/features"
 )
 
 func main() {
@@ -58,10 +46,11 @@ func main() {
 		namespace                  = app.Flag("namespace", "Namespace used to set as default scope in default secret store config.").Default("crossplane-system").Envar("POD_NAMESPACE").String()
 		enableExternalSecretStores = app.Flag("enable-external-secret-stores", "Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Bool()
 	)
+
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	zl := zap.New(zap.UseDevMode(*debug))
-	log := logging.NewLogrLogger(zl.WithName("provider-jet-oci"))
+	log := logging.NewLogrLogger(zl.WithName("provider-oci"))
 	if *debug {
 		// The controller-runtime runs with a no-op logger by default. It is
 		// *very* verbose even at info level, so we only provide it a real
@@ -76,7 +65,7 @@ func main() {
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		LeaderElection:             *leaderElection,
-		LeaderElectionID:           "crossplane-leader-election-provider-jet-oci",
+		LeaderElectionID:           "crossplane-leader-election-provider-oci",
 		SyncPeriod:                 syncPeriod,
 		LeaderElectionResourceLock: resourcelock.LeasesResourceLock,
 		LeaseDuration:              func() *time.Duration { d := 60 * time.Second; return &d }(),

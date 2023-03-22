@@ -1,4 +1,4 @@
-apiVersion: core.oci.jet.crossplane.io/v1alpha1
+apiVersion: core.oci.upbound.io/v1alpha1
 kind: PublicIP
 metadata:
   name: public-ip-via-crossplane

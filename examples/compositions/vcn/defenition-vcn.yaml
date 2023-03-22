@@ -2,7 +2,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xocivcns.oci.jet.crossplane.io  
+  name: xocivcns.oci.upbound.io  
 spec:
   group: oci.jet.crossplane.io
   names:

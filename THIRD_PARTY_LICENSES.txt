@@ -1,8 +1,11 @@
 === Public License Template ===
-# Terrajet Template Provider
-github.com/crossplane-contrib/provider-jet-template
+# upjet Provider Template 
+github.com/upbound/upjet-provider-template
+github.com/upbound/upjet/pkg
 
-Copyright 2020 The Crossplane Authors.
+Copyright 2022 Upbound Inc. All rights reserved.
+Copyright 2023 Upbound Inc. All rights reserved.
+
 -------- License
                                  Apache License
                            Version 2.0, January 2004
@@ -192,7 +195,7 @@ Copyright 2020 The Crossplane Authors.
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2016 The Crossplane Authors. All rights reserved.
+   Copyright 2023 Upbound Inc. All rights reserved.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -205,4 +208,3 @@ Copyright 2020 The Crossplane Authors.
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-

@@ -1,32 +1,52 @@
-# Terrajet Oci Provider
+# Provider Oci
 
-`provider-jet-oci` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Terrajet](https://github.com/crossplane/terrajet) code
+`provider-oci` is a [Crossplane](https://crossplane.io/) provider that
+is built using [Upjet](https://github.com/upbound/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 Oci API.
 
-## Installing the provider
+## Getting Started
 
-Install the provider by using the following steps and commands
+### Testing the provider 
 
-Build the provider and push to docker registry
+Follow the below steps for generating the code and test.
+Make sure go is installed and path is set for the go binaries
 ```
-make all
+Git clone the repo 
+cd provider-oci/
+make generate # This will generate the binaries and CRDs.
+kubectl apply -f package/crds  #  A k8s cluster must be available running locally
+make run # This will start crossplane provider against the local kubernetes cluster .
 ```
-
-After pushing to the docker registry run the below command to install the provider
-`repoName` is the docker registry repo to which the image is pushed.
-```
-kubectl crossplane install provider <repoName> /provider-jet-oci:v0.1.0
-```
-
-Alternatively, you can use declarative installation:
-```
-kubectl apply -f examples/install.yaml
+In another terminal run the below commands to test the provider. 
+Make sure to setup the OCI credentials in examples/providerconfig/secret.yaml using the template examples/providerconfig/secret.yaml.tmpl
 ```
 
-Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
+# Create "crossplane-system" namespace if not exists
+kubectl create namespace crossplane-system --dry-run=client -o yaml | kubectl apply -f -
 
+kubectl apply -f examples/providerconfig/
+kubectl apply -f examples/identity/compartment.yaml  # open the compartment.yaml and update the compartment id in wich the new compartment to be created
+kubectl get managed # To check the status
+```
+## Building the provider and package as docker image
+```
+make build # This will build docker image in local machie. This can be pushed to any container registry
+
+```
+
+## Installing the provider from a container registry 
+using declarative api
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-oci
+spec:
+  package: <registry>/provider-oci:<tag>
+EOF
+```
 
 ## Developing
 
@@ -56,24 +76,8 @@ make build
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/crossplane-contrib/provider-jet-oci/issues).
+open an [issue](https://github.com/oracle-samples/provider-oci/issues).
 
-## Contact
-
-Please use the following to reach members of the community:
-
-* Slack: Join our [slack channel](https://slack.crossplane.io)
-* Forums:
-  [crossplane-dev](https://groups.google.com/forum/#!forum/crossplane-dev)
-* Twitter: [@crossplane_io](https://twitter.com/crossplane_io)
-* Email: [info@crossplane.io](mailto:info@crossplane.io)
-
-## Governance and Owners
-
-provider-jet-oci is run according to the same
-[Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
-and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
-structure as the core Crossplane project.
 
 ## Contributing
 

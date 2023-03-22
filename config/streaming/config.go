@@ -16,7 +16,7 @@ limitations under the License.
 
 package streaming
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_streaming_stream", func(r *config.Resource) {
@@ -24,7 +24,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["stream_pool_id"] = config.Reference{
 			Type: "StreamPool",
@@ -36,19 +36,19 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["custom_encryption_key.kms_key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 		r.References["private_endpoint_settings.nsg_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
 		}
 		r.References["private_endpoint_settings.subnet_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 		r.References["private_endpoint_settings.private_endpoint_ip"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.PrivateIP",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.PrivateIP",
 		}
 	})
 
@@ -57,7 +57,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["stream_pool_id"] = config.Reference{
 			Type: "StreamPool",

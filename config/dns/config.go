@@ -17,7 +17,7 @@ limitations under the License.
 package dns
 
 import (
-	"github.com/crossplane/terrajet/pkg/config"
+	"github.com/upbound/upjet/pkg/config"
 )
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
@@ -29,7 +29,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -40,7 +40,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -51,7 +51,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -65,10 +65,10 @@ func Configure(p *config.Provider) {
 			Type: "Resolver",
 		}
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 		r.References["nsg_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
 		}
 	})
 
@@ -79,10 +79,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["health_check_monitor_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/healthchecks/v1alpha1.HTTPMonitor",
+			Type: "github.com/oracle/provider-oci/apis/healthchecks/v1alpha1.HTTPMonitor",
 		}
 	})
 
@@ -107,7 +107,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -118,7 +118,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -129,7 +129,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["view_id"] = config.Reference{
 			Type: "View",

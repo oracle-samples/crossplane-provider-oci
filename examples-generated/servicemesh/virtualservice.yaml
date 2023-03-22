@@ -1,0 +1,31 @@
+apiVersion: servicemesh.oci.upbound.io/v1alpha1
+kind: VirtualService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicemesh/v1alpha1/virtualservice
+  labels:
+    testing.upbound.io/example-name: test_virtual_service
+  name: test-virtual-service
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    defaultRoutingPolicy:
+    - type: ${var.virtual_service_default_routing_policy_type}
+    definedTags:
+      foo-namespace.bar-key: value
+    description: ${var.virtual_service_description}
+    freeformTags:
+      bar-key: value
+    hosts: ${var.virtual_service_hosts}
+    meshIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_mesh
+    mtls:
+    - maximumValidity: ${var.virtual_service_mtls_maximum_validity}
+      mode: ${var.virtual_service_mtls_mode}
+    name: ${var.virtual_service_name}
+
+---
+

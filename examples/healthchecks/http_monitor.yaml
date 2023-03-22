@@ -1,4 +1,4 @@
-apiVersion: healthchecks.oci.jet.crossplane.io/v1alpha1
+apiVersion: healthchecks.oci.upbound.io/v1alpha1
 kind: HTTPMonitor
 metadata:
   name: http-monitor-via-crossplane

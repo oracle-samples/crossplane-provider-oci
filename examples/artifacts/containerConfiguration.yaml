@@ -1,4 +1,4 @@
-apiVersion: artifacts.oci.jet.crossplane.io/v1alpha1
+apiVersion: artifacts.oci.upbound.io/v1alpha1
 kind: ContainerConfiguration
 metadata:
   name: container-configuration-via-crossplane-1

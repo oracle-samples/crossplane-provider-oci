@@ -16,7 +16,7 @@ limitations under the License.
 
 package functions
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -24,19 +24,19 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["subnet_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 		r.References["network_security_group_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
 		}
 		r.References["kms_key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 		r.References["domain_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/dns/v1alpha1.Domain",
+			Type: "github.com/oracle/provider-oci/apis/dns/v1alpha1.Domain",
 		}
 	})
 

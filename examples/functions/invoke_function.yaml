@@ -1,4 +1,4 @@
-apiVersion: functions.oci.jet.crossplane.io/v1alpha1
+apiVersion: functions.oci.upbound.io/v1alpha1
 kind: InvokeFunction
 metadata:
   name: invoke-function-via-crossplane

@@ -1,0 +1,410 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: objectlifecyclepolicies.objectstorage.oci.upbound.io
+spec:
+  group: objectstorage.oci.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - oci
+    kind: ObjectLifecyclePolicy
+    listKind: ObjectLifecyclePolicyList
+    plural: objectlifecyclepolicies
+    singular: objectlifecyclepolicy
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ObjectLifecyclePolicy is the Schema for the ObjectLifecyclePolicys
+          API. Provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure
+          Object Storage service
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ObjectLifecyclePolicySpec defines the desired state of ObjectLifecyclePolicy
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  bucket:
+                    description: 'The name of the bucket. Avoid entering confidential
+                      information. Example: my-new-bucket1'
+                    type: string
+                  namespace:
+                    description: The Object Storage namespace used for the request.
+                    type: string
+                  rules:
+                    description: (Updatable) The bucket's set of lifecycle policy
+                      rules.
+                    items:
+                      properties:
+                        action:
+                          description: (Updatable) The action of the object lifecycle
+                            policy rule. Rules using the action 'ARCHIVE' move objects
+                            from Standard and InfrequentAccess storage tiers into
+                            the Archive storage tier. Rules using the action 'INFREQUENT_ACCESS'
+                            move objects from Standard storage tier into the Infrequent
+                            Access Storage tier. Objects that are already in InfrequentAccess
+                            tier or in Archive tier are left untouched. Rules using
+                            the action 'DELETE' permanently delete objects from buckets.
+                            Rules using 'ABORT' abort the uncommitted multipart-uploads
+                            and permanently delete their parts from buckets.
+                          type: string
+                        isEnabled:
+                          description: (Updatable) A Boolean that determines whether
+                            this rule is currently enabled.
+                          type: boolean
+                        name:
+                          description: (Updatable) The name of the lifecycle rule
+                            to be applied.
+                          type: string
+                        objectNameFilter:
+                          description: (Updatable) A filter that compares object names
+                            to a set of prefixes or patterns to determine if a rule
+                            applies to a given object. The filter can contain include
+                            glob patterns, exclude glob patterns and inclusion prefixes.
+                            The inclusion prefixes property is kept for backward compatibility.
+                            It is recommended to use inclusion patterns instead of
+                            prefixes. Exclusions take precedence over inclusions.
+                          items:
+                            properties:
+                              exclusionPatterns:
+                                description: (Updatable) An array of glob patterns
+                                  to match the object names to exclude. An empty array
+                                  is ignored. Exclusion patterns take precedence over
+                                  inclusion patterns. A Glob pattern is a sequence
+                                  of characters to match text. Any character that
+                                  appears in the pattern, other than the special pattern
+                                  characters described below, matches itself. Glob
+                                  patterns must be between 1 and 1024 characters.
+                                items:
+                                  type: string
+                                type: array
+                              inclusionPatterns:
+                                description: (Updatable) An array of glob patterns
+                                  to match the object names to include. An empty array
+                                  includes all objects in the bucket. Exclusion patterns
+                                  take precedence over inclusion patterns. A Glob
+                                  pattern is a sequence of characters to match text.
+                                  Any character that appears in the pattern, other
+                                  than the special pattern characters described below,
+                                  matches itself. Glob patterns must be between 1
+                                  and 1024 characters.
+                                items:
+                                  type: string
+                                type: array
+                              inclusionPrefixes:
+                                description: (Updatable) An array of object name prefixes
+                                  that the rule will apply to. An empty array means
+                                  to include all objects.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        target:
+                          description: (Updatable) The target of the object lifecycle
+                            policy rule. The values of target can be either "objects",
+                            "multipart-uploads" or "previous-object-versions". This
+                            field when declared as "objects" is used to specify ARCHIVE,
+                            INFREQUENT_ACCESS or DELETE rule for objects. This field
+                            when declared as "previous-object-versions" is used to
+                            specify ARCHIVE, INFREQUENT_ACCESS or DELETE rule for
+                            previous versions of existing objects. This field when
+                            declared as "multipart-uploads" is used to specify the
+                            ABORT (only) rule for uncommitted multipart-uploads.
+                          type: string
+                        timeAmount:
+                          description: (Updatable) Specifies the age of objects to
+                            apply the rule to. The timeAmount is interpreted in units
+                            defined by the timeUnit parameter, and is calculated in
+                            relation to each object's Last-Modified time.
+                          type: string
+                        timeUnit:
+                          description: (Updatable) The unit that should be used to
+                            interpret timeAmount.  Days are defined as starting and
+                            ending at midnight UTC. Years are defined as 365.2425
+                            days long and likewise round up to the next midnight UTC.
+                          type: string
+                      required:
+                      - action
+                      - isEnabled
+                      - name
+                      - timeAmount
+                      - timeUnit
+                      type: object
+                    type: array
+                required:
+                - bucket
+                - namespace
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: ObjectLifecyclePolicyStatus defines the observed state of
+              ObjectLifecyclePolicy.
+            properties:
+              atProvider:
+                properties:
+                  id:
+                    type: string
+                  timeCreated:
+                    description: The date and time the object lifecycle policy was
+                      created, as described in RFC 3339.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

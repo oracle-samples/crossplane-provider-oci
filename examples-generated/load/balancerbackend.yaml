@@ -1,0 +1,25 @@
+apiVersion: load.oci.upbound.io/v1alpha1
+kind: BalancerBackend
+metadata:
+  annotations:
+    meta.upbound.io/example-id: load/v1alpha1/balancerbackend
+  labels:
+    testing.upbound.io/example-name: test_backend
+  name: test-backend
+spec:
+  forProvider:
+    backendsetNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_backend_set
+    backup: ${var.backend_backup}
+    drain: ${var.backend_drain}
+    ipAddress: ${var.backend_ip_address}
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    offline: ${var.backend_offline}
+    port: ${var.backend_port}
+    weight: ${var.backend_weight}
+
+---
+
