@@ -16,7 +16,7 @@ limitations under the License.
 
 package vault
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_vault_secret", func(r *config.Resource) {
@@ -24,13 +24,13 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["vault_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Vault",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Vault",
 		}
 		r.References["key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 	})
 }

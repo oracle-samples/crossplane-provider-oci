@@ -1,10 +1,10 @@
-apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+apiVersion: identity.oci.upbound.io/v1alpha1
 kind: Compartment
 metadata:
   name: compartment-via-crossplane1
 spec:
   forProvider:
-    compartmentId: "ocid1.compartment.oc1..xxx"
+    compartmentId: "ocid1.compartment.oc1..xza"
     description: "Compartment created via crossplane."
     name: "compartment-via-crossplane1"
     enableDelete : True

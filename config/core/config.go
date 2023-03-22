@@ -16,7 +16,7 @@ limitations under the License.
 package core
 
 import (
-	"github.com/crossplane/terrajet/pkg/config"
+	"github.com/upbound/upjet/pkg/config"
 )
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
@@ -30,7 +30,7 @@ func Configure(p *config.Provider) {
 		// This resource reside inside a compartment. By defining it as a reference to Compartment
 		// object, we can build cross resource referencing.
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 			// RefFieldName:      "compartmentIdRef",
 			// SelectorFieldName: "compartmentIdSelector",
 		}
@@ -81,7 +81,7 @@ func Configure(p *config.Provider) {
 		// r.ShortGroup = "compute"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 			// SelectorFieldName: "compartmentIdSelector",
 		}
 
@@ -103,15 +103,15 @@ func Configure(p *config.Provider) {
 
 		r.References["security_list_ids"] = config.Reference{
 			Type:              "SecurityList", // how to add array
-			RefFieldName:      "SecurityListIdRefs",
-			SelectorFieldName: "SecurityListIdSelector",
+			RefFieldName:      "SecurityListIDRefs",
+			SelectorFieldName: "SecurityListIDSelector",
 		}
 		r.References["dhcp_options_id"] = config.Reference{
 			Type: "DHCPOptions", // how to add array
 		}
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 	})
@@ -129,7 +129,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -144,7 +144,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -159,7 +159,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -194,7 +194,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -217,7 +217,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -232,7 +232,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -246,7 +246,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -275,7 +275,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["network_id"] = config.Reference{
 			Type: "Vcn",
@@ -366,7 +366,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["private_ip_id"] = config.Reference{
 			Type: "PrivateIP",
@@ -382,7 +382,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -403,7 +403,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["drg_id"] = config.Reference{
 			Type: "Drg",
@@ -419,7 +419,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 	})
@@ -430,7 +430,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 	})
@@ -440,7 +440,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -450,7 +450,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["cpe_id"] = config.Reference{
@@ -469,7 +469,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
@@ -492,7 +492,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["vcn_id"] = config.Reference{
 			Type: "Vcn",
@@ -504,7 +504,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -513,7 +513,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["volume_id"] = config.Reference{
 			Type: "Volume",
@@ -525,7 +525,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -546,7 +546,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["volume_group_id"] = config.Reference{
 			Type: "VolumeGroup",
@@ -558,7 +558,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["source_details.volume_ids"] = config.Reference{
 			Type: "Volume",

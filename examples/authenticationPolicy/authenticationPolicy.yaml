@@ -1,4 +1,4 @@
-apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+apiVersion: identity.oci.upbound.io/v1alpha1
 kind: AuthenticationPolicy
 metadata:
   name: authentication-policy-via-crossplane-1

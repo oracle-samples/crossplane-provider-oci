@@ -1,4 +1,4 @@
-apiVersion: logging.oci.jet.crossplane.io/v1alpha1
+apiVersion: logging.oci.upbound.io/v1alpha1
 kind: LogGroup
 metadata:
   name: loggroup-via-crossplane

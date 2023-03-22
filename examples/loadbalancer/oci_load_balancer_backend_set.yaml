@@ -1,4 +1,4 @@
-apiVersion: load.oci.jet.crossplane.io/v1alpha1
+apiVersion: load.oci.upbound.io/v1alpha1
 kind: BalancerBackendSet
 metadata:
   name: lbbackendset-via-crossplane

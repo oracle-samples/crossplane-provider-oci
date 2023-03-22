@@ -1,4 +1,4 @@
-apiVersion: core.oci.jet.crossplane.io/v1alpha1
+apiVersion: core.oci.upbound.io/v1alpha1
 kind: RemotePeeringConnection
 metadata:
   name: remote-peering-connection-via-crossplane

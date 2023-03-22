@@ -1,0 +1,26 @@
+apiVersion: servicemesh.oci.upbound.io/v1alpha1
+kind: Mesh
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicemesh/v1alpha1/mesh
+  labels:
+    testing.upbound.io/example-name: test_mesh
+  name: test-mesh
+spec:
+  forProvider:
+    certificateAuthorities:
+    - id: ${var.mesh_certificate_authorities_id}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      foo-namespace.bar-key: value
+    description: ${var.mesh_description}
+    displayName: ${var.mesh_display_name}
+    freeformTags:
+      bar-key: value
+    mtls:
+    - minimum: ${var.mesh_mtls_minimum}
+
+---
+

@@ -11,7 +11,7 @@ spec:
 
   - name: compartment 
     base:
-      apiVersion: identity.oci.jet.crossplane.io/v1alpha1
+      apiVersion: identity.oci.upbound.io/v1alpha1
       kind: Compartment
       spec:
         forProvider:
@@ -22,7 +22,7 @@ spec:
 
   - name: vcn
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Vcn
       metadata:
         name: vcn
@@ -44,7 +44,7 @@ spec:
 
   - name: okeSecurityList
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: SecurityList
       spec:
         forProvider:
@@ -82,7 +82,7 @@ spec:
   
   # - name: privatesecuritylist
   #   base:
-  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     apiVersion: core.oci.upbound.io/v1alpha1
   #     kind: SecurityList
   #     spec:
   #       forProvider:
@@ -120,7 +120,7 @@ spec:
 
   # - name: publicsecuritylist
   #   base:
-  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     apiVersion: core.oci.upbound.io/v1alpha1
   #     kind: SecurityList
   #     spec:
   #       forProvider:
@@ -158,7 +158,7 @@ spec:
 
   # - name: privatesubnet
   #   base:
-  #     apiVersion: core.oci.jet.crossplane.io/v1alpha1
+  #     apiVersion: core.oci.upbound.io/v1alpha1
   #     kind: Subnet
   #     metadata:
   #       labels:
@@ -180,7 +180,7 @@ spec:
 # # TODO propogate natgwy route id
 #   - name: natgwy
 #     base:
-#       apiVersion: core.oci.jet.crossplane.io/v1alpha1
+#       apiVersion: core.oci.upbound.io/v1alpha1
 #       kind: NATGateway
 #       spec:
 #         forProvider:
@@ -196,7 +196,7 @@ spec:
 
   - name: oke-internetgwy
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: InternetGateway
       spec:
         forProvider:
@@ -214,7 +214,7 @@ spec:
 
   - name: okecluster
     base:
-      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: Cluster
       spec:
         forProvider:
@@ -235,7 +235,7 @@ spec:
 
   - name: okenodepool
     base:
-      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: NodePool
       spec:
         forProvider:
@@ -266,7 +266,7 @@ spec:
 
   - name: oke-routetable
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: RouteTable
       spec:
         forProvider:
@@ -285,7 +285,7 @@ spec:
 
   - name: worker-subnet-ad1
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Subnet
       metadata:
         labels:
@@ -311,7 +311,7 @@ spec:
 
   - name: loadbalancer-subnet-ad1
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Subnet
       metadata:
         labels:

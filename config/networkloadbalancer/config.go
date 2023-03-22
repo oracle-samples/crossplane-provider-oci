@@ -16,7 +16,7 @@ limitations under the License.
 
 package networkloadbalancer
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -28,11 +28,11 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 	})
 

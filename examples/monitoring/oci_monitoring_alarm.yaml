@@ -1,4 +1,4 @@
-apiVersion: monitoring.oci.jet.crossplane.io/v1alpha1
+apiVersion: monitoring.oci.upbound.io/v1alpha1
 kind: Alarm
 metadata:
   name: alarm-via-crossplane

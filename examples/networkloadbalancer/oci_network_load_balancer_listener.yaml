@@ -1,4 +1,4 @@
-apiVersion: network.oci.jet.crossplane.io/v1alpha1
+apiVersion: network.oci.upbound.io/v1alpha1
 kind: LoadBalancerListener
 metadata:
   name: nwlblistener-via-crossplane

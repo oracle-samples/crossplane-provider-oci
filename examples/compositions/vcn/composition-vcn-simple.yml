@@ -15,7 +15,7 @@ spec:
   # VCN
   - name: vcn
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Vcn
     patches:
     - type: ToCompositeFieldPath

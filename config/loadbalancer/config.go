@@ -16,17 +16,17 @@ limitations under the License.
 
 package loadbalancer
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_load_balancer_load_balancer", func(r *config.Resource) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["subnet_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 
 	})

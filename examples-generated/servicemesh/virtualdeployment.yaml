@@ -1,0 +1,35 @@
+apiVersion: servicemesh.oci.upbound.io/v1alpha1
+kind: VirtualDeployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicemesh/v1alpha1/virtualdeployment
+  labels:
+    testing.upbound.io/example-name: test_virtual_deployment
+  name: test-virtual-deployment
+spec:
+  forProvider:
+    accessLogging:
+    - isEnabled: ${var.virtual_deployment_access_logging_is_enabled}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      foo-namespace.bar-key: value
+    description: ${var.virtual_deployment_description}
+    freeformTags:
+      bar-key: value
+    listeners:
+    - idleTimeoutInMs: ${var.virtual_deployment_listeners_idle_timeout_in_ms}
+      port: ${var.virtual_deployment_listeners_port}
+      protocol: ${var.virtual_deployment_listeners_protocol}
+      requestTimeoutInMs: ${var.virtual_deployment_listeners_request_timeout_in_ms}
+    name: ${var.virtual_deployment_name}
+    serviceDiscovery:
+    - hostname: ${var.virtual_deployment_service_discovery_hostname}
+      type: ${var.virtual_deployment_service_discovery_type}
+    virtualServiceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_virtual_service
+
+---
+

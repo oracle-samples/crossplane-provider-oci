@@ -16,7 +16,7 @@ limitations under the License.
 
 package servicemesh
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_service_mesh_access_policy", func(r *config.Resource) {
@@ -28,7 +28,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["mesh_id"] = config.Reference{
 			Type: "Mesh",
@@ -50,7 +50,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["mesh_id"] = config.Reference{
@@ -67,7 +67,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["ingress_gateway_id"] = config.Reference{
 			Type: "IngressGateway",
@@ -86,7 +86,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 	})
 
@@ -99,7 +99,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["virtual_service_id"] = config.Reference{
 			Type: "VirtualService",
@@ -115,7 +115,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["mesh_id"] = config.Reference{
 			Type: "Mesh",
@@ -131,7 +131,7 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "servicemesh"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["route_rules.destinations.virtual_deployment_id"] = config.Reference{
 			Type: "VirtualDeployment",

@@ -11,7 +11,7 @@ spec:
   # VCN
   - name: vcn
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Vcn
     patches:
     - type: ToCompositeFieldPath
@@ -33,7 +33,7 @@ spec:
   # Security Lists
   - name: sl-empty
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: SecurityList
       metadata:
         labels:
@@ -55,7 +55,7 @@ spec:
   # NSG: OKE
   - name: nsg-oke
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroup
       metadata:
         labels:
@@ -74,7 +74,7 @@ spec:
       toFieldPath: spec.forProvider.compartmentId
   - name: nsg-rule-oke-to-oke-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -92,7 +92,7 @@ spec:
         toFieldPath: spec.forProvider.destination
   - name: nsg-rule-oke-to-oke-i
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -110,7 +110,7 @@ spec:
         toFieldPath: spec.forProvider.source
   - name: nsg-rule-bastion-to-oke-i
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -128,7 +128,7 @@ spec:
         toFieldPath: spec.forProvider.source
   - name: nsg-rule-lb-to-oke-i
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -146,7 +146,7 @@ spec:
         toFieldPath: spec.forProvider.source
   - name: nsg-rule-oke-to-inet-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -167,7 +167,7 @@ spec:
   # NSG: bastion
   - name: nsg-bastion
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroup
       metadata:
         labels:
@@ -186,7 +186,7 @@ spec:
       toFieldPath: spec.forProvider.compartmentId
   - name: nsg-rule-bastion-to-oke-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -204,7 +204,7 @@ spec:
         toFieldPath: spec.forProvider.destination
   - name: nsg-rule-bastion-to-inet-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -219,7 +219,7 @@ spec:
           destination: 0.0.0.0/0
   - name: nsg-rule-bastion-to-lb-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -237,7 +237,7 @@ spec:
         toFieldPath: spec.forProvider.destination
   - name: nsg-rule-ssh-to-bastion-i
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -261,7 +261,7 @@ spec:
   # NSG: LB
   - name: nsg-lb
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroup
       metadata:
         labels:
@@ -280,7 +280,7 @@ spec:
       toFieldPath: spec.forProvider.compartmentId
   - name: nsg-rule-bastion-to-lb-i
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -298,7 +298,7 @@ spec:
         toFieldPath: spec.forProvider.source
   - name: nsg-rule-lb-to-oke-e
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NetworkSecurityGroupSecurityRule
       spec:
         forProvider:
@@ -318,7 +318,7 @@ spec:
   # Gateways
   - name: igw
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: InternetGateway
       spec:
         forProvider:
@@ -335,7 +335,7 @@ spec:
       toFieldPath: spec.forProvider.compartmentId
   - name: natgw
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: NATGateway
       spec:
         forProvider:
@@ -354,7 +354,7 @@ spec:
   # Route Tables
   - name: rt-private
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: RouteTable
       metadata:
         labels:
@@ -380,7 +380,7 @@ spec:
       toFieldPath: spec.forProvider.routeRules[0].networkEntityId
   - name: rt-public
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: RouteTable
       metadata:
         labels:
@@ -408,7 +408,7 @@ spec:
   # Subnets
   - name: subnet-oke
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Subnet
       metadata:
         name: subnet-oke
@@ -439,7 +439,7 @@ spec:
       toFieldPath: spec.forProvider.cidrBlock
   - name: subnet-bastion
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Subnet
       metadata:
         name: subnet-bastion
@@ -470,7 +470,7 @@ spec:
       toFieldPath: spec.forProvider.cidrBlock
   - name: subnet-lb
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Subnet
       metadata:
         name: subnet-lb
@@ -503,7 +503,7 @@ spec:
   # Instances
   - name: instance-bastion
     base:
-      apiVersion: core.oci.jet.crossplane.io/v1alpha1
+      apiVersion: core.oci.upbound.io/v1alpha1
       kind: Instance
       spec:
         forProvider:
@@ -553,7 +553,7 @@ spec:
   # OKE
   - name: oke-cluster
     base:
-      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: Cluster
       metadata:
         name: oke-cluster
@@ -600,7 +600,7 @@ spec:
       toFieldPath: spec.forProvider.kubernetesVersion
   - name: oke-pool-a1
     base:
-      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: NodePool
       spec:
         forProvider:
@@ -642,7 +642,7 @@ spec:
         toFieldPath: spec.forProvider.sshPublicKey
   - name: oke-pool-e4
     base:
-      apiVersion: containerengine.oci.jet.crossplane.io/v1alpha1
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: NodePool
       spec:
         forProvider:

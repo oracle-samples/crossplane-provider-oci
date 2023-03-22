@@ -30,6 +30,13 @@ $(HELM_HOME): $(HELM)
 	@mkdir -p $(HELM_HOME)
 endif
 
+export BUILD_REGISTRIES=$(REGISTRIES)
+ifndef REGISTRIES
+	# To work with imagelight.mk
+	export BUILD_REGISTRIES=$(REGISTRY_ORGS)
+endif
+
+export UP
 export KIND
 export KUBECTL
 export KUSTOMIZE
@@ -59,13 +66,12 @@ export LOCALDEV_LOCAL_BUILD
 export HELM_OUTPUT_DIR
 export BUILD_HELM_CHART_VERSION=$(HELM_CHART_VERSION)
 export BUILD_HELM_CHARTS_LIST=$(HELM_CHARTS)
-export BUILD_REGISTRIES=$(REGISTRIES)
 export BUILD_IMAGES=$(IMAGES)
 export BUILD_IMAGE_ARCHS=$(subst linux_,,$(filter linux_%,$(BUILD_PLATFORMS)))
 export TARGETARCH
 
 # Install gomplate
-GOMPLATE_VERSION := 3.7.0
+GOMPLATE_VERSION := 3.11.1
 GOMPLATE := $(TOOLS_HOST_DIR)/gomplate-$(GOMPLATE_VERSION)
 
 gomplate.buildvars:
@@ -130,13 +136,13 @@ endif
 
 local.down: kind.down local.clean
 
-local.deploy.%: local.prepare $(KUBECTL) $(KUSTOMIZE) $(HELM) $(HELM3) $(HELM_HOME) $(GOMPLATE) $(ISTIO) kind.setcontext
+local.deploy.%: local.prepare $(KUBECTL) $(KUSTOMIZE) $(HELM3) $(HELM_HOME) $(GOMPLATE) kind.setcontext
 	@$(INFO) localdev deploy component: $*
 	@$(eval PLATFORMS=$(BUILD_PLATFORMS))
 	@$(SCRIPTS_DIR)/localdev-deploy-component.sh $* || $(FAIL)
 	@$(OK) localdev deploy component: $*
 
-local.remove.%: local.prepare $(KUBECTL) $(HELM) $(HELM3) $(HELM_HOME) $(GOMPLATE) kind.setcontext
+local.remove.%: local.prepare $(KUBECTL) $(HELM3) $(HELM_HOME) $(GOMPLATE) kind.setcontext
 	@$(INFO) localdev remove component: $*
 	@$(SCRIPTS_DIR)/localdev-remove-component.sh $* || $(FAIL)
 	@$(OK) localdev remove component: $*

@@ -1,12 +1,9 @@
 /*
 Copyright (c) 2022, Oracle and/or its affiliates
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +13,9 @@ limitations under the License.
 
 package objectstorage
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
+// Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_objectstorage_bucket", func(r *config.Resource) {
 		// Identifier for this resource is assigned by the provider. In other
@@ -25,10 +23,10 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["kms_key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 	})
 
@@ -38,7 +36,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["opc_sse_kms_key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 	})
 

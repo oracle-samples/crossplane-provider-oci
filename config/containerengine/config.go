@@ -15,7 +15,7 @@ limitations under the License.
 */
 package containerengine
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -27,25 +27,25 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Vcn",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn",
 		}
 
 		r.References["endpoint_config.nsg_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
 		}
 
 		r.References["endpoint_config.subnet_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 
 		r.References["options.service_lb_subnet_ids"] = config.Reference{
-			Type:              "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type:              "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 			RefFieldName:      "ServiceLBSubnetIdsRef",
-			SelectorFieldName: "ServiceLBSubnetIdSelector",
+			SelectorFieldName: "ServiceLBSubnetIDSelector",
 		}
 		r.UseAsync = true
 	})
@@ -58,7 +58,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["cluster_id"] = config.Reference{
@@ -70,11 +70,11 @@ func Configure(p *config.Provider) {
 		}
 
 		r.References["node_config_details.nsg_ids"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
 		}
 
 		r.References["node_config_details.placement_configs.subnet_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
 		}
 
 		r.LateInitializer = config.LateInitializer{

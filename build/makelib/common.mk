@@ -16,7 +16,7 @@
 .SUFFIXES:
 
 # set the shell to bash always
-SHELL := /bin/bash
+SHELL := /usr/bin/env bash
 
 # default target is build
 .PHONY: all
@@ -105,13 +105,6 @@ endif
 # Set the host's arch.
 HOSTARCH := $(shell uname -m)
 
-# Set safe architectures for supported OSes (darwin and linux).
-# Apple Silicon binaries are not widely available yet
-ifeq ($(HOSTOS),darwin)
-SAFEHOSTARCH := amd64
-TARGETARCH := $(HOSTARCH)
-endif
-
 # If SAFEHOSTARCH and TARGETARCH have not been defined yet, use HOST
 ifeq ($(origin SAFEHOSTARCH),undefined)
 SAFEHOSTARCH := $(HOSTARCH)
@@ -124,6 +117,12 @@ endif
 ifeq ($(HOSTARCH),x86_64)
 SAFEHOSTARCH := amd64
 TARGETARCH := amd64
+endif
+
+# Automatically translate aarch64 to arm64
+ifeq ($(HOSTARCH),aarch64)
+SAFEHOSTARCH := arm64
+TARGETARCH := arm64
 endif
 
 ifeq ($(filter amd64 arm64 ppc64le ,$(SAFEHOSTARCH)),)
@@ -205,6 +204,13 @@ endif
 # ====================================================================================
 # Version and Tagging
 
+# set if you want to use tag grouping, e.g. setting it to "aws" would produce tags like "aws/v0.1.0"
+# and release branch would be named as "release-aws-0.1" but the version would still be "v0.1.0".
+ifneq ($(PROJECT_VERSION_TAG_GROUP),)
+VERSION_TAG_PREFIX := $(PROJECT_VERSION_TAG_GROUP)/
+RELEASE_BRANCH_GROUP := $(PROJECT_VERSION_TAG_GROUP)-
+endif
+
 # set a semantic version number from git if VERSION is undefined.
 ifeq ($(origin VERSION), undefined)
 # check if there are any existing `git tag` values
@@ -213,28 +219,35 @@ ifeq ($(shell git tag),)
 VERSION := $(shell echo "v0.0.0-$$(git rev-list HEAD --count)-g$$(git describe --dirty --always)" | sed 's/-/./2' | sed 's/-/./2' | sed 's/-/./2')
 else
 # use tags
-VERSION := $(shell git describe --dirty --always --tags | sed 's/-/./2' | sed 's/-/./2' | sed 's/-/./2' )
+VERSION := $(shell git describe --dirty --always --tags --match '$(VERSION_TAG_PREFIX)*' | sed 's|.*/||' | sed 's/-/./2' | sed 's/-/./2' | sed 's/-/./2')
 endif
 endif
 export VERSION
 
 VERSION_REGEX := ^v\([0-9]*\)[.]\([0-9]*\)[.]\([0-9]*\)$$
 VERSION_VALID := $(shell echo "$(VERSION)" | grep -q '$(VERSION_REGEX)' && echo 1 || echo 0)
-VERSION_MAJOR := $(shell echo "$(VERSION)" | sed -e 's/$(VERSION_REGEX)/\1/')
-VERSION_MINOR := $(shell echo "$(VERSION)" | sed -e 's/$(VERSION_REGEX)/\2/')
-VERSION_PATCH := $(shell echo "$(VERSION)" | sed -e 's/$(VERSION_REGEX)/\3/')
+
+# Given "v0.17.0-3.gb4eee9f.dirty" it returns "0".
+VERSION_MAJOR := $(shell echo "$(VERSION)" | cut -d'.' -f1 | sed '1s/^.//')
+
+# Given "v0.17.0-3.gb4eee9f.dirty" it returns "17".
+VERSION_MINOR := $(shell echo "$(VERSION)" | cut -d'.' -f2)
+
+# Given "v0.17.0-3.gb4eee9f.dirty" it returns "0-3.gb4eee9f.dirty".
+# Given "v0.17.1" it returns "1".
+VERSION_PATCH := $(shell echo "$(VERSION)" | cut -d'.' -f3-)
 
 release.tag:
 ifneq ($(VERSION_VALID),1)
 	$(error invalid version $(VERSION). must be a semantic version with v[Major].[Minor].[Patch] only)
 endif
-	@$(INFO) tagging commit hash $(COMMIT_HASH) with v$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
-	git tag -f -m "release $(VERSION)" v$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(COMMIT_HASH)
-	git push $(REMOTE_NAME) v$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
-	@set -e; if ! git ls-remote --heads $(REMOTE_NAME) | grep -q refs/heads/release-$(VERSION_MAJOR).$(VERSION_MINOR); then \
-		echo === creating new release branch release-$(VERSION_MAJOR).$(VERSION_MINOR) ;\
-		git branch -f release-$(VERSION_MAJOR).$(VERSION_MINOR) $(COMMIT_HASH) ;\
-		git push $(REMOTE_NAME) release-$(VERSION_MAJOR).$(VERSION_MINOR) ;\
+	@$(INFO) tagging commit hash $(COMMIT_HASH) with $(VERSION_TAG_PREFIX)$(VERSION)
+	git tag -f -m "$(VERSION_TAG_PREFIX)$(VERSION)" $(VERSION_TAG_PREFIX)$(VERSION) $(COMMIT_HASH)
+	git push $(REMOTE_NAME) $(VERSION_TAG_PREFIX)$(VERSION)
+	@set -e; if ! git ls-remote --heads $(REMOTE_NAME) | grep -q refs/heads/release-$(RELEASE_BRANCH_GROUP)$(VERSION_MAJOR).$(VERSION_MINOR); then \
+		echo === creating new release branch release-$(RELEASE_BRANCH_GROUP)$(VERSION_MAJOR).$(VERSION_MINOR) ;\
+		git branch -f release-$(RELEASE_BRANCH_GROUP)$(VERSION_MAJOR).$(VERSION_MINOR) $(COMMIT_HASH) ;\
+		git push $(REMOTE_NAME) release-$(RELEASE_BRANCH_GROUP)$(VERSION_MAJOR).$(VERSION_MINOR) ;\
 	fi
 	@$(OK) tagging
 
@@ -252,8 +265,8 @@ version.isdirty:
 SED_CMD?=sed -i -e
 
 COMMA := ,
-SPACE :=
-SPACE +=
+EMPTY :=
+SPACE := $(EMPTY) $(EMPTY)
 
 # define a newline
 define \n
@@ -277,6 +290,8 @@ common.buildvars:
 	@echo HOSTARCH=$(HOSTARCH)
 	@echo SAFEHOSTARCH=$(SAFEHOSTARCH)
 	@echo TARGETARCH=$(TARGETARCH)
+	@echo PLATFORM=$(PLATFORM)
+	@echo VERSION=$(VERSION)
 
 build.vars: common.buildvars
 
@@ -477,4 +492,3 @@ help:
 	@$(MAKE) help-special
 
 .PHONY: help help-special
-

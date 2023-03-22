@@ -1,4 +1,4 @@
-apiVersion: certificatesmanagement.oci.jet.crossplane.io/v1alpha1
+apiVersion: certificatesmanagement.oci.upbound.io/v1alpha1
 kind: CertificateAuthority
 metadata:
   name: certificate-authority-via-crossplane1

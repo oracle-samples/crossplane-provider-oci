@@ -16,7 +16,7 @@ limitations under the License.
 
 package certificatesmanagement
 
-import "github.com/crossplane/terrajet/pkg/config"
+import "github.com/upbound/upjet/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -29,11 +29,11 @@ func Configure(p *config.Provider) {
 		r.Kind = "CertificateAuthority"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/identity/v1alpha1.Compartment",
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 
 		r.References["kms_key_id"] = config.Reference{
-			Type: "github.com/crossplane-contrib/provider-jet-oci/apis/kms/v1alpha1.Key",
+			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
 		}
 	})
 }

@@ -1,18 +1,21 @@
 # ====================================================================================
 # Setup Project
 
-PROJECT_NAME := provider-jet-oci
-PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
+PROJECT_NAME := provider-oci
+PROJECT_REPO := github.com/oracle/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION := 1.1.6
+export TERRAFORM_VERSION := 1.3.3
 
 export TERRAFORM_PROVIDER_SOURCE := oracle/oci
-export TERRAFORM_PROVIDER_VERSION := 4.96.0
+export TERRAFORM_PROVIDER_REPO := https://github.com/oracle/terraform-provider-oci
+export TERRAFORM_PROVIDER_VERSION := 4.112.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-oci
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/4.96.0
-export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v4.96.0 
+export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v4.112.0
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/4.112.0
+export TERRAFORM_DOCS_PATH := website/docs/r
 
-PLATFORMS ?= linux_amd64 linux_arm64
+#PLATFORMS ?= linux_amd64 linux_arm64
+PLATFORMS ?= darwin_amd64
 
 # -include will silently skip missing files, which allows us
 # to load those files with a target in the Makefile. If only
@@ -37,24 +40,46 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
+GO_REQUIRED_VERSION ?= 1.19
+GOLANGCILINT_VERSION ?= 1.50.0
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
-GO111MODULE = on
 -include build/makelib/golang.mk
 
 # ====================================================================================
 # Setup Kubernetes tools
 
+KIND_VERSION = v0.15.0
+UP_VERSION = v0.14.0
+UP_CHANNEL = stable
+UPTEST_VERSION = v0.2.1
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
 # Setup Images
 
-#DOCKER_REGISTRY ?= crossplane
-DOCKER_REGISTRY = hyd.ocir.io/axddifxif86p
-IMAGES = provider-jet-oci provider-jet-oci-controller
--include build/makelib/image.mk
+REGISTRY_ORGS ?= xpkg.upbound.io/upbound
+IMAGES = $(PROJECT_NAME)
+-include build/makelib/imagelight.mk
+
+# ====================================================================================
+# Setup XPKG
+
+XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+# NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
+# inferred.
+XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
+XPKGS = $(PROJECT_NAME)
+-include build/makelib/xpkg.mk
+
+# NOTE(hasheddan): we force image building to happen prior to xpkg build so that
+# we ensure image is present in daemon.
+xpkg.build.provider-oci: do.build.images
+
+# NOTE(hasheddan): we ensure up is installed prior to running platform-specific
+# build steps in parallel to avoid encountering an installation race condition.
+build.init: $(UP)
 
 # ====================================================================================
 # Fallthrough
@@ -93,9 +118,16 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA)
+pull-docs:
+	@if [ ! -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ]; then \
+  		mkdir -p "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && \
+		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
+	fi
+	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA)
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+
+.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 # ====================================================================================
 # Targets
 
@@ -126,7 +158,26 @@ submodules:
 run: go.build
 	@$(INFO) Running Crossplane locally out-of-cluster . . .
 	@# To see other arguments that can be provided, run the command with --help instead
-	$(GO_OUT_DIR)/provider --debug
+	UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/provider --debug
+
+# ====================================================================================
+# End to End Testing
+CROSSPLANE_NAMESPACE = upbound-system
+-include build/makelib/local.xpkg.mk
+-include build/makelib/controlplane.mk
+
+uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
+	@$(INFO) running automated tests
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --setup-script=cluster/test/setup.sh || $(FAIL)
+	@$(OK) running automated tests
+
+local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
+	@$(INFO) running locally built provider
+	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
+	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
+	@$(OK) running locally built provider
+
+e2e: local-deploy uptest
 
 .PHONY: cobertura submodules fallthrough run crds.clean
 

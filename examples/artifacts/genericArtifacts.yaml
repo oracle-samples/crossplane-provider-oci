@@ -1,7 +1,7 @@
-apiVersion: artifacts.oci.jet.crossplane.io/v1alpha1
+apiVersion: artifacts.oci.upbound.io/v1alpha1
 kind: GenericArtifact
 metadata:
   name: generic-artifacts-via-crossplane-1
 spec:
   forProvider:
-    artifactId: maaaaaaev43fkia6c44ndrbkcpgdbsnxzpvuvdu3y7gudqn5fqd6j2fbrxq
+    artifactId: ocid1.genericartifact.oc1.phx.0.amaaaaaaev43fkia6c44ndrbkcpgdbsnxzpvuvdu3y7gudqn5fqd6j2fbrxq

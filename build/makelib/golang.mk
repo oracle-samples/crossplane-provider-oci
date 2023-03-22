@@ -15,6 +15,12 @@
 # ====================================================================================
 # Options
 
+# Optional. The Go Binary to use
+GO ?= go
+
+# Optional. Required Go version.
+GO_REQUIRED_VERSION ?= 1.18
+
 # The go project including repo name, for example, github.com/rook/rook
 GO_PROJECT ?= $(PROJECT_REPO)
 
@@ -23,10 +29,6 @@ GO_SUBDIRS ?= cmd pkg
 
 # Optional. Additional subdirs used for integration or e2e testings
 GO_INTEGRATION_TESTS_SUBDIRS ?=
-
-# Optional directories (relative to CURDIR)
-GO_VENDOR_DIR ?= vendor
-GO_PKG_DIR ?= $(WORK_DIR)/pkg
 
 # Optional build flags passed to go tools
 GO_BUILDFLAGS ?=
@@ -72,22 +74,28 @@ ifneq ($(GO_TEST_SUITE),)
 GO_TEST_FLAGS += -run '$(GO_TEST_SUITE)'
 endif
 
-GOPATH := $(shell go env GOPATH)
+GOPATH := $(shell $(GO) env GOPATH)
 
 # setup tools used during the build
-DEP_VERSION=v0.5.1
-DEP := $(TOOLS_HOST_DIR)/dep-$(DEP_VERSION)
 GOJUNIT := $(TOOLS_HOST_DIR)/go-junit-report
-GOCOVER_COBERTURA := $(TOOLS_HOST_DIR)/gocover-cobertura
-GOIMPORTS := $(TOOLS_HOST_DIR)/goimports
+GOJUNIT_VERSION ?= v2.0.0
 
-GO := go
-GOHOST := GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go
+GOCOVER_COBERTURA := $(TOOLS_HOST_DIR)/gocover-cobertura
+# https://github.com/t-yuki/gocover-cobertura/commit/aaee18c8195c3f2d90e5ef80ca918d265463842a
+GOCOVER_COBERTURA_VERSION ?= aaee18c8195c3f2d90e5ef80ca918d265463842a
+
+GOIMPORTS := $(TOOLS_HOST_DIR)/goimports
+GOIMPORTS_VERSION ?= v0.1.12
+
+GOHOST := GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) $(GO)
 GO_VERSION := $(shell $(GO) version | sed -ne 's/[^0-9]*\(\([0-9]\.\)\{0,4\}[0-9][^.]\).*/\1/p')
+ifneq ($(GO_VERSION),$(GO_REQUIRED_VERSION))
+$(error "$(GO) version $(GO_VERSION) is not supported. required version is $(GO_REQUIRED_VERSION)")
+endif
 
 # we use a consistent version of gofmt even while running different go compilers.
 # see https://github.com/golang/go/issues/26397 for more details
-GOFMT_VERSION := 1.11
+GOFMT_VERSION := $(GO_VERSION)
 ifneq ($(findstring $(GOFMT_VERSION),$(GO_VERSION)),)
 GOFMT := $(shell which gofmt)
 else
@@ -96,7 +104,7 @@ endif
 
 # We use a consistent version of golangci-lint to ensure everyone gets the same
 # linters.
-GOLANGCILINT_VERSION ?= 1.31.0
+GOLANGCILINT_VERSION ?= 1.47.1
 GOLANGCILINT := $(TOOLS_HOST_DIR)/golangci-lint-v$(GOLANGCILINT_VERSION)
 
 GO_BIN_DIR := $(abspath $(OUTPUT_DIR)/bin)
@@ -116,29 +124,9 @@ ifeq ($(RUNNING_IN_CI),true)
 GO_LINT_ARGS += --timeout 10m0s --out-format=checkstyle > $(GO_LINT_OUTPUT)/checkstyle.xml
 endif
 
-# NOTE: the install suffixes are matched with the build container to speed up the
-# the build. Please keep them in sync.
-
-# we run go build with -i which on most system's would want to install packages
-# into the system's root dir. using our own pkg dir avoid thats
-ifneq ($(GO_PKG_DIR),)
-GO_PKG_BASE_DIR := $(abspath $(GO_PKG_DIR)/$(PLATFORM))
-GO_PKG_STATIC_FLAGS := -pkgdir $(GO_PKG_BASE_DIR)_static
-endif
-
-GO_COMMON_FLAGS = $(GO_BUILDFLAGS) -tags '$(GO_TAGS)'
-GO_STATIC_FLAGS = $(GO_COMMON_FLAGS) $(GO_PKG_STATIC_FLAGS) -installsuffix static  -ldflags '$(GO_LDFLAGS)'
+GO_COMMON_FLAGS = $(GO_BUILDFLAGS) -tags '$(GO_TAGS)' -trimpath
+GO_STATIC_FLAGS = $(GO_COMMON_FLAGS) -installsuffix static -ldflags '$(GO_LDFLAGS)'
 GO_GENERATE_FLAGS = $(GO_BUILDFLAGS) -tags 'generate $(GO_TAGS)'
-
-export GO111MODULE
-
-# switch for go modules
-ifeq ($(GO111MODULE),on)
-
-# set GOPATH to $(GO_PKG_DIR), so that the go modules are installed there, instead of the default $HOME/go/pkg/mod
-export GOPATH=$(abspath $(GO_PKG_DIR))
-
-endif
 
 # ====================================================================================
 # Go Targets
@@ -150,8 +138,8 @@ go.init: go.vendor.lite
 
 go.build:
 	@$(INFO) go build $(PLATFORM)
-	$(foreach p,$(GO_STATIC_PACKAGES),@CGO_ENABLED=0 $(GO) build -v -i -o $(GO_OUT_DIR)/$(lastword $(subst /, ,$(p)))$(GO_OUT_EXT) $(GO_STATIC_FLAGS) $(p) || $(FAIL) ${\n})
-	$(foreach p,$(GO_TEST_PACKAGES) $(GO_LONGHAUL_TEST_PACKAGES),@CGO_ENABLED=0 $(GO) test -i -c -o $(GO_TEST_OUTPUT)/$(lastword $(subst /, ,$(p)))$(GO_OUT_EXT) $(GO_STATIC_FLAGS) $(p) || $(FAIL) ${\n})
+	$(foreach p,$(GO_STATIC_PACKAGES),@CGO_ENABLED=0 $(GO) build -v -o $(GO_OUT_DIR)/$(lastword $(subst /, ,$(p)))$(GO_OUT_EXT) $(GO_STATIC_FLAGS) $(p) || $(FAIL) ${\n})
+	$(foreach p,$(GO_TEST_PACKAGES) $(GO_LONGHAUL_TEST_PACKAGES),@CGO_ENABLED=0 $(GO) test -c -o $(GO_TEST_OUTPUT)/$(lastword $(subst /, ,$(p)))$(GO_OUT_EXT) $(GO_STATIC_FLAGS) $(p) || $(FAIL) ${\n})
 	@$(OK) go build $(PLATFORM)
 
 go.install:
@@ -166,7 +154,7 @@ ifeq ($(GO_NOCOV),true)
 	@CGO_ENABLED=0 $(GOHOST) test $(GO_TEST_FLAGS) $(GO_STATIC_FLAGS) $(GO_PACKAGES) || $(FAIL)
 else
 	@mkdir -p $(GO_TEST_OUTPUT)
-	@CGO_ENABLED=$(GO_CGO_ENABLED) $(GOHOST) test -i -cover $(GO_STATIC_FLAGS) $(GO_PACKAGES) || $(FAIL)
+	@CGO_ENABLED=$(GO_CGO_ENABLED) $(GOHOST) test -cover $(GO_STATIC_FLAGS) $(GO_PACKAGES) || $(FAIL)
 	@CGO_ENABLED=$(GO_CGO_ENABLED) $(GOHOST) test -v -covermode=$(GO_COVER_MODE) -coverprofile=$(GO_TEST_OUTPUT)/coverage.txt $(GO_TEST_FLAGS) $(GO_STATIC_FLAGS) $(GO_PACKAGES) 2>&1 | tee $(GO_TEST_OUTPUT)/unit-tests.log || $(FAIL)
 	@cat $(GO_TEST_OUTPUT)/unit-tests.log | $(GOJUNIT) -set-exit-code > $(GO_TEST_OUTPUT)/unit-tests.xml || $(FAIL)
 	@$(GOCOVER_COBERTURA) < $(GO_TEST_OUTPUT)/coverage.txt > $(GO_TEST_OUTPUT)/coverage.xml
@@ -183,7 +171,7 @@ go.test.codecov:
 go.test.integration: $(GOJUNIT)
 	@$(INFO) go test integration-tests
 	@mkdir -p $(GO_TEST_OUTPUT) || $(FAIL)
-	@CGO_ENABLED=0 $(GOHOST) test -i $(GO_STATIC_FLAGS) $(GO_INTEGRATION_TEST_PACKAGES) || $(FAIL)
+	@CGO_ENABLED=0 $(GOHOST) test $(GO_STATIC_FLAGS) $(GO_INTEGRATION_TEST_PACKAGES) || $(FAIL)
 	@CGO_ENABLED=0 $(GOHOST) test $(GO_TEST_FLAGS) $(GO_STATIC_FLAGS) $(GO_INTEGRATION_TEST_PACKAGES) $(TEST_FILTER_PARAM) 2>&1 | tee $(GO_TEST_OUTPUT)/integration-tests.log || $(FAIL)
 	@cat $(GO_TEST_OUTPUT)/integration-tests.log | $(GOJUNIT) -set-exit-code > $(GO_TEST_OUTPUT)/integration-tests.xml || $(FAIL)
 	@$(OK) go test integration-tests
@@ -209,62 +197,49 @@ go.fmt.simplify: $(GOFMT)
 	@$(GOFMT) -l -s -w $(GO_SUBDIRS) $(GO_INTEGRATION_TESTS_SUBDIRS) || $(FAIL)
 	@$(OK) gofmt simplify
 
-go.validate: go.vet go.fmt
+go.validate: go.modules.check go.vet go.fmt
 
-ifeq ($(GO111MODULE),on)
+go.vendor.lite: go.modules.verify
+go.vendor.check: go.modules.check
+go.vendor.update: go.modules.update
+go.vendor: go.modules.download
 
-go.vendor.lite go.vendor.check:
-	@$(INFO) verify dependencies have expected content
-	@$(GOHOST) mod verify || $(FAIL)
+go.modules.check: go.modules.tidy.check go.modules.verify
+
+go.modules.download:
+	@$(INFO) mod download
+	@$(GO) mod download || $(FAIL)
+	@$(OK) mod download
+
+go.modules.verify:
+	@$(INFO) verify go modules dependencies have expected content
+	@$(GO) mod verify || $(FAIL)
 	@$(OK) go modules dependencies verified
 
-go.vendor.update:
+go.modules.tidy:
+	@$(INFO) mod tidy
+	@$(GO) mod tidy
+	@$(OK) mod tidy
+
+go.modules.tidy.check:
+	@$(INFO) verify go modules dependencies are tidy
+	@$(GO) mod tidy
+	@changed=$$(git diff --exit-code --name-only go.mod go.sum 2>&1) && [ -z "$${changed}" ] || (echo "go.mod is not tidy. Please run 'make go.modules.tidy' and stage the changes" 1>&2; $(FAIL))
+	@$(OK) go modules are tidy
+
+go.modules.update:
 	@$(INFO) update go modules
-	@$(GOHOST) get -u ./... || $(FAIL)
+	@$(GO) get -u ./... || $(FAIL)
+	@$(MAKE) go.modules.tidy
+	@$(MAKE) go.modules.verify
 	@$(OK) update go modules
 
-go.vendor:
-	@$(INFO) go mod vendor
-	@$(GOHOST) mod vendor || $(FAIL)
-	@$(OK) go mod vendor
-
-else
-
-go.vendor.lite: $(DEP)
-#	dep ensure blindly updates the whole vendor tree causing everything to be rebuilt. This workaround
-#	will only call dep ensure if the .lock file changes or if the vendor dir is non-existent.
-	@if [ ! -d $(GO_VENDOR_DIR) ]; then \
-		$(MAKE) vendor; \
-	elif ! $(DEP) ensure -no-vendor -dry-run &> /dev/null; then \
-		$(MAKE) vendor; \
-	fi
-
-go.vendor.check: $(DEP)
-	@$(INFO) checking if vendor deps changed
-	@$(DEP) check -skip-vendor || $(FAIL)
-	@$(OK) vendor deps have not changed
-
-go.vendor.update: $(DEP)
-	@$(INFO) updating vendor deps
-	@$(DEP) ensure -update -v || $(FAIL)
-	@$(OK) updating vendor deps
-
-go.vendor: $(DEP)
-	@$(INFO) dep ensure
-	@$(DEP) ensure || $(FAIL)
-	@$(OK) dep ensure
-
-endif
+go.modules.clean:
+	@$(GO) clean -modcache
 
 go.clean:
-	@# `go modules` creates read-only folders under WORK_DIR
-	@# make all folders within WORK_DIR writable, so they can be deleted
-	@if [ -d $(WORK_DIR) ]; then chmod -R +w $(WORK_DIR); fi 
-
+	@$(GO) clean -cache -testcache -modcache
 	@rm -fr $(GO_BIN_DIR) $(GO_TEST_DIR)
-
-go.distclean:
-	@rm -rf $(GO_VENDOR_DIR) $(GO_PKG_DIR)
 
 go.generate:
 	@$(INFO) go generate $(PLATFORM)
@@ -275,7 +250,8 @@ go.generate:
 	@$(OK) go mod tidy
 
 .PHONY: go.init go.build go.install go.test.unit go.test.integration go.test.codecov go.lint go.vet go.fmt go.generate
-.PHONY: go.validate go.vendor.lite go.vendor go.vendor.check go.vendor.update go.clean go.distclean
+.PHONY: go.validate go.vendor.lite go.vendor go.vendor.check go.vendor.update go.clean
+.PHONY: go.modules.check go.modules.download go.modules.verify go.modules.tidy go.modules.tidy.check go.modules.update go.modules.clean
 
 # ====================================================================================
 # Common Targets
@@ -328,14 +304,6 @@ help-special: go.help
 # ====================================================================================
 # Tools install targets
 
-$(DEP):
-	@$(INFO) installing dep-$(DEP_VERSION) $(SAFEHOSTPLATFORM)
-	@mkdir -p $(TOOLS_HOST_DIR)/tmp-dep || $(FAIL)
-	@curl -fsSL -o $(DEP) https://github.com/golang/dep/releases/download/$(DEP_VERSION)/dep-$(SAFEHOSTPLATFORM) || $(FAIL)
-	@chmod +x $(DEP) || $(FAIL)
-	@rm -fr $(TOOLS_HOST_DIR)/tmp-dep
-	@$(OK) installing dep-$(DEP_VERSION) $(SAFEHOSTPLATFORM)
-
 $(GOLANGCILINT):
 	@$(INFO) installing golangci-lint-v$(GOLANGCILINT_VERSION) $(SAFEHOSTPLATFORM)
 	@mkdir -p $(TOOLS_HOST_DIR)/tmp-golangci-lint || $(FAIL)
@@ -354,21 +322,15 @@ $(GOFMT):
 
 $(GOIMPORTS):
 	@$(INFO) installing goimports
-	@mkdir -p $(TOOLS_HOST_DIR)/tmp-goimports || $(FAIL)
-	@GO111MODULE=off GOPATH=$(TOOLS_HOST_DIR)/tmp-goimports GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) get golang.org/x/tools/cmd/goimports || rm -fr $(TOOLS_HOST_DIR)/tmp-goimports || $(FAIL)
-	@rm -fr $(TOOLS_HOST_DIR)/tmp-goimports
+	@GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) install golang.org/x/tools/cmd/goimports@$(GOIMPORTS_VERSION) || $(FAIL)
 	@$(OK) installing goimports
 
 $(GOJUNIT):
 	@$(INFO) installing go-junit-report
-	@mkdir -p $(TOOLS_HOST_DIR)/tmp-junit || $(FAIL)
-	@GO111MODULE=off GOPATH=$(TOOLS_HOST_DIR)/tmp-junit GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) get github.com/jstemmer/go-junit-report || rm -fr $(TOOLS_HOST_DIR)/tmp-junit || $(FAIL)
-	@rm -fr $(TOOLS_HOST_DIR)/tmp-junit
+	@GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) install github.com/jstemmer/go-junit-report/v2@$(GOJUNIT_VERSION) || $(FAIL)
 	@$(OK) installing go-junit-report
 
 $(GOCOVER_COBERTURA):
 	@$(INFO) installing gocover-cobertura
-	@mkdir -p $(TOOLS_HOST_DIR)/tmp-gocover-cobertura || $(FAIL)
-	@GO111MODULE=off GOPATH=$(TOOLS_HOST_DIR)/tmp-gocover-cobertura GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) get github.com/t-yuki/gocover-cobertura || rm -fr $(TOOLS_HOST_DIR)/tmp-covcover-cobertura || $(FAIL)
-	@rm -fr $(TOOLS_HOST_DIR)/tmp-gocover-cobertura
+	@GOBIN=$(TOOLS_HOST_DIR) $(GOHOST) install github.com/t-yuki/gocover-cobertura@$(GOCOVER_COBERTURA_VERSION) || $(FAIL)
 	@$(OK) installing gocover-cobertura

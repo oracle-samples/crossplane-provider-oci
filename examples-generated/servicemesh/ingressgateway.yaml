@@ -1,0 +1,47 @@
+apiVersion: servicemesh.oci.upbound.io/v1alpha1
+kind: IngressGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: servicemesh/v1alpha1/ingressgateway
+  labels:
+    testing.upbound.io/example-name: test_ingress_gateway
+  name: test-ingress-gateway
+spec:
+  forProvider:
+    accessLogging:
+    - isEnabled: ${var.ingress_gateway_access_logging_is_enabled}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      foo-namespace.bar-key: value
+    description: ${var.ingress_gateway_description}
+    freeformTags:
+      bar-key: value
+    hosts:
+    - hostnames: ${var.ingress_gateway_hosts_hostnames}
+      listeners:
+      - port: ${var.ingress_gateway_hosts_listeners_port}
+        protocol: ${var.ingress_gateway_hosts_listeners_protocol}
+        tls:
+        - clientValidation:
+          - subjectAlternateNames: ${var.ingress_gateway_hosts_listeners_tls_client_validation_subject_alternate_names}
+            trustedCaBundle:
+            - caBundleId: ${oci_certificates_management_ca_bundle.test_ca_bundle.id}
+              secretName: ${oci_vault_secret.test_secret.name}
+              type: ${var.ingress_gateway_hosts_listeners_tls_client_validation_trusted_ca_bundle_type}
+          mode: ${var.ingress_gateway_hosts_listeners_tls_mode}
+          serverCertificate:
+          - certificateId: ${oci_certificates_management_certificate.test_certificate.id}
+            secretName: ${oci_vault_secret.test_secret.name}
+            type: ${var.ingress_gateway_hosts_listeners_tls_server_certificate_type}
+      name: ${var.ingress_gateway_hosts_name}
+    meshIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_mesh
+    mtls:
+    - maximumValidity: ${var.ingress_gateway_mtls_maximum_validity}
+    name: ${var.ingress_gateway_name}
+
+---
+

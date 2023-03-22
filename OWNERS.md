@@ -10,5 +10,5 @@ guidelines and responsibilities for the steering committee and maintainers.
 
 ## Maintainers
 
-* Maintainer 1 <maintainer1@acme.org> ([maintainer1](https://github.com/maintainer1))
+* Saril Sudhakaran <saril.kamattathil.sudhakaran@oracle.com> ([saril sudhakaran](https://github.com/kssaril))
 * Maintainer 2 <maintainer2@acme.org> ([maintainer1](https://github.com/maintainer2))
