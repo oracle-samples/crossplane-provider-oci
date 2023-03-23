@@ -95,4 +95,4 @@ Please consult the [security guide](./SECURITY.md) for our responsible security 
 
 ## License
 
-provider-jet-oci is under the Apache 2.0 license.
+provider-oci is under the Apache 2.0 license.
