@@ -1,0 +1,10 @@
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: Bucket
+metadata:
+  name: crossplane-srg-bucket
+spec:
+  forProvider:
+    compartmentIdRef:
+      name : crossplane-srg-compartment
+    name: crossplane-srg-bucket
+    namespace: "idimd1fghobk"

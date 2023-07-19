@@ -218,6 +218,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  computeClusterId:
+                    description: The OCID of the compute cluster that the instance
+                      will be created in.
+                    type: string
                   createVnicDetails:
                     description: (Updatable) Contains properties for a VNIC. You use
                       this object when creating the primary VNIC during instance launch
@@ -879,8 +883,8 @@ spec:
                             key for the boot volume.
                           type: string
                         sourceId:
-                          description: The OCID of the boot volume used to boot the
-                            instance.
+                          description: The OCID of an image or a boot volume to use,
+                            depending on the value of source_type.
                           type: string
                         sourceIdRef:
                           description: Reference to a Image to populate sourceId.
@@ -1166,6 +1170,10 @@ spec:
                   id:
                     description: The OCID of the instance.
                     type: string
+                  isCrossNumaNode:
+                    description: Whether the instance’s OCPUs and memory are distributed
+                      across multiple NUMA nodes.
+                    type: boolean
                   launchMode:
                     description: 'Specifies the configuration mode for launching virtual
                       machine (VM) instances. The configuration modes are:'

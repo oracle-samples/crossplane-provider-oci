@@ -1,98 +1,192 @@
-# Provider Oci
+# Crossplane Provider for Oracle Cloud Infrastructure
 
-`provider-oci` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Upjet](https://github.com/upbound/upjet) code
-generation tools and exposes XRM-conformant managed resources for the
-Oci API.
+`crossplane-provider-oci` is a [Crossplane](https://crossplane.io/) provider for [Oracle Cloud Infrastructure](https://www.oracle.com/cloud/) (OCI) that is built using [Upjet](https://github.com/upbound/upjet) code generation tools.
 
-## Getting Started
+Upjet creates XRM-conformant managed resources for the OCI APIs based on [OCI Terraform Resources](https://registry.terraform.io/providers/oracle/oci/latest/docs).
 
-### Testing the provider 
+## Requirements
 
-Follow the below steps for generating the code and test.
-Make sure go is installed and path is set for the go binaries
+### Software and Tools
+- [Git](https://git-scm.com/downloads) 2.25 (recommended)
+- [Terraform](https://developer.hashicorp.com/terraform/downloads) 1.4.6 (recommended)
+- [Go](https://go.dev/doc/install) 1.19.x (required)
+- [Goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/) 5.0.1 (recommended)
+- [Helm](https://helm.sh/docs/helm/helm_install/) 3.11.2 (recommended)
+- [Docker](https://docs.docker.com/engine/install/) 20.10.20 (recommended)
+- Kubernetes cluster 1.25.3 (recommended)
+   - [OCI Container Engine for Kubernetes](https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/) (Oracle's Kubernetes offering)
+   - [Rancher Desktop](https://rancherdesktop.io/) (for local development)
+- [Crossplane](https://docs.crossplane.io/latest/software/install/) 1.10 (recommended)
+
+### Configurations
+Before building the provider, ensure the following items are already set up in your system:
+- The $PATH environment variable contains paths for the preceding software binaries.
+- The GOPATH variable is set properly. (Example: `export GOPATH=~/go/19.1.6`)
+- A Kubernetes cluster is running locally, and the correct Kubernetes context is selected.
+
+## Install Crossplane
+Crossplane installs on top of Kubernetes. Install Crossplane onto a Kubernetes cluster using the following steps.
+
+1. Create a namespace for Crossplane.
+    ```shell
+    $ kubectl create namespace crossplane-system
+    ```
+1. Add a Helm repository for Crossplane.
+    ```shell
+    $ helm repo add crossplane-stable https://charts.crossplane.io/stable
+    ```
+1. Update the Helm repository.
+    ```shell
+    $ helm repo update
+    ```
+1. Install Crossplane.
+    ```shell
+    $ helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
+    ```
+1. Verify that Crossplane is deployed.
+    ```shell
+    $ helm list -n crossplane-system
+    ```
+1. Check for components installed as part of Crossplane on Kubernetes.
+    ```shell
+    $ kubectl get all -n crossplane-system
+    ```
+
+### Install the Crossplane kubectl Plugin 
+```shell
+$ curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
+$ mv kubectl-crossplane ~/.rd/bin
 ```
-Git clone the repo 
-cd provider-oci/
-make generate # This will generate the binaries and CRDs.
-kubectl apply -f package/crds  #  A k8s cluster must be available running locally
-make run # This will start crossplane provider against the local kubernetes cluster .
-```
-In another terminal run the below commands to test the provider. 
-Make sure to setup the OCI credentials in examples/providerconfig/secret.yaml using the template examples/providerconfig/secret.yaml.tmpl
-```
 
-# Create "crossplane-system" namespace if not exists
-kubectl create namespace crossplane-system --dry-run=client -o yaml | kubectl apply -f -
+## Clone crossplane-provider-oci
+1. Clone the repository to `$GOPATH/src/github.com/crossplane-providers/crossplane-provider-oci`.
+    ```shell
+    $ mkdir -p $GOPATH/src/github.com/crossplane-providers; cd $GOPATH/src/github.com/crossplane-providers
+    $ git clone git@github.com:oracle-samples/crossplane-provider-oci.git
+    ```
+1. Change to the provider directory.
+    ```shell
+    $ cd $GOPATH/src/github.com/crossplane-providers/crossplane-provider-oci
+    ```
 
-kubectl apply -f examples/providerconfig/
-kubectl apply -f examples/identity/compartment.yaml  # open the compartment.yaml and update the compartment id in wich the new compartment to be created
-kubectl get managed # To check the status
-```
-## Building the provider and package as docker image
-```
-make build # This will build docker image in local machie. This can be pushed to any container registry
+## Install and run the OCI Crossplane Provider
+Install and run OCI Crossplane provider locally or on a Kubernetes cluster. Running the Crossplane provider locally gives more flexibility for debugging and development.
 
-```
+### Install and Run the Provider Locally
+Use these commands to set up and configure an OCI Crossplane provider on your local Kubernetes cluster in your tenancy.
+1. Generate the crossplane resource definitions (CRD).
+    ```shell
+    $ make generate
+    ```
+1. Register the CRDs with your locally running Kubernetes cluster.
+    ```shell
+    $ kubectl apply -f package/crds
+    ```
+1. On a different terminal, to ensure it will run in the background, start `crossplane-provider-oci` on your Kubernetes cluster.
+    ```shell
+    $ make run
+    ```
+   **Note:** You might be prompted if you want the `provider` application to accept incoming network connections. Click **Allow**.
 
-## Installing the provider from a container registry 
-using declarative api
-```
-cat <<EOF | kubectl apply -f -
+### Install and Run the Provider on Container Engine for Kubernetes
+
+#### Build the Provider
+1. Create package for all the archetypes defined, the package will be available in `_output/xpkg directory`.
+    ```shell
+    $ cd $GOPATH/src/github.com/crossplane-providers/crossplane-provider-oci
+    $ make build.all
+    ```
+
+#### Create a Container Engine Cluster
+1. Log into your OCI console and create a Container Engine cluster as mentioned in the [OCI documentation](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke.htm).
+1. After the cluster is created, you can access the cluster from your local Kubernetes client (kubectl). Follow the instructions in the [OCI Documentation](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm).
+
+#### Upload the Package into OCIR (OCI Registry)
+1. Create a repository following the instructions provided in this Oracle Documentation [Creating a Repository](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrycreatingarepository.htm).
+1. Follow the instructions in the Oracle documentation [Pushing Images Using the Docker CLI](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypushingimagesusingthedockercli.htm) to push the package file to the registry.
+1. Generate an authorization token for the user from the OCI console.
+1. Log into the container registry from Docker. Enter the username in the format `\<tenancy-namespace>/\<username>` and the authorization token generated in the previous step is the password.
+    ```shell
+    $ docker login <regionCode>.ocir.io
+    ```
+1. Go to the package directory.
+    ```shell
+    $ cd $GOPATH/src/github.com/crossplane-providers/crossplane-provider-oci/_output/xpkg/linux_amd64
+    ```   
+1. Push the package into OCIR using the Crossplane kubectl plugin.  
+   ```shell
+   $ kubectl crossplane push provider <regionCode>.ocir.io/<tenancy-namespace>/<repositoryName>:<version>
+   ```
+
+#### Create an OCIR Secret
+When installing the Crossplane provider, the OCI Container Engine needs to pull in the image, which is uploaded in the OCI Registry.
+1. Use this kubectl command, as described in the [OCI Documentation](https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrypullingimagesfromocir.htm), to create a secret:
+    ```shell
+    $ kubectl create secret docker-registry <ocir-secret-name> --namespace crossplane-system --docker-server=<region-key>.ocir.io --docker-username='<tenancy-namespace>/<oci-username>' --docker-password='<oci-auth-token>' --docker-email='<email-address>'
+    ```
+
+#### Install Crossplane Provider for OCI
+Refer to the image pushed in the previous step and run this command to install the Crossplane provider.
+
+```shell
+$ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-oci
+name: crossplane-provider-oci
 spec:
-  package: <registry>/provider-oci:<tag>
+package: <regionCode>.ocir.io/<namespace>/<repositoryName>:<version>
+packagePullSecrets:
+  - name: <ocir-secret-name>
 EOF
 ```
 
-## Developing
-
-Run code-generation pipeline:
-```console
-go run cmd/generator/main.go "$PWD"
+#### Verify Installation of the Provider
+```shell
+kubectl get crossplane
 ```
 
-Run against a Kubernetes cluster:
+## Configure the OCI Crossplane Provider
+For the provider to communicate with the Oracle Cloud Infrastructure, we need to apply some configuration.
 
-```console
-make run
-```
+1. Create a `secret.yaml` file using the template under `examples/providerconfig/secret.yaml.tmpl`. Fill in the respective values from your tenancy and register it with Kubernetes.
+    ```shell
+    $ kubectl apply -f examples/providerconfig/secret.yaml
+    ```
+   **Note:** Ensure that the values provided in the `secret.yaml` file are extracted in the same way as configuring the OCI CLI. Refer to the [SDKConfig](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm).
 
-Build, push, and install:
+2. Register the provider configuration by running this command.
+    ```shell
+    $ kubectl apply -f examples/providerconfig/providerconfig.yaml
+    ```
+   **Note:** Modify the `examples/providerconfig/providerconfig.yaml` file, if the secret name registered is different than what is provided in the template.
 
-```console
-make all
-```
+At this stage, we have our OCI Crossplane provider configured to work with your tenancy.
 
-Build binary:
-
-```console
-make build
-```
-
-## Report a Bug
-
-For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/oracle-samples/provider-oci/issues).
-
+### Example: Creating an Object Storage Bucket
+1. Use this command to instruct Crossplane to create the bucket in the OCI tenancy using Terraform.
+    ```shell
+    # Edit examples/objectstorage/bucket.yaml with your compartment and storage name space as documented.
+    # Apply the example that creates an Object Storage bucket
+    $ kubectl apply -f examples/objectstorage/bucket.yaml
+    ```
+2. Verify the status of the resource by running this command (example output is shown).
+    ```shell
+    $ kubectl get managed
+    NAME                                                         READY   SYNCED   EXTERNAL-NAME              AGE
+    bucket.objectstorage.oci.upbound.io/bucket-via-crossplane4   True    True     n/idimd1fghobk/b/bucket1   10m
+    ```
+   The Ready status **True** indicates that the resource creation is successful.
 
 ## Contributing
-
-This project is not accepting external contributions at this time. For bugs or enhancement requests, please file a GitHub issue unless it’s security related. When filing a bug remember that the better written the bug is, the more likely it is to be fixed. If you think you’ve found a security vulnerability, do not raise a GitHub issue and follow the instructions in our [security policy](./SECURITY.md).
-
-## Code of Conduct
-
-provider-jet-oci adheres to the same [Code of
-Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
-as the core Crossplane project.
+This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md).
 
 ## Security
-
-Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
+Consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process.
 
 ## License
+Copyright (c) 2022, 2023 Oracle and its affiliates.
 
-provider-jet-oci is under the Apache 2.0 license.
+Released under the Apache 2.0 license.
+

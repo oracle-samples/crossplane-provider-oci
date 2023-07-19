@@ -54,6 +54,7 @@ spec:
       serviceLbSubnetIdSelector:
         matchLabels:
           testing.upbound.io/example-name: example
+    type: ${var.cluster_type}
     vcnIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_vcn

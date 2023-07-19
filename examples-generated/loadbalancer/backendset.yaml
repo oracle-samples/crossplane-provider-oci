@@ -1,0 +1,48 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: BackendSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/backendset
+  labels:
+    testing.upbound.io/example-name: test_backend_set
+  name: test-backend-set
+spec:
+  forProvider:
+    healthChecker:
+    - intervalMs: ${var.backend_set_health_checker_interval_ms}
+      isForcePlainText: ${var.backend_set_health_checker_is_force_plain_text}
+      port: ${var.backend_set_health_checker_port}
+      protocol: ${var.backend_set_health_checker_protocol}
+      responseBodyRegex: ${var.backend_set_health_checker_response_body_regex}
+      retries: ${var.backend_set_health_checker_retries}
+      returnCode: ${var.backend_set_health_checker_return_code}
+      timeoutInMillis: ${var.backend_set_health_checker_timeout_in_millis}
+      urlPath: ${var.backend_set_health_checker_url_path}
+    lbCookieSessionPersistenceConfiguration:
+    - cookieName: ${var.backend_set_lb_cookie_session_persistence_configuration_cookie_name}
+      disableFallback: ${var.backend_set_lb_cookie_session_persistence_configuration_disable_fallback}
+      domain: ${var.backend_set_lb_cookie_session_persistence_configuration_domain}
+      isHttpOnly: ${var.backend_set_lb_cookie_session_persistence_configuration_is_http_only}
+      isSecure: ${var.backend_set_lb_cookie_session_persistence_configuration_is_secure}
+      maxAgeInSeconds: ${var.backend_set_lb_cookie_session_persistence_configuration_max_age_in_seconds}
+      path: ${var.backend_set_lb_cookie_session_persistence_configuration_path}
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    name: ${var.backend_set_name}
+    policy: ${var.backend_set_policy}
+    sessionPersistenceConfiguration:
+    - cookieName: ${var.backend_set_session_persistence_configuration_cookie_name}
+      disableFallback: ${var.backend_set_session_persistence_configuration_disable_fallback}
+    sslConfiguration:
+    - certificateIds: ${var.backend_set_ssl_configuration_certificate_ids}
+      certificateName: ${oci_load_balancer_certificate.test_certificate.name}
+      cipherSuiteName: ${var.backend_set_ssl_configuration_cipher_suite_name}
+      protocols: ${var.backend_set_ssl_configuration_protocols}
+      serverOrderPreference: ${var.backend_set_ssl_configuration_server_order_preference}
+      trustedCertificateAuthorityIds: ${var.backend_set_ssl_configuration_trusted_certificate_authority_ids}
+      verifyDepth: ${var.backend_set_ssl_configuration_verify_depth}
+      verifyPeerCertificate: ${var.backend_set_ssl_configuration_verify_peer_certificate}
+
+---
+

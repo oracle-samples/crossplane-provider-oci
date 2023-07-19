@@ -22,6 +22,7 @@ spec:
     compartmentIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+    computeClusterId: ${oci_core_compute_cluster.test_compute_cluster.id}
     createVnicDetails:
     - assignPrivateDnsRecord: ${var.instance_create_vnic_details_assign_private_dns_record}
       assignPublicIp: ${var.instance_create_vnic_details_assign_public_ip}

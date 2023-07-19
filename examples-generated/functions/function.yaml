@@ -23,6 +23,9 @@ spec:
     provisionedConcurrencyConfig:
     - count: ${var.function_provisioned_concurrency_config_count}
       strategy: ${var.function_provisioned_concurrency_config_strategy}
+    sourceDetails:
+    - pbfListingId: ${oci_functions_pbf_listing.test_pbf_listing.id}
+      sourceType: ${var.function_source_details_source_type}
     timeoutInSeconds: ${var.function_timeout_in_seconds}
     traceConfig:
     - isEnabled: ${var.function_trace_config_is_enabled}

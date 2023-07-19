@@ -103,6 +103,24 @@ type NodeEvictionNodePoolSettingsParameters struct {
 	IsForceDeleteAfterGraceDuration *bool `json:"isForceDeleteAfterGraceDuration,omitempty" tf:"is_force_delete_after_grace_duration,omitempty"`
 }
 
+type NodePoolCyclingDetailsObservation struct {
+}
+
+type NodePoolCyclingDetailsParameters struct {
+
+	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	// +kubebuilder:validation:Optional
+	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
+
+	// (Updatable) Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
+	// +kubebuilder:validation:Optional
+	MaximumSurge *string `json:"maximumSurge,omitempty" tf:"maximum_surge,omitempty"`
+
+	// (Updatable) Maximum active nodes that would be terminated from nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Nodepool size or 0% to 100%
+	// +kubebuilder:validation:Optional
+	MaximumUnavailable *string `json:"maximumUnavailable,omitempty" tf:"maximum_unavailable,omitempty"`
+}
+
 type NodePoolObservation struct {
 
 	// The OCID of the node pool.
@@ -188,6 +206,10 @@ type NodePoolParameters struct {
 	// (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 	// +kubebuilder:validation:Optional
 	NodeMetadata map[string]*string `json:"nodeMetadata,omitempty" tf:"node_metadata,omitempty"`
+
+	// (Updatable) Node Pool Cycling Details
+	// +kubebuilder:validation:Optional
+	NodePoolCyclingDetails []NodePoolCyclingDetailsParameters `json:"nodePoolCyclingDetails,omitempty" tf:"node_pool_cycling_details,omitempty"`
 
 	// (Updatable) The name of the node shape of the nodes in the node pool.
 	// +kubebuilder:validation:Required
@@ -348,6 +370,10 @@ type PlacementConfigsParameters struct {
 	// +kubebuilder:validation:Optional
 	FaultDomains []*string `json:"faultDomains,omitempty" tf:"fault_domains,omitempty"`
 
+	// (Updatable) Configuration options for preemptible nodes.
+	// +kubebuilder:validation:Optional
+	PreemptibleNodeConfig []PreemptibleNodeConfigParameters `json:"preemptibleNodeConfig,omitempty" tf:"preemptible_node_config,omitempty"`
+
 	// (Updatable) The OCID of the subnet in which to place nodes.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
@@ -360,6 +386,30 @@ type PlacementConfigsParameters struct {
 	// Selector for a Subnet in core to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
+}
+
+type PreemptibleNodeConfigObservation struct {
+}
+
+type PreemptibleNodeConfigParameters struct {
+
+	// (Updatable) The action to run when the preemptible node is interrupted for eviction.
+	// +kubebuilder:validation:Required
+	PreemptionAction []PreemptionActionParameters `json:"preemptionAction" tf:"preemption_action,omitempty"`
+}
+
+type PreemptionActionObservation struct {
+}
+
+type PreemptionActionParameters struct {
+
+	// (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	// +kubebuilder:validation:Optional
+	IsPreserveBootVolume *bool `json:"isPreserveBootVolume,omitempty" tf:"is_preserve_boot_volume,omitempty"`
+
+	// (Updatable) The type of action to run when the instance is interrupted for eviction.
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // NodePoolSpec defines the desired state of NodePool

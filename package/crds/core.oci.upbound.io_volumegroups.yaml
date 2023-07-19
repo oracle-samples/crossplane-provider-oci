@@ -300,6 +300,11 @@ spec:
                     type: array
                   volumeGroupReplicasDeletion:
                     type: boolean
+                  volumeIds:
+                    description: OCIDs for the volumes in this volume group.
+                    items:
+                      type: string
+                    type: array
                 required:
                 - availabilityDomain
                 - sourceDetails
@@ -511,11 +516,6 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                       type: object
-                    type: array
-                  volumeIds:
-                    description: OCIDs for the volumes in this volume group.
-                    items:
-                      type: string
                     type: array
                 type: object
               conditions:

@@ -4,11 +4,17 @@ metadata:
   name: identity-provider-via-crossplane
 spec:
   forProvider:
-    compartmentIdRef:
-      name: compartment-via-crossplane1
+    # WARNING: this resource is deprecated as in
+    # https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_identity_provider.html
+    # Change the attributes below to valid value according to the doc of equivalent Terraform attributes above.
+    #
+    # your root compartment OCID which is also your tenancy OCID
+    compartmentId: ocid1.xxx
     description: "identity provider created via crossplane"
     name: "identity-provider-via-crossplane"
-    metadata: "asdasdasdas"
+    # The XML that contains the information required for federating
+    metadata: "change to valid metadata"
+    # The URL for retrieving the identity provider's metadata, which contains information required for federating
     metadataUrl: test.com
     productType: ADFS
     protocol: SAML2

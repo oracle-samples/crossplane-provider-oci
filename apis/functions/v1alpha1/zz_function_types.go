@@ -66,8 +66,8 @@ type FunctionParameters struct {
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: phx.ocir.io/ten/functions/function:0.0.1
-	// +kubebuilder:validation:Required
-	Image *string `json:"image" tf:"image,omitempty"`
+	// +kubebuilder:validation:Optional
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7
 	// +kubebuilder:validation:Optional
@@ -80,6 +80,10 @@ type FunctionParameters struct {
 	// (Updatable) Define the strategy for provisioned concurrency for the function.
 	// +kubebuilder:validation:Optional
 	ProvisionedConcurrencyConfig []ProvisionedConcurrencyConfigParameters `json:"provisionedConcurrencyConfig,omitempty" tf:"provisioned_concurrency_config,omitempty"`
+
+	// The source details for the Function. The function can be created from various sources.
+	// +kubebuilder:validation:Optional
+	SourceDetails []SourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
 	// (Updatable) Timeout for executions of the function. Value in seconds.
 	// +kubebuilder:validation:Optional
@@ -112,6 +116,20 @@ type ProvisionedConcurrencyConfigParameters struct {
 	// (Updatable) The strategy for provisioned concurrency to be used.
 	// +kubebuilder:validation:Required
 	Strategy *string `json:"strategy" tf:"strategy,omitempty"`
+}
+
+type SourceDetailsObservation struct {
+}
+
+type SourceDetailsParameters struct {
+
+	// The OCID of the PbfListing this function is sourced from.
+	// +kubebuilder:validation:Required
+	PbfListingID *string `json:"pbfListingId" tf:"pbf_listing_id,omitempty"`
+
+	// Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS.
+	// +kubebuilder:validation:Required
+	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
 // FunctionSpec defines the desired state of Function

@@ -109,6 +109,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Options []OptionsParameters `json:"options,omitempty" tf:"options,omitempty"`
 
+	// (Updatable) Type of cluster
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
 	// The OCID of the virtual cloud network (VCN) in which to create the cluster.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
