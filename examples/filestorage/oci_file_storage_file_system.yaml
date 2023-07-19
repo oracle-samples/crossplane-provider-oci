@@ -7,10 +7,4 @@ spec:
     compartmentIdRef: 
       name :  compartment-via-crossplane1
     availabilityDomain: "AnvB:PHX-AD-1"
-metadata:
-  name: filesys-via-crossplane2
-spec:
-  forProvider:
-    compartmentIdRef: 
-      name :  compartment-via-crossplane1
-    availabilityDomain: "AnvB:PHX-AD-1"
+    displayName: StorageFileSystem-via-crossplane

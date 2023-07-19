@@ -207,6 +207,24 @@ spec:
                       - strategy
                       type: object
                     type: array
+                  sourceDetails:
+                    description: The source details for the Function. The function
+                      can be created from various sources.
+                    items:
+                      properties:
+                        pbfListingId:
+                          description: The OCID of the PbfListing this function is
+                            sourced from.
+                          type: string
+                        sourceType:
+                          description: 'Type of the Function Source. Possible values:
+                            PRE_BUILT_FUNCTIONS.'
+                          type: string
+                      required:
+                      - pbfListingId
+                      - sourceType
+                      type: object
+                    type: array
                   timeoutInSeconds:
                     description: (Updatable) Timeout for executions of the function.
                       Value in seconds.
@@ -224,7 +242,6 @@ spec:
                     type: array
                 required:
                 - displayName
-                - image
                 - memoryInMbs
                 type: object
               providerConfigRef:

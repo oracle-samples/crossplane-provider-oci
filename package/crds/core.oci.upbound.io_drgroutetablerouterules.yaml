@@ -66,11 +66,13 @@ spec:
               forProvider:
                 properties:
                   destination:
-                    description: Represents the range of IP addresses to match against
-                      when routing traffic.
+                    description: (Updatable) This is the range of IP addresses used
+                      for matching when routing traffic. Only CIDR_BLOCK values are
+                      allowed.
                     type: string
                   destinationType:
-                    description: 'Type of destination for the rule. Allowed values:'
+                    description: 'Type of destination for the rule. Required if direction
+                      = EGRESS. Allowed values:'
                     type: string
                   drgRouteTableId:
                     description: The OCID of the DRG route table.

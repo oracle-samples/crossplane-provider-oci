@@ -1,0 +1,23 @@
+apiVersion: oci.platformref.crossplane.io/v1alpha1
+kind: XRouteTable
+metadata:
+  name: routetabletest
+spec:
+  # require change to your Ids
+  routeTableDisplayName: route-table-via-crossplane-xr
+  compartmentId: ocid1.compartment.oc1..xxx
+  vcnId: ocid1.vcn.oc1.ca-montreal-1.xxx
+  # Cidr block used by NAT Gateway's route rule
+  nategwCidrBlock: 0.0.0.0/29
+
+  # Service Gateway parameters servicegw* can be obtained from OCI CLI command
+  # $ oci network service list"
+  # {
+  #   "cidr-block": "all-yul-services-in-oracle-services-network",
+  #   "description": "All YUL Services In Oracle Services Network",
+  #   "id": "ocid1.service.oc1.ca-montreal-1.xxx",
+  #   "name": "All YUL Services In Oracle Services Network"
+  # }
+  servicegwServiceId: ocid1.service.oc1.ca-montreal-1.xxx
+  # Cidr block used by Service Gateway's route rule. Note: 'yul' is the region code
+  servicegwServiceCidrBlock: all-yul-services-in-oracle-services-network

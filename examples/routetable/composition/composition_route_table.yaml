@@ -1,0 +1,97 @@
+# Example of composite route table w/ multiple route rules. For simplicity, the example references
+# existing VCN and compartment directly using compartmentId and vcnId passed by the claim yaml file.
+# See OKE example for composite resources of compartment and VCN.
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: okenetworkcomp
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oci.platformref.crossplane.io/v1alpha1
+    kind: XRouteTable
+  resources:
+    - name: natgw
+      base:
+        apiVersion: core.oci.upbound.io/v1alpha1
+        kind: NATGateway
+        spec:
+          forProvider:
+            displayName: natgateway-via-crossplane-xr
+            blockTraffic: false
+      patches:
+        # input parameters from claim
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.compartmentId
+          toFieldPath: spec.forProvider.compartmentId
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.vcnId
+          toFieldPath: spec.forProvider.vcnId
+        # pass the ID via status to route table
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.id
+          toFieldPath: status.natgwId
+
+    - name: servicegw
+      base:
+        apiVersion: core.oci.upbound.io/v1alpha1
+        kind: ServiceGateway
+        spec:
+          forProvider:
+            displayName: servicegw-via-crossplane-xr
+      patches:
+        # input parameters from claim
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.compartmentId
+          toFieldPath: spec.forProvider.compartmentId
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.vcnId
+          toFieldPath: spec.forProvider.vcnId
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.servicegwServiceId
+          toFieldPath: spec.forProvider.services[0].serviceId
+        # pass the ID via status to route table
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.id
+          toFieldPath: status.servicegwId
+
+    - name: rt-private
+      base:
+        apiVersion: core.oci.upbound.io/v1alpha1
+        kind: RouteTable
+        metadata:
+          labels:
+            type: private
+        spec:
+          forProvider:
+            compartmentId: PARAMETER_HOLDER
+            vcnId: PARAMETER_HOLDER
+            displayName: PARAMETER_HOLDER
+            routeRules:
+              - description: nat-gw-rule
+              - description: service-gw-rule
+                destinationType: SERVICE_CIDR_BLOCK
+      patches:
+        # input parameters from claim
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.routeTableDisplayName
+          toFieldPath: spec.forProvider.displayName
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.compartmentId
+          toFieldPath: spec.forProvider.compartmentId
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.vcnId
+          toFieldPath: spec.forProvider.vcnId
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.nategwCidrBlock
+          toFieldPath: spec.forProvider.routeRules[0].destination
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.servicegwServiceCidrBlock
+          toFieldPath: spec.forProvider.routeRules[1].destination
+        # Ids from other gateway reosurces
+        - type: FromCompositeFieldPath
+          fromFieldPath: status.natgwId
+          toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+        - type: FromCompositeFieldPath
+          fromFieldPath: status.servicegwId
+          toFieldPath: spec.forProvider.routeRules[1].networkEntityId

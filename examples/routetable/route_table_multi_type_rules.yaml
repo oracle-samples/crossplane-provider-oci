@@ -1,0 +1,25 @@
+apiVersion: core.oci.upbound.io/v1alpha1
+kind: RouteTable
+metadata:
+  name: routetable-by-crossplane
+spec:
+  forProvider:
+    displayName: routetable-multi-rules-via-crossplane
+
+    compartmentIdRef:
+      name : compartment-via-crossplane1
+    vcnIdRef:
+      name: vcn-via-crossplane5
+    # Note: CrossPlane has a limitation that reference by name in an array requires all array elements are of the same kind.
+    # i.e You cannot use networkEntityIdRef in 'routeRules' to reference different gateway kinds (NATGateway, ServiceGateway, etc.)
+    # Options to work around this CrossPlane limitation.
+    # 1) use networkEntityId instead of networkEntityIdRef as in this example
+    # 2) use composition and 'patches' to pass gateway IDs to the route rules as in examples/routetable/composition/composition_route_table.yaml
+    routeRules:
+      - description: "nat-gw-rule"
+        destination: "0.0.0.0/29"
+        networkEntityId: "ocid1.natgateway.xxx.xxx.xxx"
+      - description: "service-gw-rule"
+        destinationType: SERVICE_CIDR_BLOCK
+        destination: "all-<region code, e.g yul>-services-in-oracle-services-network"
+        networkEntityId: "ocidx.servicegateway.xxx.xxx.xxx"

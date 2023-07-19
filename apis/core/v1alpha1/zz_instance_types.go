@@ -164,6 +164,9 @@ type InstanceObservation struct {
 	// The OCID of the instance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Whether the instance’s OCPUs and memory are distributed across multiple NUMA nodes.
+	IsCrossNumaNode *bool `json:"isCrossNumaNode,omitempty" tf:"is_cross_numa_node,omitempty"`
+
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	LaunchMode *string `json:"launchMode,omitempty" tf:"launch_mode,omitempty"`
 
@@ -234,6 +237,10 @@ type InstanceParameters struct {
 	// Selector for a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the compute cluster that the instance will be created in.
+	// +kubebuilder:validation:Optional
+	ComputeClusterID *string `json:"computeClusterId,omitempty" tf:"compute_cluster_id,omitempty"`
 
 	// (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see Virtual Network Interface Cards (VNICs).
 	// +kubebuilder:validation:Optional
@@ -322,7 +329,7 @@ type InstanceParameters struct {
 
 	// (Updatable)
 	// +kubebuilder:validation:Optional
-	SourceDetails []SourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
+	SourceDetails []InstanceSourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
 	// (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
 	// +kubebuilder:validation:Optional
@@ -334,6 +341,41 @@ type InstanceParameters struct {
 
 	// +kubebuilder:validation:Optional
 	UpdateOperationConstraint *string `json:"updateOperationConstraint,omitempty" tf:"update_operation_constraint,omitempty"`
+}
+
+type InstanceSourceDetailsObservation struct {
+}
+
+type InstanceSourceDetailsParameters struct {
+
+	// (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB).
+	// +kubebuilder:validation:Optional
+	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
+
+	// (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
+	// +kubebuilder:validation:Optional
+	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
+
+	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// The OCID of an image or a boot volume to use, depending on the value of source_type.
+	// +crossplane:generate:reference:type=Image
+	// +kubebuilder:validation:Optional
+	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
+
+	// Reference to a Image to populate sourceId.
+	// +kubebuilder:validation:Optional
+	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
+
+	// Selector for a Image to populate sourceId.
+	// +kubebuilder:validation:Optional
+	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
+
+	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
+	// +kubebuilder:validation:Required
+	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
 type PlatformConfigObservation struct {
@@ -468,41 +510,6 @@ type ShapeConfigParameters struct {
 	// (Updatable) The total number of OCPUs available to the instance.
 	// +kubebuilder:validation:Optional
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
-}
-
-type SourceDetailsObservation struct {
-}
-
-type SourceDetailsParameters struct {
-
-	// (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB).
-	// +kubebuilder:validation:Optional
-	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
-
-	// (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
-	// +kubebuilder:validation:Optional
-	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
-
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	// +kubebuilder:validation:Optional
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
-	// The OCID of the boot volume used to boot the instance.
-	// +crossplane:generate:reference:type=Image
-	// +kubebuilder:validation:Optional
-	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
-
-	// Reference to a Image to populate sourceId.
-	// +kubebuilder:validation:Optional
-	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
-
-	// Selector for a Image to populate sourceId.
-	// +kubebuilder:validation:Optional
-	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
-
-	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
-	// +kubebuilder:validation:Required
-	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

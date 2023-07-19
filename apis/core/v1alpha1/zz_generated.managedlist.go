@@ -7,6 +7,42 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
+// GetItems of this AppCatalogListingResourceVersionAgreementList.
+func (l *AppCatalogListingResourceVersionAgreementList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AppCatalogSubscriptionList.
+func (l *AppCatalogSubscriptionList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BootVolumeBackupList.
+func (l *BootVolumeBackupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BootVolumeList.
+func (l *BootVolumeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this CaptureFilterList.
 func (l *CaptureFilterList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -16,8 +52,71 @@ func (l *CaptureFilterList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ClusterNetworkList.
+func (l *ClusterNetworkList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ComputeCapacityReservationList.
+func (l *ComputeCapacityReservationList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ComputeClusterList.
+func (l *ComputeClusterList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ComputeImageCapabilitySchemaList.
+func (l *ComputeImageCapabilitySchemaList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ConsoleHistoryList.
+func (l *ConsoleHistoryList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this CpeList.
 func (l *CpeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this CrossConnectGroupList.
+func (l *CrossConnectGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this CrossConnectList.
+func (l *CrossConnectList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -115,6 +214,15 @@ func (l *DrgRouteTableRouteRuleList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this IPv6List.
+func (l *IPv6List) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ImageList.
 func (l *ImageList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -133,6 +241,15 @@ func (l *InstanceConfigurationList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this InstanceConsoleConnectionList.
+func (l *InstanceConsoleConnectionList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this InstanceList.
 func (l *InstanceList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -142,8 +259,35 @@ func (l *InstanceList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this InstancePoolInstanceList.
+func (l *InstancePoolInstanceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this InstancePoolList.
+func (l *InstancePoolList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this InternetGatewayList.
 func (l *InternetGatewayList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this IpsecConnectionTunnelManagementList.
+func (l *IpsecConnectionTunnelManagementList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -241,6 +385,15 @@ func (l *RemotePeeringConnectionList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RouteTableAttachmentList.
+func (l *RouteTableAttachmentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RouteTableList.
 func (l *RouteTableList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -259,6 +412,24 @@ func (l *SecurityListList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ServiceGatewayList.
+func (l *ServiceGatewayList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ShapeManagementList.
+func (l *ShapeManagementList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this SubnetList.
 func (l *SubnetList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -270,6 +441,15 @@ func (l *SubnetList) GetItems() []resource.Managed {
 
 // GetItems of this VcnList.
 func (l *VcnList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this VirtualCircuitList.
+func (l *VirtualCircuitList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -351,6 +531,15 @@ func (l *VolumeGroupList) GetItems() []resource.Managed {
 
 // GetItems of this VolumeList.
 func (l *VolumeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this VtapList.
+func (l *VtapList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

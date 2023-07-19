@@ -9,6 +9,5 @@ Please see the Crossplane
 guidelines and responsibilities for the steering committee and maintainers.
 
 ## Maintainers
-
-* Saril Sudhakaran <saril.kamattathil.sudhakaran@oracle.com> ([saril sudhakaran](https://github.com/kssaril))
-* Maintainer 2 <maintainer2@acme.org> ([maintainer1](https://github.com/maintainer2))
+* Sharath Chandra B <b.sharathchandra86@gmail.com> ([SharathChandraB](https://github.com/SharathChandraB))
+* Steven Vo <stvodev@gmail.com> ([s-vo](https://github.com/s-vo))

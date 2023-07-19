@@ -1,0 +1,11 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: Compartment
+metadata:
+  name: compartment-imported-to-crossplane
+  # import existing root compartment to CrossPlane.
+  annotations:
+    crossplane.io/external-name: ocid1.compartment.oc1..aaaaaaaalpuevi6rnal6jafq52364mg4vqjiw4oqp3vgvitcu6fjgrcooiaq
+spec:
+  forProvider:
+    name: compartment-imported-to-crossplane
+    description: "compartment imported to CrosssPlane"

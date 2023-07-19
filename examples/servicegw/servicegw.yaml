@@ -1,0 +1,16 @@
+apiVersion: core.oci.upbound.io/v1alpha1
+kind: ServiceGateway
+metadata:
+  name: servicegw-via-crossplane1
+spec:
+  forProvider:
+    compartmentIdRef:
+      name : compartment-via-crossplane1
+    vcnIdRef:
+      name: vcn-via-crossplane5
+
+    displayName: servicegw-via-crossplane1
+    services:
+      # Get a service ID from OCID from CLI command "oci network service list"
+      # e.g ID for service w/  "description": "All <region code> Services In Oracle Services Network",
+      - serviceId: ocidx.service.xxx.xxx.xxx

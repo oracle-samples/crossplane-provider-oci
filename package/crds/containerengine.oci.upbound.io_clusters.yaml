@@ -569,6 +569,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                  type:
+                    description: (Updatable) Type of cluster
+                    type: string
                   vcnId:
                     description: The OCID of the virtual cloud network (VCN) in which
                       to create the cluster.
