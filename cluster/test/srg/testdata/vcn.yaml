@@ -1,0 +1,10 @@
+apiVersion: core.oci.upbound.io/v1alpha1
+kind: Vcn
+metadata:
+  name: crossplane-srg-vcn
+spec:
+  forProvider:
+    compartmentIdRef: 
+      name : crossplane-srg-compartment
+    displayName: crossplane-srg-vcn
+    cidrBlocks: ["10.20.20.0/29"]

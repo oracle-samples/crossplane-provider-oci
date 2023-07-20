@@ -192,7 +192,10 @@ spec:
                       bminstance1.subnet123.vcn1.oraclevcn.com). Not required to be
                       unique, but it's a best practice to set unique DNS labels for
                       VCNs in your tenancy. Must be an alphanumeric string that begins
-                      with a letter. The value cannot be changed.
+                      with a letter. The value cannot be changed. You must set this
+                      value if you want instances to be able to use hostnames to resolve
+                      other instances in the VCN. Otherwise the Internet and VCN Resolver
+                      will not work.
                     type: string
                   freeformTags:
                     additionalProperties:

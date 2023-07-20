@@ -1,0 +1,7 @@
+apiVersion: core.oci.upbound.io/v1alpha1
+kind: BootVolumeBackup
+metadata:
+  name: test-boot-volume-backup
+spec:
+  forProvider:
+    bootVolumeId: ocid1.bootvolume.xxx

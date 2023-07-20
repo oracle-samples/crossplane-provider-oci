@@ -36,9 +36,6 @@ type VolumeGroupObservation struct {
 	// (Updatable) The list of volume group replicas that this volume group will be enabled to have in the specified destination availability domains.
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicas []VolumeGroupReplicasObservation `json:"volumeGroupReplicas,omitempty" tf:"volume_group_replicas,omitempty"`
-
-	// OCIDs for the volumes in this volume group.
-	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 }
 
 type VolumeGroupParameters struct {
@@ -89,6 +86,10 @@ type VolumeGroupParameters struct {
 
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicasDeletion *bool `json:"volumeGroupReplicasDeletion,omitempty" tf:"volume_group_replicas_deletion,omitempty"`
+
+	// OCIDs for the volumes in this volume group.
+	// +kubebuilder:validation:Optional
+	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 }
 
 type VolumeGroupReplicasObservation struct {

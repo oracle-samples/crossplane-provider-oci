@@ -1,0 +1,19 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: Compartment
+metadata:
+  name: crossplane-srg-compartment
+spec:
+  # Note: OCI requires compartment must be created in home region.
+  # If your applied default ProviderConfig and Secret resources from examples/providerConfig are
+  # not in home region, create another set of resources w/ config name oci-home-region and override
+  # default provider config by adding providerConfigRef as below.
+  #
+  providerConfigRef:
+    name: oci-home-region
+  forProvider:
+    compartmentId: ocid1.compartment.xxx
+    description: "crossplane-srg-compartment"
+    name: "crossplane-srg-compartment"
+    enableDelete : True
+
+

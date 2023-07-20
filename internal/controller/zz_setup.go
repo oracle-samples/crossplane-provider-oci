@@ -16,8 +16,19 @@ import (
 	certificateauthority "github.com/oracle/provider-oci/internal/controller/certificatesmanagement/certificateauthority"
 	cluster "github.com/oracle/provider-oci/internal/controller/containerengine/cluster"
 	nodepool "github.com/oracle/provider-oci/internal/controller/containerengine/nodepool"
+	appcataloglistingresourceversionagreement "github.com/oracle/provider-oci/internal/controller/core/appcataloglistingresourceversionagreement"
+	appcatalogsubscription "github.com/oracle/provider-oci/internal/controller/core/appcatalogsubscription"
+	bootvolume "github.com/oracle/provider-oci/internal/controller/core/bootvolume"
+	bootvolumebackup "github.com/oracle/provider-oci/internal/controller/core/bootvolumebackup"
 	capturefilter "github.com/oracle/provider-oci/internal/controller/core/capturefilter"
+	clusternetwork "github.com/oracle/provider-oci/internal/controller/core/clusternetwork"
+	computecapacityreservation "github.com/oracle/provider-oci/internal/controller/core/computecapacityreservation"
+	computecluster "github.com/oracle/provider-oci/internal/controller/core/computecluster"
+	computeimagecapabilityschema "github.com/oracle/provider-oci/internal/controller/core/computeimagecapabilityschema"
+	consolehistory "github.com/oracle/provider-oci/internal/controller/core/consolehistory"
 	cpe "github.com/oracle/provider-oci/internal/controller/core/cpe"
+	crossconnect "github.com/oracle/provider-oci/internal/controller/core/crossconnect"
+	crossconnectgroup "github.com/oracle/provider-oci/internal/controller/core/crossconnectgroup"
 	dedicatedvmhost "github.com/oracle/provider-oci/internal/controller/core/dedicatedvmhost"
 	dhcpoptions "github.com/oracle/provider-oci/internal/controller/core/dhcpoptions"
 	drg "github.com/oracle/provider-oci/internal/controller/core/drg"
@@ -31,8 +42,13 @@ import (
 	image "github.com/oracle/provider-oci/internal/controller/core/image"
 	instance "github.com/oracle/provider-oci/internal/controller/core/instance"
 	instanceconfiguration "github.com/oracle/provider-oci/internal/controller/core/instanceconfiguration"
+	instanceconsoleconnection "github.com/oracle/provider-oci/internal/controller/core/instanceconsoleconnection"
+	instancepool "github.com/oracle/provider-oci/internal/controller/core/instancepool"
+	instancepoolinstance "github.com/oracle/provider-oci/internal/controller/core/instancepoolinstance"
 	internetgateway "github.com/oracle/provider-oci/internal/controller/core/internetgateway"
 	ipsec "github.com/oracle/provider-oci/internal/controller/core/ipsec"
+	ipsecconnectiontunnelmanagement "github.com/oracle/provider-oci/internal/controller/core/ipsecconnectiontunnelmanagement"
+	ipv6 "github.com/oracle/provider-oci/internal/controller/core/ipv6"
 	localpeeringgateway "github.com/oracle/provider-oci/internal/controller/core/localpeeringgateway"
 	natgateway "github.com/oracle/provider-oci/internal/controller/core/natgateway"
 	networksecuritygroup "github.com/oracle/provider-oci/internal/controller/core/networksecuritygroup"
@@ -43,9 +59,13 @@ import (
 	publicippoolcapacity "github.com/oracle/provider-oci/internal/controller/core/publicippoolcapacity"
 	remotepeeringconnection "github.com/oracle/provider-oci/internal/controller/core/remotepeeringconnection"
 	routetable "github.com/oracle/provider-oci/internal/controller/core/routetable"
+	routetableattachment "github.com/oracle/provider-oci/internal/controller/core/routetableattachment"
 	securitylist "github.com/oracle/provider-oci/internal/controller/core/securitylist"
+	servicegateway "github.com/oracle/provider-oci/internal/controller/core/servicegateway"
+	shapemanagement "github.com/oracle/provider-oci/internal/controller/core/shapemanagement"
 	subnet "github.com/oracle/provider-oci/internal/controller/core/subnet"
 	vcn "github.com/oracle/provider-oci/internal/controller/core/vcn"
+	virtualcircuit "github.com/oracle/provider-oci/internal/controller/core/virtualcircuit"
 	vlan "github.com/oracle/provider-oci/internal/controller/core/vlan"
 	vnicattachment "github.com/oracle/provider-oci/internal/controller/core/vnicattachment"
 	volume "github.com/oracle/provider-oci/internal/controller/core/volume"
@@ -55,6 +75,7 @@ import (
 	volumebackuppolicyassignment "github.com/oracle/provider-oci/internal/controller/core/volumebackuppolicyassignment"
 	volumegroup "github.com/oracle/provider-oci/internal/controller/core/volumegroup"
 	volumegroupbackup "github.com/oracle/provider-oci/internal/controller/core/volumegroupbackup"
+	vtap "github.com/oracle/provider-oci/internal/controller/core/vtap"
 	record "github.com/oracle/provider-oci/internal/controller/dns/record"
 	resolver "github.com/oracle/provider-oci/internal/controller/dns/resolver"
 	resolverendpoint "github.com/oracle/provider-oci/internal/controller/dns/resolverendpoint"
@@ -86,16 +107,16 @@ import (
 	key "github.com/oracle/provider-oci/internal/controller/kms/key"
 	keyversion "github.com/oracle/provider-oci/internal/controller/kms/keyversion"
 	vault "github.com/oracle/provider-oci/internal/controller/kms/vault"
-	balancerbackend "github.com/oracle/provider-oci/internal/controller/load/balancerbackend"
-	balancerbackendset "github.com/oracle/provider-oci/internal/controller/load/balancerbackendset"
-	balancercertificate "github.com/oracle/provider-oci/internal/controller/load/balancercertificate"
-	balancerhostname "github.com/oracle/provider-oci/internal/controller/load/balancerhostname"
-	balancerlistener "github.com/oracle/provider-oci/internal/controller/load/balancerlistener"
-	balancerloadbalancer "github.com/oracle/provider-oci/internal/controller/load/balancerloadbalancer"
-	balancerloadbalancerroutingpolicy "github.com/oracle/provider-oci/internal/controller/load/balancerloadbalancerroutingpolicy"
-	balancerpathrouteset "github.com/oracle/provider-oci/internal/controller/load/balancerpathrouteset"
-	balancerruleset "github.com/oracle/provider-oci/internal/controller/load/balancerruleset"
-	balancersslciphersuite "github.com/oracle/provider-oci/internal/controller/load/balancersslciphersuite"
+	backend "github.com/oracle/provider-oci/internal/controller/loadbalancer/backend"
+	backendset "github.com/oracle/provider-oci/internal/controller/loadbalancer/backendset"
+	certificate "github.com/oracle/provider-oci/internal/controller/loadbalancer/certificate"
+	lbhostname "github.com/oracle/provider-oci/internal/controller/loadbalancer/lbhostname"
+	listener "github.com/oracle/provider-oci/internal/controller/loadbalancer/listener"
+	loadbalancer "github.com/oracle/provider-oci/internal/controller/loadbalancer/loadbalancer"
+	pathrouteset "github.com/oracle/provider-oci/internal/controller/loadbalancer/pathrouteset"
+	routingpolicy "github.com/oracle/provider-oci/internal/controller/loadbalancer/routingpolicy"
+	ruleset "github.com/oracle/provider-oci/internal/controller/loadbalancer/ruleset"
+	sslciphersuite "github.com/oracle/provider-oci/internal/controller/loadbalancer/sslciphersuite"
 	log "github.com/oracle/provider-oci/internal/controller/logging/log"
 	loggroup "github.com/oracle/provider-oci/internal/controller/logging/loggroup"
 	logsavedsearch "github.com/oracle/provider-oci/internal/controller/logging/logsavedsearch"
@@ -138,8 +159,19 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		certificateauthority.Setup,
 		cluster.Setup,
 		nodepool.Setup,
+		appcataloglistingresourceversionagreement.Setup,
+		appcatalogsubscription.Setup,
+		bootvolume.Setup,
+		bootvolumebackup.Setup,
 		capturefilter.Setup,
+		clusternetwork.Setup,
+		computecapacityreservation.Setup,
+		computecluster.Setup,
+		computeimagecapabilityschema.Setup,
+		consolehistory.Setup,
 		cpe.Setup,
+		crossconnect.Setup,
+		crossconnectgroup.Setup,
 		dedicatedvmhost.Setup,
 		dhcpoptions.Setup,
 		drg.Setup,
@@ -153,8 +185,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		image.Setup,
 		instance.Setup,
 		instanceconfiguration.Setup,
+		instanceconsoleconnection.Setup,
+		instancepool.Setup,
+		instancepoolinstance.Setup,
 		internetgateway.Setup,
 		ipsec.Setup,
+		ipsecconnectiontunnelmanagement.Setup,
+		ipv6.Setup,
 		localpeeringgateway.Setup,
 		natgateway.Setup,
 		networksecuritygroup.Setup,
@@ -165,9 +202,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		publicippoolcapacity.Setup,
 		remotepeeringconnection.Setup,
 		routetable.Setup,
+		routetableattachment.Setup,
 		securitylist.Setup,
+		servicegateway.Setup,
+		shapemanagement.Setup,
 		subnet.Setup,
 		vcn.Setup,
+		virtualcircuit.Setup,
 		vlan.Setup,
 		vnicattachment.Setup,
 		volume.Setup,
@@ -177,6 +218,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		volumebackuppolicyassignment.Setup,
 		volumegroup.Setup,
 		volumegroupbackup.Setup,
+		vtap.Setup,
 		record.Setup,
 		resolver.Setup,
 		resolverendpoint.Setup,
@@ -208,16 +250,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		key.Setup,
 		keyversion.Setup,
 		vault.Setup,
-		balancerbackend.Setup,
-		balancerbackendset.Setup,
-		balancercertificate.Setup,
-		balancerhostname.Setup,
-		balancerlistener.Setup,
-		balancerloadbalancer.Setup,
-		balancerloadbalancerroutingpolicy.Setup,
-		balancerpathrouteset.Setup,
-		balancerruleset.Setup,
-		balancersslciphersuite.Setup,
+		backend.Setup,
+		backendset.Setup,
+		certificate.Setup,
+		lbhostname.Setup,
+		listener.Setup,
+		loadbalancer.Setup,
+		pathrouteset.Setup,
+		routingpolicy.Setup,
+		ruleset.Setup,
+		sslciphersuite.Setup,
 		log.Setup,
 		loggroup.Setup,
 		logsavedsearch.Setup,

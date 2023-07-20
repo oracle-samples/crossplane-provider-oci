@@ -61,20 +61,6 @@ type AttachDetailsParameters struct {
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 }
 
-type AutotunePoliciesObservation struct {
-}
-
-type AutotunePoliciesParameters struct {
-
-	// This specifies the type of autotunes supported by OCI.
-	// +kubebuilder:validation:Required
-	AutotuneType *string `json:"autotuneType" tf:"autotune_type,omitempty"`
-
-	// This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
-	// +kubebuilder:validation:Optional
-	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
-}
-
 type BlockVolumesObservation struct {
 }
 
@@ -93,6 +79,20 @@ type BlockVolumesParameters struct {
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 }
 
+type CreateDetailsAutotunePoliciesObservation struct {
+}
+
+type CreateDetailsAutotunePoliciesParameters struct {
+
+	// This specifies the type of autotunes supported by OCI.
+	// +kubebuilder:validation:Required
+	AutotuneType *string `json:"autotuneType" tf:"autotune_type,omitempty"`
+
+	// This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
+	// +kubebuilder:validation:Optional
+	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
+}
+
 type CreateDetailsObservation struct {
 }
 
@@ -100,7 +100,7 @@ type CreateDetailsParameters struct {
 
 	// The list of autotune policies enabled for this volume.
 	// +kubebuilder:validation:Optional
-	AutotunePolicies []AutotunePoliciesParameters `json:"autotunePolicies,omitempty" tf:"autotune_policies,omitempty"`
+	AutotunePolicies []CreateDetailsAutotunePoliciesParameters `json:"autotunePolicies,omitempty" tf:"autotune_policies,omitempty"`
 
 	// The availability domain of the volume.  Example: Uocm:PHX-AD-1
 	// +kubebuilder:validation:Optional

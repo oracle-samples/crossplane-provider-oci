@@ -1,0 +1,33 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: test_load_balancer
+  name: test-load-balancer
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.load_balancer_display_name}
+    freeformTags:
+      Department: Finance
+    ipMode: ${var.load_balancer_ip_mode}
+    isPrivate: ${var.load_balancer_is_private}
+    networkSecurityGroupIds: ${var.load_balancer_network_security_group_ids}
+    reservedIps:
+    - id: ${var.load_balancer_reserved_ips_id}
+    shape: ${var.load_balancer_shape}
+    shapeDetails:
+    - maximumBandwidthInMbps: ${var.load_balancer_shape_details_maximum_bandwidth_in_mbps}
+      minimumBandwidthInMbps: ${var.load_balancer_shape_details_minimum_bandwidth_in_mbps}
+    subnetIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+

@@ -1138,6 +1138,48 @@ func (mg *SecurityList) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
+// ResolveReferences of this ServiceGateway.
+func (mg *ServiceGateway) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.CompartmentIDRef,
+		Selector:     mg.Spec.ForProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CompartmentID")
+	}
+	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VcnID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.VcnIDRef,
+		Selector:     mg.Spec.ForProvider.VcnIDSelector,
+		To: reference.To{
+			List:    &VcnList{},
+			Managed: &Vcn{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VcnID")
+	}
+	mg.Spec.ForProvider.VcnID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.VcnIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Subnet.
 func (mg *Subnet) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

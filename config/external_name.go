@@ -1,10 +1,25 @@
 /*
-Copyright 2022 Upbound Inc.
-*/
+ * Copyright (c) 2023 Oracle and/or its affiliates
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package config
 
-import "github.com/upbound/upjet/pkg/config"
+import (
+	"github.com/oracle/provider-oci/config/common"
+	"github.com/upbound/upjet/pkg/config"
+)
 
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
@@ -32,6 +47,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"oci_core_vlan":                                   config.IdentifierFromProvider,
 	"oci_core_internet_gateway":                       config.IdentifierFromProvider,
 	"oci_core_nat_gateway":                            config.IdentifierFromProvider,
+	"oci_core_service_gateway":                        config.IdentifierFromProvider,
 	"oci_core_network_security_group":                 config.IdentifierFromProvider,
 	"oci_core_network_security_group_security_rule":   config.IdentifierFromProvider,
 	"oci_core_route_table":                            config.IdentifierFromProvider,
@@ -49,7 +65,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"oci_core_public_ip_pool":                         config.IdentifierFromProvider,
 	"oci_core_public_ip_pool_capacity":                config.IdentifierFromProvider,
 	"oci_core_remote_peering_connection":              config.IdentifierFromProvider,
-	"oci_core_volume":                                  config.IdentifierFromProvider,
+	"oci_core_volume":                                 config.IdentifierFromProvider,
 	"oci_core_volume_backup":                          config.IdentifierFromProvider,
 	"oci_core_volume_attachment":                      config.IdentifierFromProvider,
 	"oci_core_volume_backup_policy":                   config.IdentifierFromProvider,
@@ -127,6 +143,26 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"oci_streaming_stream_pool":                                             config.IdentifierFromProvider,
 	"oci_streaming_connect_harness":                                         config.IdentifierFromProvider,
 	"oci_vault_secret":                                                      config.IdentifierFromProvider,
+	"oci_core_app_catalog_listing_resource_version_agreement":               config.IdentifierFromProvider,
+	"oci_core_app_catalog_subscription":                                     config.IdentifierFromProvider,
+	"oci_core_boot_volume":                                                  config.IdentifierFromProvider,
+	"oci_core_boot_volume_backup":                                           config.IdentifierFromProvider,
+	"oci_core_cluster_network":                                              config.IdentifierFromProvider,
+	"oci_core_compute_capacity_reservation":                                 config.IdentifierFromProvider,
+	"oci_core_compute_cluster":                                              config.IdentifierFromProvider,
+	"oci_core_compute_image_capability_schema":                              config.IdentifierFromProvider,
+	"oci_core_console_history":                                              config.IdentifierFromProvider,
+	"oci_core_cross_connect":                                                config.IdentifierFromProvider,
+	"oci_core_cross_connect_group":                                          config.IdentifierFromProvider,
+	"oci_core_instance_console_connection":                                  config.IdentifierFromProvider,
+	"oci_core_instance_pool":                                                config.IdentifierFromProvider,
+	"oci_core_instance_pool_instance":                                       config.IdentifierFromProvider,
+	"oci_core_ipsec_connection_tunnel_management":                           config.IdentifierFromProvider,
+	"oci_core_ipv6":                                                         config.IdentifierFromProvider,
+	"oci_core_route_table_attachment":                                       config.IdentifierFromProvider,
+	"oci_core_shape_management":                                             config.IdentifierFromProvider,
+	"oci_core_virtual_circuit":                                              config.IdentifierFromProvider,
+	"oci_core_vtap":                                                         config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
@@ -136,6 +172,7 @@ func ExternalNameConfigurations() config.ResourceOption {
 	return func(r *config.Resource) {
 		if e, ok := ExternalNameConfigs[r.Name]; ok {
 			r.ExternalName = e
+			r.Version = common.VersionAlpha1
 		}
 	}
 }

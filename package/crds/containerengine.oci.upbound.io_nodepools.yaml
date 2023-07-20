@@ -432,6 +432,36 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                              preemptibleNodeConfig:
+                                description: (Updatable) Configuration options for
+                                  preemptible nodes.
+                                items:
+                                  properties:
+                                    preemptionAction:
+                                      description: (Updatable) The action to run when
+                                        the preemptible node is interrupted for eviction.
+                                      items:
+                                        properties:
+                                          isPreserveBootVolume:
+                                            description: (Updatable) Whether to preserve
+                                              the boot volume that was used to launch
+                                              the preemptible instance when the instance
+                                              is terminated. Defaults to false if
+                                              not specified.
+                                            type: boolean
+                                          type:
+                                            description: (Updatable) The type of action
+                                              to run when the instance is interrupted
+                                              for eviction.
+                                            type: string
+                                        required:
+                                        - type
+                                        type: object
+                                      type: array
+                                  required:
+                                  - preemptionAction
+                                  type: object
+                                type: array
                               subnetId:
                                 description: (Updatable) The OCID of the subnet in
                                   which to place nodes.
@@ -564,6 +594,30 @@ spec:
                       underlying Oracle Cloud Infrastructure instance in the node
                       pool on launch.
                     type: object
+                  nodePoolCyclingDetails:
+                    description: (Updatable) Node Pool Cycling Details
+                    items:
+                      properties:
+                        isNodeCyclingEnabled:
+                          description: (Updatable) If nodes in the nodepool will be
+                            cycled to have new changes.
+                          type: boolean
+                        maximumSurge:
+                          description: (Updatable) Maximum additional new compute
+                            instances that would be temporarily created and added
+                            to nodepool during the cycling nodepool process. OKE supports
+                            both integer and percentage input. Defaults to 1, Ranges
+                            from 0 to Nodepool size or 0% to 100%
+                          type: string
+                        maximumUnavailable:
+                          description: (Updatable) Maximum active nodes that would
+                            be terminated from nodepool during the cycling nodepool
+                            process. OKE supports both integer and percentage input.
+                            Defaults to 0, Ranges from 0 to Nodepool size or 0% to
+                            100%
+                          type: string
+                      type: object
+                    type: array
                   nodeShape:
                     description: (Updatable) The name of the node shape of the nodes
                       in the node pool.

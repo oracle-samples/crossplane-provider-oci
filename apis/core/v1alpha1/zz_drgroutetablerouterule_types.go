@@ -36,11 +36,11 @@ type DrgRouteTableRouteRuleObservation struct {
 
 type DrgRouteTableRouteRuleParameters struct {
 
-	// Represents the range of IP addresses to match against when routing traffic.
+	// (Updatable) This is the range of IP addresses used for matching when routing traffic. Only CIDR_BLOCK values are allowed.
 	// +kubebuilder:validation:Required
 	Destination *string `json:"destination" tf:"destination,omitempty"`
 
-	// Type of destination for the rule. Allowed values:
+	// Type of destination for the rule. Required if direction = EGRESS. Allowed values:
 	// +kubebuilder:validation:Required
 	DestinationType *string `json:"destinationType" tf:"destination_type,omitempty"`
 

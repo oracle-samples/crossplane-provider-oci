@@ -1,18 +1,19 @@
 /*
-Copyright (c) 2022, Oracle and/or its affiliates
+ * Copyright (c) 2022, 2023 Oracle and/or its affiliates
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-	http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package core
 
 import (
@@ -151,6 +152,20 @@ func Configure(p *config.Provider) {
 			Type: "Vcn",
 		}
 
+	})
+
+	p.AddResourceConfigurator("oci_core_service_gateway", func(r *config.Resource) {
+		r.ExternalName = config.IdentifierFromProvider
+		// we need to override the default group that terrajet generated for
+		r.Version = "v1alpha1"
+
+		r.References["compartment_id"] = config.Reference{
+			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+		}
+
+		r.References["vcn_id"] = config.Reference{
+			Type: "Vcn",
+		}
 	})
 
 	p.AddResourceConfigurator("oci_core_network_security_group", func(r *config.Resource) {

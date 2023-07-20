@@ -1,0 +1,52 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xroutetables.oci.platformref.crossplane.io
+spec:
+  group: oci.platformref.crossplane.io
+  names:
+    kind: XRouteTable
+    plural: xroutetables
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                routeTableDisplayName:
+                  type: string
+                compartmentId:
+                  type: string
+                vcnId:
+                  type: string
+                nategwCidrBlock:
+                  description: Cidr block for NAT gateway
+                  type: string
+                servicegwServiceId:
+                  description: An OCI service ID
+                  type: string
+                servicegwServiceCidrBlock:
+                  description: Cidr block for the servicegwServiceId
+                  type: string
+              required:
+                - routeTableDisplayName
+                - compartmentId
+                - vcnId
+                - nategwCidrBlock
+                - servicegwServiceId
+                - servicegwServiceCidrBlock
+            status:
+              type: object
+              properties:
+                natgwId:
+                  description: Nat Gateway OCID
+                  type: string
+                servicegwId:
+                  description : Service Gateway ID
+                  type: string
+

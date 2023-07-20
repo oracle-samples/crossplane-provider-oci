@@ -4,18 +4,17 @@
 PROJECT_NAME := provider-oci
 PROJECT_REPO := github.com/oracle/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION := 1.3.3
+export TERRAFORM_VERSION := 1.4.6
 
 export TERRAFORM_PROVIDER_SOURCE := oracle/oci
 export TERRAFORM_PROVIDER_REPO := https://github.com/oracle/terraform-provider-oci
-export TERRAFORM_PROVIDER_VERSION := 4.112.0
+export TERRAFORM_PROVIDER_VERSION := 4.120.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-oci
-export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v4.112.0
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/4.112.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v4.120.0
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/4.120.0
 export TERRAFORM_DOCS_PATH := website/docs/r
 
-#PLATFORMS ?= linux_amd64 linux_arm64
-PLATFORMS ?= darwin_amd64
+PLATFORMS ?= darwin_amd64 linux_arm64 linux_amd64
 
 # -include will silently skip missing files, which allows us
 # to load those files with a target in the Makefile. If only
@@ -157,6 +156,11 @@ submodules:
 # try running the binary directly with different arguments.
 run: go.build
 	@$(INFO) Running Crossplane locally out-of-cluster . . .
+	@# To see other arguments that can be provided, run the command with --help instead
+	UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/provider --debug
+
+run-only:
+	@$(INFO) Running Crossplane locally out-of-cluster w/o build . . .
 	@# To see other arguments that can be provided, run the command with --help instead
 	UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/provider --debug
 
