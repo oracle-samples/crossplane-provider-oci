@@ -11,7 +11,7 @@ spec:
   # providerConfigRef:
   #   name: oci-home-region
   forProvider:
-    compartmentId: "ocid1.compartment.oc1..aaaaaaaahb43zznnbqj2dw5v7366mwecv5ohb3wznzgbekgk6youwz33ixza"
+    compartmentId: "ocid1.compartment.xxx"
     description: "Compartment created via crossplane."
     name: "compartment-via-crossplane1"
     enableDelete : True

@@ -16,5 +16,5 @@ spec:
       - subnetIdRef:
           name: crossplane-srg-subnet
     sourceDetails:
-      - sourceId: ocid1.image.oc1.ca-montreal-1.aaaaaaaavvoppgr5o7aykcokq33jv6h32jnqxwbl72dki3rdit2is4t3l6ia
+      - sourceId: ocid1.image.xxx
         sourceType: image

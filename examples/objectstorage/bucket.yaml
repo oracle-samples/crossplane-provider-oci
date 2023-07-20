@@ -12,7 +12,7 @@ spec:
     # or
     # b) compartmentId to reference by OCI compartment OCID using compartmentId
     # change to your OCID
-    #compartmentId: "ocid1.compartment.oc1..aaaaaaaa27osxeaezldayzzq5dfwszeg5iscqbbjzcehf3zhoqbi4hx6yb5q"
+    #compartmentId: "ocid1.compartment.xxx"
     name: bucket-via-crossplane
     # change to your OCI object storage namespace
     namespace: "id8pypxcqtqs"

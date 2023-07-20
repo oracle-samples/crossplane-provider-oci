@@ -4,6 +4,6 @@ metadata:
   name: vault-via-crossplane
 spec:
   forProvider:
-    compartmentId: ocid1.compartment.oc1..aaaaaaaalpuevi6rnal6jafq52364mg4vqjiw4oqp3vgvitcu6fjgrcooiaq
+    compartmentId: ocid1.compartment.xxx
     displayName: vault-via-crossplane
     vaultType: DEFAULT

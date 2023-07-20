@@ -11,7 +11,7 @@ spec:
   providerConfigRef:
     name: oci-home-region
   forProvider:
-    compartmentId: ocid1.compartment.oc1..aaaaaaaa27osxeaezldayzzq5dfwszeg5iscqbbjzcehf3zhoqbi4hx6yb5q
+    compartmentId: ocid1.compartment.xxx
     description: "crossplane-srg-compartment"
     name: "crossplane-srg-compartment"
     enableDelete : True
