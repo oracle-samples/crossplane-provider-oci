@@ -14,6 +14,14 @@ export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v4.120.0
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/4.120.0
 export TERRAFORM_DOCS_PATH := website/docs/r
 
+export CROSSPLANE_PROVIDER_VERSION := 1.0
+# Insert Oracle-CrossplaneProvider/<version> to terraform oci User-Agent using
+# USER_AGENT_PROVIDER_NAME (default=Oracle-TerraformProvider).
+# The value will be inserted as <USER_AGENT_PROVIDER_NAME>/<terraform oci version>
+# Sample from terraform oci verbose log:
+# User-Agent: Oracle-GoSDK/65.37.1 ... Oracle-CrossplaneProvider/1.0 Oracle-TerraformProvider/4.120.0
+export USER_AGENT_PROVIDER_NAME := Oracle-CrossplaneProvider/$(CROSSPLANE_PROVIDER_VERSION) Oracle-TerraformProvider
+
 PLATFORMS ?= darwin_amd64 linux_arm64 linux_amd64
 
 # -include will silently skip missing files, which allows us
