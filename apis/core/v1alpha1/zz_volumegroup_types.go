@@ -44,7 +44,7 @@ type VolumeGroupParameters struct {
 	// +kubebuilder:validation:Required
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume group.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
@@ -87,7 +87,7 @@ type VolumeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicasDeletion *bool `json:"volumeGroupReplicasDeletion,omitempty" tf:"volume_group_replicas_deletion,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +kubebuilder:validation:Optional
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 }
@@ -130,7 +130,7 @@ type VolumeGroupSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +crossplane:generate:reference:type=Volume
 	// +kubebuilder:validation:Optional
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`

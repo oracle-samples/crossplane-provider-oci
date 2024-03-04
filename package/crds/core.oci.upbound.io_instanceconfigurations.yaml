@@ -168,12 +168,13 @@ spec:
                     items:
                       properties:
                         blockVolumes:
-                          description: Block volume parameters.
+                          description: (Applicable when instance_type=compute) Block
+                            volume parameters.
                           items:
                             properties:
                               attachDetails:
-                                description: Volume attachmentDetails. Please see
-                                  AttachVolumeDetails
+                                description: (Applicable when instance_type=compute)
+                                  Volume attachmentDetails. Please see AttachVolumeDetails
                                 items:
                                   properties:
                                     device:
@@ -221,13 +222,14 @@ spec:
                                   type: object
                                 type: array
                               createDetails:
-                                description: Creates a new block volume. Please see
-                                  CreateVolumeDetails
+                                description: (Applicable when instance_type=compute)
+                                  Creates a new block volume. Please see CreateVolumeDetails
                                 items:
                                   properties:
                                     autotunePolicies:
-                                      description: The list of autotune policies enabled
-                                        for this volume.
+                                      description: (Applicable when instance_type=compute)
+                                        The list of autotune policies enabled for
+                                        this volume.
                                       items:
                                         properties:
                                           autotuneType:
@@ -246,14 +248,35 @@ spec:
                                       type: array
                                     availabilityDomain:
                                       description: 'The availability domain of the
-                                        volume.  Example: Uocm:PHX-AD-1'
+                                        block volume replica.  Example: Uocm:PHX-AD-1'
                                       type: string
                                     backupPolicyId:
-                                      description: If provided, specifies the ID of
-                                        the volume backup policy to assign to the
-                                        newly created volume. If omitted, no policy
-                                        will be assigned.
+                                      description: (Applicable when instance_type=compute)
+                                        If provided, specifies the ID of the volume
+                                        backup policy to assign to the newly created
+                                        volume. If omitted, no policy will be assigned.
                                       type: string
+                                    blockVolumeReplicas:
+                                      description: The list of block volume replicas
+                                        to be enabled for this volume in the specified
+                                        destination availability domains.
+                                      items:
+                                        properties:
+                                          availabilityDomain:
+                                            description: 'The availability domain
+                                              of the block volume replica.  Example:
+                                              Uocm:PHX-AD-1'
+                                            type: string
+                                          displayName:
+                                            description: (Updatable) A user-friendly
+                                              name. Does not have to be unique, and
+                                              it's changeable. Avoid entering confidential
+                                              information.
+                                            type: string
+                                        required:
+                                        - availabilityDomain
+                                        type: object
+                                      type: array
                                     compartmentId:
                                       description: (Updatable) The OCID of the compartment
                                         containing the instance configuration.
@@ -281,15 +304,24 @@ spec:
                                         For more information, see Resource Tags.  Example:
                                         {"Department": "Finance"}'
                                       type: object
+                                    isAutoTuneEnabled:
+                                      description: Specifies whether the auto-tune
+                                        performance is enabled for this boot volume.
+                                        This field is deprecated. Use the InstanceConfigurationDetachedVolumeAutotunePolicy
+                                        instead to enable the volume for detached
+                                        autotune.
+                                      type: boolean
                                     kmsKeyId:
-                                      description: The OCID of the Vault service key
-                                        to assign as the master encryption key for
-                                        the volume.
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the Vault service key to assign
+                                        as the master encryption key for the volume.
                                       type: string
                                     sizeInGbs:
-                                      description: The size of the volume in GBs.
+                                      description: (Applicable when instance_type=compute)
+                                        The size of the volume in GBs.
                                       type: string
                                     sourceDetails:
+                                      description: (Applicable when instance_type=compute)
                                       items:
                                         properties:
                                           id:
@@ -304,16 +336,18 @@ spec:
                                         type: object
                                       type: array
                                     vpusPerGb:
-                                      description: The number of volume performance
-                                        units (VPUs) that will be applied to this
-                                        volume per GB, representing the Block Volume
-                                        service's elastic performance options. See
-                                        Block Volume Performance Levels for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        The number of volume performance units (VPUs)
+                                        that will be applied to this volume per GB,
+                                        representing the Block Volume service's elastic
+                                        performance options. See Block Volume Performance
+                                        Levels for more information.
                                       type: string
                                   type: object
                                 type: array
                               volumeId:
-                                description: The OCID of the volume.
+                                description: (Applicable when instance_type=compute)
+                                  The OCID of the volume.
                                 type: string
                             type: object
                           type: array
@@ -322,43 +356,50 @@ spec:
                             is compute
                           type: string
                         launchDetails:
-                          description: Instance launch details for creating an instance
-                            from an instance configuration. Use the sourceDetails
-                            parameter to specify whether a boot volume or an image
-                            should be used to launch a new instance.
+                          description: (Applicable when instance_type=compute) Instance
+                            launch details for creating an instance from an instance
+                            configuration. Use the sourceDetails parameter to specify
+                            whether a boot volume or an image should be used to launch
+                            a new instance.
                           items:
                             properties:
                               agentConfig:
-                                description: Configuration options for the Oracle
-                                  Cloud Agent software running on the instance.
+                                description: (Applicable when instance_type=compute)
+                                  Configuration options for the Oracle Cloud Agent
+                                  software running on the instance.
                                 items:
                                   properties:
                                     areAllPluginsDisabled:
-                                      description: Whether Oracle Cloud Agent can
-                                        run all the available plugins. This includes
-                                        the management and monitoring plugins.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether Oracle Cloud Agent can run all the
+                                        available plugins. This includes the management
+                                        and monitoring plugins.
                                       type: boolean
                                     isManagementDisabled:
-                                      description: Whether Oracle Cloud Agent can
-                                        run all the available management plugins.
-                                        Default value is false (management plugins
-                                        are enabled).
+                                      description: (Applicable when instance_type=compute)
+                                        Whether Oracle Cloud Agent can run all the
+                                        available management plugins. Default value
+                                        is false (management plugins are enabled).
                                       type: boolean
                                     isMonitoringDisabled:
-                                      description: Whether Oracle Cloud Agent can
-                                        gather performance metrics and monitor the
-                                        instance using the monitoring plugins. Default
-                                        value is false (monitoring plugins are enabled).
+                                      description: (Applicable when instance_type=compute)
+                                        Whether Oracle Cloud Agent can gather performance
+                                        metrics and monitor the instance using the
+                                        monitoring plugins. Default value is false
+                                        (monitoring plugins are enabled).
                                       type: boolean
                                     pluginsConfig:
-                                      description: The configuration of plugins associated
-                                        with this instance.
+                                      description: (Applicable when instance_type=compute)
+                                        The configuration of plugins associated with
+                                        this instance.
                                       items:
                                         properties:
                                           desiredState:
                                             description: Whether the plugin should
-                                              be enabled or disabled. Accepted values
-                                              are ENABLED and DISABLED
+                                              be enabled or disabled. To enable the
+                                              monitoring and management plugins, the
+                                              isMonitoringDisabled and isManagementDisabled
+                                              attributes must also be set to false.
                                             type: string
                                           name:
                                             description: The plugin name. To get a
@@ -368,53 +409,81 @@ spec:
                                               available plugins, see Managing Plugins
                                               with Oracle Cloud Agent.
                                             type: string
-                                        required:
-                                        - desiredState
-                                        - name
                                         type: object
                                       type: array
                                   type: object
                                 type: array
                               availabilityConfig:
-                                description: Options for defining the availabiity
-                                  of a VM instance after a maintenance event that
-                                  impacts the underlying hardware.
+                                description: (Applicable when instance_type=compute)
+                                  Options for defining the availabiity of a VM instance
+                                  after a maintenance event that impacts the underlying
+                                  hardware. * is_live_migration_preferred -  Whether
+                                  to live migrate supported VM instances to a healthy
+                                  physical VM host without disrupting running instances
+                                  during infrastructure maintenance events. If null,
+                                  Oracle chooses the best option for migrating the
+                                  VM during infrastructure maintenance events. * recovery_action
+                                  - (Applicable when instance_type=compute) The lifecycle
+                                  state for an instance when it is recovered after
+                                  infrastructure maintenance. * RESTORE_INSTANCE -
+                                  The instance is restored to the lifecycle state
+                                  it was in before the maintenance event. If the instance
+                                  was running, it is automatically rebooted. This
+                                  is the default action when a value is not set. *
+                                  STOP_INSTANCE - The instance is recovered in the
+                                  stopped state.
                                 items:
                                   properties:
+                                    isLiveMigrationPreferred:
+                                      type: boolean
                                     recoveryAction:
-                                      description: The lifecycle state for an instance
-                                        when it is recovered after infrastructure
-                                        maintenance.
+                                      description: (Applicable when instance_type=instance_options)
+                                        The lifecycle state for an instance when it
+                                        is recovered after infrastructure maintenance.
                                       type: string
                                   type: object
                                 type: array
                               availabilityDomain:
-                                description: 'The availability domain of the volume.  Example:
-                                  Uocm:PHX-AD-1'
+                                description: 'The availability domain of the block
+                                  volume replica.  Example: Uocm:PHX-AD-1'
                                 type: string
                               capacityReservationId:
-                                description: The OCID of the compute capacity reservation
-                                  this instance is launched under.
+                                description: (Applicable when instance_type=compute)
+                                  The OCID of the compute capacity reservation this
+                                  instance is launched under.
                                 type: string
                               compartmentId:
                                 description: (Updatable) The OCID of the compartment
                                   containing the instance configuration.
                                 type: string
                               createVnicDetails:
-                                description: Contains the properties of the VNIC for
-                                  an instance configuration. See CreateVnicDetails
-                                  and Instance Configurations for more information.
+                                description: (Applicable when instance_type=compute)
+                                  Contains the properties of the VNIC for an instance
+                                  configuration. See CreateVnicDetails and Instance
+                                  Configurations for more information.
                                 items:
                                   properties:
+                                    assignIpv6Ip:
+                                      description: 'Whether to allocate an IPv6 address
+                                        at instance and VNIC creation from an IPv6
+                                        enabled subnet. Default: False. When provided
+                                        you may optionally provide an IPv6 prefix
+                                        (ipv6SubnetCidr) of your choice to assign
+                                        the IPv6 address from. If ipv6SubnetCidr is
+                                        not provided then an IPv6 prefix is chosen
+                                        for you.'
+                                      type: boolean
                                     assignPrivateDnsRecord:
-                                      description: Whether the VNIC should be assigned
-                                        a private DNS record. See the assignPrivateDnsRecord
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the VNIC should be assigned a private
+                                        DNS record. See the assignPrivateDnsRecord
                                         attribute of CreateVnicDetails for more information.
                                       type: boolean
                                     assignPublicIp:
-                                      description: Whether the VNIC should be assigned
-                                        a public IP address. See the assignPublicIp
-                                        attribute of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the VNIC should be assigned a public
+                                        IP address. See the assignPublicIp attribute
+                                        of CreateVnicDetails for more information.
                                       type: boolean
                                     definedTags:
                                       additionalProperties:
@@ -440,37 +509,68 @@ spec:
                                         {"Department": "Finance"}'
                                       type: object
                                     hostnameLabel:
-                                      description: The hostname for the VNIC's primary
-                                        private IP. See the hostnameLabel attribute
-                                        of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        The hostname for the VNIC's primary private
+                                        IP. See the hostnameLabel attribute of CreateVnicDetails
+                                        for more information.
                                       type: string
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      description: A list of IPv6 prefix ranges from
+                                        which the VNIC should be assigned an IPv6
+                                        address. You can provide only the prefix ranges
+                                        and Oracle Cloud Infrastructure selects an
+                                        available address from the range. You can
+                                        optionally choose to leave the prefix range
+                                        empty and instead provide the specific IPv6
+                                        address that should be used from within that
+                                        range.
+                                      items:
+                                        properties:
+                                          ipv6address:
+                                            description: Optional. An available IPv6
+                                              address of your subnet from a valid
+                                              IPv6 prefix on the subnet (otherwise
+                                              the IP address is automatically assigned).
+                                            type: string
+                                          ipv6subnetCidr:
+                                            description: Optional. Used to disambiguate
+                                              which subnet prefix should be used to
+                                              create an IPv6 allocation.
+                                            type: string
+                                        type: object
+                                      type: array
                                     nsgIds:
-                                      description: A list of the OCIDs of the network
-                                        security groups (NSGs) to add the VNIC to.
-                                        For more information about NSGs, see NetworkSecurityGroup.
+                                      description: (Applicable when instance_type=compute)
+                                        A list of the OCIDs of the network security
+                                        groups (NSGs) to add the VNIC to. For more
+                                        information about NSGs, see NetworkSecurityGroup.
                                       items:
                                         type: string
                                       type: array
                                     privateIp:
-                                      description: A private IP address of your choice
-                                        to assign to the VNIC. See the privateIp attribute
-                                        of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        A private IP address of your choice to assign
+                                        to the VNIC. See the privateIp attribute of
+                                        CreateVnicDetails for more information.
                                       type: string
                                     skipSourceDestCheck:
-                                      description: Whether the source/destination
-                                        check is disabled on the VNIC. See the skipSourceDestCheck
-                                        attribute of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the source/destination check is disabled
+                                        on the VNIC. See the skipSourceDestCheck attribute
+                                        of CreateVnicDetails for more information.
                                       type: boolean
                                     subnetId:
-                                      description: The OCID of the subnet to create
-                                        the VNIC in. See the subnetId attribute of
-                                        CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the subnet to create the VNIC
+                                        in. See the subnetId attribute of CreateVnicDetails
+                                        for more information.
                                       type: string
                                   type: object
                                 type: array
                               dedicatedVmHostId:
-                                description: The OCID of the dedicated virtual machine
-                                  host to place the instance on.
+                                description: (Applicable when instance_type=compute)
+                                  The OCID of the dedicated virtual machine host to
+                                  place the instance on.
                                 type: string
                               definedTags:
                                 additionalProperties:
@@ -488,20 +588,21 @@ spec:
                               extendedMetadata:
                                 additionalProperties:
                                   type: string
-                                description: Additional metadata key/value pairs that
-                                  you provide. They serve the same purpose and functionality
-                                  as fields in the metadata object.
+                                description: (Applicable when instance_type=compute)
+                                  Additional metadata key/value pairs that you provide.
+                                  They serve the same purpose and functionality as
+                                  fields in the metadata object.
                                 type: object
                               faultDomain:
-                                description: A fault domain is a grouping of hardware
-                                  and infrastructure within an availability domain.
-                                  Each availability domain contains three fault domains.
-                                  Fault domains let you distribute your instances
-                                  so that they are not on the same physical hardware
-                                  within a single availability domain. A hardware
-                                  failure or Compute hardware maintenance that affects
-                                  one fault domain does not affect instances in other
-                                  fault domains.
+                                description: (Applicable when instance_type=compute)
+                                  A fault domain is a grouping of hardware and infrastructure
+                                  within an availability domain. Each availability
+                                  domain contains three fault domains. Fault domains
+                                  let you distribute your instances so that they are
+                                  not on the same physical hardware within a single
+                                  availability domain. A hardware failure or Compute
+                                  hardware maintenance that affects one fault domain
+                                  does not affect instances in other fault domains.
                                 type: string
                               freeformTags:
                                 additionalProperties:
@@ -513,21 +614,24 @@ spec:
                                   "Finance"}'
                                 type: object
                               instanceOptions:
-                                description: Optional mutable instance options. As
-                                  a part of Instance Metadata Service Security Header,
-                                  This allows user to disable the legacy imds endpoints.
+                                description: (Applicable when instance_type=compute)
+                                  Optional mutable instance options. As a part of
+                                  Instance Metadata Service Security Header, This
+                                  allows user to disable the legacy imds endpoints.
                                 items:
                                   properties:
                                     areLegacyImdsEndpointsDisabled:
-                                      description: Whether to disable the legacy (/v1)
-                                        instance metadata service endpoints. Customers
-                                        who have migrated to /v2 should set this to
-                                        true for added security. Default is false.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether to disable the legacy (/v1) instance
+                                        metadata service endpoints. Customers who
+                                        have migrated to /v2 should set this to true
+                                        for added security. Default is false.
                                       type: boolean
                                   type: object
                                 type: array
                               ipxeScript:
-                                description: This is an advanced option.
+                                description: (Applicable when instance_type=compute)
+                                  This is an advanced option.
                                 type: string
                               isPvEncryptionInTransitEnabled:
                                 description: (Applicable when type=paravirtualized)
@@ -536,26 +640,31 @@ spec:
                                   value is false.
                                 type: boolean
                               launchMode:
-                                description: 'Specifies the configuration mode for
-                                  launching virtual machine (VM) instances. The configuration
-                                  modes are:'
+                                description: '(Applicable when instance_type=compute)
+                                  Specifies the configuration mode for launching virtual
+                                  machine (VM) instances. The configuration modes
+                                  are:'
                                 type: string
                               launchOptions:
-                                description: Options for tuning the compatibility
-                                  and performance of VM shapes. The values that you
-                                  specify override any default values.
+                                description: (Applicable when instance_type=compute)
+                                  Options for tuning the compatibility and performance
+                                  of VM shapes. The values that you specify override
+                                  any default values.
                                 items:
                                   properties:
                                     bootVolumeType:
-                                      description: Emulation type for the boot volume.
+                                      description: (Applicable when instance_type=compute)
+                                        Emulation type for the boot volume.
                                       type: string
                                     firmware:
-                                      description: Firmware used to boot VM. Select
-                                        the option that matches your operating system.
+                                      description: (Applicable when instance_type=compute)
+                                        Firmware used to boot VM. Select the option
+                                        that matches your operating system.
                                       type: string
                                     isConsistentVolumeNamingEnabled:
-                                      description: Whether to enable consistent volume
-                                        naming feature. Defaults to false.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether to enable consistent volume naming
+                                        feature. Defaults to false.
                                       type: boolean
                                     isPvEncryptionInTransitEnabled:
                                       description: (Applicable when type=paravirtualized)
@@ -564,11 +673,13 @@ spec:
                                         The default value is false.
                                       type: boolean
                                     networkType:
-                                      description: Emulation type for the physical
-                                        network interface card (NIC).
+                                      description: (Applicable when instance_type=compute)
+                                        Emulation type for the physical network interface
+                                        card (NIC).
                                       type: string
                                     remoteDataVolumeType:
-                                      description: Emulation type for volume.
+                                      description: (Applicable when instance_type=compute)
+                                        Emulation type for volume.
                                       type: string
                                   type: object
                                 type: array
@@ -580,30 +691,41 @@ spec:
                                   maps only).
                                 type: object
                               platformConfig:
-                                description: The platform configuration requested
+                                description: (Applicable when instance_type=compute)  (Updatable
+                                  only for VM's) The platform configuration requested
                                   for the instance.
                                 items:
                                   properties:
                                     areVirtualInstructionsEnabled:
                                       description: (Applicable when type=AMD_MILAN_BM
-                                        | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU)
-                                        Whether virtualization instructions are available.
-                                        For example, Secure Virtual Machine for AMD
-                                        shapes or VT-x for Intel shapes.
+                                        | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                        | GENERIC_BM) Whether virtualization instructions
+                                        are available. For example, Secure Virtual
+                                        Machine for AMD shapes or VT-x for Intel shapes.
                                       type: boolean
+                                    configMap:
+                                      additionalProperties:
+                                        type: string
+                                      description: (Applicable when type=AMD_MILAN_BM
+                                        | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                        | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                        Instance Platform Configuration Configuration
+                                        Map for flexible setting input.
+                                      type: object
                                     isAccessControlServiceEnabled:
                                       description: (Applicable when type=AMD_MILAN_BM
-                                        | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU)
-                                        Whether the Access Control Service is enabled
-                                        on the instance. When enabled, the platform
-                                        can enforce PCIe device isolation, required
-                                        for VFIO device pass-through.
+                                        | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                        | GENERIC_BM) Whether the Access Control Service
+                                        is enabled on the instance. When enabled,
+                                        the platform can enforce PCIe device isolation,
+                                        required for VFIO device pass-through.
                                       type: boolean
                                     isInputOutputMemoryManagementUnitEnabled:
                                       description: (Applicable when type=AMD_MILAN_BM
                                         | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
-                                        | INTEL_ICELAKE_BM) Whether the input-output
-                                        memory management unit is enabled.
+                                        | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                        Whether the input-output memory management
+                                        unit is enabled.
                                       type: boolean
                                     isMeasuredBootEnabled:
                                       description: (Applicable when instance_type=compute)
@@ -623,10 +745,12 @@ spec:
                                     isSymmetricMultiThreadingEnabled:
                                       description: (Applicable when type=AMD_MILAN_BM
                                         | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
-                                        | INTEL_ICELAKE_BM) Whether symmetric multithreading
-                                        is enabled on the instance. Symmetric multithreading
-                                        is also called simultaneous multithreading
-                                        (SMT) or Intel Hyper-Threading.
+                                        | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                        (Updatable only for AMD_VM and INTEL_VM) Whether
+                                        symmetric multithreading is enabled on the
+                                        instance. Symmetric multithreading is also
+                                        called simultaneous multithreading (SMT) or
+                                        Intel Hyper-Threading.
                                       type: boolean
                                     isTrustedPlatformModuleEnabled:
                                       description: (Applicable when instance_type=compute)
@@ -636,18 +760,18 @@ spec:
                                     numaNodesPerSocket:
                                       description: (Applicable when type=AMD_MILAN_BM
                                         | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
-                                        | INTEL_ICELAKE_BM) The number of NUMA nodes
-                                        per socket (NPS).
+                                        | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                        The number of NUMA nodes per socket (NPS).
                                       type: string
                                     percentageOfCoresEnabled:
                                       description: (Applicable when type=AMD_MILAN_BM
-                                        | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage
-                                        of cores enabled. Value must be a multiple
-                                        of 25%. If the requested percentage results
-                                        in a fractional number of cores, the system
-                                        rounds up the number of cores across processors
-                                        and provisions an instance with a whole number
-                                        of cores.
+                                        | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM
+                                        | INTEL_SKYLAKE_BM) The percentage of cores
+                                        enabled. Value must be a multiple of 25%.
+                                        If the requested percentage results in a fractional
+                                        number of cores, the system rounds up the
+                                        number of cores across processors and provisions
+                                        an instance with a whole number of cores.
                                       type: number
                                     type:
                                       description: The type of volume. The only supported
@@ -658,8 +782,8 @@ spec:
                                   type: object
                                 type: array
                               preemptibleInstanceConfig:
-                                description: Configuration options for preemptible
-                                  instances.
+                                description: (Applicable when instance_type=instance_options)
+                                  Configuration options for preemptible instances.
                                 items:
                                   properties:
                                     preemptionAction:
@@ -681,14 +805,13 @@ spec:
                                         - type
                                         type: object
                                       type: array
-                                  required:
-                                  - preemptionAction
                                   type: object
                                 type: array
                               preferredMaintenanceAction:
-                                description: The preferred maintenance action for
-                                  an instance. The default is LIVE_MIGRATE, if live
-                                  migration is supported.
+                                description: (Applicable when instance_type=instance_options)
+                                  The preferred maintenance action for an instance.
+                                  The default is LIVE_MIGRATE, if live migration is
+                                  supported.
                                 type: string
                               shape:
                                 description: that you specify. If you don't provide
@@ -696,32 +819,45 @@ spec:
                                   are used.
                                 type: string
                               shapeConfig:
-                                description: The shape configuration requested for
-                                  the instance.
+                                description: (Applicable when instance_type=instance_options)
+                                  The shape configuration requested for the instance.
                                 items:
                                   properties:
                                     baselineOcpuUtilization:
-                                      description: The baseline OCPU utilization for
-                                        a subcore burstable VM instance. Leave this
-                                        attribute blank for a non-burstable instance,
-                                        or explicitly specify non-burstable with BASELINE_1_1.
+                                      description: (Applicable when instance_type=instance_options)
+                                        The baseline OCPU utilization for a subcore
+                                        burstable VM instance. Leave this attribute
+                                        blank for a non-burstable instance, or explicitly
+                                        specify non-burstable with BASELINE_1_1.
                                       type: string
                                     memoryInGbs:
-                                      description: The total amount of memory available
-                                        to the instance, in gigabytes.
+                                      description: (Applicable when instance_type=instance_options)
+                                        The total amount of memory available to the
+                                        instance, in gigabytes.
                                       type: number
                                     nvmes:
-                                      description: The number of NVMe drives to be
-                                        used for storage. A single drive has 6.8 TB
-                                        available.
+                                      description: (Applicable when instance_type=instance_options)
+                                        The number of NVMe drives to be used for storage.
+                                        A single drive has 6.8 TB available.
                                       type: number
                                     ocpus:
-                                      description: The total number of OCPUs available
-                                        to the instance.
+                                      description: (Applicable when instance_type=instance_options)
+                                        The total number of OCPUs available to the
+                                        instance.
+                                      type: number
+                                    vcpus:
+                                      description: (Applicable when instance_type=instance_options)
+                                        The total number of VCPUs available to the
+                                        instance. This can be used instead of OCPUs,
+                                        in which case the actual number of OCPUs will
+                                        be calculated based on this value and the
+                                        actual hardware. This must be a multiple of
+                                        2.
                                       type: number
                                   type: object
                                 type: array
                               sourceDetails:
+                                description: (Applicable when instance_type=compute)
                                 items:
                                   properties:
                                     bootVolumeId:
@@ -747,6 +883,43 @@ spec:
                                       description: (Applicable when source_type=image)
                                         The OCID of the image used to boot the instance.
                                       type: string
+                                    instanceSourceImageFilterDetails:
+                                      description: (Applicable when source_type=image)
+                                        These are the criteria for selecting an image.
+                                        This is required if imageId is not specified.
+                                      items:
+                                        properties:
+                                          compartmentId:
+                                            description: (Updatable) The OCID of the
+                                              compartment containing the instance
+                                              configuration.
+                                            type: string
+                                          definedTagsFilter:
+                                            additionalProperties:
+                                              type: string
+                                            description: (Applicable when source_type=image)
+                                              Filter based on these defined tags.
+                                              Each key is predefined and scoped to
+                                              a namespace. For more information, see
+                                              Resource Tags.
+                                            type: object
+                                          operatingSystem:
+                                            description: '(Applicable when source_type=image)
+                                              The image''s operating system.  Example:
+                                              Oracle Linux'
+                                            type: string
+                                          operatingSystemVersion:
+                                            description: '(Applicable when source_type=image)
+                                              The image''s operating system version.  Example:
+                                              7.2'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    kmsKeyId:
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the Vault service key to assign
+                                        as the master encryption key for the volume.
+                                      type: string
                                     sourceType:
                                       description: The source type for the instance.
                                         Use image when specifying the image OCID.
@@ -759,25 +932,987 @@ spec:
                                 type: array
                             type: object
                           type: array
+                        options:
+                          description: (Applicable when instance_type=instance_options)
+                            Multiple Compute Instance Configuration instance details.
+                          items:
+                            properties:
+                              blockVolumes:
+                                description: (Applicable when instance_type=compute)
+                                  Block volume parameters.
+                                items:
+                                  properties:
+                                    attachDetails:
+                                      description: (Applicable when instance_type=compute)
+                                        Volume attachmentDetails. Please see AttachVolumeDetails
+                                      items:
+                                        properties:
+                                          device:
+                                            description: (Applicable when instance_type=compute)
+                                              The device name.
+                                            type: string
+                                          displayName:
+                                            description: (Updatable) A user-friendly
+                                              name. Does not have to be unique, and
+                                              it's changeable. Avoid entering confidential
+                                              information.
+                                            type: string
+                                          isPvEncryptionInTransitEnabled:
+                                            description: (Applicable when type=paravirtualized)
+                                              Whether to enable in-transit encryption
+                                              for the data volume's paravirtualized
+                                              attachment. The default value is false.
+                                            type: boolean
+                                          isReadOnly:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the attachment should be created
+                                              in read-only mode.
+                                            type: boolean
+                                          isShareable:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the attachment should be created
+                                              in shareable mode. If an attachment
+                                              is created in shareable mode, then other
+                                              instances can attach the same volume,
+                                              provided that they also create their
+                                              attachments in shareable mode. Only
+                                              certain volume types can be attached
+                                              in shareable mode. Defaults to false
+                                              if not specified.
+                                            type: boolean
+                                          type:
+                                            description: The type of volume. The only
+                                              supported values are "iscsi" and "paravirtualized".
+                                            type: string
+                                          useChap:
+                                            description: (Applicable when type=iscsi)
+                                              Whether to use CHAP authentication for
+                                              the volume attachment. Defaults to false.
+                                            type: boolean
+                                        required:
+                                        - type
+                                        type: object
+                                      type: array
+                                    createDetails:
+                                      description: (Applicable when instance_type=compute)
+                                        Creates a new block volume. Please see CreateVolumeDetails
+                                      items:
+                                        properties:
+                                          autotunePolicies:
+                                            description: (Applicable when instance_type=compute)
+                                              The list of autotune policies enabled
+                                              for this volume.
+                                            items:
+                                              properties:
+                                                autotuneType:
+                                                  description: This specifies the
+                                                    type of autotunes supported by
+                                                    OCI.
+                                                  type: string
+                                                maxVpusPerGb:
+                                                  description: This will be the maximum
+                                                    VPUs/GB performance level that
+                                                    the volume will be auto-tuned
+                                                    temporarily based on performance
+                                                    monitoring.
+                                                  type: string
+                                              required:
+                                              - autotuneType
+                                              type: object
+                                            type: array
+                                          availabilityDomain:
+                                            description: 'The availability domain
+                                              of the block volume replica.  Example:
+                                              Uocm:PHX-AD-1'
+                                            type: string
+                                          backupPolicyId:
+                                            description: (Applicable when instance_type=compute)
+                                              If provided, specifies the ID of the
+                                              volume backup policy to assign to the
+                                              newly created volume. If omitted, no
+                                              policy will be assigned.
+                                            type: string
+                                          blockVolumeReplicas:
+                                            description: The list of block volume
+                                              replicas to be enabled for this volume
+                                              in the specified destination availability
+                                              domains.
+                                            items:
+                                              properties:
+                                                availabilityDomain:
+                                                  description: 'The availability domain
+                                                    of the block volume replica.  Example:
+                                                    Uocm:PHX-AD-1'
+                                                  type: string
+                                                displayName:
+                                                  description: (Updatable) A user-friendly
+                                                    name. Does not have to be unique,
+                                                    and it's changeable. Avoid entering
+                                                    confidential information.
+                                                  type: string
+                                              required:
+                                              - availabilityDomain
+                                              type: object
+                                            type: array
+                                          compartmentId:
+                                            description: (Updatable) The OCID of the
+                                              compartment containing the instance
+                                              configuration.
+                                            type: string
+                                          definedTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Defined tags
+                                              for this resource. Each key is predefined
+                                              and scoped to a namespace. For more
+                                              information, see Resource Tags.  Example:
+                                              {"Operations.CostCenter": "42"}'
+                                            type: object
+                                          displayName:
+                                            description: (Updatable) A user-friendly
+                                              name. Does not have to be unique, and
+                                              it's changeable. Avoid entering confidential
+                                              information.
+                                            type: string
+                                          freeformTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Free-form tags
+                                              for this resource. Each tag is a simple
+                                              key-value pair with no predefined name,
+                                              type, or namespace. For more information,
+                                              see Resource Tags.  Example: {"Department":
+                                              "Finance"}'
+                                            type: object
+                                          isAutoTuneEnabled:
+                                            description: Specifies whether the auto-tune
+                                              performance is enabled for this boot
+                                              volume. This field is deprecated. Use
+                                              the InstanceConfigurationDetachedVolumeAutotunePolicy
+                                              instead to enable the volume for detached
+                                              autotune.
+                                            type: boolean
+                                          kmsKeyId:
+                                            description: (Applicable when instance_type=compute)
+                                              The OCID of the Vault service key to
+                                              assign as the master encryption key
+                                              for the volume.
+                                            type: string
+                                          sizeInGbs:
+                                            description: (Applicable when instance_type=compute)
+                                              The size of the volume in GBs.
+                                            type: string
+                                          sourceDetails:
+                                            description: (Applicable when instance_type=compute)
+                                            items:
+                                              properties:
+                                                id:
+                                                  description: The OCID of the volume
+                                                    backup.
+                                                  type: string
+                                                type:
+                                                  description: The type of volume.
+                                                    The only supported values are
+                                                    "iscsi" and "paravirtualized".
+                                                  type: string
+                                              required:
+                                              - type
+                                              type: object
+                                            type: array
+                                          vpusPerGb:
+                                            description: (Applicable when instance_type=compute)
+                                              The number of volume performance units
+                                              (VPUs) that will be applied to this
+                                              volume per GB, representing the Block
+                                              Volume service's elastic performance
+                                              options. See Block Volume Performance
+                                              Levels for more information.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    volumeId:
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the volume.
+                                      type: string
+                                  type: object
+                                type: array
+                              launchDetails:
+                                description: (Applicable when instance_type=compute)
+                                  Instance launch details for creating an instance
+                                  from an instance configuration. Use the sourceDetails
+                                  parameter to specify whether a boot volume or an
+                                  image should be used to launch a new instance.
+                                items:
+                                  properties:
+                                    agentConfig:
+                                      description: (Applicable when instance_type=compute)
+                                        Configuration options for the Oracle Cloud
+                                        Agent software running on the instance.
+                                      items:
+                                        properties:
+                                          areAllPluginsDisabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether Oracle Cloud Agent can run all
+                                              the available plugins. This includes
+                                              the management and monitoring plugins.
+                                            type: boolean
+                                          isManagementDisabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether Oracle Cloud Agent can run all
+                                              the available management plugins. Default
+                                              value is false (management plugins are
+                                              enabled).
+                                            type: boolean
+                                          isMonitoringDisabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether Oracle Cloud Agent can gather
+                                              performance metrics and monitor the
+                                              instance using the monitoring plugins.
+                                              Default value is false (monitoring plugins
+                                              are enabled).
+                                            type: boolean
+                                          pluginsConfig:
+                                            description: (Applicable when instance_type=compute)
+                                              The configuration of plugins associated
+                                              with this instance.
+                                            items:
+                                              properties:
+                                                desiredState:
+                                                  description: Whether the plugin
+                                                    should be enabled or disabled.
+                                                    To enable the monitoring and management
+                                                    plugins, the isMonitoringDisabled
+                                                    and isManagementDisabled attributes
+                                                    must also be set to false.
+                                                  type: string
+                                                name:
+                                                  description: The plugin name. To
+                                                    get a list of available plugins,
+                                                    use the ListInstanceagentAvailablePlugins
+                                                    operation in the Oracle Cloud
+                                                    Agent API. For more information
+                                                    about the available plugins, see
+                                                    Managing Plugins with Oracle Cloud
+                                                    Agent.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    availabilityConfig:
+                                      description: (Applicable when instance_type=compute)
+                                        Options for defining the availabiity of a
+                                        VM instance after a maintenance event that
+                                        impacts the underlying hardware. * is_live_migration_preferred
+                                        -  Whether to live migrate supported VM instances
+                                        to a healthy physical VM host without disrupting
+                                        running instances during infrastructure maintenance
+                                        events. If null, Oracle chooses the best option
+                                        for migrating the VM during infrastructure
+                                        maintenance events. * recovery_action - (Applicable
+                                        when instance_type=compute) The lifecycle
+                                        state for an instance when it is recovered
+                                        after infrastructure maintenance. * RESTORE_INSTANCE
+                                        - The instance is restored to the lifecycle
+                                        state it was in before the maintenance event.
+                                        If the instance was running, it is automatically
+                                        rebooted. This is the default action when
+                                        a value is not set. * STOP_INSTANCE - The
+                                        instance is recovered in the stopped state.
+                                      items:
+                                        properties:
+                                          isLiveMigrationPreferred:
+                                            type: boolean
+                                          recoveryAction:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The lifecycle state for an instance
+                                              when it is recovered after infrastructure
+                                              maintenance.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    availabilityDomain:
+                                      description: 'The availability domain of the
+                                        block volume replica.  Example: Uocm:PHX-AD-1'
+                                      type: string
+                                    capacityReservationId:
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the compute capacity reservation
+                                        this instance is launched under.
+                                      type: string
+                                    compartmentId:
+                                      description: (Updatable) The OCID of the compartment
+                                        containing the instance configuration.
+                                      type: string
+                                    createVnicDetails:
+                                      description: (Applicable when instance_type=compute)
+                                        Contains the properties of the VNIC for an
+                                        instance configuration. See CreateVnicDetails
+                                        and Instance Configurations for more information.
+                                      items:
+                                        properties:
+                                          assignIpv6Ip:
+                                            description: 'Whether to allocate an IPv6
+                                              address at instance and VNIC creation
+                                              from an IPv6 enabled subnet. Default:
+                                              False. When provided you may optionally
+                                              provide an IPv6 prefix (ipv6SubnetCidr)
+                                              of your choice to assign the IPv6 address
+                                              from. If ipv6SubnetCidr is not provided
+                                              then an IPv6 prefix is chosen for you.'
+                                            type: boolean
+                                          assignPrivateDnsRecord:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the VNIC should be assigned
+                                              a private DNS record. See the assignPrivateDnsRecord
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          assignPublicIp:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the VNIC should be assigned
+                                              a public IP address. See the assignPublicIp
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          definedTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Defined tags
+                                              for this resource. Each key is predefined
+                                              and scoped to a namespace. For more
+                                              information, see Resource Tags.  Example:
+                                              {"Operations.CostCenter": "42"}'
+                                            type: object
+                                          displayName:
+                                            description: (Updatable) A user-friendly
+                                              name. Does not have to be unique, and
+                                              it's changeable. Avoid entering confidential
+                                              information.
+                                            type: string
+                                          freeformTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Free-form tags
+                                              for this resource. Each tag is a simple
+                                              key-value pair with no predefined name,
+                                              type, or namespace. For more information,
+                                              see Resource Tags.  Example: {"Department":
+                                              "Finance"}'
+                                            type: object
+                                          hostnameLabel:
+                                            description: (Applicable when instance_type=compute)
+                                              The hostname for the VNIC's primary
+                                              private IP. See the hostnameLabel attribute
+                                              of CreateVnicDetails for more information.
+                                            type: string
+                                          ipv6addressIpv6SubnetCidrPairDetails:
+                                            description: A list of IPv6 prefix ranges
+                                              from which the VNIC should be assigned
+                                              an IPv6 address. You can provide only
+                                              the prefix ranges and Oracle Cloud Infrastructure
+                                              selects an available address from the
+                                              range. You can optionally choose to
+                                              leave the prefix range empty and instead
+                                              provide the specific IPv6 address that
+                                              should be used from within that range.
+                                            items:
+                                              properties:
+                                                ipv6address:
+                                                  description: Optional. An available
+                                                    IPv6 address of your subnet from
+                                                    a valid IPv6 prefix on the subnet
+                                                    (otherwise the IP address is automatically
+                                                    assigned).
+                                                  type: string
+                                                ipv6subnetCidr:
+                                                  description: Optional. Used to disambiguate
+                                                    which subnet prefix should be
+                                                    used to create an IPv6 allocation.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          nsgIds:
+                                            description: (Applicable when instance_type=compute)
+                                              A list of the OCIDs of the network security
+                                              groups (NSGs) to add the VNIC to. For
+                                              more information about NSGs, see NetworkSecurityGroup.
+                                            items:
+                                              type: string
+                                            type: array
+                                          privateIp:
+                                            description: (Applicable when instance_type=compute)
+                                              A private IP address of your choice
+                                              to assign to the VNIC. See the privateIp
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: string
+                                          skipSourceDestCheck:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the source/destination check
+                                              is disabled on the VNIC. See the skipSourceDestCheck
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          subnetId:
+                                            description: (Applicable when instance_type=compute)
+                                              The OCID of the subnet to create the
+                                              VNIC in. See the subnetId attribute
+                                              of CreateVnicDetails for more information.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    dedicatedVmHostId:
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the dedicated virtual machine
+                                        host to place the instance on.
+                                      type: string
+                                    definedTags:
+                                      additionalProperties:
+                                        type: string
+                                      description: '(Updatable) Defined tags for this
+                                        resource. Each key is predefined and scoped
+                                        to a namespace. For more information, see
+                                        Resource Tags.  Example: {"Operations.CostCenter":
+                                        "42"}'
+                                      type: object
+                                    displayName:
+                                      description: (Updatable) A user-friendly name.
+                                        Does not have to be unique, and it's changeable.
+                                        Avoid entering confidential information.
+                                      type: string
+                                    extendedMetadata:
+                                      additionalProperties:
+                                        type: string
+                                      description: (Applicable when instance_type=compute)
+                                        Additional metadata key/value pairs that you
+                                        provide. They serve the same purpose and functionality
+                                        as fields in the metadata object.
+                                      type: object
+                                    faultDomain:
+                                      description: (Applicable when instance_type=compute)
+                                        A fault domain is a grouping of hardware and
+                                        infrastructure within an availability domain.
+                                        Each availability domain contains three fault
+                                        domains. Fault domains let you distribute
+                                        your instances so that they are not on the
+                                        same physical hardware within a single availability
+                                        domain. A hardware failure or Compute hardware
+                                        maintenance that affects one fault domain
+                                        does not affect instances in other fault domains.
+                                      type: string
+                                    freeformTags:
+                                      additionalProperties:
+                                        type: string
+                                      description: '(Updatable) Free-form tags for
+                                        this resource. Each tag is a simple key-value
+                                        pair with no predefined name, type, or namespace.
+                                        For more information, see Resource Tags.  Example:
+                                        {"Department": "Finance"}'
+                                      type: object
+                                    instanceOptions:
+                                      description: (Applicable when instance_type=compute)
+                                        Optional mutable instance options. As a part
+                                        of Instance Metadata Service Security Header,
+                                        This allows user to disable the legacy imds
+                                        endpoints.
+                                      items:
+                                        properties:
+                                          areLegacyImdsEndpointsDisabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether to disable the legacy (/v1)
+                                              instance metadata service endpoints.
+                                              Customers who have migrated to /v2 should
+                                              set this to true for added security.
+                                              Default is false.
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    ipxeScript:
+                                      description: (Applicable when instance_type=compute)
+                                        This is an advanced option.
+                                      type: string
+                                    isPvEncryptionInTransitEnabled:
+                                      description: (Applicable when type=paravirtualized)
+                                        Whether to enable in-transit encryption for
+                                        the data volume's paravirtualized attachment.
+                                        The default value is false.
+                                      type: boolean
+                                    launchMode:
+                                      description: '(Applicable when instance_type=compute)
+                                        Specifies the configuration mode for launching
+                                        virtual machine (VM) instances. The configuration
+                                        modes are:'
+                                      type: string
+                                    launchOptions:
+                                      description: (Applicable when instance_type=compute)
+                                        Options for tuning the compatibility and performance
+                                        of VM shapes. The values that you specify
+                                        override any default values.
+                                      items:
+                                        properties:
+                                          bootVolumeType:
+                                            description: (Applicable when instance_type=compute)
+                                              Emulation type for the boot volume.
+                                            type: string
+                                          firmware:
+                                            description: (Applicable when instance_type=compute)
+                                              Firmware used to boot VM. Select the
+                                              option that matches your operating system.
+                                            type: string
+                                          isConsistentVolumeNamingEnabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether to enable consistent volume
+                                              naming feature. Defaults to false.
+                                            type: boolean
+                                          isPvEncryptionInTransitEnabled:
+                                            description: (Applicable when type=paravirtualized)
+                                              Whether to enable in-transit encryption
+                                              for the data volume's paravirtualized
+                                              attachment. The default value is false.
+                                            type: boolean
+                                          networkType:
+                                            description: (Applicable when instance_type=compute)
+                                              Emulation type for the physical network
+                                              interface card (NIC).
+                                            type: string
+                                          remoteDataVolumeType:
+                                            description: (Applicable when instance_type=compute)
+                                              Emulation type for volume.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    metadata:
+                                      additionalProperties:
+                                        type: string
+                                      description: fields in that these can be nested
+                                        JSON objects (whereas metadata fields are
+                                        string/string maps only).
+                                      type: object
+                                    platformConfig:
+                                      description: (Applicable when instance_type=compute)  (Updatable
+                                        only for VM's) The platform configuration
+                                        requested for the instance.
+                                      items:
+                                        properties:
+                                          areVirtualInstructionsEnabled:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                              | GENERIC_BM) Whether virtualization
+                                              instructions are available. For example,
+                                              Secure Virtual Machine for AMD shapes
+                                              or VT-x for Intel shapes.
+                                            type: boolean
+                                          isAccessControlServiceEnabled:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                              | GENERIC_BM) Whether the Access Control
+                                              Service is enabled on the instance.
+                                              When enabled, the platform can enforce
+                                              PCIe device isolation, required for
+                                              VFIO device pass-through.
+                                            type: boolean
+                                          isInputOutputMemoryManagementUnitEnabled:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                              | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                              Whether the input-output memory management
+                                              unit is enabled.
+                                            type: boolean
+                                          isMeasuredBootEnabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the Measured Boot feature is
+                                              enabled on the instance.
+                                            type: boolean
+                                          isMemoryEncryptionEnabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the instance is a confidential
+                                              instance. If this value is true, the
+                                              instance is a confidential instance.
+                                              The default value is false.
+                                            type: boolean
+                                          isSecureBootEnabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether Secure Boot is enabled on the
+                                              instance.
+                                            type: boolean
+                                          isSymmetricMultiThreadingEnabled:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                              | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                              (Updatable only for AMD_VM and INTEL_VM)
+                                              Whether symmetric multithreading is
+                                              enabled on the instance. Symmetric multithreading
+                                              is also called simultaneous multithreading
+                                              (SMT) or Intel Hyper-Threading.
+                                            type: boolean
+                                          isTrustedPlatformModuleEnabled:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the Trusted Platform Module
+                                              (TPM) is enabled on the instance.
+                                            type: boolean
+                                          numaNodesPerSocket:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU
+                                              | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM)
+                                              The number of NUMA nodes per socket
+                                              (NPS).
+                                            type: string
+                                          percentageOfCoresEnabled:
+                                            description: (Applicable when type=AMD_MILAN_BM
+                                              | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM
+                                              | INTEL_SKYLAKE_BM) The percentage of
+                                              cores enabled. Value must be a multiple
+                                              of 25%. If the requested percentage
+                                              results in a fractional number of cores,
+                                              the system rounds up the number of cores
+                                              across processors and provisions an
+                                              instance with a whole number of cores.
+                                            type: number
+                                          type:
+                                            description: The type of volume. The only
+                                              supported values are "iscsi" and "paravirtualized".
+                                            type: string
+                                        required:
+                                        - type
+                                        type: object
+                                      type: array
+                                    preemptibleInstanceConfig:
+                                      description: (Applicable when instance_type=instance_options)
+                                        Configuration options for preemptible instances.
+                                      items:
+                                        properties:
+                                          preemptionAction:
+                                            description: The action to run when the
+                                              preemptible instance is interrupted
+                                              for eviction.
+                                            items:
+                                              properties:
+                                                preserveBootVolume:
+                                                  description: Whether to preserve
+                                                    the boot volume that was used
+                                                    to launch the preemptible instance
+                                                    when the instance is terminated.
+                                                    Defaults to false if not specified.
+                                                  type: boolean
+                                                type:
+                                                  description: The type of volume.
+                                                    The only supported values are
+                                                    "iscsi" and "paravirtualized".
+                                                  type: string
+                                              required:
+                                              - type
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    preferredMaintenanceAction:
+                                      description: (Applicable when instance_type=instance_options)
+                                        The preferred maintenance action for an instance.
+                                        The default is LIVE_MIGRATE, if live migration
+                                        is supported.
+                                      type: string
+                                    shape:
+                                      description: that you specify. If you don't
+                                        provide the parameter, the default values
+                                        for the shape are used.
+                                      type: string
+                                    shapeConfig:
+                                      description: (Applicable when instance_type=instance_options)
+                                        The shape configuration requested for the
+                                        instance.
+                                      items:
+                                        properties:
+                                          baselineOcpuUtilization:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The baseline OCPU utilization for a
+                                              subcore burstable VM instance. Leave
+                                              this attribute blank for a non-burstable
+                                              instance, or explicitly specify non-burstable
+                                              with BASELINE_1_1.
+                                            type: string
+                                          memoryInGbs:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The total amount of memory available
+                                              to the instance, in gigabytes.
+                                            type: number
+                                          nvmes:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The number of NVMe drives to be used
+                                              for storage. A single drive has 6.8
+                                              TB available.
+                                            type: number
+                                          ocpus:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The total number of OCPUs available
+                                              to the instance.
+                                            type: number
+                                          vcpus:
+                                            description: (Applicable when instance_type=instance_options)
+                                              The total number of VCPUs available
+                                              to the instance. This can be used instead
+                                              of OCPUs, in which case the actual number
+                                              of OCPUs will be calculated based on
+                                              this value and the actual hardware.
+                                              This must be a multiple of 2.
+                                            type: number
+                                        type: object
+                                      type: array
+                                    sourceDetails:
+                                      description: (Applicable when instance_type=compute)
+                                      items:
+                                        properties:
+                                          bootVolumeId:
+                                            description: (Applicable when source_type=bootVolume)
+                                              The OCID of the boot volume used to
+                                              boot the instance.
+                                            type: string
+                                          bootVolumeSizeInGbs:
+                                            description: (Applicable when source_type=image)
+                                              The size of the boot volume in GBs.
+                                              The minimum value is 50 GB and the maximum
+                                              value is 32,768 GB (32 TB).
+                                            type: string
+                                          bootVolumeVpusPerGb:
+                                            description: (Applicable when source_type=image)
+                                              The number of volume performance units
+                                              (VPUs) that will be applied to this
+                                              volume per GB, representing the Block
+                                              Volume service's elastic performance
+                                              options. See Block Volume Performance
+                                              Levels for more information.
+                                            type: string
+                                          imageId:
+                                            description: (Applicable when source_type=image)
+                                              The OCID of the image used to boot the
+                                              instance.
+                                            type: string
+                                          instanceSourceImageFilterDetails:
+                                            description: (Applicable when source_type=image)
+                                              These are the criteria for selecting
+                                              an image. This is required if imageId
+                                              is not specified.
+                                            items:
+                                              properties:
+                                                compartmentId:
+                                                  description: (Updatable) The OCID
+                                                    of the compartment containing
+                                                    the instance configuration.
+                                                  type: string
+                                                definedTagsFilter:
+                                                  additionalProperties:
+                                                    type: string
+                                                  description: (Applicable when source_type=image)
+                                                    Filter based on these defined
+                                                    tags. Each key is predefined and
+                                                    scoped to a namespace. For more
+                                                    information, see Resource Tags.
+                                                  type: object
+                                                operatingSystem:
+                                                  description: '(Applicable when source_type=image)
+                                                    The image''s operating system.  Example:
+                                                    Oracle Linux'
+                                                  type: string
+                                                operatingSystemVersion:
+                                                  description: '(Applicable when source_type=image)
+                                                    The image''s operating system
+                                                    version.  Example: 7.2'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          kmsKeyId:
+                                            description: (Applicable when instance_type=compute)
+                                              The OCID of the Vault service key to
+                                              assign as the master encryption key
+                                              for the volume.
+                                            type: string
+                                          sourceType:
+                                            description: The source type for the instance.
+                                              Use image when specifying the image
+                                              OCID. Use bootVolume when specifying
+                                              the boot volume OCID.
+                                            type: string
+                                        required:
+                                        - sourceType
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              secondaryVnics:
+                                description: (Applicable when instance_type=instance_options)
+                                  Secondary VNIC parameters.
+                                items:
+                                  properties:
+                                    createVnicDetails:
+                                      description: (Applicable when instance_type=compute)
+                                        Contains the properties of the VNIC for an
+                                        instance configuration. See CreateVnicDetails
+                                        and Instance Configurations for more information.
+                                      items:
+                                        properties:
+                                          assignIpv6Ip:
+                                            description: 'Whether to allocate an IPv6
+                                              address at instance and VNIC creation
+                                              from an IPv6 enabled subnet. Default:
+                                              False. When provided you may optionally
+                                              provide an IPv6 prefix (ipv6SubnetCidr)
+                                              of your choice to assign the IPv6 address
+                                              from. If ipv6SubnetCidr is not provided
+                                              then an IPv6 prefix is chosen for you.'
+                                            type: boolean
+                                          assignPrivateDnsRecord:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the VNIC should be assigned
+                                              a private DNS record. See the assignPrivateDnsRecord
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          assignPublicIp:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the VNIC should be assigned
+                                              a public IP address. See the assignPublicIp
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          definedTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Defined tags
+                                              for this resource. Each key is predefined
+                                              and scoped to a namespace. For more
+                                              information, see Resource Tags.  Example:
+                                              {"Operations.CostCenter": "42"}'
+                                            type: object
+                                          displayName:
+                                            description: (Updatable) A user-friendly
+                                              name. Does not have to be unique, and
+                                              it's changeable. Avoid entering confidential
+                                              information.
+                                            type: string
+                                          freeformTags:
+                                            additionalProperties:
+                                              type: string
+                                            description: '(Updatable) Free-form tags
+                                              for this resource. Each tag is a simple
+                                              key-value pair with no predefined name,
+                                              type, or namespace. For more information,
+                                              see Resource Tags.  Example: {"Department":
+                                              "Finance"}'
+                                            type: object
+                                          hostnameLabel:
+                                            description: (Applicable when instance_type=compute)
+                                              The hostname for the VNIC's primary
+                                              private IP. See the hostnameLabel attribute
+                                              of CreateVnicDetails for more information.
+                                            type: string
+                                          ipv6addressIpv6SubnetCidrPairDetails:
+                                            description: A list of IPv6 prefix ranges
+                                              from which the VNIC should be assigned
+                                              an IPv6 address. You can provide only
+                                              the prefix ranges and Oracle Cloud Infrastructure
+                                              selects an available address from the
+                                              range. You can optionally choose to
+                                              leave the prefix range empty and instead
+                                              provide the specific IPv6 address that
+                                              should be used from within that range.
+                                            items:
+                                              properties:
+                                                ipv6address:
+                                                  description: Optional. An available
+                                                    IPv6 address of your subnet from
+                                                    a valid IPv6 prefix on the subnet
+                                                    (otherwise the IP address is automatically
+                                                    assigned).
+                                                  type: string
+                                                ipv6subnetCidr:
+                                                  description: Optional. Used to disambiguate
+                                                    which subnet prefix should be
+                                                    used to create an IPv6 allocation.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          nsgIds:
+                                            description: (Applicable when instance_type=compute)
+                                              A list of the OCIDs of the network security
+                                              groups (NSGs) to add the VNIC to. For
+                                              more information about NSGs, see NetworkSecurityGroup.
+                                            items:
+                                              type: string
+                                            type: array
+                                          privateIp:
+                                            description: (Applicable when instance_type=compute)
+                                              A private IP address of your choice
+                                              to assign to the VNIC. See the privateIp
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: string
+                                          skipSourceDestCheck:
+                                            description: (Applicable when instance_type=compute)
+                                              Whether the source/destination check
+                                              is disabled on the VNIC. See the skipSourceDestCheck
+                                              attribute of CreateVnicDetails for more
+                                              information.
+                                            type: boolean
+                                          subnetId:
+                                            description: (Applicable when instance_type=compute)
+                                              The OCID of the subnet to create the
+                                              VNIC in. See the subnetId attribute
+                                              of CreateVnicDetails for more information.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    displayName:
+                                      description: (Updatable) A user-friendly name.
+                                        Does not have to be unique, and it's changeable.
+                                        Avoid entering confidential information.
+                                      type: string
+                                    nicIndex:
+                                      description: (Applicable when instance_type=instance_options)
+                                        Which physical network interface card (NIC)
+                                        the VNIC will use. Defaults to 0. Certain
+                                        bare metal instance shapes have two active
+                                        physical NICs (0 and 1). If you add a secondary
+                                        VNIC to one of these instances, you can specify
+                                        which NIC the VNIC will use. For more information,
+                                        see Virtual Network Interface Cards (VNICs).
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         secondaryVnics:
-                          description: Secondary VNIC parameters.
+                          description: (Applicable when instance_type=instance_options)
+                            Secondary VNIC parameters.
                           items:
                             properties:
                               createVnicDetails:
-                                description: Contains the properties of the VNIC for
-                                  an instance configuration. See CreateVnicDetails
-                                  and Instance Configurations for more information.
+                                description: (Applicable when instance_type=compute)
+                                  Contains the properties of the VNIC for an instance
+                                  configuration. See CreateVnicDetails and Instance
+                                  Configurations for more information.
                                 items:
                                   properties:
+                                    assignIpv6Ip:
+                                      description: 'Whether to allocate an IPv6 address
+                                        at instance and VNIC creation from an IPv6
+                                        enabled subnet. Default: False. When provided
+                                        you may optionally provide an IPv6 prefix
+                                        (ipv6SubnetCidr) of your choice to assign
+                                        the IPv6 address from. If ipv6SubnetCidr is
+                                        not provided then an IPv6 prefix is chosen
+                                        for you.'
+                                      type: boolean
                                     assignPrivateDnsRecord:
-                                      description: Whether the VNIC should be assigned
-                                        a private DNS record. See the assignPrivateDnsRecord
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the VNIC should be assigned a private
+                                        DNS record. See the assignPrivateDnsRecord
                                         attribute of CreateVnicDetails for more information.
                                       type: boolean
                                     assignPublicIp:
-                                      description: Whether the VNIC should be assigned
-                                        a public IP address. See the assignPublicIp
-                                        attribute of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the VNIC should be assigned a public
+                                        IP address. See the assignPublicIp attribute
+                                        of CreateVnicDetails for more information.
                                       type: boolean
                                     definedTags:
                                       additionalProperties:
@@ -803,31 +1938,61 @@ spec:
                                         {"Department": "Finance"}'
                                       type: object
                                     hostnameLabel:
-                                      description: The hostname for the VNIC's primary
-                                        private IP. See the hostnameLabel attribute
-                                        of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        The hostname for the VNIC's primary private
+                                        IP. See the hostnameLabel attribute of CreateVnicDetails
+                                        for more information.
                                       type: string
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      description: A list of IPv6 prefix ranges from
+                                        which the VNIC should be assigned an IPv6
+                                        address. You can provide only the prefix ranges
+                                        and Oracle Cloud Infrastructure selects an
+                                        available address from the range. You can
+                                        optionally choose to leave the prefix range
+                                        empty and instead provide the specific IPv6
+                                        address that should be used from within that
+                                        range.
+                                      items:
+                                        properties:
+                                          ipv6address:
+                                            description: Optional. An available IPv6
+                                              address of your subnet from a valid
+                                              IPv6 prefix on the subnet (otherwise
+                                              the IP address is automatically assigned).
+                                            type: string
+                                          ipv6subnetCidr:
+                                            description: Optional. Used to disambiguate
+                                              which subnet prefix should be used to
+                                              create an IPv6 allocation.
+                                            type: string
+                                        type: object
+                                      type: array
                                     nsgIds:
-                                      description: A list of the OCIDs of the network
-                                        security groups (NSGs) to add the VNIC to.
-                                        For more information about NSGs, see NetworkSecurityGroup.
+                                      description: (Applicable when instance_type=compute)
+                                        A list of the OCIDs of the network security
+                                        groups (NSGs) to add the VNIC to. For more
+                                        information about NSGs, see NetworkSecurityGroup.
                                       items:
                                         type: string
                                       type: array
                                     privateIp:
-                                      description: A private IP address of your choice
-                                        to assign to the VNIC. See the privateIp attribute
-                                        of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        A private IP address of your choice to assign
+                                        to the VNIC. See the privateIp attribute of
+                                        CreateVnicDetails for more information.
                                       type: string
                                     skipSourceDestCheck:
-                                      description: Whether the source/destination
-                                        check is disabled on the VNIC. See the skipSourceDestCheck
-                                        attribute of CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        Whether the source/destination check is disabled
+                                        on the VNIC. See the skipSourceDestCheck attribute
+                                        of CreateVnicDetails for more information.
                                       type: boolean
                                     subnetId:
-                                      description: The OCID of the subnet to create
-                                        the VNIC in. See the subnetId attribute of
-                                        CreateVnicDetails for more information.
+                                      description: (Applicable when instance_type=compute)
+                                        The OCID of the subnet to create the VNIC
+                                        in. See the subnetId attribute of CreateVnicDetails
+                                        for more information.
                                       type: string
                                   type: object
                                 type: array
@@ -837,13 +2002,14 @@ spec:
                                   entering confidential information.
                                 type: string
                               nicIndex:
-                                description: Which physical network interface card
-                                  (NIC) the VNIC will use. Defaults to 0. Certain
-                                  bare metal instance shapes have two active physical
-                                  NICs (0 and 1). If you add a secondary VNIC to one
-                                  of these instances, you can specify which NIC the
-                                  VNIC will use. For more information, see Virtual
-                                  Network Interface Cards (VNICs).
+                                description: (Applicable when instance_type=instance_options)
+                                  Which physical network interface card (NIC) the
+                                  VNIC will use. Defaults to 0. Certain bare metal
+                                  instance shapes have two active physical NICs (0
+                                  and 1). If you add a secondary VNIC to one of these
+                                  instances, you can specify which NIC the VNIC will
+                                  use. For more information, see Virtual Network Interface
+                                  Cards (VNICs).
                                 type: number
                             type: object
                           type: array

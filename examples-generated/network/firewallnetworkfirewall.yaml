@@ -13,10 +13,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     definedTags:
-      foo-namespace.bar-key: value
+      Operations.CostCenter: "42"
     displayName: ${var.network_firewall_display_name}
     freeformTags:
-      bar-key: value
+      Department: Finance
     ipv4address: ${var.network_firewall_ipv4address}
     ipv6address: ${var.network_firewall_ipv6address}
     networkFirewallPolicyIdSelector:

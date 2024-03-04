@@ -8,63 +8,14 @@ metadata:
   name: test-network-firewall-policy
 spec:
   forProvider:
-    applicationLists:
-    - applicationListName: ${var.network_firewall_policy_application_lists_key}
-      applicationValues:
-      - icmpCode: ${var.network_firewall_policy_application_lists_icmp_code}
-        icmpType: ${var.network_firewall_policy_application_lists_icmp_type}
-        maximumPort: ${var.network_firewall_policy_application_lists_maximum_port}
-        minimumPort: ${var.network_firewall_policy_application_lists_minimum_port}
-        type: ${var.network_firewall_policy_application_lists_type}
     compartmentIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    decryptionProfiles:
-    - areCertificateExtensionsRestricted: ${var.network_firewall_policy_decryption_profiles_are_certificate_extensions_restricted}
-      isAutoIncludeAltName: ${var.network_firewall_policy_decryption_profiles_is_auto_include_alt_name}
-      isExpiredCertificateBlocked: ${var.network_firewall_policy_decryption_profiles_is_expired_certificate_blocked}
-      isOutOfCapacityBlocked: ${var.network_firewall_policy_decryption_profiles_is_out_of_capacity_blocked}
-      isRevocationStatusTimeoutBlocked: ${var.network_firewall_policy_decryption_profiles_is_revocation_status_timeout_blocked}
-      isUnknownRevocationStatusBlocked: ${var.network_firewall_policy_decryption_profiles_is_unknown_revocation_status_blocked}
-      isUnsupportedCipherBlocked: ${var.network_firewall_policy_decryption_profiles_is_unsupported_cipher_blocked}
-      isUnsupportedVersionBlocked: ${var.network_firewall_policy_decryption_profiles_is_unsupported_version_blocked}
-      isUntrustedIssuerBlocked: ${var.network_firewall_policy_decryption_profiles_is_untrusted_issuer_blocked}
-      type: ${var.network_firewall_policy_decryption_profiles_type}
-    decryptionRules:
-    - action: ${var.network_firewall_policy_decryption_rules_action}
-      condition:
-      - destinations: ${var.network_firewall_policy_decryption_rules_condition_destinations}
-        sources: ${var.network_firewall_policy_decryption_rules_condition_sources}
-      decryptionProfile: ${var.network_firewall_policy_decryption_rules_decryption_profile}
-      name: ${var.network_firewall_policy_decryption_rules_name}
-      secret: ${var.network_firewall_policy_decryption_rules_secret}
     definedTags:
-      foo-namespace.bar-key: value
+      Operations.CostCenter: "42"
     displayName: ${var.network_firewall_policy_display_name}
     freeformTags:
-      bar-key: value
-    ipAddressLists:
-    - ipAddressListName: ${var.network_firewall_policy_ip_address_lists_name}
-      ipAddressListValue: ${var.network_firewall_policy_ip_address_lists_value}
-    mappedSecrets:
-    - source: ${var.network_firewall_policy_mapped_secrets_source}
-      type: ${var.network_firewall_policy_mapped_secrets_type}
-      vaultSecretId: ${oci_vault_secret.test_secret.id}
-      versionNumber: ${var.network_firewall_policy_mapped_secrets_version_number}
-    securityRules:
-    - action: ${var.network_firewall_policy_security_rules_action}
-      condition:
-      - applications: ${var.network_firewall_policy_security_rules_condition_applications}
-        destinations: ${var.network_firewall_policy_security_rules_condition_destinations}
-        sources: ${var.network_firewall_policy_security_rules_condition_sources}
-        urls: ${var.network_firewall_policy_security_rules_condition_urls}
-      inspection: ${var.network_firewall_policy_security_rules_inspection}
-      name: ${var.network_firewall_policy_security_rules_name}
-    urlLists:
-    - urlListName: ${var.network_firewall_policy_url_lists_key}
-      urlListValues:
-      - pattern: ${var.network_firewall_policy_url_lists_pattern}
-        type: ${var.network_firewall_policy_url_lists_type}
+      Department: Finance
 
 ---
 

@@ -150,6 +150,30 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags.
                     type: object
+                  externalDownstreams:
+                    description: (Updatable) External secondary servers for the zone.
+                      This field is currently not supported when zoneType is SECONDARY
+                      or scope is PRIVATE.
+                    items:
+                      properties:
+                        address:
+                          description: (Updatable) The server's IP address (IPv4 or
+                            IPv6).
+                          type: string
+                        port:
+                          description: (Updatable) The server's port. Port value must
+                            be a value of 53, otherwise omit the port value.
+                          type: number
+                        tsigKeyId:
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
+                          type: string
+                      required:
+                      - address
+                      type: object
+                    type: array
                   externalMasters:
                     description: (Updatable) External master servers for the zone.
                       externalMasters becomes a required parameter when the zoneType
@@ -165,7 +189,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       required:
                       - address
@@ -483,6 +510,29 @@ spec:
                       version of the zone, from which the serial field of the zone's
                       SOA record is derived.
                     type: string
+                  zoneTransferServers:
+                    description: The Oracle Cloud Infrastructure nameservers that
+                      transfer the zone data with external nameservers.
+                    items:
+                      properties:
+                        address:
+                          description: (Updatable) The server's IP address (IPv4 or
+                            IPv6).
+                          type: string
+                        isTransferDestination:
+                          description: A Boolean flag indicating whether or not the
+                            server is a zone data transfer destination.
+                          type: boolean
+                        isTransferSource:
+                          description: A Boolean flag indicating whether or not the
+                            server is a zone data transfer source.
+                          type: boolean
+                        port:
+                          description: (Updatable) The server's port. Port value must
+                            be a value of 53, otherwise omit the port value.
+                          type: number
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

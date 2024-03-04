@@ -87,7 +87,7 @@ type LogParameters struct {
 	// +kubebuilder:validation:Required
 	LogType *string `json:"logType" tf:"log_type,omitempty"`
 
-	// (Updatable) Log retention duration in 30-day increments (30, 60, 90 and so on).
+	// (Updatable) Log retention duration in 30-day increments (30, 60, 90 and so on until 180).
 	// +kubebuilder:validation:Optional
 	RetentionDuration *float64 `json:"retentionDuration,omitempty" tf:"retention_duration,omitempty"`
 }
@@ -100,6 +100,10 @@ type SourceParameters struct {
 	// Log object category.
 	// +kubebuilder:validation:Required
 	Category *string `json:"category" tf:"category,omitempty"`
+
+	// (Applicable when source_type=OCISERVICE) (Updatable) Log category parameters are stored here.
+	// +kubebuilder:validation:Optional
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The unique identifier of the resource emitting the log.
 	// +kubebuilder:validation:Required

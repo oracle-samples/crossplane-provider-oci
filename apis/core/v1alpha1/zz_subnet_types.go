@@ -93,7 +93,7 @@ type SubnetParameters struct {
 	// +kubebuilder:validation:Optional
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 
-	// (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet that meets the following criteria:
 	// +kubebuilder:validation:Optional
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 

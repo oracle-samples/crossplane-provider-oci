@@ -1,4 +1,29 @@
+## This is a fork used for training purposes
+
+### Prerequisites:
+
+* docker buildx - installed
+
+* `make generate` - requires goimports and the proper Go paths
+ie: 
+`export GOBIN=$GOPATH/bin`
+`export PATH=$PATH:$GOBIN`
+
+`go install golang.org/x/tools/cmd/goimports@latest`
+
+* change the .env environment variables to match your version
+
+### Changes:
+
+* Changed the way env variables are provided
+
+* Added Cross-Compilation for docker buildx
+https://docs.docker.com/build/building/multi-platform/
+
+
 # Crossplane Provider for Oracle Cloud Infrastructure
+
+
 
 `crossplane-provider-oci` is a [Crossplane](https://crossplane.io/) provider for [Oracle Cloud Infrastructure](https://www.oracle.com/cloud/) (OCI) that is built using [Upjet](https://github.com/upbound/upjet) code generation tools.
 

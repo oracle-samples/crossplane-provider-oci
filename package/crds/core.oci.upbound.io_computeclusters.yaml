@@ -65,12 +65,11 @@ spec:
               forProvider:
                 properties:
                   availabilityDomain:
-                    description: 'The availability domain that the compute cluster
-                      is running in. Example: Uocm:PHX-AD-1'
+                    description: 'The availability domain to place the compute cluster
+                      in.  Example: Uocm:PHX-AD-1'
                     type: string
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment that contains
-                      this compute cluster.
+                    description: (Updatable) The OCID of the compartment.
                     type: string
                   definedTags:
                     additionalProperties:
@@ -273,14 +272,14 @@ spec:
               atProvider:
                 properties:
                   id:
-                    description: The OCID of this compute cluster.
+                    description: The OCID of the compute cluster.
                     type: string
                   state:
                     description: The current state of the compute cluster.
                     type: string
                   timeCreated:
                     description: 'The date and time the compute cluster was created,
-                      in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z'
+                      in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
                 type: object
               conditions:

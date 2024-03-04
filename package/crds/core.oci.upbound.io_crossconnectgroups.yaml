@@ -94,29 +94,36 @@ spec:
                       {"Department": "Finance"}'
                     type: object
                   macsecProperties:
-                    description: Properties used for MACsec (if capable).
+                    description: (Updatable) Properties used to configure MACsec (if
+                      capable).
                     items:
                       properties:
                         encryptionCipher:
-                          description: Type of encryption cipher suite to use for
-                            the MACsec connection.
+                          description: (Updatable) Type of encryption cipher suite
+                            to use for the MACsec connection.
                           type: string
+                        isUnprotectedTrafficAllowed:
+                          description: (Updatable) Indicates whether unencrypted traffic
+                            is allowed if MACsec Key Agreement protocol (MKA) fails.
+                          type: boolean
                         primaryKey:
-                          description: An object defining the Secrets-in-Vault OCIDs
-                            representing the MACsec key.
+                          description: (Updatable) Defines the secret OCIDs held in
+                            Vault that represent the MACsec key.
                           items:
                             properties:
                               connectivityAssociationKeySecretId:
-                                description: Secret OCID containing the Connectivity
-                                  Association Key (CAK) of this MACsec key.
+                                description: (Updatable) Secret OCID containing the
+                                  Connectivity Association Key (CAK) of this MACsec
+                                  key.
                                 type: string
                               connectivityAssociationKeySecretVersion:
                                 description: The secret version of the connectivityAssociationKey
                                   secret in Vault.
                                 type: string
                               connectivityAssociationNameSecretId:
-                                description: Secret OCID containing the Connectivity
-                                  association Key Name (CKN) of this MACsec key.
+                                description: (Updatable) Secret OCID containing the
+                                  Connectivity association Key Name (CKN) of this
+                                  MACsec key.
                                 type: string
                               connectivityAssociationNameSecretVersion:
                                 description: The secret version of the connectivity
@@ -128,7 +135,8 @@ spec:
                             type: object
                           type: array
                         state:
-                          description: Indicates whether or not MACsec is enabled.
+                          description: (Updatable) Indicates whether or not MACsec
+                            is enabled.
                           type: string
                       required:
                       - state
@@ -326,7 +334,7 @@ spec:
                       connection.
                     type: string
                   state:
-                    description: Indicates whether or not MACsec is enabled.
+                    description: (Updatable) Indicates whether or not MACsec is enabled.
                     type: string
                   timeCreated:
                     description: 'The date and time the cross-connect group was created,

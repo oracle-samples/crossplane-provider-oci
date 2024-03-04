@@ -176,12 +176,84 @@ spec:
                       Must be unique across all VNICs in the subnet and comply with
                       RFC 952 and RFC 1123.
                     type: string
+                  idmapType:
+                    description: (Updatable) The method used to map a Unix UID to
+                      secondary groups, if any.
+                    type: string
                   ipAddress:
                     description: A private IP address of your choice. Must be an available
                       IP address within the subnet's CIDR. If you don't specify a
                       value, Oracle automatically assigns a private IP address from
                       the subnet.
                     type: string
+                  kerberos:
+                    description: (Updatable) Kerberos details needed to create configuration.
+                    items:
+                      properties:
+                        backupKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use as a backup.
+                          type: number
+                        currentKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use.
+                          type: number
+                        isKerberosEnabled:
+                          description: (Updatable) Specifies whether to enable or
+                            disable Kerberos.
+                          type: boolean
+                        kerberosRealm:
+                          description: (Updatable) The Kerberos realm that the mount
+                            target will join.
+                          type: string
+                        keyTabSecretId:
+                          description: (Updatable) The OCID of the keytab Secret in
+                            the Vault.
+                          type: string
+                      required:
+                      - kerberosRealm
+                      type: object
+                    type: array
+                  ldapIdmap:
+                    description: (Updatable) Mount target details about the LDAP ID
+                      mapping configuration.
+                    items:
+                      properties:
+                        cacheLifetimeSeconds:
+                          description: (Updatable) The maximum amount of time the
+                            mount target is allowed to use a cached entry.
+                          type: number
+                        cacheRefreshIntervalSeconds:
+                          description: (Updatable) The amount of time that the mount
+                            target should allow an entry to persist in its cache before
+                            attempting to refresh the entry.
+                          type: number
+                        groupSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this group.  Example: CN=Group,DC=domain,DC=com'
+                          type: string
+                        negativeCacheLifetimeSeconds:
+                          description: (Updatable) The amount of time that a mount
+                            target will maintain information that a user is not found
+                            in the ID mapping configuration.
+                          type: number
+                        outboundConnector1Id:
+                          description: (Updatable) The OCID of the first connector
+                            to use to communicate with the LDAP server.
+                          type: string
+                        outboundConnector2Id:
+                          description: (Updatable) The OCID of the second connector
+                            to use to communicate with the LDAP server.
+                          type: string
+                        schemaType:
+                          description: (Updatable) Schema type of the LDAP account.
+                          type: string
+                        userSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this user.  Example: CN=User,DC=domain,DC=com'
+                          type: string
+                      type: object
+                    type: array
                   nsgIds:
                     description: (Updatable) A list of Network Security Group OCIDs
                       associated with this mount target. A maximum of 5 is allowed.

@@ -259,10 +259,30 @@ func (in *ContainerRepositoryObservation) DeepCopyInto(out *ContainerRepositoryO
 		*out = new(string)
 		**out = **in
 	}
+	if in.Namespace != nil {
+		in, out := &in.Namespace, &out.Namespace
+		*out = new(string)
+		**out = **in
+	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
+	}
+	if in.SystemTags != nil {
+		in, out := &in.SystemTags, &out.SystemTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TimeCreated != nil {
 		in, out := &in.TimeCreated, &out.TimeCreated
@@ -304,10 +324,40 @@ func (in *ContainerRepositoryParameters) DeepCopyInto(out *ContainerRepositoryPa
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DefinedTags != nil {
+		in, out := &in.DefinedTags, &out.DefinedTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
 		**out = **in
+	}
+	if in.FreeformTags != nil {
+		in, out := &in.FreeformTags, &out.FreeformTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.IsImmutable != nil {
 		in, out := &in.IsImmutable, &out.IsImmutable

@@ -23,6 +23,9 @@ type IpsecObservation struct {
 
 	// The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// The transport type used for the IPSec connection.
+	TransportType *string `json:"transportType,omitempty" tf:"transport_type,omitempty"`
 }
 
 type IpsecParameters struct {

@@ -90,7 +90,8 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume. If omitted, no
-                      policy will be assigned.
+                      policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments
+                      instead to assign a backup policy to a volume.
                     type: string
                   blockVolumeReplicas:
                     description: (Updatable) The list of block volume replicas to

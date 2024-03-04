@@ -90,7 +90,9 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the boot volume
                       backup policy to assign to the newly created boot volume. If
-                      omitted, no policy will be assigned.
+                      omitted, no policy will be assigned. This field is deprecated.
+                      Use the oci_core_volume_backup_policy_assignments instead to
+                      assign a backup policy to a boot volume.
                     type: string
                   bootVolumeReplicas:
                     description: (Updatable) The list of boot volume replicas to be

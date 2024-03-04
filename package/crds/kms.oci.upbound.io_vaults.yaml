@@ -155,6 +155,43 @@ spec:
                       does not have to be unique, and it is changeable. Avoid entering
                       confidential information.
                     type: string
+                  externalKeyManagerMetadata:
+                    description: Metadata required for accessing External Key manager
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          description: URI of the vault on external key manager.
+                          type: string
+                        oauthMetadata:
+                          description: Authorization details required to get access
+                            token from IDP for accessing protected resources.
+                          items:
+                            properties:
+                              clientAppId:
+                                description: ID of the client app created in IDP.
+                                type: string
+                              clientAppSecret:
+                                description: Secret of the client app created in IDP.
+                                type: string
+                              idcsAccountNameUrl:
+                                description: Base URL of the IDCS account where confidential
+                                  client app is created.
+                                type: string
+                            required:
+                            - clientAppId
+                            - clientAppSecret
+                            - idcsAccountNameUrl
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: OCID of private endpoint created by customer.
+                          type: string
+                      required:
+                      - externalVaultEndpointUrl
+                      - oauthMetadata
+                      - privateEndpointId
+                      type: object
+                    type: array
                   freeformTags:
                     additionalProperties:
                       type: string
@@ -409,12 +446,42 @@ spec:
                       against. Cryptographic operations include Encrypt, Decrypt,
                       and GenerateDataEncryptionKey operations.
                     type: string
+                  externalKeyManagerMetadataSummary:
+                    description: Summary about metadata of external key manager to
+                      be returned to the customer as a response.
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          description: URI of the vault on external key manager.
+                          type: string
+                        oauthMetadataSummary:
+                          description: Summary about authorization to be returned
+                            to the customer as a response.
+                          items:
+                            properties:
+                              clientAppId:
+                                description: ID of the client app created in IDP.
+                                type: string
+                              idcsAccountNameUrl:
+                                description: Base URL of the IDCS account where confidential
+                                  client app is created.
+                                type: string
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: OCID of private endpoint created by customer.
+                          type: string
+                        vendor:
+                          description: Vendor of the external key manager.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: The OCID of the vault.
                     type: string
                   isPrimary:
-                    description: A boolean that will be true when vault is primary,
-                      and will be false when vault is a replica from a primary vault.
+                    description: A Boolean value that indicates whether the Vault
+                      is primary Vault or replica Vault.
                     type: boolean
                   managementEndpoint:
                     description: The service endpoint to perform management operations
@@ -432,9 +499,9 @@ spec:
                     type: array
                   restoredFromVaultId:
                     description: The OCID of the vault from which this vault was restored,
-                      if it was restored from a backup file.  If you restore a vault
+                      if it was restored from a backup file. If you restore a vault
                       to the same region, the vault retains the same OCID that it
-                      had when you  backed up the vault.
+                      had when you backed up the vault.
                     type: string
                   state:
                     description: 'The vault''s current lifecycle state.  Example:

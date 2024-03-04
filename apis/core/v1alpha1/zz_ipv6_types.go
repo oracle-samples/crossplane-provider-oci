@@ -49,7 +49,7 @@ type IPv6Parameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
+	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 

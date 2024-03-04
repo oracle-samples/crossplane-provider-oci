@@ -18,7 +18,7 @@ type FirewallNetworkFirewallObservation struct {
 	// The OCID of the Network Firewall resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'FAILED' state.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
 	// The current state of the Network Firewall.
@@ -27,10 +27,10 @@ type FirewallNetworkFirewallObservation struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. Example: {"orcl-cloud.free-tier-retained": "true"}
 	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
-	// The time instant at which the Network Firewall was created in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
+	// The time at which the Network Firewall was created in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
-	// The time instant at which the Network Firewall was updated in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
+	// The time at which the Network Firewall was updated in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	TimeUpdated *string `json:"timeUpdated,omitempty" tf:"time_updated,omitempty"`
 }
 
@@ -53,7 +53,7 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: {"foo-namespace.bar-key": "value"}
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
@@ -61,7 +61,7 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"bar-key": "value"}
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 

@@ -21,16 +21,16 @@ type AlarmObservation struct {
 	// The current lifecycle state of the alarm.  Example: DELETED
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The date and time the alarm was created. Format defined by RFC3339.  Example: 2019-02-01T01:02:29.600Z
+	// The date and time the alarm was created. Format defined by RFC3339.  Example: 2023-02-01T01:02:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
-	// The date and time the alarm was last updated. Format defined by RFC3339.  Example: 2019-02-03T01:02:29.600Z
+	// The date and time the alarm was last updated. Format defined by RFC3339.  Example: 2023-02-03T01:02:29.600Z
 	TimeUpdated *string `json:"timeUpdated,omitempty" tf:"time_updated,omitempty"`
 }
 
 type AlarmParameters struct {
 
-	// (Updatable) The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: High CPU usage alert. Follow runbook instructions for resolution.
+	// (Updatable) The human-readable content of the delivered alarm notification. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: High CPU usage alert. Follow runbook instructions for resolution.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
@@ -51,7 +51,7 @@ type AlarmParameters struct {
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
-	// (Updatable) A list of destinations to which the notifications for this alarm will be delivered. Each destination is represented by an OCID related to the supported destination service. For example, a destination using the Notifications service is represented by a topic OCID. Supported destination services: Notifications Service. Limit: One destination per supported destination service.
+	// (Updatable) A list of destinations for alarm notifications. Each destination is represented by the OCID of a related resource, such as a topic. Supported destination services: Notifications, Streaming. Limit: One destination per supported destination service.
 	// +kubebuilder:validation:Required
 	Destinations []*string `json:"destinations" tf:"destinations,omitempty"`
 
@@ -67,11 +67,11 @@ type AlarmParameters struct {
 	// +kubebuilder:validation:Required
 	IsEnabled *bool `json:"isEnabled" tf:"is_enabled,omitempty"`
 
-	// (Updatable) When set to true, splits notifications per metric stream. When set to false, groups notifications across metric streams. Example: true
+	// (Updatable) When set to true, splits alarm notifications per metric stream. When set to false, groups alarm notifications across metric streams. Example: true
 	// +kubebuilder:validation:Optional
 	IsNotificationsPerMetricDimensionEnabled *bool `json:"isNotificationsPerMetricDimensionEnabled,omitempty" tf:"is_notifications_per_metric_dimension_enabled,omitempty"`
 
-	// (Updatable) The format to use for notification messages sent from this alarm. The formats are:
+	// (Updatable) The format to use for alarm notifications. The formats are:
 	// +kubebuilder:validation:Optional
 	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
 
@@ -100,11 +100,11 @@ type AlarmParameters struct {
 	// +kubebuilder:validation:Optional
 	PendingDuration *string `json:"pendingDuration,omitempty" tf:"pending_duration,omitempty"`
 
-	// (Updatable) The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Supported grouping functions: grouping(), groupBy(). For details about Monitoring Query Language (MQL), see Monitoring Query Language (MQL) Reference. For available dimensions, review the metric definition for the supported service. See Supported Services.
+	// (Updatable) The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Supported grouping functions: grouping(), groupBy(). For information about writing MQL expressions, see Editing the MQL Expression for a Query. For details about MQL, see Monitoring Query Language (MQL) Reference. For available dimensions, review the metric definition for the supported service. See Supported Services.
 	// +kubebuilder:validation:Required
 	Query *string `json:"query" tf:"query,omitempty"`
 
-	// (Updatable) The frequency at which notifications are re-submitted, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, PT4H indicates four hours. Minimum: PT1M. Maximum: P30D.
+	// (Updatable) The frequency for re-submitting alarm notifications, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, PT4H indicates four hours. Minimum: PT1M. Maximum: P30D.
 	// +kubebuilder:validation:Optional
 	RepeatNotificationDuration *string `json:"repeatNotificationDuration,omitempty" tf:"repeat_notification_duration,omitempty"`
 
@@ -134,11 +134,11 @@ type SuppressionParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// (Updatable) The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: 2019-02-01T01:02:29.600Z
+	// (Updatable) The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: 2023-02-01T01:02:29.600Z
 	// +kubebuilder:validation:Required
 	TimeSuppressFrom *string `json:"timeSuppressFrom" tf:"time_suppress_from,omitempty"`
 
-	// (Updatable) The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: 2019-02-01T02:02:29.600Z
+	// (Updatable) The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: 2023-02-01T02:02:29.600Z
 	// +kubebuilder:validation:Required
 	TimeSuppressUntil *string `json:"timeSuppressUntil" tf:"time_suppress_until,omitempty"`
 }

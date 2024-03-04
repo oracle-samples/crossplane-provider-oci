@@ -21,9 +21,6 @@ type VolumeBackupObservation struct {
 	// The OCID of the volume backup.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
 	// The size of the volume, in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
@@ -82,6 +79,10 @@ type VolumeBackupParameters struct {
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
 	// Details of the volume backup source in the cloud.
 	// +kubebuilder:validation:Optional
 	SourceDetails []VolumeBackupSourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
@@ -109,7 +110,7 @@ type VolumeBackupSourceDetailsObservation struct {
 
 type VolumeBackupSourceDetailsParameters struct {
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 

@@ -521,6 +521,9 @@ spec:
                     description: 'The date and time the IPSec connection was created,
                       in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
+                  transportType:
+                    description: The transport type used for the IPSec connection.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

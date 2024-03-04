@@ -2314,7 +2314,7 @@ func (mg *IpsecConnectionTunnelManagement) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this IpsecConnectionTunnelManagement
 func (tr *IpsecConnectionTunnelManagement) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"shared_secret": "spec.forProvider.sharedSecretSecretRef"}
 }
 
 // GetObservation of this IpsecConnectionTunnelManagement

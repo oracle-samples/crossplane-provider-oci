@@ -18,15 +18,19 @@ type CrossConnectGroupMacsecPropertiesObservation struct {
 
 type CrossConnectGroupMacsecPropertiesParameters struct {
 
-	// Type of encryption cipher suite to use for the MACsec connection.
+	// (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
+	// +kubebuilder:validation:Optional
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []MacsecPropertiesPrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	// +kubebuilder:validation:Required
 	State *string `json:"state" tf:"state,omitempty"`
 }
@@ -42,7 +46,7 @@ type CrossConnectGroupObservation struct {
 	// The FastConnect device that terminates the physical connection.
 	OciPhysicalDeviceName *string `json:"ociPhysicalDeviceName,omitempty" tf:"oci_physical_device_name,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The date and time the cross-connect group was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -71,7 +75,7 @@ type CrossConnectGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	// +kubebuilder:validation:Optional
 	MacsecProperties []CrossConnectGroupMacsecPropertiesParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 }
@@ -81,7 +85,7 @@ type MacsecPropertiesPrimaryKeyObservation struct {
 
 type MacsecPropertiesPrimaryKeyParameters struct {
 
-	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId" tf:"connectivity_association_key_secret_id,omitempty"`
 
@@ -89,7 +93,7 @@ type MacsecPropertiesPrimaryKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
 
-	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId" tf:"connectivity_association_name_secret_id,omitempty"`
 

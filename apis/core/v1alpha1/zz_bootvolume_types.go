@@ -71,7 +71,7 @@ type BootVolumeParameters struct {
 	// +kubebuilder:validation:Required
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a boot volume.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 

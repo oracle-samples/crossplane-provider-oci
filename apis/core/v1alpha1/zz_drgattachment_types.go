@@ -99,8 +99,17 @@ type DrgAttachmentParameters struct {
 
 type NetworkDetailsObservation struct {
 
+	// The OCID of the target IPSec tunnel attachment.
+	Ids []*string `json:"ids,omitempty" tf:"ids,omitempty"`
+
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionID *string `json:"ipsecConnectionId,omitempty" tf:"ipsec_connection_id,omitempty"`
+
+	// The OCID of the virtual circuit's DRG attachment.
+	TransportAttachmentID *string `json:"transportAttachmentId,omitempty" tf:"transport_attachment_id,omitempty"`
+
+	// Boolean flag that determines wether all traffic over the virtual circuits is encrypted.  Example: true
+	TransportOnlyMode *bool `json:"transportOnlyMode,omitempty" tf:"transport_only_mode,omitempty"`
 }
 
 type NetworkDetailsParameters struct {
@@ -131,7 +140,7 @@ type NetworkDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
+	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 

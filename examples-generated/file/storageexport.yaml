@@ -10,9 +10,11 @@ spec:
   forProvider:
     exportOptions:
     - access: ${var.export_export_options_access}
+      allowedAuth: ${var.export_export_options_allowed_auth}
       anonymousGid: ${var.export_export_options_anonymous_gid}
       anonymousUid: ${var.export_export_options_anonymous_uid}
       identitySquash: ${var.export_export_options_identity_squash}
+      isAnonymousAccessAllowed: ${var.export_export_options_is_anonymous_access_allowed}
       requirePrivilegedSourcePort: ${var.export_export_options_require_privileged_source_port}
       source: ${var.export_export_options_source}
     exportSetIdSelector:
@@ -21,6 +23,7 @@ spec:
     fileSystemIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_file_system
+    isIdmapGroupsForSysAuth: ${var.export_is_idmap_groups_for_sys_auth}
     path: ${var.export_path}
 
 ---

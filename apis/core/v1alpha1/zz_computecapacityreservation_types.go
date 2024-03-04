@@ -18,11 +18,11 @@ type ClusterConfigObservation struct {
 
 type ClusterConfigParameters struct {
 
-	// (Updatable) The OCID of the HpcIsland.
+	// (Updatable) The OCID of the HPC island.
 	// +kubebuilder:validation:Required
 	HpcIslandID *string `json:"hpcIslandId" tf:"hpc_island_id,omitempty"`
 
-	// (Updatable) The list of OCID of the network blocks.
+	// (Updatable) The list of OCIDs of the network blocks.
 	// +kubebuilder:validation:Optional
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }

@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM --platform=$BUILDPLATFORM alpine:3.16.2
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS

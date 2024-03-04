@@ -15,6 +15,7 @@ spec:
     definedTags:
       Operations.CostCenter: "42"
     displayName: ${var.file_system_display_name}
+    filesystemSnapshotPolicyId: ${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}
     freeformTags:
       Department: Finance
     kmsKeyId: ${oci_kms_key.test_key.id}

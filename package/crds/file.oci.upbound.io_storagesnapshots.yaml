@@ -71,6 +71,9 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags. Example: {"Operations.CostCenter": "42"}'
                     type: object
+                  expirationTime:
+                    description: (Updatable) The time when this snapshot will be deleted.
+                    type: string
                   fileSystemId:
                     description: The OCID of the file system to take a snapshot of.
                     type: string
@@ -339,6 +342,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  filesystemSnapshotPolicyId:
+                    description: The OCID of the file system snapshot policy that
+                      created this snapshot.
+                    type: string
                   id:
                     description: The OCID of the snapshot.
                     type: string

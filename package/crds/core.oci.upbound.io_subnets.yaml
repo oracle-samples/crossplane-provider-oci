@@ -268,9 +268,9 @@ spec:
                       from the left (1111 in the following example).
                     type: string
                   ipv6cidrBlocks:
-                    description: '(Updatable) The list of all IPv6 CIDR blocks (Oracle
-                      allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6
-                      CIDR blocks) for the subnet that meets the following criteria:'
+                    description: '(Updatable) The list of all IPv6 prefixes (Oracle
+                      allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes)
+                      for the subnet that meets the following criteria:'
                     items:
                       type: string
                     type: array

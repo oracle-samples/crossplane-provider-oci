@@ -140,6 +140,10 @@ type VirtualCircuitParameters struct {
 	// +kubebuilder:validation:Optional
 	IsBfdEnabled *bool `json:"isBfdEnabled,omitempty" tf:"is_bfd_enabled,omitempty"`
 
+	// (Updatable) Set to true for the virtual circuit to carry only encrypted traffic, or set to false for the virtual circuit to carry unencrypted traffic. If this is not set, the default is false.
+	// +kubebuilder:validation:Optional
+	IsTransportMode *bool `json:"isTransportMode,omitempty" tf:"is_transport_mode,omitempty"`
+
 	// The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see ListFastConnectProviderServices.
 	// +kubebuilder:validation:Optional
 	ProviderServiceID *string `json:"providerServiceId,omitempty" tf:"provider_service_id,omitempty"`

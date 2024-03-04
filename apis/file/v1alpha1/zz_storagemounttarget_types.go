@@ -13,6 +13,70 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type KerberosObservation struct {
+}
+
+type KerberosParameters struct {
+
+	// (Updatable) Version of the keytab Secret in the Vault to use as a backup.
+	// +kubebuilder:validation:Optional
+	BackupKeyTabSecretVersion *float64 `json:"backupKeyTabSecretVersion,omitempty" tf:"backup_key_tab_secret_version,omitempty"`
+
+	// (Updatable) Version of the keytab Secret in the Vault to use.
+	// +kubebuilder:validation:Optional
+	CurrentKeyTabSecretVersion *float64 `json:"currentKeyTabSecretVersion,omitempty" tf:"current_key_tab_secret_version,omitempty"`
+
+	// (Updatable) Specifies whether to enable or disable Kerberos.
+	// +kubebuilder:validation:Optional
+	IsKerberosEnabled *bool `json:"isKerberosEnabled,omitempty" tf:"is_kerberos_enabled,omitempty"`
+
+	// (Updatable) The Kerberos realm that the mount target will join.
+	// +kubebuilder:validation:Required
+	KerberosRealm *string `json:"kerberosRealm" tf:"kerberos_realm,omitempty"`
+
+	// (Updatable) The OCID of the keytab Secret in the Vault.
+	// +kubebuilder:validation:Optional
+	KeyTabSecretID *string `json:"keyTabSecretId,omitempty" tf:"key_tab_secret_id,omitempty"`
+}
+
+type LdapIdmapObservation struct {
+}
+
+type LdapIdmapParameters struct {
+
+	// (Updatable) The maximum amount of time the mount target is allowed to use a cached entry.
+	// +kubebuilder:validation:Optional
+	CacheLifetimeSeconds *float64 `json:"cacheLifetimeSeconds,omitempty" tf:"cache_lifetime_seconds,omitempty"`
+
+	// (Updatable) The amount of time that the mount target should allow an entry to persist in its cache before attempting to refresh the entry.
+	// +kubebuilder:validation:Optional
+	CacheRefreshIntervalSeconds *float64 `json:"cacheRefreshIntervalSeconds,omitempty" tf:"cache_refresh_interval_seconds,omitempty"`
+
+	// (Updatable) All LDAP searches are recursive starting at this group.  Example: CN=Group,DC=domain,DC=com
+	// +kubebuilder:validation:Optional
+	GroupSearchBase *string `json:"groupSearchBase,omitempty" tf:"group_search_base,omitempty"`
+
+	// (Updatable) The amount of time that a mount target will maintain information that a user is not found in the ID mapping configuration.
+	// +kubebuilder:validation:Optional
+	NegativeCacheLifetimeSeconds *float64 `json:"negativeCacheLifetimeSeconds,omitempty" tf:"negative_cache_lifetime_seconds,omitempty"`
+
+	// (Updatable) The OCID of the first connector to use to communicate with the LDAP server.
+	// +kubebuilder:validation:Optional
+	OutboundConnector1Id *string `json:"outboundConnector1Id,omitempty" tf:"outbound_connector1id,omitempty"`
+
+	// (Updatable) The OCID of the second connector to use to communicate with the LDAP server.
+	// +kubebuilder:validation:Optional
+	OutboundConnector2Id *string `json:"outboundConnector2Id,omitempty" tf:"outbound_connector2id,omitempty"`
+
+	// (Updatable) Schema type of the LDAP account.
+	// +kubebuilder:validation:Optional
+	SchemaType *string `json:"schemaType,omitempty" tf:"schema_type,omitempty"`
+
+	// (Updatable) All LDAP searches are recursive starting at this user.  Example: CN=User,DC=domain,DC=com
+	// +kubebuilder:validation:Optional
+	UserSearchBase *string `json:"userSearchBase,omitempty" tf:"user_search_base,omitempty"`
+}
+
 type StorageMountTargetObservation struct {
 
 	// The OCID of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target.
@@ -72,6 +136,18 @@ type StorageMountTargetParameters struct {
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// (Updatable) The method used to map a Unix UID to secondary groups, if any.
+	// +kubebuilder:validation:Optional
+	IdmapType *string `json:"idmapType,omitempty" tf:"idmap_type,omitempty"`
+
+	// (Updatable) Kerberos details needed to create configuration.
+	// +kubebuilder:validation:Optional
+	Kerberos []KerberosParameters `json:"kerberos,omitempty" tf:"kerberos,omitempty"`
+
+	// (Updatable) Mount target details about the LDAP ID mapping configuration.
+	// +kubebuilder:validation:Optional
+	LdapIdmap []LdapIdmapParameters `json:"ldapIdmap,omitempty" tf:"ldap_idmap,omitempty"`
 
 	// (Updatable) A list of Network Security Group OCIDs associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see Security Rules.
 	// +kubebuilder:validation:Optional
