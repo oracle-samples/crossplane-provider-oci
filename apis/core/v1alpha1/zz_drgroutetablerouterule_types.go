@@ -40,7 +40,7 @@ type DrgRouteTableRouteRuleParameters struct {
 	// +kubebuilder:validation:Required
 	Destination *string `json:"destination" tf:"destination,omitempty"`
 
-	// Type of destination for the rule. Required if direction = EGRESS. Allowed values:
+	// Type of destination for the rule. Allowed values:
 	// +kubebuilder:validation:Required
 	DestinationType *string `json:"destinationType" tf:"destination_type,omitempty"`
 

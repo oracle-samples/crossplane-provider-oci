@@ -13,16 +13,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RotationConfigObservation struct {
+}
+
+type RotationConfigParameters struct {
+
+	// (Updatable) Enables auto rotation, when set to true rotationInterval must be set.
+	// +kubebuilder:validation:Optional
+	IsScheduledRotationEnabled *bool `json:"isScheduledRotationEnabled,omitempty" tf:"is_scheduled_rotation_enabled,omitempty"`
+
+	// (Updatable) The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format. The minimum value is 1 day and maximum value is 360 days. For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D."
+	// +kubebuilder:validation:Optional
+	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
+
+	// (Updatable) The TargetSystemDetails provides the targetSystem type and type-specific connection metadata
+	// +kubebuilder:validation:Required
+	TargetSystemDetails []TargetSystemDetailsParameters `json:"targetSystemDetails" tf:"target_system_details,omitempty"`
+}
+
 type SecretContentObservation struct {
 }
 
 type SecretContentParameters struct {
 
 	// (Updatable) The base64-encoded content of the secret.
-	// +kubebuilder:validation:Required
-	Content *string `json:"content" tf:"content,omitempty"`
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
-	// (Updatable) content type . Example BASE64 .
+	// (Updatable) The base64-encoded content of the secret.
 	// +kubebuilder:validation:Required
 	ContentType *string `json:"contentType" tf:"content_type,omitempty"`
 
@@ -30,7 +48,7 @@ type SecretContentParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Updatable) The rotation state of the secret content. The default is CURRENT, meaning that the secret is currently in use. A secret version that you mark as PENDING is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as PENDING if you haven't yet updated the secret on the target system. When creating a secret, only the value CURRENT is applicable, although the value LATEST is also automatically applied. When updating  a secret, you can specify a version's rotation state as either CURRENT or PENDING.
+	// (Updatable) The rotation state of the secret content. The default is CURRENT, meaning that the secret is currently in use. A secret version that you mark as PENDING is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as PENDING if you haven't yet updated the secret on the target system. When creating a secret, only the value CURRENT is applicable, although the value LATEST is also automatically applied. When updating a secret, you can specify a version's rotation state as either CURRENT or PENDING.
 	// +kubebuilder:validation:Optional
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 }
@@ -43,8 +61,17 @@ type SecretObservation struct {
 	// The OCID of the secret.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A property indicating when the secret was last rotated successfully, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	LastRotationTime *string `json:"lastRotationTime,omitempty" tf:"last_rotation_time,omitempty"`
+
 	// Additional information about the current lifecycle state of the secret.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
+
+	// A property indicating when the secret is scheduled to be rotated, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	NextRotationTime *string `json:"nextRotationTime,omitempty" tf:"next_rotation_time,omitempty"`
+
+	// Additional information about the status of the secret rotation
+	RotationStatus *string `json:"rotationStatus,omitempty" tf:"rotation_status,omitempty"`
 
 	// The current lifecycle state of the secret.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -86,7 +113,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of the master encryption key that is used to encrypt the secret.
+	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/kms/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
@@ -103,9 +130,13 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// (Updatable) Defines the frequency of the rotation and the information about the target system
+	// +kubebuilder:validation:Optional
+	RotationConfig []RotationConfigParameters `json:"rotationConfig,omitempty" tf:"rotation_config,omitempty"`
+
 	// (Updatable) The content of the secret and metadata to help identify it.
-	// +kubebuilder:validation:Required
-	SecretContent []SecretContentParameters `json:"secretContent" tf:"secret_content,omitempty"`
+	// +kubebuilder:validation:Optional
+	SecretContent []SecretContentParameters `json:"secretContent,omitempty" tf:"secret_content,omitempty"`
 
 	// A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	// +kubebuilder:validation:Required
@@ -146,13 +177,31 @@ type SecretRulesParameters struct {
 	// +kubebuilder:validation:Required
 	RuleType *string `json:"ruleType" tf:"rule_type,omitempty"`
 
-	// (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) A property indicating how long the secret contents will be considered valid, expressed in ISO 8601 format. The secret needs to be updated when the secret content expires. No enforcement mechanism exists at this time, but audit logs record the expiration on the appropriate date, according to the time interval specified in the rule. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass P3D to have the secret version expire every 3 days.
+	// (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) A property indicating how long the secret contents will be considered valid, expressed in ISO 8601 format. The secret needs to be updated when the secret content expires. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass P3D to have the secret version expire every 3 days.
 	// +kubebuilder:validation:Optional
 	SecretVersionExpiryInterval *string `json:"secretVersionExpiryInterval,omitempty" tf:"secret_version_expiry_interval,omitempty"`
 
 	// (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) An optional property indicating the absolute time when this secret will expire, expressed in RFC 3339 timestamp format. The minimum number of days from current time is 1 day and the maximum number of days from current time is 365 days. Example: 2019-04-03T21:10:29.600Z
 	// +kubebuilder:validation:Optional
 	TimeOfAbsoluteExpiry *string `json:"timeOfAbsoluteExpiry,omitempty" tf:"time_of_absolute_expiry,omitempty"`
+}
+
+type TargetSystemDetailsObservation struct {
+}
+
+type TargetSystemDetailsParameters struct {
+
+	// (Updatable) The unique identifier (OCID) for the autonomous database that Vault Secret connects to.
+	// +kubebuilder:validation:Optional
+	AdbID *string `json:"adbId,omitempty" tf:"adb_id,omitempty"`
+
+	// (Updatable) The unique identifier (OCID) of the Oracle Cloud Infrastructure Functions that vault secret connects to.
+	// +kubebuilder:validation:Optional
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
+
+	// (Updatable) Unique identifier of the target system that Vault Secret connects to.
+	// +kubebuilder:validation:Required
+	TargetSystemType *string `json:"targetSystemType" tf:"target_system_type,omitempty"`
 }
 
 // SecretSpec defines the desired state of Secret

@@ -11,7 +11,11 @@ spec:
     compartmentIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
     displayName: ${var.container_repository_display_name}
+    freeformTags:
+      Department: Finance
     isImmutable: ${var.container_repository_is_immutable}
     isPublic: ${var.container_repository_is_public}
     readme:

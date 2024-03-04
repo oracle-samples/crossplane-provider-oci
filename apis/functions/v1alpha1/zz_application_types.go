@@ -76,6 +76,10 @@ type ApplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsSelector *v1.Selector `json:"networkSecurityGroupIdsSelector,omitempty" tf:"-"`
 
+	// Valid values are GENERIC_X86, GENERIC_ARM and GENERIC_X86_ARM. Default is GENERIC_X86. Setting this to GENERIC_X86, will run the functions in the application on X86 processor architecture. Setting this to GENERIC_ARM, will run the functions in the application on ARM processor architecture. When set to GENERIC_X86_ARM, functions in the application are run on either X86 or ARM processor architecture. Accepted values are: GENERIC_X86, GENERIC_ARM, GENERIC_X86_ARM
+	// +kubebuilder:validation:Optional
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
 	// The OCIDs of the subnets in which to run functions in the application.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional

@@ -15,6 +15,13 @@ spec:
     displayName: ${var.cross_connect_group_display_name}
     freeformTags:
       Department: Finance
+    macsecProperties:
+    - encryptionCipher: ${var.cross_connect_group_macsec_properties_encryption_cipher}
+      isUnprotectedTrafficAllowed: ${var.cross_connect_group_macsec_properties_is_unprotected_traffic_allowed}
+      primaryKey:
+      - connectivityAssociationKeySecretId: ${oci_vault_secret.test_secret.id}
+        connectivityAssociationNameSecretId: ${oci_vault_secret.test_secret.id}
+      state: ${var.cross_connect_group_macsec_properties_state}
 
 ---
 

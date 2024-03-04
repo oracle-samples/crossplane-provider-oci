@@ -30,6 +30,10 @@ type DestinationParameters struct {
 	// Selector for a Log to populate logObjectId.
 	// +kubebuilder:validation:Optional
 	LogObjectIDSelector *v1.Selector `json:"logObjectIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Unified monitoring agent operational metrics configuration object.
+	// +kubebuilder:validation:Optional
+	OperationalMetricsConfiguration []OperationalMetricsConfigurationParameters `json:"operationalMetricsConfiguration,omitempty" tf:"operational_metrics_configuration,omitempty"`
 }
 
 type GroupAssociationObservation struct {
@@ -42,74 +46,146 @@ type GroupAssociationParameters struct {
 	GroupList []*string `json:"groupList,omitempty" tf:"group_list,omitempty"`
 }
 
+type NestedParserObservation struct {
+}
+
+type NestedParserParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep the time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// (Applicable when parser_type=CRI) (Updatable) Process time value using the specified format.
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=CRI) (Updatable) JSON parser time type.
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type OperationalMetricsConfigurationDestinationObservation struct {
+}
+
+type OperationalMetricsConfigurationDestinationParameters struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	// +kubebuilder:validation:Required
+	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+}
+
+type OperationalMetricsConfigurationObservation struct {
+}
+
+type OperationalMetricsConfigurationParameters struct {
+
+	// (Updatable) Logging destination object.
+	// +kubebuilder:validation:Required
+	Destination []OperationalMetricsConfigurationDestinationParameters `json:"destination" tf:"destination,omitempty"`
+
+	// (Updatable) Unified monitoring agent operational metrics source object.
+	// +kubebuilder:validation:Required
+	Source []OperationalMetricsConfigurationSourceParameters `json:"source" tf:"source,omitempty"`
+}
+
+type OperationalMetricsConfigurationSourceObservation struct {
+}
+
+type OperationalMetricsConfigurationSourceParameters struct {
+
+	// (Updatable) List of unified monitoring agent operational metrics.
+	// +kubebuilder:validation:Optional
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
+
+	// (Updatable) Record section of OperationalMetricsSource object.
+	// +kubebuilder:validation:Required
+	RecordInput []RecordInputParameters `json:"recordInput" tf:"record_input,omitempty"`
+
+	// (Updatable) Type of the unified monitoring agent operational metrics source object.
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type ParserObservation struct {
 }
 
 type ParserParameters struct {
 
-	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// (Applicable when parser_type=CSV | TSV) (Updatable) CSV delimiter.
 	// +kubebuilder:validation:Optional
 	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
 
-	// (Applicable when parser_type=REGEXP) (Updatable)
+	// (Updatable) Regex pattern.
 	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 	// +kubebuilder:validation:Optional
 	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
 
-	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// (Updatable) Mutiline pattern format.
 	// +kubebuilder:validation:Optional
 	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
 
-	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// (Applicable when parser_type=MULTILINE) (Updatable) First line pattern format.
 	// +kubebuilder:validation:Optional
 	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
 
-	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok failure key.
 	// +kubebuilder:validation:Optional
 	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
 
-	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Grok name key.
 	// +kubebuilder:validation:Optional
 	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.
 	// +kubebuilder:validation:Optional
 	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep the time field in the record.
 	// +kubebuilder:validation:Optional
 	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	// (Applicable when parser_type=CRI) (Updatable) If you don't need stream or logtag fields, set this to false.
+	// +kubebuilder:validation:Optional
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with a null value.
 	// +kubebuilder:validation:Optional
 	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
 
-	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// (Applicable when parser_type=SYSLOG) (Updatable) Specifies whether or not to support colonless ident. Corresponds to the Fluentd support_colonless_ident parameter.
 	// +kubebuilder:validation:Optional
 	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
 
-	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// (Applicable when parser_type=SYSLOG) (Updatable) Specifies with priority or not. Corresponds to the Fluentd with_priority parameter.
 	// +kubebuilder:validation:Optional
 	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
 
-	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// (Updatable) CSV keys.
 	// +kubebuilder:validation:Optional
 	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
 
-	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// (Applicable when parser_type=SYSLOG) (Updatable) Syslog message format.
 	// +kubebuilder:validation:Optional
 	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
 
-	// (Applicable when parser_type=NONE) (Updatable)
+	// (Applicable when parser_type=NONE) (Updatable) Specifies the field name to contain logs.
 	// +kubebuilder:validation:Optional
 	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
 
-	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable) Multiline start regexp pattern.
 	// +kubebuilder:validation:Optional
 	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when parser_type=CRI) (Updatable) Optional nested JSON Parser for CRI. Supported fields are fieldTimeKey, timeFormat, and isKeepTimeKey.
+	// +kubebuilder:validation:Optional
+	NestedParser []NestedParserParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
 
 	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
 	// +kubebuilder:validation:Optional
@@ -119,23 +195,23 @@ type ParserParameters struct {
 	// +kubebuilder:validation:Required
 	ParserType *string `json:"parserType" tf:"parser_type,omitempty"`
 
-	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// (Updatable) Grok pattern object.
 	// +kubebuilder:validation:Optional
 	Patterns []PatternsParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
 
-	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// (Applicable when parser_type=SYSLOG) (Updatable) RFC 5424 time format.
 	// +kubebuilder:validation:Optional
 	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
 
-	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// (Applicable when parser_type=SYSLOG) (Updatable) Syslog parser type.
 	// +kubebuilder:validation:Optional
 	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
 
-	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// (Applicable when parser_type=CRI) (Updatable) Process time value using the specified format.
 	// +kubebuilder:validation:Optional
 	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
 
-	// (Applicable when parser_type=JSON) (Updatable)
+	// (Applicable when parser_type=CRI) (Updatable) JSON parser time type.
 	// +kubebuilder:validation:Optional
 	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
 
@@ -143,7 +219,7 @@ type ParserParameters struct {
 	// +kubebuilder:validation:Optional
 	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type. For example, With this configuration:  @type csv keys time,host,req_id,user time_key time
 	// +kubebuilder:validation:Optional
 	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
 }
@@ -157,7 +233,7 @@ type PatternsParameters struct {
 	// +kubebuilder:validation:Optional
 	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 	// +kubebuilder:validation:Optional
 	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
 
@@ -165,13 +241,27 @@ type PatternsParameters struct {
 	// +kubebuilder:validation:Optional
 	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
 
-	// (Updatable) unique name for the source
+	// (Updatable) Unique name for the source.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Updatable) The grok pattern.
+	// (Updatable) The Grok pattern.
 	// +kubebuilder:validation:Optional
 	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type RecordInputObservation struct {
+}
+
+type RecordInputParameters struct {
+
+	// (Updatable) Namespace to emit the operational metrics.
+	// +kubebuilder:validation:Required
+	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+
+	// (Updatable) Resource group to emit the operational metrics.
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
 }
 
 type ServiceConfigurationObservation struct {
@@ -187,7 +277,7 @@ type ServiceConfigurationParameters struct {
 	// +kubebuilder:validation:Required
 	Destination []DestinationParameters `json:"destination" tf:"destination,omitempty"`
 
-	// (Updatable)
+	// (Updatable) Logging source object.
 	// +kubebuilder:validation:Required
 	Sources []SourcesParameters `json:"sources" tf:"sources,omitempty"`
 }
@@ -197,19 +287,19 @@ type SourcesObservation struct {
 
 type SourcesParameters struct {
 
-	// (Applicable when source_type=WINDOWS_EVENT_LOG) (Updatable)
+	// (Updatable) Windows event log channels.
 	// +kubebuilder:validation:Optional
 	Channels []*string `json:"channels,omitempty" tf:"channels,omitempty"`
 
-	// (Updatable) unique name for the source
+	// (Updatable) Unique name for the source.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Source parser object.
 	// +kubebuilder:validation:Optional
 	Parser []ParserParameters `json:"parser,omitempty" tf:"parser,omitempty"`
 
-	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	// (Updatable) Absolute paths for log source files. Wildcards can be used.
 	// +kubebuilder:validation:Optional
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 

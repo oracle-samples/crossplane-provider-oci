@@ -413,7 +413,8 @@ spec:
                           type: object
                         type:
                           description: '(Updatable) The type can be one of these values:
-                            IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT'
+                            IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN,
+                            VIRTUAL_CIRCUIT'
                           type: string
                         vcnRouteType:
                           description: (Updatable) Indicates whether the VCN CIDRs
@@ -631,10 +632,22 @@ spec:
                     description: (Updatable)
                     items:
                       properties:
+                        ids:
+                          description: The OCID of the target IPSec tunnel attachment.
+                          items:
+                            type: string
+                          type: array
                         ipsecConnectionId:
                           description: The IPSec connection that contains the attached
                             IPSec tunnel.
                           type: string
+                        transportAttachmentId:
+                          description: The OCID of the virtual circuit's DRG attachment.
+                          type: string
+                        transportOnlyMode:
+                          description: 'Boolean flag that determines wether all traffic
+                            over the virtual circuits is encrypted.  Example: true'
+                          type: boolean
                       type: object
                     type: array
                   state:

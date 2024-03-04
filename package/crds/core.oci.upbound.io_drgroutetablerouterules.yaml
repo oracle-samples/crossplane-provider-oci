@@ -71,8 +71,7 @@ spec:
                       allowed.
                     type: string
                   destinationType:
-                    description: 'Type of destination for the rule. Required if direction
-                      = EGRESS. Allowed values:'
+                    description: 'Type of destination for the rule. Allowed values:'
                     type: string
                   drgRouteTableId:
                     description: The OCID of the DRG route table.

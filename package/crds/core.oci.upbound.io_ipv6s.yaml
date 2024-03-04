@@ -92,8 +92,8 @@ spec:
                       in vnicId.  Example: 2001:DB8::'
                     type: string
                   ipv6subnetCidr:
-                    description: The IPv6 CIDR allocated to the subnet. This is required
-                      if more than one IPv6 CIDR exists on the subnet.
+                    description: The IPv6 prefix allocated to the subnet. This is
+                      required if more than one IPv6 prefix exists on the subnet.
                     type: string
                   vnicId:
                     description: (Updatable) The OCID of the VNIC to assign the IPv6

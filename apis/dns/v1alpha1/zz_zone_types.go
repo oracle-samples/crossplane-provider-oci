@@ -13,6 +13,24 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalDownstreamsObservation struct {
+}
+
+type ExternalDownstreamsParameters struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	// +kubebuilder:validation:Required
+	Address *string `json:"address" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret.
+	// +kubebuilder:validation:Optional
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
 type ExternalMastersObservation struct {
 }
 
@@ -26,7 +44,7 @@ type ExternalMastersParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// (Updatable) The OCID of the TSIG key.
+	// (Updatable) The OCID of the TSIG key. A TSIG key is used to secure DNS messages (in this case, zone transfers) between two systems that both have the (shared) secret.
 	// +kubebuilder:validation:Optional
 	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
 }
@@ -65,6 +83,9 @@ type ZoneObservation struct {
 
 	// Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	// The Oracle Cloud Infrastructure nameservers that transfer the zone data with external nameservers.
+	ZoneTransferServers []ZoneTransferServersObservation `json:"zoneTransferServers,omitempty" tf:"zone_transfer_servers,omitempty"`
 }
 
 type ZoneParameters struct {
@@ -85,6 +106,10 @@ type ZoneParameters struct {
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) External secondary servers for the zone. This field is currently not supported when zoneType is SECONDARY or scope is PRIVATE.
+	// +kubebuilder:validation:Optional
+	ExternalDownstreams []ExternalDownstreamsParameters `json:"externalDownstreams,omitempty" tf:"external_downstreams,omitempty"`
 
 	// (Updatable) External master servers for the zone. externalMasters becomes a required parameter when the zoneType value is SECONDARY.
 	// +kubebuilder:validation:Optional
@@ -119,6 +144,24 @@ type ZoneParameters struct {
 	// The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
 	// +kubebuilder:validation:Required
 	ZoneType *string `json:"zoneType" tf:"zone_type,omitempty"`
+}
+
+type ZoneTransferServersObservation struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// A Boolean flag indicating whether or not the server is a zone data transfer destination.
+	IsTransferDestination *bool `json:"isTransferDestination,omitempty" tf:"is_transfer_destination,omitempty"`
+
+	// A Boolean flag indicating whether or not the server is a zone data transfer source.
+	IsTransferSource *bool `json:"isTransferSource,omitempty" tf:"is_transfer_source,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ZoneTransferServersParameters struct {
 }
 
 // ZoneSpec defines the desired state of Zone

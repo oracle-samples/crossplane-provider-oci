@@ -206,6 +206,11 @@ func (in *ApplicationParameters) DeepCopyInto(out *ApplicationParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Shape != nil {
+		in, out := &in.Shape, &out.Shape
+		*out = new(string)
+		**out = **in
+	}
 	if in.SubnetIds != nil {
 		in, out := &in.SubnetIds, &out.SubnetIds
 		*out = make([]*string, len(*in))
@@ -361,6 +366,11 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 	}
 	if in.InvokeEndpoint != nil {
 		in, out := &in.InvokeEndpoint, &out.InvokeEndpoint
+		*out = new(string)
+		**out = **in
+	}
+	if in.Shape != nil {
+		in, out := &in.Shape, &out.Shape
 		*out = new(string)
 		**out = **in
 	}

@@ -174,6 +174,10 @@ spec:
                     description: 'The public IP address of the on-premises router.  Example:
                       203.0.113.2'
                     type: string
+                  isPrivate:
+                    description: Indicates whether this CPE is of type private or
+                      not.
+                    type: boolean
                 required:
                 - ipAddress
                 type: object

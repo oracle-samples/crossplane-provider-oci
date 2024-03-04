@@ -65,8 +65,8 @@ spec:
               forProvider:
                 properties:
                   byoipv6cidrDetails:
-                    description: The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks
-                      required to create a VCN that uses BYOIPv6 ranges.
+                    description: The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required
+                      to create a VCN that uses BYOIPv6 address ranges.
                     items:
                       properties:
                         byoipv6rangeId:
@@ -74,10 +74,9 @@ spec:
                             the CIDR block belongs.
                           type: string
                         ipv6cidrBlock:
-                          description: 'An IPv6 CIDR block required to create a VCN
-                            with a BYOIP prefix. It could be the whole CIDR block
-                            identified in byoipv6RangeId, or a subrange. Example:
-                            2001:0db8:0123::/48'
+                          description: 'An IPv6 prefix required to create a VCN with
+                            a BYOIP prefix. It could be the whole prefix identified
+                            in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48'
                           type: string
                       required:
                       - byoipv6rangeId
@@ -85,7 +84,7 @@ spec:
                       type: object
                     type: array
                   cidrBlock:
-                    description: 'Deprecated. Do not set this value. Use cidrBlocks
+                    description: 'Deprecated. Do not set this value. Use cidr_blocks
                       instead. Example: 10.0.0.0/16'
                     type: string
                   cidrBlocks:
@@ -402,8 +401,8 @@ spec:
               atProvider:
                 properties:
                   byoipv6cidrBlocks:
-                    description: The list of BYOIPv6 CIDR blocks required to create
-                      a VCN that uses BYOIPv6 ranges.
+                    description: The list of BYOIPv6 prefixes required to create a
+                      VCN that uses BYOIPv6 ranges.
                     items:
                       type: string
                     type: array
@@ -421,7 +420,7 @@ spec:
                     type: string
                   ipv6cidrBlocks:
                     description: For an IPv6-enabled VCN, this is the list of IPv6
-                      CIDR blocks for the VCN's IP address space. The CIDRs are provided
+                      prefixes for the VCN's IP address space. The prefixes are provided
                       by Oracle and the sizes are always /56.
                     items:
                       type: string

@@ -56,6 +56,10 @@ type CpeParameters struct {
 	// The public IP address of the on-premises router.  Example: 203.0.113.2
 	// +kubebuilder:validation:Required
 	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+
+	// Indicates whether this CPE is of type private or not.
+	// +kubebuilder:validation:Optional
+	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 }
 
 // CpeSpec defines the desired state of Cpe

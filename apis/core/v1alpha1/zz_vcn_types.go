@@ -22,14 +22,14 @@ type Byoipv6CidrDetailsParameters struct {
 	// +kubebuilder:validation:Required
 	Byoipv6RangeID *string `json:"byoipv6rangeId" tf:"byoipv6range_id,omitempty"`
 
-	// An IPv6 CIDR block required to create a VCN with a BYOIP prefix. It could be the whole CIDR block identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
+	// An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
 	// +kubebuilder:validation:Required
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock" tf:"ipv6cidr_block,omitempty"`
 }
 
 type VcnObservation struct {
 
-	// The list of BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 ranges.
 	Byoipv6CidrBlocks []*string `json:"byoipv6cidrBlocks,omitempty" tf:"byoipv6cidr_blocks,omitempty"`
 
 	// The OCID for the VCN's default set of DHCP options.
@@ -44,7 +44,7 @@ type VcnObservation struct {
 	// The VCN's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// For an IPv6-enabled VCN, this is the list of IPv6 CIDR blocks for the VCN's IP address space. The CIDRs are provided by Oracle and the sizes are always /56.
+	// For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space. The prefixes are provided by Oracle and the sizes are always /56.
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 
 	// The VCN's current state.
@@ -59,11 +59,11 @@ type VcnObservation struct {
 
 type VcnParameters struct {
 
-	// The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges.
 	// +kubebuilder:validation:Optional
 	Byoipv6CidrDetails []Byoipv6CidrDetailsParameters `json:"byoipv6cidrDetails,omitempty" tf:"byoipv6cidr_details,omitempty"`
 
-	// Deprecated. Do not set this value. Use cidrBlocks instead. Example: 10.0.0.0/16
+	// Deprecated. Do not set this value. Use cidr_blocks instead. Example: 10.0.0.0/16
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 

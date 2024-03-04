@@ -13,15 +13,70 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoKeyRotationDetailsObservation struct {
+}
+
+type AutoKeyRotationDetailsParameters struct {
+
+	// (Updatable) The last execution status message.
+	// +kubebuilder:validation:Optional
+	LastRotationMessage *string `json:"lastRotationMessage,omitempty" tf:"last_rotation_message,omitempty"`
+
+	// (Updatable) The status of last execution of auto key rotation.
+	// +kubebuilder:validation:Optional
+	LastRotationStatus *string `json:"lastRotationStatus,omitempty" tf:"last_rotation_status,omitempty"`
+
+	// (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 30 day and 365 days (1 year)
+	// +kubebuilder:validation:Optional
+	RotationIntervalInDays *float64 `json:"rotationIntervalInDays,omitempty" tf:"rotation_interval_in_days,omitempty"`
+
+	// (Updatable) A  property indicating Last rotation Date Example: 2023-04-04T00:00:00Z.
+	// +kubebuilder:validation:Optional
+	TimeOfLastRotation *string `json:"timeOfLastRotation,omitempty" tf:"time_of_last_rotation,omitempty"`
+
+	// (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z .
+	// +kubebuilder:validation:Optional
+	TimeOfNextRotation *string `json:"timeOfNextRotation,omitempty" tf:"time_of_next_rotation,omitempty"`
+
+	// (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z .
+	// +kubebuilder:validation:Optional
+	TimeOfScheduleStart *string `json:"timeOfScheduleStart,omitempty" tf:"time_of_schedule_start,omitempty"`
+}
+
+type ExternalKeyReferenceDetailsObservation struct {
+
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
+	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
+
+	// Key version ID associated with the external key.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+}
+
+type ExternalKeyReferenceDetailsParameters struct {
+}
+
+type ExternalKeyReferenceObservation struct {
+}
+
+type ExternalKeyReferenceParameters struct {
+
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
+	// +kubebuilder:validation:Required
+	ExternalKeyID *string `json:"externalKeyId" tf:"external_key_id,omitempty"`
+}
+
 type KeyObservation struct {
 
 	// The OCID of the key version used in cryptographic operations. During key rotation, the service might be in a transitional state where this or a newer key version are used intermittently. The currentKeyVersion property is updated when the service is guaranteed to use the new key version for all subsequent encryption operations.
 	CurrentKeyVersion *string `json:"currentKeyVersion,omitempty" tf:"current_key_version,omitempty"`
 
+	// Key reference data to be returned to the customer as a response.
+	ExternalKeyReferenceDetails []ExternalKeyReferenceDetailsObservation `json:"externalKeyReferenceDetails,omitempty" tf:"external_key_reference_details,omitempty"`
+
 	// The OCID of the key.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// A boolean that will be true when key is primary, and will be false when key is a replica from a primary key.
+	// A Boolean value that indicates whether the Key belongs to primary Vault or replica vault.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
 	// Key replica details
@@ -41,6 +96,10 @@ type KeyObservation struct {
 }
 
 type KeyParameters struct {
+
+	// (Updatable) The details of auto rotation schedule for the Key being create updated or imported.
+	// +kubebuilder:validation:Optional
+	AutoKeyRotationDetails []AutoKeyRotationDetailsParameters `json:"autoKeyRotationDetails,omitempty" tf:"auto_key_rotation_details,omitempty"`
 
 	// (Updatable) The OCID of the compartment where you want to create the master encryption key.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
@@ -67,9 +126,17 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
+	// A reference to the key on external key manager.
+	// +kubebuilder:validation:Optional
+	ExternalKeyReference []ExternalKeyReferenceParameters `json:"externalKeyReference,omitempty" tf:"external_key_reference,omitempty"`
+
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) A parameter specifying whether the auto key rotation is enabled or not.
+	// +kubebuilder:validation:Optional
+	IsAutoRotationEnabled *bool `json:"isAutoRotationEnabled,omitempty" tf:"is_auto_rotation_enabled,omitempty"`
 
 	// The cryptographic properties of a key.
 	// +kubebuilder:validation:Required
@@ -79,7 +146,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Required
 	ManagementEndpoint *string `json:"managementEndpoint" tf:"management_endpoint,omitempty"`
 
-	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default,  a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported.
+	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default, a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported. A protection mode of EXTERNAL mean that the key persists on the customer's external key manager which is hosted externally outside of oracle. Oracle only hold a reference to that key. All cryptographic operations that use a key with a protection mode of EXTERNAL are performed by external key manager.
 	// +kubebuilder:validation:Optional
 	ProtectionMode *string `json:"protectionMode,omitempty" tf:"protection_mode,omitempty"`
 
@@ -105,7 +172,7 @@ type KeyShapeObservation struct {
 
 type KeyShapeParameters struct {
 
-	// The algorithm used by a key's key versions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for External keys.
 	// +kubebuilder:validation:Required
 	Algorithm *string `json:"algorithm" tf:"algorithm,omitempty"`
 

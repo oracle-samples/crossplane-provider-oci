@@ -79,6 +79,12 @@ spec:
                               category:
                                 description: Log object category.
                                 type: string
+                              parameters:
+                                additionalProperties:
+                                  type: string
+                                description: (Applicable when source_type=OCISERVICE)
+                                  (Updatable) Log category parameters are stored here.
+                                type: object
                               resource:
                                 description: The unique identifier of the resource
                                   emitting the log.
@@ -206,7 +212,7 @@ spec:
                     type: string
                   retentionDuration:
                     description: (Updatable) Log retention duration in 30-day increments
-                      (30, 60, 90 and so on).
+                      (30, 60, 90 and so on until 180).
                     type: number
                 required:
                 - displayName

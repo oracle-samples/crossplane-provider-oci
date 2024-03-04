@@ -26,6 +26,15 @@ spec:
       - logObjectIdSelector:
           matchLabels:
             testing.upbound.io/example-name: test_object
+        operationalMetricsConfiguration:
+        - destination:
+          - compartmentId: ${var.compartment_id}
+          source:
+          - metrics: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_metrics}
+            recordInput:
+            - namespace: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_namespace}
+              resourceGroup: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_resource_group}
+            type: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_type}
       sources:
       - channels: ${var.unified_agent_configuration_service_configuration_sources_channels}
         name: ${var.unified_agent_configuration_service_configuration_sources_name}
@@ -39,6 +48,7 @@ spec:
           grokNameKey: ${var.unified_agent_configuration_service_configuration_sources_parser_grok_name_key}
           isEstimateCurrentEvent: ${var.unified_agent_configuration_service_configuration_sources_parser_is_estimate_current_event}
           isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_is_keep_time_key}
+          isMergeCriFields: ${var.unified_agent_configuration_service_configuration_sources_parser_is_merge_cri_fields}
           isNullEmptyString: ${var.unified_agent_configuration_service_configuration_sources_parser_is_null_empty_string}
           isSupportColonlessIdent: ${var.unified_agent_configuration_service_configuration_sources_parser_is_support_colonless_ident}
           isWithPriority: ${var.unified_agent_configuration_service_configuration_sources_parser_is_with_priority}
@@ -46,6 +56,10 @@ spec:
           messageFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_message_format}
           messageKey: ${var.unified_agent_configuration_service_configuration_sources_parser_message_key}
           multiLineStartRegexp: ${var.unified_agent_configuration_service_configuration_sources_parser_multi_line_start_regexp}
+          nestedParser:
+          - fieldTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_field_time_key}
+            isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_is_keep_time_key}
+            timeFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_time_format}
           nullValuePattern: ${var.unified_agent_configuration_service_configuration_sources_parser_null_value_pattern}
           parserType: ${var.unified_agent_configuration_service_configuration_sources_parser_parser_type}
           patterns:

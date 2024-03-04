@@ -24,7 +24,7 @@ type VolumeBackupPolicyAssignmentObservation struct {
 
 type VolumeBackupPolicyAssignmentParameters struct {
 
-	// The OCID of the volume to assign the policy to.
+	// The OCID of the volume or volume group to assign the policy to.
 	// +crossplane:generate:reference:type=Volume
 	// +kubebuilder:validation:Optional
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`

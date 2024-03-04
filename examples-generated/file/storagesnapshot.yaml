@@ -10,6 +10,7 @@ spec:
   forProvider:
     definedTags:
       Operations.CostCenter: "42"
+    expirationTime: ${var.snapshot_expiration_time}
     fileSystemIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_file_system

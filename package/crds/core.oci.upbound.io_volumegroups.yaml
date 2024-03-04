@@ -70,7 +70,9 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume group. If omitted,
-                      no policy will be assigned.
+                      no policy will be assigned. This field is deprecated. Use the
+                      oci_core_volume_backup_policy_assignments instead to assign
+                      a backup policy to a volume group.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -192,7 +194,8 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                         volumeIds:
-                          description: OCIDs for the volumes in this volume group.
+                          description: OCIDs for the volumes used to create this volume
+                            group.
                           items:
                             type: string
                           type: array
@@ -301,7 +304,8 @@ spec:
                   volumeGroupReplicasDeletion:
                     type: boolean
                   volumeIds:
-                    description: OCIDs for the volumes in this volume group.
+                    description: OCIDs for the volumes used to create this volume
+                      group.
                     items:
                       type: string
                     type: array

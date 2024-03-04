@@ -24,6 +24,9 @@ type FunctionObservation struct {
 	// The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.
 	InvokeEndpoint *string `json:"invokeEndpoint,omitempty" tf:"invoke_endpoint,omitempty"`
 
+	// The processor shape (GENERIC_X86/GENERIC_ARM) on which to run functions in the application, extracted from the image manifest.
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
 	// The current state of the function.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -109,7 +112,7 @@ type ProvisionedConcurrencyConfigObservation struct {
 
 type ProvisionedConcurrencyConfigParameters struct {
 
-	// (Updatable)
+	// (Updatable) Configuration specifying a constant amount of provisioned concurrency.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 

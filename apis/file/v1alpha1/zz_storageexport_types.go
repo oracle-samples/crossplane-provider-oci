@@ -18,9 +18,13 @@ type ExportOptionsObservation struct {
 
 type ExportOptionsParameters struct {
 
-	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_ONLY.
+	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_WRITE.
 	// +kubebuilder:validation:Optional
 	Access *string `json:"access,omitempty" tf:"access,omitempty"`
+
+	// (Updatable) Array of allowed NFS authentication types.
+	// +kubebuilder:validation:Optional
+	AllowedAuth []*string `json:"allowedAuth,omitempty" tf:"allowed_auth,omitempty"`
 
 	// (Updatable) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to 65534.
 	// +kubebuilder:validation:Optional
@@ -33,6 +37,10 @@ type ExportOptionsParameters struct {
 	// (Updatable) Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If ALL, all users and groups are remapped; if ROOT, only the root user and group (UID/GID 0) are remapped; if NONE, no remapping is done. If unspecified, defaults to ROOT.
 	// +kubebuilder:validation:Optional
 	IdentitySquash *string `json:"identitySquash,omitempty" tf:"identity_squash,omitempty"`
+
+	// (Updatable) Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping. If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID.
+	// +kubebuilder:validation:Optional
+	IsAnonymousAccessAllowed *bool `json:"isAnonymousAccessAllowed,omitempty" tf:"is_anonymous_access_allowed,omitempty"`
 
 	// (Updatable) If true, clients accessing the file system through this export must connect from a privileged source port. If unspecified, defaults to true.
 	// +kubebuilder:validation:Optional
@@ -58,6 +66,7 @@ type StorageExportObservation struct {
 type StorageExportParameters struct {
 
 	// (Updatable) Export options for the new export. If left unspecified, defaults to:
+	// [ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort" : false, "access": "READ_WRITE", "identitySquash": "NONE", "anonymousUid": 65534, "anonymousGid": 65534, "isAnonymousAccessAllowed": false, "allowedAuth": ["SYS"] } ]
 	// +kubebuilder:validation:Optional
 	ExportOptions []ExportOptionsParameters `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
@@ -86,6 +95,10 @@ type StorageExportParameters struct {
 	// Selector for a StorageFileSystem to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
+	// +kubebuilder:validation:Optional
+	IsIdmapGroupsForSysAuth *bool `json:"isIdmapGroupsForSysAuth,omitempty" tf:"is_idmap_groups_for_sys_auth,omitempty"`
 
 	// Path used to access the associated file system.
 	// +kubebuilder:validation:Required

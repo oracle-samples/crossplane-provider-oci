@@ -112,17 +112,18 @@ spec:
                     description: The default value is false.
                     type: boolean
                   availabilityConfig:
-                    description: (Updatable) Options for defining the availability
-                      of a VM instance after a maintenance event that impacts the
-                      underlying hardware.  This also includes live migration preference
-                      for infrastructure maintenance.
+                    description: (Updatable) Options for VM migration during infrastructure
+                      maintenance events and for defining the availability of a VM
+                      instance after a maintenance event that impacts the underlying
+                      hardware.
                     items:
                       properties:
                         isLiveMigrationPreferred:
-                          description: (Updatable) Whether live migration is preferred
-                            for infrastructure maintenance.  If null preference is
-                            specified, live migration will be preferred for infrastructure
-                            maintenance for applicable instances.
+                          description: (Updatable) Whether to live migrate supported
+                            VM instances to a healthy physical VM host without disrupting
+                            running instances during infrastructure maintenance events.
+                            If null, Oracle chooses the best option for migrating
+                            the VM during infrastructure maintenance events.
                           type: boolean
                         recoveryAction:
                           description: (Updatable) The lifecycle state for an instance
@@ -229,11 +230,20 @@ spec:
                       VNICs, see Virtual Network Interface Cards (VNICs).
                     items:
                       properties:
+                        assignIpv6Ip:
+                          description: 'Whether to allocate an IPv6 address at instance
+                            and VNIC creation from an IPv6 enabled subnet. Default:
+                            False. When provided you may optionally provide an IPv6
+                            prefix (ipv6SubnetCidr) of your choice to assign the IPv6
+                            address from. If ipv6SubnetCidr is not provided then an
+                            IPv6 prefix is chosen for you.'
+                          type: boolean
                         assignPrivateDnsRecord:
-                          description: 'Whether the VNIC should be assigned a DNS
-                            record. If set to false, no DNS record registion for the
-                            VNIC; if set to true, DNS record will be registered. The
-                            default value is true.  Example: true'
+                          description: Whether the VNIC should be assigned a DNS record.
+                            If set to false, there will be no DNS record registration
+                            for the VNIC. If set to true, the DNS record will be registered.
+                            The default value is true. If you specify a hostnameLabel,
+                            the assignPrivateDnsRecord is require to be set to true.
                           type: boolean
                         assignPublicIp:
                           description: (Updatable) Whether the VNIC should be assigned
@@ -277,6 +287,22 @@ spec:
                             object and also the PrivateIp object returned by ListPrivateIps
                             and GetPrivateIp.
                           type: string
+                        ipv6addressIpv6SubnetCidrPairDetails:
+                          description: A list of IPv6 prefix ranges from which the
+                            VNIC should be assigned an IPv6 address. You can provide
+                            only the prefix ranges from which Oracle Cloud Infrastructure
+                            will select an available address from the range. You can
+                            optionally choose to leave the prefix range empty and
+                            instead provide the specific IPv6 address that should
+                            be used from within that range.
+                          items:
+                            properties:
+                              ipv6address:
+                                type: string
+                              ipv6subnetCidr:
+                                type: string
+                            type: object
+                          type: array
                         nsgIds:
                           description: (Updatable) A list of the OCIDs of the network
                             security groups (NSGs) to add the VNIC to. For more information
@@ -550,8 +576,8 @@ spec:
                       type: object
                     type: array
                   dedicatedVmHostId:
-                    description: The OCID of the dedicated virtual machine host to
-                      place the instance on.
+                    description: (Updatable) The OCID of the dedicated virtual machine
+                      host to place the instance on.
                     type: string
                   dedicatedVmHostIdRef:
                     description: Reference to a DedicatedVMHost to populate dedicatedVmHostId.
@@ -676,6 +702,12 @@ spec:
                       source type instead. If you specify values for both, the values
                       must match.
                     type: string
+                  instanceConfigurationId:
+                    description: The OCID of the Instance Configuration containing
+                      instance launch details. Any other fields supplied in this instance
+                      launch request will override the details stored in the Instance
+                      Configuration for this instance launch.
+                    type: string
                   instanceOptions:
                     description: (Updatable) Optional mutable instance options
                     items:
@@ -737,26 +769,37 @@ spec:
                       metadata fields are string/string maps only).
                     type: object
                   platformConfig:
-                    description: The platform configuration requested for the instance.
+                    description: (Updatable only for VM's) The platform configuration
+                      requested for the instance.
                     items:
                       properties:
                         areVirtualInstructionsEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
-                            | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization
-                            instructions are available. For example, Secure Virtual
-                            Machine for AMD shapes or VT-x for Intel shapes.
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether
+                            virtualization instructions are available. For example,
+                            Secure Virtual Machine for AMD shapes or VT-x for Intel
+                            shapes.
                           type: boolean
+                        configMap:
+                          additionalProperties:
+                            type: string
+                          description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM
+                            | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration
+                            Map for flexible setting input.
+                          type: object
                         isAccessControlServiceEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
-                            | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control
-                            Service is enabled on the instance. When enabled, the
-                            platform can enforce PCIe device isolation, required for
-                            VFIO device pass-through.
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether
+                            the Access Control Service is enabled on the instance.
+                            When enabled, the platform can enforce PCIe device isolation,
+                            required for VFIO device pass-through.
                           type: boolean
                         isInputOutputMemoryManagementUnitEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
-                            | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether
-                            the input-output memory management unit is enabled.
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM
+                            | INTEL_SKYLAKE_BM) Whether the input-output memory management
+                            unit is enabled.
                           type: boolean
                         isMeasuredBootEnabled:
                           description: Whether the Measured Boot feature is enabled
@@ -772,10 +815,12 @@ spec:
                           type: boolean
                         isSymmetricMultiThreadingEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
-                            | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether
-                            symmetric multithreading is enabled on the instance. Symmetric
-                            multithreading is also called simultaneous multithreading
-                            (SMT) or Intel Hyper-Threading.
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | AMD_VM | GENERIC_BM
+                            | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM | INTEL_VM) (Updatable
+                            only for INTEL_VM and AMD_VM) Whether symmetric multithreading
+                            is enabled on the instance. Symmetric multithreading is
+                            also called simultaneous multithreading (SMT) or Intel
+                            Hyper-Threading.
                           type: boolean
                         isTrustedPlatformModuleEnabled:
                           description: Whether the Trusted Platform Module (TPM) is
@@ -783,16 +828,18 @@ spec:
                           type: boolean
                         numaNodesPerSocket:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
-                            | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The
-                            number of NUMA nodes per socket (NPS).
+                            | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM
+                            | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket
+                            (NPS).
                           type: string
                         percentageOfCoresEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM
-                            | INTEL_ICELAKE_BM) The percentage of cores enabled. Value
-                            must be a multiple of 25%. If the requested percentage
-                            results in a fractional number of cores, the system rounds
-                            up the number of cores across processors and provisions
-                            an instance with a whole number of cores.
+                            | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The
+                            percentage of cores enabled. Value must be a multiple
+                            of 25%. If the requested percentage results in a fractional
+                            number of cores, the system rounds up the number of cores
+                            across processors and provisions an instance with a whole
+                            number of cores.
                           type: number
                         type:
                           description: The type of platform being configured.
@@ -859,6 +906,13 @@ spec:
                           description: (Updatable) The total number of OCPUs available
                             to the instance.
                           type: number
+                        vcpus:
+                          description: (Updatable) The total number of VCPUs available
+                            to the instance. This can be used instead of OCPUs, in
+                            which case the actual number of OCPUs will be calculated
+                            based on this value and the actual hardware. This must
+                            be a multiple of 2.
+                          type: number
                       type: object
                     type: array
                   sourceDetails:
@@ -877,6 +931,37 @@ spec:
                             elastic performance options. See Block Volume Performance
                             Levels for more information.
                           type: string
+                        instanceSourceImageFilterDetails:
+                          description: (Applicable when source_type=image) These are
+                            the criteria for selecting an image. This is required
+                            if imageId is not specified.
+                          items:
+                            properties:
+                              compartmentId:
+                                description: (Updatable) The OCID of the compartment.
+                                type: string
+                              definedTagsFilter:
+                                additionalProperties:
+                                  type: string
+                                description: (Applicable when source_type=image) Filter
+                                  based on these defined tags. Each key is predefined
+                                  and scoped to a namespace. For more information,
+                                  see Resource Tags.
+                                type: object
+                              operatingSystem:
+                                description: '(Applicable when source_type=image)
+                                  The image''s operating system.  Example: Oracle
+                                  Linux'
+                                type: string
+                              operatingSystemVersion:
+                                description: '(Applicable when source_type=image)
+                                  The image''s operating system version.  Example:
+                                  7.2'
+                                type: string
+                            required:
+                            - compartmentId
+                            type: object
+                          type: array
                         kmsKeyId:
                           description: (Applicable when source_type=image) The OCID
                             of the Vault service key to assign as the master encryption
@@ -985,7 +1070,6 @@ spec:
                     type: string
                 required:
                 - availabilityDomain
-                - shape
                 type: object
               providerConfigRef:
                 default:

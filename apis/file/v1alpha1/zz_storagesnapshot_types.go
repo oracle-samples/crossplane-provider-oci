@@ -15,6 +15,9 @@ import (
 
 type StorageSnapshotObservation struct {
 
+	// The OCID of the file system snapshot policy that created this snapshot.
+	FilesystemSnapshotPolicyID *string `json:"filesystemSnapshotPolicyId,omitempty" tf:"filesystem_snapshot_policy_id,omitempty"`
+
 	// The OCID of the snapshot.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -45,6 +48,10 @@ type StorageSnapshotParameters struct {
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The time when this snapshot will be deleted.
+	// +kubebuilder:validation:Optional
+	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
 	// +crossplane:generate:reference:type=StorageFileSystem

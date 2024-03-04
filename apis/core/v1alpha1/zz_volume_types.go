@@ -13,23 +13,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BlockVolumeReplicasObservation struct {
-
-	// The block volume replica's Oracle ID (OCID).
-	BlockVolumeReplicaID *string `json:"blockVolumeReplicaId,omitempty" tf:"block_volume_replica_id,omitempty"`
-}
-
-type BlockVolumeReplicasParameters struct {
-
-	// (Updatable) The availability domain of the block volume replica.  Example: Uocm:PHX-AD-1
-	// +kubebuilder:validation:Required
-	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
-
-	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-	// +kubebuilder:validation:Optional
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-}
-
 type VolumeAutotunePoliciesObservation struct {
 }
 
@@ -44,6 +27,23 @@ type VolumeAutotunePoliciesParameters struct {
 	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
 }
 
+type VolumeBlockVolumeReplicasObservation struct {
+
+	// The block volume replica's Oracle ID (OCID).
+	BlockVolumeReplicaID *string `json:"blockVolumeReplicaId,omitempty" tf:"block_volume_replica_id,omitempty"`
+}
+
+type VolumeBlockVolumeReplicasParameters struct {
+
+	// (Updatable) The availability domain of the block volume replica.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Required
+	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
 type VolumeObservation struct {
 
 	// The number of Volume Performance Units per GB that this volume is effectively tuned to.
@@ -51,7 +51,7 @@ type VolumeObservation struct {
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
 	// +kubebuilder:validation:Optional
-	BlockVolumeReplicas []BlockVolumeReplicasObservation `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+	BlockVolumeReplicas []VolumeBlockVolumeReplicasObservation `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
 
 	// The OCID of the block volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -82,13 +82,13 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Required
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
 	// +kubebuilder:validation:Optional
-	BlockVolumeReplicas []BlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+	BlockVolumeReplicas []VolumeBlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	BlockVolumeReplicasDeletion *bool `json:"blockVolumeReplicasDeletion,omitempty" tf:"block_volume_replicas_deletion,omitempty"`

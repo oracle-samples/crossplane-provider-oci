@@ -158,6 +158,160 @@ spec:
                   filterType:
                     description: Indicates which service will use this capture filter
                     type: string
+                  flowLogCaptureFilterRules:
+                    description: (Updatable) The set of rules governing what traffic
+                      the Flow Log collects when creating a flow log capture filter.
+                    items:
+                      properties:
+                        destinationCidr:
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
+                          type: string
+                        flowLogType:
+                          description: (Updatable) Type or types of flow logs to store.
+                            ALL includes records for both accepted traffic and rejected
+                            traffic.
+                          type: string
+                        icmpOptions:
+                          description: '(Updatable) Optional and valid only for ICMP
+                            and ICMPv6. Use to specify a particular ICMP type and
+                            code as defined in:'
+                          items:
+                            properties:
+                              code:
+                                description: (Updatable) The ICMP code .
+                                type: number
+                              type:
+                                description: (Updatable) The ICMP type.
+                                type: number
+                            required:
+                            - type
+                            type: object
+                          type: array
+                        isEnabled:
+                          description: (Updatable) Indicates whether a flow log capture
+                            filter rule is enabled.
+                          type: boolean
+                        priority:
+                          description: (Updatable) A lower number indicates a higher
+                            priority, range 0-9. Each rule must have a distinct priority.
+                          type: number
+                        protocol:
+                          description: (Updatable) The transport protocol the filter
+                            uses.
+                          type: string
+                        ruleAction:
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
+                          type: string
+                        samplingRate:
+                          description: (Updatable) Sampling interval as 1 of X, where
+                            X is an integer not greater than 100000.
+                          type: number
+                        sourceCidr:
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
+                          type: string
+                        tcpOptions:
+                          description: (Updatable) Optional and valid only for TCP.
+                            Use to specify particular destination ports for TCP rules.
+                            If you specify TCP as the protocol but omit this object,
+                            then all destination ports are allowed.
+                          items:
+                            properties:
+                              destinationPortRange:
+                                description: (Updatable)
+                                items:
+                                  properties:
+                                    max:
+                                      description: (Updatable) The maximum port number,
+                                        which must not be less than the minimum port
+                                        number. To specify a single port number, set
+                                        both the min and max to the same value.
+                                      type: number
+                                    min:
+                                      description: (Updatable) The minimum port number,
+                                        which must not be greater than the maximum
+                                        port number.
+                                      type: number
+                                  required:
+                                  - max
+                                  - min
+                                  type: object
+                                type: array
+                              sourcePortRange:
+                                description: (Updatable)
+                                items:
+                                  properties:
+                                    max:
+                                      description: (Updatable) The maximum port number,
+                                        which must not be less than the minimum port
+                                        number. To specify a single port number, set
+                                        both the min and max to the same value.
+                                      type: number
+                                    min:
+                                      description: (Updatable) The minimum port number,
+                                        which must not be greater than the maximum
+                                        port number.
+                                      type: number
+                                  required:
+                                  - max
+                                  - min
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        udpOptions:
+                          description: (Updatable) Optional and valid only for UDP.
+                            Use to specify particular destination ports for UDP rules.
+                            If you specify UDP as the protocol but omit this object,
+                            then all destination ports are allowed.
+                          items:
+                            properties:
+                              destinationPortRange:
+                                description: (Updatable)
+                                items:
+                                  properties:
+                                    max:
+                                      description: (Updatable) The maximum port number,
+                                        which must not be less than the minimum port
+                                        number. To specify a single port number, set
+                                        both the min and max to the same value.
+                                      type: number
+                                    min:
+                                      description: (Updatable) The minimum port number,
+                                        which must not be greater than the maximum
+                                        port number.
+                                      type: number
+                                  required:
+                                  - max
+                                  - min
+                                  type: object
+                                type: array
+                              sourcePortRange:
+                                description: (Updatable)
+                                items:
+                                  properties:
+                                    max:
+                                      description: (Updatable) The maximum port number,
+                                        which must not be less than the minimum port
+                                        number. To specify a single port number, set
+                                        both the min and max to the same value.
+                                      type: number
+                                    min:
+                                      description: (Updatable) The minimum port number,
+                                        which must not be greater than the maximum
+                                        port number.
+                                      type: number
+                                  required:
+                                  - max
+                                  - min
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   freeformTags:
                     additionalProperties:
                       type: string
@@ -172,8 +326,8 @@ spec:
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -192,17 +346,16 @@ spec:
                             type: object
                           type: array
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.

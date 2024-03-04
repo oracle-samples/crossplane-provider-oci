@@ -197,7 +197,8 @@ spec:
                     items:
                       properties:
                         count:
-                          description: (Updatable)
+                          description: (Updatable) Configuration specifying a constant
+                            amount of provisioned concurrency.
                           type: number
                         strategy:
                           description: (Updatable) The strategy for provisioned concurrency
@@ -430,6 +431,11 @@ spec:
                     description: The base https invoke URL to set on a client in order
                       to invoke a function. This URL will never change over the lifetime
                       of the function and can be cached.
+                    type: string
+                  shape:
+                    description: The processor shape (GENERIC_X86/GENERIC_ARM) on
+                      which to run functions in the application, extracted from the
+                      image manifest.
                     type: string
                   state:
                     description: The current state of the function.

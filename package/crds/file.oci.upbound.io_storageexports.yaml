@@ -66,14 +66,23 @@ spec:
                 properties:
                   exportOptions:
                     description: '(Updatable) Export options for the new export. If
-                      left unspecified, defaults to:'
+                      left unspecified, defaults to: [ { "source" : "0.0.0.0/0", "requirePrivilegedSourcePort"
+                      : false, "access": "READ_WRITE", "identitySquash": "NONE", "anonymousUid":
+                      65534, "anonymousGid": 65534, "isAnonymousAccessAllowed": false,
+                      "allowedAuth": ["SYS"] } ]'
                     items:
                       properties:
                         access:
                           description: (Updatable) Type of access to grant clients
                             using the file system through this export. If unspecified
-                            defaults to READ_ONLY.
+                            defaults to READ_WRITE.
                           type: string
+                        allowedAuth:
+                          description: (Updatable) Array of allowed NFS authentication
+                            types.
+                          items:
+                            type: string
+                          type: array
                         anonymousGid:
                           description: (Updatable) GID value to remap to when squashing
                             a client GID (see identitySquash for more details.) If
@@ -92,6 +101,14 @@ spec:
                             user and group (UID/GID 0) are remapped; if NONE, no remapping
                             is done. If unspecified, defaults to ROOT.
                           type: string
+                        isAnonymousAccessAllowed:
+                          description: (Updatable) Whether or not to enable anonymous
+                            access to the file system through this export in cases
+                            where a user isn't found in the LDAP server used for ID
+                            mapping. If true, and the user is not found in the LDAP
+                            directory, the operation uses the Squash UID and Squash
+                            GID.
+                          type: boolean
                         requirePrivilegedSourcePort:
                           description: (Updatable) If true, clients accessing the
                             file system through this export must connect from a privileged
@@ -258,6 +275,19 @@ spec:
                             type: string
                         type: object
                     type: object
+                  isIdmapGroupsForSysAuth:
+                    description: (Updatable) Whether or not the export should use
+                      ID mapping for Unix groups rather than the group list provided
+                      within an NFS request's RPC header. When this flag is true the
+                      Unix UID from the RPC header is used to retrieve the list of
+                      secondary groups from a the ID mapping subsystem. The primary
+                      GID is always taken from the RPC header. If ID mapping is not
+                      configured, incorrectly configured, unavailable, or cannot be
+                      used to determine a list of secondary groups then an empty secondary
+                      group list is used for authorization. If the number of groups
+                      exceeds the limit of 256 groups, the list retrieved from LDAP
+                      is truncated to the first 256 groups read.
+                    type: boolean
                   path:
                     description: Path used to access the associated file system.
                     type: string

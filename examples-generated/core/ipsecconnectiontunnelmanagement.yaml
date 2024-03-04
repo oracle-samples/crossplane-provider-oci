@@ -19,7 +19,10 @@ spec:
     ikeVersion: V1
     ipsecId: ${oci_core_ipsec.test_ipsec.id}
     routing: ${var.ip_sec_connection_tunnel_management_routing}
-    sharedSecret: ${var.ip_sec_connection_tunnel_management_shared_secret}
+    sharedSecretSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
     tunnelId: ${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels[0].id}
 
 ---

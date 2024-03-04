@@ -105,11 +105,11 @@ spec:
                           items:
                             properties:
                               hpcIslandId:
-                                description: (Updatable) The OCID of the HpcIsland.
+                                description: (Updatable) The OCID of the HPC island.
                                 type: string
                               networkBlockIds:
-                                description: (Updatable) The list of OCID of the network
-                                  blocks.
+                                description: (Updatable) The list of OCIDs of the
+                                  network blocks.
                                 items:
                                   type: string
                                 type: array

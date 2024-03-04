@@ -13,6 +13,7 @@ spec:
     displayName: ${var.volume_backup_display_name}
     freeformTags:
       Department: Finance
+    kmsKeyId: ${oci_kms_key.test_key.id}
     type: ${var.volume_backup_type}
     volumeIdSelector:
       matchLabels:

@@ -160,6 +160,11 @@ spec:
                       to be unique, and it is changeable. Avoid entering confidential
                       information.  Example: My file system'
                     type: string
+                  filesystemSnapshotPolicyId:
+                    description: (Updatable) The OCID of the associated file system
+                      snapshot policy, which controls the frequency of snapshot creation
+                      and retention period of the taken snapshots.
+                    type: string
                   freeformTags:
                     additionalProperties:
                       type: string
@@ -373,8 +378,13 @@ spec:
                     type: boolean
                   isTargetable:
                     description: Specifies whether the file system can be used as
-                      a target file system for replication. For more information,
-                      see Using Replication.
+                      a target file system for replication. The system sets this value
+                      to true if the file system is unexported, hasn't yet been specified
+                      as a target file system in any replication resource, and has
+                      no user snapshots. After the file system has been specified
+                      as a target in a replication, or if the file system contains
+                      user snapshots, the system sets this value to false. For more
+                      information, see Using Replication.
                     type: boolean
                   lifecycleDetails:
                     description: Additional information about the current 'lifecycleState'.

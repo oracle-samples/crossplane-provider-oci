@@ -36,7 +36,7 @@ type StorageFileSystemObservation struct {
 	// Specifies whether the data has finished copying from the source to the clone. Hydration can take up to several hours to complete depending on the size of the source. The source and clone remain available during hydration, but there may be some performance impact. See Cloning a File System.
 	IsHydrated *bool `json:"isHydrated,omitempty" tf:"is_hydrated,omitempty"`
 
-	// Specifies whether the file system can be used as a target file system for replication. For more information, see Using Replication.
+	// Specifies whether the file system can be used as a target file system for replication. The system sets this value to true if the file system is unexported, hasn't yet been specified as a target file system in any replication resource, and has no user snapshots. After the file system has been specified as a target in a replication, or if the file system contains user snapshots, the system sets this value to false. For more information, see Using Replication.
 	IsTargetable *bool `json:"isTargetable,omitempty" tf:"is_targetable,omitempty"`
 
 	// Additional information about the current 'lifecycleState'.
@@ -84,6 +84,10 @@ type StorageFileSystemParameters struct {
 	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: My file system
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) The OCID of the associated file system snapshot policy, which controls the frequency of snapshot creation and retention period of the taken snapshots.
+	// +kubebuilder:validation:Optional
+	FilesystemSnapshotPolicyID *string `json:"filesystemSnapshotPolicyId,omitempty" tf:"filesystem_snapshot_policy_id,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional

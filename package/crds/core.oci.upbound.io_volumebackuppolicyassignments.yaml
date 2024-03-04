@@ -67,7 +67,8 @@ spec:
               forProvider:
                 properties:
                   assetId:
-                    description: The OCID of the volume to assign the policy to.
+                    description: The OCID of the volume or volume group to assign
+                      the policy to.
                     type: string
                   assetIdRef:
                     description: Reference to a Volume to populate assetId.

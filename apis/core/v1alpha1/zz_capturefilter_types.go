@@ -52,6 +52,10 @@ type CaptureFilterParameters struct {
 	// +kubebuilder:validation:Required
 	FilterType *string `json:"filterType" tf:"filter_type,omitempty"`
 
+	// (Updatable) The set of rules governing what traffic the Flow Log collects when creating a flow log capture filter.
+	// +kubebuilder:validation:Optional
+	FlowLogCaptureFilterRules []FlowLogCaptureFilterRulesParameters `json:"flowLogCaptureFilterRules,omitempty" tf:"flow_log_capture_filter_rules,omitempty"`
+
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
@@ -73,6 +77,56 @@ type DestinationPortRangeParameters struct {
 	// (Updatable) The minimum port number, which must not be greater than the maximum port number.
 	// +kubebuilder:validation:Required
 	Min *float64 `json:"min" tf:"min,omitempty"`
+}
+
+type FlowLogCaptureFilterRulesObservation struct {
+}
+
+type FlowLogCaptureFilterRulesParameters struct {
+
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
+	// +kubebuilder:validation:Optional
+	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
+
+	// (Updatable) Type or types of flow logs to store. ALL includes records for both accepted traffic and rejected traffic.
+	// +kubebuilder:validation:Optional
+	FlowLogType *string `json:"flowLogType,omitempty" tf:"flow_log_type,omitempty"`
+
+	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
+	// +kubebuilder:validation:Optional
+	IcmpOptions []IcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
+
+	// (Updatable) Indicates whether a flow log capture filter rule is enabled.
+	// +kubebuilder:validation:Optional
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) A lower number indicates a higher priority, range 0-9. Each rule must have a distinct priority.
+	// +kubebuilder:validation:Optional
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// (Updatable) The transport protocol the filter uses.
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) Include or exclude a ruleAction object.
+	// +kubebuilder:validation:Optional
+	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
+
+	// (Updatable) Sampling interval as 1 of X, where X is an integer not greater than 100000.
+	// +kubebuilder:validation:Optional
+	SamplingRate *float64 `json:"samplingRate,omitempty" tf:"sampling_rate,omitempty"`
+
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
+	// +kubebuilder:validation:Optional
+	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
+
+	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
+	// +kubebuilder:validation:Optional
+	TCPOptions []TCPOptionsParameters `json:"tcpOptions,omitempty" tf:"tcp_options,omitempty"`
+
+	// (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed.
+	// +kubebuilder:validation:Optional
+	UDPOptions []UDPOptionsParameters `json:"udpOptions,omitempty" tf:"udp_options,omitempty"`
 }
 
 type IcmpOptionsObservation struct {
@@ -103,6 +157,20 @@ type SourcePortRangeParameters struct {
 	Min *float64 `json:"min" tf:"min,omitempty"`
 }
 
+type TCPOptionsDestinationPortRangeObservation struct {
+}
+
+type TCPOptionsDestinationPortRangeParameters struct {
+
+	// (Updatable) The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// (Updatable) The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
+}
+
 type TCPOptionsObservation struct {
 }
 
@@ -115,6 +183,20 @@ type TCPOptionsParameters struct {
 	// (Updatable)
 	// +kubebuilder:validation:Optional
 	SourcePortRange []SourcePortRangeParameters `json:"sourcePortRange,omitempty" tf:"source_port_range,omitempty"`
+}
+
+type TCPOptionsSourcePortRangeObservation struct {
+}
+
+type TCPOptionsSourcePortRangeParameters struct {
+
+	// (Updatable) The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// (Updatable) The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
 }
 
 type UDPOptionsDestinationPortRangeObservation struct {
@@ -159,34 +241,48 @@ type UDPOptionsSourcePortRangeParameters struct {
 	Min *float64 `json:"min" tf:"min,omitempty"`
 }
 
+type VtapCaptureFilterRulesIcmpOptionsObservation struct {
+}
+
+type VtapCaptureFilterRulesIcmpOptionsParameters struct {
+
+	// (Updatable) The ICMP code .
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// (Updatable) The ICMP type.
+	// +kubebuilder:validation:Required
+	Type *float64 `json:"type" tf:"type,omitempty"`
+}
+
 type VtapCaptureFilterRulesObservation struct {
 }
 
 type VtapCaptureFilterRulesParameters struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	// +kubebuilder:validation:Optional
-	IcmpOptions []IcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
+	IcmpOptions []VtapCaptureFilterRulesIcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	// +kubebuilder:validation:Optional
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
 	// +kubebuilder:validation:Optional
-	TCPOptions []TCPOptionsParameters `json:"tcpOptions,omitempty" tf:"tcp_options,omitempty"`
+	TCPOptions []VtapCaptureFilterRulesTCPOptionsParameters `json:"tcpOptions,omitempty" tf:"tcp_options,omitempty"`
 
 	// (Updatable) The traffic direction the VTAP is configured to mirror.
 	// +kubebuilder:validation:Required
@@ -194,7 +290,63 @@ type VtapCaptureFilterRulesParameters struct {
 
 	// (Updatable) Optional and valid only for UDP. Use to specify particular destination ports for UDP rules. If you specify UDP as the protocol but omit this object, then all destination ports are allowed.
 	// +kubebuilder:validation:Optional
-	UDPOptions []UDPOptionsParameters `json:"udpOptions,omitempty" tf:"udp_options,omitempty"`
+	UDPOptions []VtapCaptureFilterRulesUDPOptionsParameters `json:"udpOptions,omitempty" tf:"udp_options,omitempty"`
+}
+
+type VtapCaptureFilterRulesTCPOptionsObservation struct {
+}
+
+type VtapCaptureFilterRulesTCPOptionsParameters struct {
+
+	// (Updatable)
+	// +kubebuilder:validation:Optional
+	DestinationPortRange []TCPOptionsDestinationPortRangeParameters `json:"destinationPortRange,omitempty" tf:"destination_port_range,omitempty"`
+
+	// (Updatable)
+	// +kubebuilder:validation:Optional
+	SourcePortRange []TCPOptionsSourcePortRangeParameters `json:"sourcePortRange,omitempty" tf:"source_port_range,omitempty"`
+}
+
+type VtapCaptureFilterRulesUDPOptionsDestinationPortRangeObservation struct {
+}
+
+type VtapCaptureFilterRulesUDPOptionsDestinationPortRangeParameters struct {
+
+	// (Updatable) The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// (Updatable) The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
+}
+
+type VtapCaptureFilterRulesUDPOptionsObservation struct {
+}
+
+type VtapCaptureFilterRulesUDPOptionsParameters struct {
+
+	// (Updatable)
+	// +kubebuilder:validation:Optional
+	DestinationPortRange []VtapCaptureFilterRulesUDPOptionsDestinationPortRangeParameters `json:"destinationPortRange,omitempty" tf:"destination_port_range,omitempty"`
+
+	// (Updatable)
+	// +kubebuilder:validation:Optional
+	SourcePortRange []VtapCaptureFilterRulesUDPOptionsSourcePortRangeParameters `json:"sourcePortRange,omitempty" tf:"source_port_range,omitempty"`
+}
+
+type VtapCaptureFilterRulesUDPOptionsSourcePortRangeObservation struct {
+}
+
+type VtapCaptureFilterRulesUDPOptionsSourcePortRangeParameters struct {
+
+	// (Updatable) The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// (Updatable) The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
 }
 
 // CaptureFilterSpec defines the desired state of CaptureFilter

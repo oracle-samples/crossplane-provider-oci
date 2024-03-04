@@ -64,6 +64,23 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  clusterConfiguration:
+                    description: The HPC cluster configuration requested when launching
+                      instances of a cluster network.
+                    items:
+                      properties:
+                        hpcIslandId:
+                          description: The OCID of the HPC island.
+                          type: string
+                        networkBlockIds:
+                          description: The list of network block OCIDs.
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - hpcIslandId
+                      type: object
+                    type: array
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
                       the cluster network.
@@ -136,9 +153,51 @@ spec:
                           description: 'The availability domain to place instances.  Example:
                             Uocm:PHX-AD-1'
                           type: string
+                        placementConstraint:
+                          type: string
                         primarySubnetId:
                           description: The OCID of the primary subnet to place instances.
+                            This field is deprecated. Use primaryVnicSubnets instead
+                            to set VNIC data for instances in the pool.
                           type: string
+                        primaryVnicSubnets:
+                          description: Details about the IPv6 primary subnet.
+                          items:
+                            properties:
+                              ipv6addressIpv6SubnetCidrPairDetails:
+                                description: A list of IPv6 prefix ranges from which
+                                  the VNIC should be assigned an IPv6 address. You
+                                  can provide only the prefix ranges and Oracle Cloud
+                                  Infrastructure will select an available address
+                                  from the range. You can optionally choose to leave
+                                  the prefix range empty and instead provide the specific
+                                  IPv6 address that should be used from within that
+                                  range.
+                                items:
+                                  properties:
+                                    ipv6subnetCidr:
+                                      description: Optional. Used to disambiguate
+                                        which subnet prefix should be used to create
+                                        an IPv6 allocation.
+                                      type: string
+                                  type: object
+                                type: array
+                              isAssignIpv6Ip:
+                                description: 'Whether to allocate an IPv6 address
+                                  at instance and VNIC creation from an IPv6 enabled
+                                  subnet. Default: False. When provided you may optionally
+                                  provide an IPv6 prefix (ipv6SubnetCidr) of your
+                                  choice to assign the IPv6 address from. If ipv6SubnetCidr
+                                  is not provided then an IPv6 prefix is chosen for
+                                  you.'
+                                type: boolean
+                              subnetId:
+                                description: The subnet OCID for the secondary VNIC.
+                                type: string
+                            required:
+                            - subnetId
+                            type: object
+                          type: array
                         secondaryVnicSubnets:
                           description: The set of secondary VNIC data for instances
                             in the pool.
@@ -149,6 +208,33 @@ spec:
                                   not have to be unique, and it's changeable. Avoid
                                   entering confidential information.
                                 type: string
+                              ipv6addressIpv6SubnetCidrPairDetails:
+                                description: A list of IPv6 prefix ranges from which
+                                  the VNIC should be assigned an IPv6 address. You
+                                  can provide only the prefix ranges and Oracle Cloud
+                                  Infrastructure will select an available address
+                                  from the range. You can optionally choose to leave
+                                  the prefix range empty and instead provide the specific
+                                  IPv6 address that should be used from within that
+                                  range.
+                                items:
+                                  properties:
+                                    ipv6subnetCidr:
+                                      description: Optional. Used to disambiguate
+                                        which subnet prefix should be used to create
+                                        an IPv6 allocation.
+                                      type: string
+                                  type: object
+                                type: array
+                              isAssignIpv6Ip:
+                                description: 'Whether to allocate an IPv6 address
+                                  at instance and VNIC creation from an IPv6 enabled
+                                  subnet. Default: False. When provided you may optionally
+                                  provide an IPv6 prefix (ipv6SubnetCidr) of your
+                                  choice to assign the IPv6 address from. If ipv6SubnetCidr
+                                  is not provided then an IPv6 prefix is chosen for
+                                  you.'
+                                type: boolean
                               subnetId:
                                 description: The subnet OCID for the secondary VNIC.
                                 type: string
@@ -158,7 +244,6 @@ spec:
                           type: array
                       required:
                       - availabilityDomain
-                      - primarySubnetId
                       type: object
                     type: array
                 required:
@@ -343,7 +428,7 @@ spec:
               atProvider:
                 properties:
                   hpcIslandId:
-                    description: The OCID of the hpc island used by the cluster network.
+                    description: The OCID of the HPC island.
                     type: string
                   id:
                     description: The OCID of the cluster network.
@@ -359,6 +444,10 @@ spec:
                           type: string
                         id:
                           description: The OCID of the cluster network.
+                          type: string
+                        instanceDisplayNameFormatter:
+                          type: string
+                        instanceHostnameFormatter:
                           type: string
                         loadBalancers:
                           description: The load balancers attached to the instance
@@ -413,8 +502,48 @@ spec:
                                 type: array
                               primarySubnetId:
                                 description: The OCID of the primary subnet to place
-                                  instances.
+                                  instances. This field is deprecated. Use primaryVnicSubnets
+                                  instead to set VNIC data for instances in the pool.
                                 type: string
+                              primaryVnicSubnets:
+                                description: Details about the IPv6 primary subnet.
+                                items:
+                                  properties:
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      description: A list of IPv6 prefix ranges from
+                                        which the VNIC should be assigned an IPv6
+                                        address. You can provide only the prefix ranges
+                                        and Oracle Cloud Infrastructure will select
+                                        an available address from the range. You can
+                                        optionally choose to leave the prefix range
+                                        empty and instead provide the specific IPv6
+                                        address that should be used from within that
+                                        range.
+                                      items:
+                                        properties:
+                                          ipv6subnetCidr:
+                                            description: Optional. Used to disambiguate
+                                              which subnet prefix should be used to
+                                              create an IPv6 allocation.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    isAssignIpv6Ip:
+                                      description: 'Whether to allocate an IPv6 address
+                                        at instance and VNIC creation from an IPv6
+                                        enabled subnet. Default: False. When provided
+                                        you may optionally provide an IPv6 prefix
+                                        (ipv6SubnetCidr) of your choice to assign
+                                        the IPv6 address from. If ipv6SubnetCidr is
+                                        not provided then an IPv6 prefix is chosen
+                                        for you.'
+                                      type: boolean
+                                    subnetId:
+                                      description: The subnet OCID for the secondary
+                                        VNIC.
+                                      type: string
+                                  type: object
+                                type: array
                               secondaryVnicSubnets:
                                 description: The set of secondary VNIC data for instances
                                   in the pool.
@@ -425,6 +554,35 @@ spec:
                                         Does not have to be unique, and it's changeable.
                                         Avoid entering confidential information.
                                       type: string
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      description: A list of IPv6 prefix ranges from
+                                        which the VNIC should be assigned an IPv6
+                                        address. You can provide only the prefix ranges
+                                        and Oracle Cloud Infrastructure will select
+                                        an available address from the range. You can
+                                        optionally choose to leave the prefix range
+                                        empty and instead provide the specific IPv6
+                                        address that should be used from within that
+                                        range.
+                                      items:
+                                        properties:
+                                          ipv6subnetCidr:
+                                            description: Optional. Used to disambiguate
+                                              which subnet prefix should be used to
+                                              create an IPv6 allocation.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    isAssignIpv6Ip:
+                                      description: 'Whether to allocate an IPv6 address
+                                        at instance and VNIC creation from an IPv6
+                                        enabled subnet. Default: False. When provided
+                                        you may optionally provide an IPv6 prefix
+                                        (ipv6SubnetCidr) of your choice to assign
+                                        the IPv6 address from. If ipv6SubnetCidr is
+                                        not provided then an IPv6 prefix is chosen
+                                        for you.'
+                                      type: boolean
                                     subnetId:
                                       description: The subnet OCID for the secondary
                                         VNIC.
@@ -444,7 +602,7 @@ spec:
                       type: object
                     type: array
                   networkBlockIds:
-                    description: The list of network block OCIDs of the HPC island.
+                    description: The list of network block OCIDs.
                     items:
                       type: string
                     type: array

@@ -18,7 +18,23 @@ spec:
     freeformTags:
       Department: Finance
     hostnameLabel: ${var.mount_target_hostname_label}
+    idmapType: ${var.mount_target_idmap_type}
     ipAddress: ${var.mount_target_ip_address}
+    kerberos:
+    - backupKeyTabSecretVersion: ${var.mount_target_kerberos_backup_key_tab_secret_version}
+      currentKeyTabSecretVersion: ${var.mount_target_kerberos_current_key_tab_secret_version}
+      isKerberosEnabled: ${var.mount_target_kerberos_is_kerberos_enabled}
+      kerberosRealm: ${var.mount_target_kerberos_kerberos_realm}
+      keyTabSecretId: ${oci_vault_secret.test_secret.id}
+    ldapIdmap:
+    - cacheLifetimeSeconds: ${var.mount_target_ldap_idmap_cache_lifetime_seconds}
+      cacheRefreshIntervalSeconds: ${var.mount_target_ldap_idmap_cache_refresh_interval_seconds}
+      groupSearchBase: ${var.mount_target_ldap_idmap_group_search_base}
+      negativeCacheLifetimeSeconds: ${var.mount_target_ldap_idmap_negative_cache_lifetime_seconds}
+      outboundConnector1Id: ${oci_file_storage_outbound_connector1.test_outbound_connector1.id}
+      outboundConnector2Id: ${oci_file_storage_outbound_connector2.test_outbound_connector2.id}
+      schemaType: ${var.mount_target_ldap_idmap_schema_type}
+      userSearchBase: ${var.mount_target_ldap_idmap_user_search_base}
     nsgIds: ${var.mount_target_nsg_ids}
     subnetIdSelector:
       matchLabels:

@@ -117,25 +117,32 @@ spec:
                       Chandler, AZ'
                     type: string
                   macsecProperties:
-                    description: Properties used for MACsec (if capable).
+                    description: (Updatable) Properties used to configure MACsec (if
+                      capable).
                     items:
                       properties:
                         encryptionCipher:
-                          description: Type of encryption cipher suite to use for
-                            the MACsec connection.
+                          description: (Updatable) Type of encryption cipher suite
+                            to use for the MACsec connection.
                           type: string
+                        isUnprotectedTrafficAllowed:
+                          description: (Updatable) Indicates whether unencrypted traffic
+                            is allowed if MACsec Key Agreement protocol (MKA) fails.
+                          type: boolean
                         primaryKey:
-                          description: An object defining the Secrets-in-Vault OCIDs
-                            representing the MACsec key.
+                          description: (Updatable) Defines the secret OCIDs held in
+                            Vault that represent the MACsec key.
                           items:
                             properties:
                               connectivityAssociationKeySecretId:
-                                description: Secret OCID containing the Connectivity
-                                  Association Key (CAK) of this MACsec key.
+                                description: (Updatable) Secret OCID containing the
+                                  Connectivity Association Key (CAK) of this MACsec
+                                  key.
                                 type: string
                               connectivityAssociationNameSecretId:
-                                description: Secret OCID containing the Connectivity
-                                  association Key Name (CKN) of this MACsec key.
+                                description: (Updatable) Secret OCID containing the
+                                  Connectivity association Key Name (CKN) of this
+                                  MACsec key.
                                 type: string
                             required:
                             - connectivityAssociationKeySecretId
@@ -143,7 +150,8 @@ spec:
                             type: object
                           type: array
                         state:
-                          description: Indicates whether or not MACsec is enabled.
+                          description: (Updatable) Indicates whether or not MACsec
+                            is enabled.
                           type: string
                       required:
                       - state
@@ -345,12 +353,13 @@ spec:
                     description: The cross-connect's Oracle ID (OCID).
                     type: string
                   macsecProperties:
-                    description: Properties used for MACsec (if capable).
+                    description: (Updatable) Properties used to configure MACsec (if
+                      capable).
                     items:
                       properties:
                         primaryKey:
-                          description: An object defining the Secrets-in-Vault OCIDs
-                            representing the MACsec key.
+                          description: (Updatable) Defines the secret OCIDs held in
+                            Vault that represent the MACsec key.
                           items:
                             properties:
                               connectivityAssociationKeySecretVersion:
@@ -379,7 +388,7 @@ spec:
                       cross-connect.
                     type: string
                   state:
-                    description: Indicates whether or not MACsec is enabled.
+                    description: (Updatable) Indicates whether or not MACsec is enabled.
                     type: string
                   timeCreated:
                     description: 'The date and time the cross-connect was created,

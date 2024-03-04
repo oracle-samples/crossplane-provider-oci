@@ -13,143 +13,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ApplicationListsObservation struct {
-}
-
-type ApplicationListsParameters struct {
-
-	// (Updatable) The key is the identifier by which the application list is referenced.
-	// +kubebuilder:validation:Required
-	ApplicationListName *string `json:"applicationListName" tf:"application_list_name,omitempty"`
-
-	// (Updatable) Details about the application
-	// +kubebuilder:validation:Optional
-	ApplicationValues []ApplicationValuesParameters `json:"applicationValues,omitempty" tf:"application_values,omitempty"`
-}
-
-type ApplicationValuesObservation struct {
-}
-
-type ApplicationValuesParameters struct {
-
-	// (Updatable) Used when you select ICMP. 0-Net unreachable, 1-Host unreachable, 2-Protocol unreachable, 3-Port unreachable
-	// +kubebuilder:validation:Optional
-	IcmpCode *float64 `json:"icmpCode,omitempty" tf:"icmp_code,omitempty"`
-
-	// (Updatable)  Used when you select ICMP. 0-Echo reply, 3-Destination unreachable, 5-Redirect, 8-Echo
-	// +kubebuilder:validation:Optional
-	IcmpType *float64 `json:"icmpType,omitempty" tf:"icmp_type,omitempty"`
-
-	// (Updatable) Used when you select TCP or UDP. Enter a port number.
-	// +kubebuilder:validation:Optional
-	MaximumPort *float64 `json:"maximumPort,omitempty" tf:"maximum_port,omitempty"`
-
-	// (Updatable) Used when you select TCP or UDP. Enter a port number.
-	// +kubebuilder:validation:Optional
-	MinimumPort *float64 `json:"minimumPort,omitempty" tf:"minimum_port,omitempty"`
-
-	// (Updatable) Type of the application based on the policy.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
-}
-
-type ConditionObservation struct {
-}
-
-type ConditionParameters struct {
-
-	// (Updatable) An array of IP address list names to be evaluated against the traffic destination address.
-	// +kubebuilder:validation:Optional
-	Destinations []*string `json:"destinations,omitempty" tf:"destinations,omitempty"`
-
-	// (Updatable) An array of IP address list names to be evaluated against the traffic source address.
-	// +kubebuilder:validation:Optional
-	Sources []*string `json:"sources,omitempty" tf:"sources,omitempty"`
-}
-
-type DecryptionProfilesObservation struct {
-}
-
-type DecryptionProfilesParameters struct {
-
-	// (Updatable) Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
-	// +kubebuilder:validation:Optional
-	AreCertificateExtensionsRestricted *bool `json:"areCertificateExtensionsRestricted,omitempty" tf:"are_certificate_extensions_restricted,omitempty"`
-
-	// (Updatable) Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
-	// +kubebuilder:validation:Optional
-	IsAutoIncludeAltName *bool `json:"isAutoIncludeAltName,omitempty" tf:"is_auto_include_alt_name,omitempty"`
-
-	// (Updatable) Whether to block sessions if server's certificate is expired.
-	// +kubebuilder:validation:Optional
-	IsExpiredCertificateBlocked *bool `json:"isExpiredCertificateBlocked,omitempty" tf:"is_expired_certificate_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
-	// +kubebuilder:validation:Optional
-	IsOutOfCapacityBlocked *bool `json:"isOutOfCapacityBlocked,omitempty" tf:"is_out_of_capacity_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if the revocation status check for server's certificate does not succeed within the maximum allowed time (defaulting to 5 seconds).
-	// +kubebuilder:validation:Optional
-	IsRevocationStatusTimeoutBlocked *bool `json:"isRevocationStatusTimeoutBlocked,omitempty" tf:"is_revocation_status_timeout_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if the revocation status check for server's certificate results in "unknown".
-	// +kubebuilder:validation:Optional
-	IsUnknownRevocationStatusBlocked *bool `json:"isUnknownRevocationStatusBlocked,omitempty" tf:"is_unknown_revocation_status_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if SSL cipher suite is not supported.
-	// +kubebuilder:validation:Optional
-	IsUnsupportedCipherBlocked *bool `json:"isUnsupportedCipherBlocked,omitempty" tf:"is_unsupported_cipher_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if SSL version is not supported.
-	// +kubebuilder:validation:Optional
-	IsUnsupportedVersionBlocked *bool `json:"isUnsupportedVersionBlocked,omitempty" tf:"is_unsupported_version_blocked,omitempty"`
-
-	// (Updatable) Whether to block sessions if server's certificate is issued by an untrusted certificate authority (CA).
-	// +kubebuilder:validation:Optional
-	IsUntrustedIssuerBlocked *bool `json:"isUntrustedIssuerBlocked,omitempty" tf:"is_untrusted_issuer_blocked,omitempty"`
-
-	// Source of the secrets, where the secrets are stored.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
-
-	// (Updatable) Type of the application based on the policy.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
-}
-
-type DecryptionRulesObservation struct {
-}
-
-type DecryptionRulesParameters struct {
-
-	// (Updatable) Action:
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
-
-	// (Updatable) Match criteria used in Decryption Rule used on the firewall policy rules.
-	// +kubebuilder:validation:Required
-	Condition []ConditionParameters `json:"condition" tf:"condition,omitempty"`
-
-	// (Updatable) The name of the decryption profile to use.
-	// +kubebuilder:validation:Optional
-	DecryptionProfile *string `json:"decryptionProfile,omitempty" tf:"decryption_profile,omitempty"`
-
-	// (Updatable) Name for the decryption rule, must be unique within the policy.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
-
-	// according to the specified decryptionProfile.
-	// +kubebuilder:validation:Optional
-	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
-}
-
 type FirewallNetworkFirewallPolicyObservation struct {
+
+	// Count of number of Network Firewall attached to the Policy.
+	AttachedNetworkFirewallCount *float64 `json:"attachedNetworkFirewallCount,omitempty" tf:"attached_network_firewall_count,omitempty"`
 
 	// The OCID of the resource - Network Firewall Policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// To determine if any Network Firewall is associated with this Network Firewall Policy.
-	IsFirewallAttached *bool `json:"isFirewallAttached,omitempty" tf:"is_firewall_attached,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
@@ -169,10 +39,6 @@ type FirewallNetworkFirewallPolicyObservation struct {
 
 type FirewallNetworkFirewallPolicyParameters struct {
 
-	// (Updatable) Lists of the application of the policy. The value of an entry is a list of "applications", each consisting of a protocol identifier (such as TCP, UDP, or ICMP) and protocol-specific parameters (such as a port range). The associated key is the identifier by which the application list is referenced.
-	// +kubebuilder:validation:Optional
-	ApplicationLists []ApplicationListsParameters `json:"applicationLists,omitempty" tf:"application_lists,omitempty"`
-
 	// (Updatable) The OCID of the compartment containing the NetworkFirewall Policy.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
@@ -186,15 +52,7 @@ type FirewallNetworkFirewallPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Map defining decryption profiles of the policy. The value of an entry is a decryption profile. The associated key is the identifier by which the decryption profile is referenced.
-	// +kubebuilder:validation:Optional
-	DecryptionProfiles []DecryptionProfilesParameters `json:"decryptionProfiles,omitempty" tf:"decryption_profiles,omitempty"`
-
-	// (Updatable) List of Decryption Rules defining the behavior of the policy. The first rule with a matching condition determines the action taken upon network traffic.
-	// +kubebuilder:validation:Optional
-	DecryptionRules []DecryptionRulesParameters `json:"decryptionRules,omitempty" tf:"decryption_rules,omitempty"`
-
-	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: {"foo-namespace.bar-key": "value"}
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
@@ -202,133 +60,9 @@ type FirewallNetworkFirewallPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"bar-key": "value"}
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
-
-	// (Updatable) List of IP address lists of the policy. The value of an entry is a list of IP addresses or prefixes in CIDR notation. The associated key is the identifier by which the IP address list is referenced.
-	// +kubebuilder:validation:Optional
-	IPAddressLists []IPAddressListsParameters `json:"ipAddressLists,omitempty" tf:"ip_address_lists,omitempty"`
-
-	// (Updatable) Map defining secrets of the policy. The value of an entry is a "mapped secret" consisting of a purpose and source. The associated key is the identifier by which the mapped secret is referenced.
-	// +kubebuilder:validation:Optional
-	MappedSecrets []MappedSecretsParameters `json:"mappedSecrets,omitempty" tf:"mapped_secrets,omitempty"`
-
-	// (Updatable) List of Security Rules defining the behavior of the policy. The first rule with a matching condition determines the action taken upon network traffic.
-	// +kubebuilder:validation:Optional
-	SecurityRules []SecurityRulesParameters `json:"securityRules,omitempty" tf:"security_rules,omitempty"`
-
-	// (Updatable) Map defining URL pattern lists of the policy. The value of an entry is a list of URL patterns. The associated key is the identifier by which the URL pattern list is referenced.
-	// +kubebuilder:validation:Optional
-	URLLists []URLListsParameters `json:"urlLists,omitempty" tf:"url_lists,omitempty"`
-}
-
-type IPAddressListsObservation struct {
-}
-
-type IPAddressListsParameters struct {
-
-	// (Updatable) The identifier by which the IP address list is referenced.
-	// +kubebuilder:validation:Required
-	IPAddressListName *string `json:"ipAddressListName" tf:"ip_address_list_name,omitempty"`
-
-	// (Updatable) List of IP address lists of the policy.
-	// +kubebuilder:validation:Optional
-	IPAddressListValue []*string `json:"ipAddressListValue,omitempty" tf:"ip_address_list_value,omitempty"`
-}
-
-type MappedSecretsObservation struct {
-}
-
-type MappedSecretsParameters struct {
-
-	// Source of the secrets, where the secrets are stored.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
-
-	// (Updatable) Type of the application based on the policy.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
-
-	// (Updatable) OCID for the Vault Secret to be used.
-	// +kubebuilder:validation:Optional
-	VaultSecretID *string `json:"vaultSecretId,omitempty" tf:"vault_secret_id,omitempty"`
-
-	// (Updatable) Version number of the secret to be used.
-	// +kubebuilder:validation:Optional
-	VersionNumber *float64 `json:"versionNumber,omitempty" tf:"version_number,omitempty"`
-}
-
-type SecurityRulesConditionObservation struct {
-}
-
-type SecurityRulesConditionParameters struct {
-
-	// (Updatable) An array of application list names to be evaluated against the traffic protocol and protocol-specific parameters.
-	// +kubebuilder:validation:Optional
-	Applications []*string `json:"applications,omitempty" tf:"applications,omitempty"`
-
-	// (Updatable) An array of IP address list names to be evaluated against the traffic destination address.
-	// +kubebuilder:validation:Optional
-	Destinations []*string `json:"destinations,omitempty" tf:"destinations,omitempty"`
-
-	// (Updatable) An array of IP address list names to be evaluated against the traffic source address.
-	// +kubebuilder:validation:Optional
-	Sources []*string `json:"sources,omitempty" tf:"sources,omitempty"`
-
-	// (Updatable) An array of URL pattern list names to be evaluated against the HTTP(S) request target.
-	// +kubebuilder:validation:Optional
-	Urls []*string `json:"urls,omitempty" tf:"urls,omitempty"`
-}
-
-type SecurityRulesObservation struct {
-}
-
-type SecurityRulesParameters struct {
-
-	// (Updatable) Action:
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
-
-	// (Updatable) Match criteria used in Decryption Rule used on the firewall policy rules.
-	// +kubebuilder:validation:Required
-	Condition []SecurityRulesConditionParameters `json:"condition" tf:"condition,omitempty"`
-
-	// , which may result in rejection.
-	// +kubebuilder:validation:Optional
-	Inspection *string `json:"inspection,omitempty" tf:"inspection,omitempty"`
-
-	// (Updatable) Name for the decryption rule, must be unique within the policy.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
-}
-
-type URLListValuesObservation struct {
-}
-
-type URLListValuesParameters struct {
-
-	// (Updatable) URL lists to allow or deny traffic to a group of URLs. You can include a maximum of 25 URLs in each list.
-	// +kubebuilder:validation:Optional
-	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
-
-	// (Updatable) Type of the application based on the policy.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
-}
-
-type URLListsObservation struct {
-}
-
-type URLListsParameters struct {
-
-	// (Updatable) The identifier for the url list
-	// +kubebuilder:validation:Required
-	URLListName *string `json:"urlListName" tf:"url_list_name,omitempty"`
-
-	// (Updatable) The list of Url Patterns.
-	// +kubebuilder:validation:Optional
-	URLListValues []URLListValuesParameters `json:"urlListValues,omitempty" tf:"url_list_values,omitempty"`
 }
 
 // FirewallNetworkFirewallPolicySpec defines the desired state of FirewallNetworkFirewallPolicy

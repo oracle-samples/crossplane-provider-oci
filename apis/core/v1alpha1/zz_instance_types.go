@@ -40,7 +40,7 @@ type AvailabilityConfigObservation struct {
 
 type AvailabilityConfigParameters struct {
 
-	// (Updatable) Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances.
+	// (Updatable) Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events.
 	// +kubebuilder:validation:Optional
 	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
 
@@ -49,12 +49,29 @@ type AvailabilityConfigParameters struct {
 	RecoveryAction *string `json:"recoveryAction,omitempty" tf:"recovery_action,omitempty"`
 }
 
+type CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
 type CreateVnicDetailsObservation struct {
 }
 
 type CreateVnicDetailsParameters struct {
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: true
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
+	// +kubebuilder:validation:Optional
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
+
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
+	// If you specify a hostnameLabel, the assignPrivateDnsRecord is require to be set to true.
 	// +kubebuilder:validation:Optional
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
@@ -77,6 +94,10 @@ type CreateVnicDetailsParameters struct {
 	// (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
+
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
 	// +crossplane:generate:reference:type=NetworkSecurityGroup
@@ -213,7 +234,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Async *bool `json:"async,omitempty" tf:"async,omitempty"`
 
-	// (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.  This also includes live migration preference for infrastructure maintenance.
+	// (Updatable) Options for VM migration during infrastructure maintenance events and for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	// +kubebuilder:validation:Optional
 	AvailabilityConfig []AvailabilityConfigParameters `json:"availabilityConfig,omitempty" tf:"availability_config,omitempty"`
 
@@ -246,7 +267,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	CreateVnicDetails []CreateVnicDetailsParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
-	// The OCID of the dedicated virtual machine host to place the instance on.
+	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
 	// +crossplane:generate:reference:type=DedicatedVMHost
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
@@ -287,6 +308,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
+	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
+	// +kubebuilder:validation:Optional
+	InstanceConfigurationID *string `json:"instanceConfigurationId,omitempty" tf:"instance_configuration_id,omitempty"`
+
 	// (Updatable) Optional mutable instance options
 	// +kubebuilder:validation:Optional
 	InstanceOptions []InstanceOptionsParameters `json:"instanceOptions,omitempty" tf:"instance_options,omitempty"`
@@ -307,7 +332,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
-	// The platform configuration requested for the instance.
+	// (Updatable only for VM's) The platform configuration requested for the instance.
 	// +kubebuilder:validation:Optional
 	PlatformConfig []PlatformConfigParameters `json:"platformConfig,omitempty" tf:"platform_config,omitempty"`
 
@@ -320,8 +345,8 @@ type InstanceParameters struct {
 	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
 
 	// that you specify. If you don't provide the parameter, the default values for the shape are used.
-	// +kubebuilder:validation:Required
-	Shape *string `json:"shape" tf:"shape,omitempty"`
+	// +kubebuilder:validation:Optional
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// (Updatable) The shape configuration requested for the instance.
 	// +kubebuilder:validation:Optional
@@ -356,6 +381,10 @@ type InstanceSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
 
+	// (Applicable when source_type=image) These are the criteria for selecting an image. This is required if imageId is not specified.
+	// +kubebuilder:validation:Optional
+	InstanceSourceImageFilterDetails []InstanceSourceImageFilterDetailsParameters `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
+
 	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
@@ -378,20 +407,46 @@ type InstanceSourceDetailsParameters struct {
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
+type InstanceSourceImageFilterDetailsObservation struct {
+}
+
+type InstanceSourceImageFilterDetailsParameters struct {
+
+	// (Updatable) The OCID of the compartment.
+	// +kubebuilder:validation:Required
+	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+
+	// (Applicable when source_type=image) Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
+	// +kubebuilder:validation:Optional
+	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
+
+	// (Applicable when source_type=image) The image's operating system.  Example: Oracle Linux
+	// +kubebuilder:validation:Optional
+	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
+
+	// (Applicable when source_type=image) The image's operating system version.  Example: 7.2
+	// +kubebuilder:validation:Optional
+	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
+}
+
 type PlatformConfigObservation struct {
 }
 
 type PlatformConfigParameters struct {
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
 	// +kubebuilder:validation:Optional
 	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input.
+	// +kubebuilder:validation:Optional
+	ConfigMap map[string]*string `json:"configMap,omitempty" tf:"config_map,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	// +kubebuilder:validation:Optional
 	IsAccessControlServiceEnabled *bool `json:"isAccessControlServiceEnabled,omitempty" tf:"is_access_control_service_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled.
 	// +kubebuilder:validation:Optional
 	IsInputOutputMemoryManagementUnitEnabled *bool `json:"isInputOutputMemoryManagementUnitEnabled,omitempty" tf:"is_input_output_memory_management_unit_enabled,omitempty"`
 
@@ -407,7 +462,7 @@ type PlatformConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IsSecureBootEnabled *bool `json:"isSecureBootEnabled,omitempty" tf:"is_secure_boot_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | AMD_VM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM | INTEL_VM) (Updatable only for INTEL_VM and AMD_VM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 	// +kubebuilder:validation:Optional
 	IsSymmetricMultiThreadingEnabled *bool `json:"isSymmetricMultiThreadingEnabled,omitempty" tf:"is_symmetric_multi_threading_enabled,omitempty"`
 
@@ -415,11 +470,11 @@ type PlatformConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IsTrustedPlatformModuleEnabled *bool `json:"isTrustedPlatformModuleEnabled,omitempty" tf:"is_trusted_platform_module_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS).
 	// +kubebuilder:validation:Optional
 	NumaNodesPerSocket *string `json:"numaNodesPerSocket,omitempty" tf:"numa_nodes_per_socket,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
 	// +kubebuilder:validation:Optional
 	PercentageOfCoresEnabled *float64 `json:"percentageOfCoresEnabled,omitempty" tf:"percentage_of_cores_enabled,omitempty"`
 
@@ -510,6 +565,10 @@ type ShapeConfigParameters struct {
 	// (Updatable) The total number of OCPUs available to the instance.
 	// +kubebuilder:validation:Optional
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
+
+	// (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
+	// +kubebuilder:validation:Optional
+	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

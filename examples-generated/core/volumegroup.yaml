@@ -25,6 +25,8 @@ spec:
     volumeGroupReplicas:
     - availabilityDomain: ${var.volume_group_volume_group_replicas_availability_domain}
       displayName: ${var.volume_group_volume_group_replicas_display_name}
+    volumeIds:
+    - ${var.volume_group_source_id}
 
 ---
 

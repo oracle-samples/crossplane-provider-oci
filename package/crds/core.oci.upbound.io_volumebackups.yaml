@@ -163,14 +163,21 @@ spec:
                       or namespace. For more information, see Resource Tags.  Example:
                       {"Department": "Finance"}'
                     type: object
+                  kmsKeyId:
+                    description: (Updatable) The OCID of the Vault service key which
+                      is the master encryption key for the volume backup. For more
+                      information about the Vault service and encryption keys, see
+                      Overview of Vault service and Using Keys.
+                    type: string
                   sourceDetails:
                     description: Details of the volume backup source in the cloud.
                     items:
                       properties:
                         kmsKeyId:
-                          description: The OCID of the KMS key in the destination
-                            region which will be the master encryption key for the
-                            copied volume backup.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the volume backup.
+                            For more information about the Vault service and encryption
+                            keys, see Overview of Vault service and Using Keys.
                           type: string
                         region:
                           description: The region of the volume backup source.
@@ -452,11 +459,6 @@ spec:
                     type: string
                   id:
                     description: The OCID of the volume backup.
-                    type: string
-                  kmsKeyId:
-                    description: The OCID of the KMS key in the destination region
-                      which will be the master encryption key for the copied volume
-                      backup.
                     type: string
                   sizeInGbs:
                     description: The size of the volume, in GBs.

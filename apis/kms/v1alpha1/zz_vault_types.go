@@ -13,15 +13,84 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalKeyManagerMetadataObservation struct {
+}
+
+type ExternalKeyManagerMetadataParameters struct {
+
+	// URI of the vault on external key manager.
+	// +kubebuilder:validation:Required
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl" tf:"external_vault_endpoint_url,omitempty"`
+
+	// Authorization details required to get access token from IDP for accessing protected resources.
+	// +kubebuilder:validation:Required
+	OauthMetadata []OauthMetadataParameters `json:"oauthMetadata" tf:"oauth_metadata,omitempty"`
+
+	// OCID of private endpoint created by customer.
+	// +kubebuilder:validation:Required
+	PrivateEndpointID *string `json:"privateEndpointId" tf:"private_endpoint_id,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryObservation struct {
+
+	// URI of the vault on external key manager.
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl,omitempty" tf:"external_vault_endpoint_url,omitempty"`
+
+	// Summary about authorization to be returned to the customer as a response.
+	OauthMetadataSummary []OauthMetadataSummaryObservation `json:"oauthMetadataSummary,omitempty" tf:"oauth_metadata_summary,omitempty"`
+
+	// OCID of private endpoint created by customer.
+	PrivateEndpointID *string `json:"privateEndpointId,omitempty" tf:"private_endpoint_id,omitempty"`
+
+	// Vendor of the external key manager.
+	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryParameters struct {
+}
+
+type OauthMetadataObservation struct {
+}
+
+type OauthMetadataParameters struct {
+
+	// ID of the client app created in IDP.
+	// +kubebuilder:validation:Required
+	ClientAppID *string `json:"clientAppId" tf:"client_app_id,omitempty"`
+
+	// Secret of the client app created in IDP.
+	// +kubebuilder:validation:Required
+	ClientAppSecret *string `json:"clientAppSecret" tf:"client_app_secret,omitempty"`
+
+	// Base URL of the IDCS account where confidential client app is created.
+	// +kubebuilder:validation:Required
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryObservation struct {
+
+	// ID of the client app created in IDP.
+	ClientAppID *string `json:"clientAppId,omitempty" tf:"client_app_id,omitempty"`
+
+	// Base URL of the IDCS account where confidential client app is created.
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl,omitempty" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryParameters struct {
+}
+
 type VaultObservation struct {
 
 	// The service endpoint to perform cryptographic operations against. Cryptographic operations include Encrypt, Decrypt, and GenerateDataEncryptionKey operations.
 	CryptoEndpoint *string `json:"cryptoEndpoint,omitempty" tf:"crypto_endpoint,omitempty"`
 
+	// Summary about metadata of external key manager to be returned to the customer as a response.
+	ExternalKeyManagerMetadataSummary []ExternalKeyManagerMetadataSummaryObservation `json:"externalKeyManagerMetadataSummary,omitempty" tf:"external_key_manager_metadata_summary,omitempty"`
+
 	// The OCID of the vault.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// A boolean that will be true when vault is primary, and will be false when vault is a replica from a primary vault.
+	// A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
 	// The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations.
@@ -30,7 +99,7 @@ type VaultObservation struct {
 	// Vault replica details
 	ReplicaDetails []VaultReplicaDetailsObservation `json:"replicaDetails,omitempty" tf:"replica_details,omitempty"`
 
-	// The OCID of the vault from which this vault was restored, if it was restored from a backup file.  If you restore a vault to the same region, the vault retains the same OCID that it had when you  backed up the vault.
+	// The OCID of the vault from which this vault was restored, if it was restored from a backup file. If you restore a vault to the same region, the vault retains the same OCID that it had when you backed up the vault.
 	RestoredFromVaultID *string `json:"restoredFromVaultId,omitempty" tf:"restored_from_vault_id,omitempty"`
 
 	// The vault's current lifecycle state.  Example: DELETED
@@ -62,6 +131,10 @@ type VaultParameters struct {
 	// (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+
+	// Metadata required for accessing External Key manager
+	// +kubebuilder:validation:Optional
+	ExternalKeyManagerMetadata []ExternalKeyManagerMetadataParameters `json:"externalKeyManagerMetadata,omitempty" tf:"external_key_manager_metadata,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional

@@ -144,9 +144,24 @@ spec:
                             type: string
                         type: object
                     type: object
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
+                    type: object
                   displayName:
                     description: The container repository name.
                     type: string
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
+                    type: object
                   isImmutable:
                     description: (Updatable) Whether the repository is immutable.
                       Images cannot be overwritten in an immutable repository.
@@ -371,9 +386,20 @@ spec:
                   layersSizeInBytes:
                     description: Total storage in bytes consumed by layers.
                     type: string
+                  namespace:
+                    description: The tenancy namespace used in the container repository
+                      path.
+                    type: string
                   state:
                     description: The current state of the container repository.
                     type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    description: 'The system tags for this resource. Each key is predefined
+                      and scoped to a namespace. Example: {"orcl-cloud.free-tier-retained":
+                      "true"}'
+                    type: object
                   timeCreated:
                     description: An RFC 3339 timestamp indicating when the repository
                       was created.

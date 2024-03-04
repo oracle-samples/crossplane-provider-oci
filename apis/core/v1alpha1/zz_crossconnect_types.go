@@ -18,7 +18,7 @@ type CrossConnectObservation struct {
 	// The cross-connect's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	// +kubebuilder:validation:Optional
 	MacsecProperties []MacsecPropertiesObservation `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 
@@ -31,7 +31,7 @@ type CrossConnectObservation struct {
 	// A string identifying the meet-me room port for this cross-connect.
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The date and time the cross-connect was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -76,7 +76,7 @@ type CrossConnectParameters struct {
 	// +kubebuilder:validation:Required
 	LocationName *string `json:"locationName" tf:"location_name,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	// +kubebuilder:validation:Optional
 	MacsecProperties []MacsecPropertiesParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 
@@ -91,22 +91,26 @@ type CrossConnectParameters struct {
 
 type MacsecPropertiesObservation struct {
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []PrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 }
 
 type MacsecPropertiesParameters struct {
 
-	// Type of encryption cipher suite to use for the MACsec connection.
+	// (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
+	// +kubebuilder:validation:Optional
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []PrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	// +kubebuilder:validation:Required
 	State *string `json:"state" tf:"state,omitempty"`
 }
@@ -122,11 +126,11 @@ type PrimaryKeyObservation struct {
 
 type PrimaryKeyParameters struct {
 
-	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId" tf:"connectivity_association_key_secret_id,omitempty"`
 
-	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId" tf:"connectivity_association_name_secret_id,omitempty"`
 }
