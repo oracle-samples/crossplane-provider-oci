@@ -165,6 +165,26 @@ spec:
                       or namespace. For more information, see Resource Tags. Example:
                       {"Department": "Finance"}'
                     type: object
+                  isLockOverride:
+                    type: boolean
+                  locks:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        relatedResourceId:
+                          description: The OCID of the source file system.
+                          type: string
+                        timeCreated:
+                          description: 'The date and time the replication was created
+                            in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   replicationInterval:
                     description: (Updatable) Duration in minutes between replication
                       snapshots.
@@ -534,6 +554,10 @@ spec:
                       can be in a FAILED state if replication target is deleted instead
                       of the replication resource.
                     type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   timeCreated:
                     description: 'The date and time the replication was created in
                       RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'

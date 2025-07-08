@@ -27,6 +27,12 @@ type LoadBalancerListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsPpv2Enabled *bool `json:"isPpv2Enabled,omitempty" tf:"is_ppv2enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	L3IpIdleTimeout *float64 `json:"l3ipIdleTimeout,omitempty" tf:"l3ip_idle_timeout,omitempty"`
+
 	// A friendly name for the listener. It must be unique and it cannot be changed.  Example: example_listener
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
@@ -51,6 +57,12 @@ type LoadBalancerListenerParameters struct {
 	// (Updatable) The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). To get a list of valid protocols, use the ListNetworkLoadBalancersProtocols operation.  Example: TCP
 	// +kubebuilder:validation:Required
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TCPIdleTimeout *float64 `json:"tcpIdleTimeout,omitempty" tf:"tcp_idle_timeout,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UDPIdleTimeout *float64 `json:"udpIdleTimeout,omitempty" tf:"udp_idle_timeout,omitempty"`
 }
 
 // LoadBalancerListenerSpec defines the desired state of LoadBalancerListener

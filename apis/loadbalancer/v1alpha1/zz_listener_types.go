@@ -18,6 +18,9 @@ type ConnectionConfigurationObservation struct {
 
 type ConnectionConfigurationParameters struct {
 
+	// +kubebuilder:validation:Optional
+	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
+
 	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
 	// +kubebuilder:validation:Optional
 	BackendTCPProxyProtocolVersion *float64 `json:"backendTcpProxyProtocolVersion,omitempty" tf:"backend_tcp_proxy_protocol_version,omitempty"`
@@ -150,6 +153,9 @@ type ListenerSSLConfigurationParameters struct {
 	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 	// +kubebuilder:validation:Optional
 	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
 
 	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
 	// +kubebuilder:validation:Optional

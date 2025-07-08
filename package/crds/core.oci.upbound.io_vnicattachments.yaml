@@ -71,6 +71,8 @@ spec:
                       VNICs, see Virtual Network Interface Cards (VNICs).
                     items:
                       properties:
+                        assignIpv6Ip:
+                          type: boolean
                         assignPrivateDnsRecord:
                           description: 'Whether the VNIC should be assigned a DNS
                             record. If set to false, no DNS record registion for the
@@ -119,6 +121,15 @@ spec:
                             object and also the PrivateIp object returned by ListPrivateIps
                             and GetPrivateIp.
                           type: string
+                        ipv6addressIpv6SubnetCidrPairDetails:
+                          items:
+                            properties:
+                              ipv6Address:
+                                type: string
+                              ipv6SubnetCidr:
+                                type: string
+                            type: object
+                          type: array
                         nsgIds:
                           description: (Updatable) A list of the OCIDs of the network
                             security groups (NSGs) to add the VNIC to. For more information
@@ -135,6 +146,13 @@ spec:
                             in the Vnic object and also the PrivateIp object returned
                             by ListPrivateIps and GetPrivateIp.
                           type: string
+                        routeTableId:
+                          description: The OCID of the VNIC attachment.
+                          type: string
+                        securityAttributes:
+                          additionalProperties:
+                            type: string
+                          type: object
                         skipSourceDestCheck:
                           description: (Updatable) Whether the source/destination
                             check is disabled on the VNIC. Defaults to false, which

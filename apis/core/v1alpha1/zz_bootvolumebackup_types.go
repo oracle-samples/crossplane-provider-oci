@@ -24,9 +24,6 @@ type BootVolumeBackupObservation struct {
 	// The image OCID used to create the boot volume the backup is taken from.
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
 	// The size of the boot volume, in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
@@ -73,6 +70,10 @@ type BootVolumeBackupParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Details of the volume backup source in the cloud. Cannot be defined if boot_volume_id is defined.
 	// +kubebuilder:validation:Optional

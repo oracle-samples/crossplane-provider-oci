@@ -16,6 +16,9 @@ import (
 type BGPSessionInfoObservation struct {
 
 	// The IPSec connection's tunnel's lifecycle state.
+	BGPIPv6State *string `json:"bgpIpv6State,omitempty" tf:"bgp_ipv6_state,omitempty"`
+
+	// The IPSec connection's tunnel's lifecycle state.
 	BGPIpv6State *string `json:"bgpIpv6State,omitempty" tf:"bgp_ipv6state,omitempty"`
 
 	// the state of the BGP.
@@ -35,9 +38,15 @@ type BGPSessionInfoParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerInterfaceIP *string `json:"customerInterfaceIp,omitempty" tf:"customer_interface_ip,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	CustomerInterfaceIPv6 *string `json:"customerInterfaceIpv6,omitempty" tf:"customer_interface_ipv6,omitempty"`
+
 	// The IP address for the Oracle end of the inside tunnel interface.
 	// +kubebuilder:validation:Optional
 	OracleInterfaceIP *string `json:"oracleInterfaceIp,omitempty" tf:"oracle_interface_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OracleInterfaceIPv6 *string `json:"oracleInterfaceIpv6,omitempty" tf:"oracle_interface_ipv6,omitempty"`
 }
 
 type DpdConfigObservation struct {
@@ -67,6 +76,7 @@ type EncryptionDomainConfigParameters struct {
 }
 
 type IpsecConnectionTunnelManagementObservation struct {
+	AssociatedVirtualCircuits []*string `json:"associatedVirtualCircuits,omitempty" tf:"associated_virtual_circuits,omitempty"`
 
 	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
 	// +kubebuilder:validation:Optional
@@ -85,12 +95,10 @@ type IpsecConnectionTunnelManagementObservation struct {
 	// The tunnel's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	NATTranslationEnabled *string `json:"natTranslationEnabled,omitempty" tf:"nat_translation_enabled,omitempty"`
-
-	OracleCanInitiate *string `json:"oracleCanInitiate,omitempty" tf:"oracle_can_initiate,omitempty"`
-
+	// +kubebuilder:validation:Optional
 	PhaseOneDetails []PhaseOneDetailsObservation `json:"phaseOneDetails,omitempty" tf:"phase_one_details,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	PhaseTwoDetails []PhaseTwoDetailsObservation `json:"phaseTwoDetails,omitempty" tf:"phase_two_details,omitempty"`
 
 	// The IPSec connection's tunnel's lifecycle state.
@@ -134,13 +142,25 @@ type IpsecConnectionTunnelManagementParameters struct {
 	// +kubebuilder:validation:Required
 	IpsecID *string `json:"ipsecId" tf:"ipsec_id,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NATTranslationEnabled *string `json:"natTranslationEnabled,omitempty" tf:"nat_translation_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OracleCanInitiate *string `json:"oracleCanInitiate,omitempty" tf:"oracle_can_initiate,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PhaseOneDetails []PhaseOneDetailsParameters `json:"phaseOneDetails,omitempty" tf:"phase_one_details,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PhaseTwoDetails []PhaseTwoDetailsParameters `json:"phaseTwoDetails,omitempty" tf:"phase_two_details,omitempty"`
+
 	// The type of routing to use for this tunnel (either BGP dynamic routing, STATIC routing or POLICY routing).
-	// +kubebuilder:validation:Required
-	Routing *string `json:"routing" tf:"routing,omitempty"`
+	// +kubebuilder:validation:Optional
+	Routing *string `json:"routing,omitempty" tf:"routing,omitempty"`
 
 	// The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value, Oracle generates a value for you. You can specify your own shared secret later if you like with UpdateIPSecConnectionTunnelSharedSecret.  Example: EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o
 	// +kubebuilder:validation:Optional
-	SharedSecret *string `json:"sharedSecret,omitempty" tf:"shared_secret,omitempty"`
+	SharedSecretSecretRef *v1.SecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
 
 	// The OCID of the IPSec connection's tunnel.
 	// +kubebuilder:validation:Required
@@ -148,17 +168,7 @@ type IpsecConnectionTunnelManagementParameters struct {
 }
 
 type PhaseOneDetailsObservation struct {
-	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
-
-	CustomDhGroup *string `json:"customDhGroup,omitempty" tf:"custom_dh_group,omitempty"`
-
-	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
-
-	IsCustomPhaseOneConfig *bool `json:"isCustomPhaseOneConfig,omitempty" tf:"is_custom_phase_one_config,omitempty"`
-
 	IsIkeEstablished *bool `json:"isIkeEstablished,omitempty" tf:"is_ike_established,omitempty"`
-
-	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
 	NegotiatedAuthenticationAlgorithm *string `json:"negotiatedAuthenticationAlgorithm,omitempty" tf:"negotiated_authentication_algorithm,omitempty"`
 
@@ -167,27 +177,32 @@ type PhaseOneDetailsObservation struct {
 	NegotiatedEncryptionAlgorithm *string `json:"negotiatedEncryptionAlgorithm,omitempty" tf:"negotiated_encryption_algorithm,omitempty"`
 
 	RemainingLifetime *string `json:"remainingLifetime,omitempty" tf:"remaining_lifetime,omitempty"`
+
+	RemainingLifetimeInt *float64 `json:"remainingLifetimeInt,omitempty" tf:"remaining_lifetime_int,omitempty"`
 
 	RemainingLifetimeLastRetrieved *string `json:"remainingLifetimeLastRetrieved,omitempty" tf:"remaining_lifetime_last_retrieved,omitempty"`
 }
 
 type PhaseOneDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomDhGroup *string `json:"customDhGroup,omitempty" tf:"custom_dh_group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsCustomPhaseOneConfig *bool `json:"isCustomPhaseOneConfig,omitempty" tf:"is_custom_phase_one_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }
 
 type PhaseTwoDetailsObservation struct {
-	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
-
-	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
-
-	DhGroup *string `json:"dhGroup,omitempty" tf:"dh_group,omitempty"`
-
-	IsCustomPhaseTwoConfig *bool `json:"isCustomPhaseTwoConfig,omitempty" tf:"is_custom_phase_two_config,omitempty"`
-
 	IsEspEstablished *bool `json:"isEspEstablished,omitempty" tf:"is_esp_established,omitempty"`
-
-	IsPfsEnabled *bool `json:"isPfsEnabled,omitempty" tf:"is_pfs_enabled,omitempty"`
-
-	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
 	NegotiatedAuthenticationAlgorithm *string `json:"negotiatedAuthenticationAlgorithm,omitempty" tf:"negotiated_authentication_algorithm,omitempty"`
 
@@ -197,10 +212,30 @@ type PhaseTwoDetailsObservation struct {
 
 	RemainingLifetime *string `json:"remainingLifetime,omitempty" tf:"remaining_lifetime,omitempty"`
 
+	RemainingLifetimeInt *float64 `json:"remainingLifetimeInt,omitempty" tf:"remaining_lifetime_int,omitempty"`
+
 	RemainingLifetimeLastRetrieved *string `json:"remainingLifetimeLastRetrieved,omitempty" tf:"remaining_lifetime_last_retrieved,omitempty"`
 }
 
 type PhaseTwoDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DhGroup *string `json:"dhGroup,omitempty" tf:"dh_group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsCustomPhaseTwoConfig *bool `json:"isCustomPhaseTwoConfig,omitempty" tf:"is_custom_phase_two_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsPfsEnabled *bool `json:"isPfsEnabled,omitempty" tf:"is_pfs_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }
 
 // IpsecConnectionTunnelManagementSpec defines the desired state of IpsecConnectionTunnelManagement

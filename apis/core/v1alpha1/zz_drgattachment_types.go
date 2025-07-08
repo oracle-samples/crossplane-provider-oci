@@ -98,9 +98,15 @@ type DrgAttachmentParameters struct {
 }
 
 type NetworkDetailsObservation struct {
+	Ids []*string `json:"ids,omitempty" tf:"ids,omitempty"`
 
 	// The IPSec connection that contains the attached IPSec tunnel.
 	IpsecConnectionID *string `json:"ipsecConnectionId,omitempty" tf:"ipsec_connection_id,omitempty"`
+
+	// The OCID of the network attached to the DRG.
+	TransportAttachmentID *string `json:"transportAttachmentId,omitempty" tf:"transport_attachment_id,omitempty"`
+
+	TransportOnlyMode *bool `json:"transportOnlyMode,omitempty" tf:"transport_only_mode,omitempty"`
 }
 
 type NetworkDetailsParameters struct {

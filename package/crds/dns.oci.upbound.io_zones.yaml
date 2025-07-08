@@ -150,6 +150,27 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags.
                     type: object
+                  dnssecState:
+                    description: The current state of the zone resource.
+                    type: string
+                  externalDownstreams:
+                    items:
+                      properties:
+                        address:
+                          description: (Updatable) The server's IP address (IPv4 or
+                            IPv6).
+                          type: string
+                        port:
+                          description: (Updatable) The server's port. Port value must
+                            be a value of 53, otherwise omit the port value.
+                          type: number
+                        tsigKeyId:
+                          description: (Updatable) The OCID of the TSIG key.
+                          type: string
+                      required:
+                      - address
+                      type: object
+                    type: array
                   externalMasters:
                     description: (Updatable) External master servers for the zone.
                       externalMasters becomes a required parameter when the zoneType
@@ -448,6 +469,94 @@ spec:
             properties:
               atProvider:
                 properties:
+                  dnssecConfig:
+                    items:
+                      properties:
+                        kskDnssecKeyVersions:
+                          items:
+                            properties:
+                              algorithm:
+                                type: string
+                              dsData:
+                                items:
+                                  properties:
+                                    digestType:
+                                      type: string
+                                    rdata:
+                                      type: string
+                                  type: object
+                                type: array
+                              keyTag:
+                                type: number
+                              lengthInBytes:
+                                type: number
+                              predecessorDnssecKeyVersionUuid:
+                                description: The OCID of the zone.
+                                type: string
+                              successorDnssecKeyVersionUuid:
+                                description: The OCID of the zone.
+                                type: string
+                              timeActivated:
+                                type: string
+                              timeCreated:
+                                description: The date and time the resource was created
+                                  in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset,
+                                  as defined by RFC 3339.
+                                type: string
+                              timeExpired:
+                                type: string
+                              timeInactivated:
+                                type: string
+                              timePromoted:
+                                type: string
+                              timePublished:
+                                type: string
+                              timeUnpublished:
+                                type: string
+                              uuid:
+                                description: The OCID of the zone.
+                                type: string
+                            type: object
+                          type: array
+                        zskDnssecKeyVersions:
+                          items:
+                            properties:
+                              algorithm:
+                                type: string
+                              keyTag:
+                                type: number
+                              lengthInBytes:
+                                type: number
+                              predecessorDnssecKeyVersionUuid:
+                                description: The OCID of the zone.
+                                type: string
+                              successorDnssecKeyVersionUuid:
+                                description: The OCID of the zone.
+                                type: string
+                              timeActivated:
+                                type: string
+                              timeCreated:
+                                description: The date and time the resource was created
+                                  in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset,
+                                  as defined by RFC 3339.
+                                type: string
+                              timeExpired:
+                                type: string
+                              timeInactivated:
+                                type: string
+                              timePromoted:
+                                type: string
+                              timePublished:
+                                type: string
+                              timeUnpublished:
+                                type: string
+                              uuid:
+                                description: The OCID of the zone.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   id:
                     description: The OCID of the zone.
                     type: string
@@ -483,6 +592,23 @@ spec:
                       version of the zone, from which the serial field of the zone's
                       SOA record is derived.
                     type: string
+                  zoneTransferServers:
+                    items:
+                      properties:
+                        address:
+                          description: (Updatable) The server's IP address (IPv4 or
+                            IPv6).
+                          type: string
+                        isTransferDestination:
+                          type: boolean
+                        isTransferSource:
+                          type: boolean
+                        port:
+                          description: (Updatable) The server's port. Port value must
+                            be a value of 53, otherwise omit the port value.
+                          type: number
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

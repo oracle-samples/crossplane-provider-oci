@@ -66,6 +66,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  assignedIpv6:
+                    type: string
+                  assignedPrivateIpv4:
+                    type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
                       the network load balancer.
@@ -174,6 +178,8 @@ spec:
                     description: Whether the network load balancer has a virtual cloud
                       network-local (private) IP address.
                     type: boolean
+                  isSymmetricHashEnabled:
+                    type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of network security groups OCIDs
                       associated with the network load balancer.
@@ -193,6 +199,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  securityAttributes:
+                    additionalProperties:
+                      type: string
+                    type: object
                   subnetId:
                     description: The subnet in which the network load balancer is
                       spawned OCIDs.
@@ -270,6 +280,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                  subnetIpv6Cidr:
+                    type: string
                 required:
                 - displayName
                 type: object

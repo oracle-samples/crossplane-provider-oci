@@ -189,6 +189,314 @@ spec:
                       object.
                     items:
                       properties:
+                        applicationConfigurations:
+                          items:
+                            properties:
+                              destination:
+                                description: (Updatable) Logging destination object.
+                                items:
+                                  properties:
+                                    compartmentId:
+                                      description: (Updatable) The OCID of the compartment
+                                        that the resource belongs to.
+                                      type: string
+                                    metricsNamespace:
+                                      type: string
+                                  type: object
+                                type: array
+                              source:
+                                items:
+                                  properties:
+                                    name:
+                                      description: (Updatable) unique name for the
+                                        source
+                                      type: string
+                                    scrapeTargets:
+                                      items:
+                                        properties:
+                                          k8sNamespace:
+                                            type: string
+                                          name:
+                                            description: (Updatable) unique name for
+                                              the source
+                                            type: string
+                                          resourceGroup:
+                                            type: string
+                                          resourceType:
+                                            description: (Updatable) Unified schema
+                                              logging source type.
+                                            type: string
+                                          serviceName:
+                                            description: (Updatable) unique name for
+                                              the source
+                                            type: string
+                                          url:
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              sourceType:
+                                description: (Updatable) Unified schema logging source
+                                  type.
+                                type: string
+                              sources:
+                                description: (Updatable)
+                                items:
+                                  properties:
+                                    advancedOptions:
+                                      items:
+                                        properties:
+                                          isReadFromHead:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    name:
+                                      description: (Updatable) unique name for the
+                                        source
+                                      type: string
+                                    parser:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) source parser object.
+                                      items:
+                                        properties:
+                                          delimiter:
+                                            description: (Applicable when parser_type=CSV
+                                              | TSV) (Updatable)
+                                            type: string
+                                          expression:
+                                            description: (Applicable when parser_type=REGEXP)
+                                              (Updatable)
+                                            type: string
+                                          fieldTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify time field for the
+                                              event time. If the event doesn't have
+                                              this field, the current time is used.
+                                            type: string
+                                          format:
+                                            description: (Applicable when parser_type=MULTILINE)
+                                              (Updatable)
+                                            items:
+                                              type: string
+                                            type: array
+                                          formatFirstline:
+                                            description: (Applicable when parser_type=MULTILINE)
+                                              (Updatable)
+                                            type: string
+                                          grokFailureKey:
+                                            description: (Applicable when parser_type=GROK
+                                              | MULTILINE_GROK) (Updatable)
+                                            type: string
+                                          grokNameKey:
+                                            description: (Applicable when parser_type=GROK
+                                              | MULTILINE_GROK) (Updatable)
+                                            type: string
+                                          isEstimateCurrentEvent:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) If true, use Fluent::EventTime.now(current
+                                              time) as a timestamp when time_key is
+                                              specified.
+                                            type: boolean
+                                          isKeepTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) If true, keep time field
+                                              in the record.
+                                            type: boolean
+                                          isMergeCriFields:
+                                            type: boolean
+                                          isNullEmptyString:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) If true, an empty string
+                                              field is replaced with nil.
+                                            type: boolean
+                                          isSupportColonlessIdent:
+                                            description: (Applicable when parser_type=SYSLOG)
+                                              (Updatable)
+                                            type: boolean
+                                          isWithPriority:
+                                            description: (Applicable when parser_type=SYSLOG)
+                                              (Updatable)
+                                            type: boolean
+                                          keys:
+                                            description: (Applicable when parser_type=CSV
+                                              | TSV) (Updatable)
+                                            items:
+                                              type: string
+                                            type: array
+                                          messageFormat:
+                                            description: (Applicable when parser_type=SYSLOG)
+                                              (Updatable)
+                                            type: string
+                                          messageKey:
+                                            description: (Applicable when parser_type=NONE)
+                                              (Updatable)
+                                            type: string
+                                          multiLineStartRegexp:
+                                            description: (Applicable when parser_type=MULTILINE_GROK)
+                                              (Updatable)
+                                            type: string
+                                          nestedParser:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) source parser object.
+                                            items:
+                                              properties:
+                                                fieldTimeKey:
+                                                  description: (Applicable when source_type=LOG_TAIL)
+                                                    (Updatable) Specify time field
+                                                    for the event time. If the event
+                                                    doesn't have this field, the current
+                                                    time is used.
+                                                  type: string
+                                                isKeepTimeKey:
+                                                  description: (Applicable when source_type=LOG_TAIL)
+                                                    (Updatable) If true, keep time
+                                                    field in the record.
+                                                  type: boolean
+                                                parseNested:
+                                                  type: boolean
+                                                separator:
+                                                  type: string
+                                                timeFormat:
+                                                  description: (Applicable when parser_type=JSON
+                                                    | REGEXP | SYSLOG) (Updatable)
+                                                  type: string
+                                                timeType:
+                                                  description: (Applicable when parser_type=JSON)
+                                                    (Updatable)
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          nullValuePattern:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify the null value pattern.
+                                            type: string
+                                          parseNested:
+                                            type: boolean
+                                          parserType:
+                                            description: (Updatable) Type of fluent
+                                              parser.
+                                            type: string
+                                          patterns:
+                                            description: (Applicable when parser_type=GROK
+                                              | MULTILINE_GROK) (Updatable)
+                                            items:
+                                              properties:
+                                                fieldTimeFormat:
+                                                  description: (Applicable when parser_type=GROK
+                                                    | MULTILINE_GROK) (Updatable)
+                                                    Process value using the specified
+                                                    format. This is available only
+                                                    when time_type is a string.
+                                                  type: string
+                                                fieldTimeKey:
+                                                  description: (Applicable when source_type=LOG_TAIL)
+                                                    (Updatable) Specify time field
+                                                    for the event time. If the event
+                                                    doesn't have this field, the current
+                                                    time is used.
+                                                  type: string
+                                                fieldTimeZone:
+                                                  description: (Applicable when parser_type=GROK
+                                                    | MULTILINE_GROK) (Updatable)
+                                                    Use the specified time zone. The
+                                                    time value can be parsed or formatted
+                                                    in the specified time zone.
+                                                  type: string
+                                                name:
+                                                  description: (Updatable) unique
+                                                    name for the source
+                                                  type: string
+                                                pattern:
+                                                  description: (Updatable) The grok
+                                                    pattern.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          recordInput:
+                                            items:
+                                              properties:
+                                                dimensions:
+                                                  additionalProperties:
+                                                    type: string
+                                                  type: object
+                                                namespace:
+                                                  type: string
+                                                resourceGroup:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          rfc5424timeFormat:
+                                            description: (Applicable when parser_type=SYSLOG)
+                                              (Updatable)
+                                            type: string
+                                          separator:
+                                            type: string
+                                          syslogParserType:
+                                            description: (Applicable when parser_type=SYSLOG)
+                                              (Updatable)
+                                            type: string
+                                          timeFormat:
+                                            description: (Applicable when parser_type=JSON
+                                              | REGEXP | SYSLOG) (Updatable)
+                                            type: string
+                                          timeType:
+                                            description: (Applicable when parser_type=JSON)
+                                              (Updatable)
+                                            type: string
+                                          timeoutInMilliseconds:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify the timeout for
+                                              parse processing. This is mainly for
+                                              detecting an incorrect regexp pattern.
+                                            type: number
+                                          types:
+                                            additionalProperties:
+                                              type: string
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify types for converting
+                                              a field into another type.
+                                            type: object
+                                        required:
+                                        - parserType
+                                        type: object
+                                      type: array
+                                    paths:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable)
+                                      items:
+                                        type: string
+                                      type: array
+                                    sourceType:
+                                      description: (Updatable) Unified schema logging
+                                        source type.
+                                      type: string
+                                  type: object
+                                type: array
+                              unifiedAgentConfigurationFilter:
+                                items:
+                                  properties:
+                                    allowList:
+                                      items:
+                                        type: string
+                                      type: array
+                                    denyList:
+                                      items:
+                                        type: string
+                                      type: array
+                                    filterType:
+                                      type: string
+                                    name:
+                                      description: (Updatable) unique name for the
+                                        source
+                                      type: string
+                                  type: object
+                                type: array
+                            required:
+                            - destination
+                            - sourceType
+                            type: object
+                          type: array
                         configurationType:
                           description: (Updatable) Type of Unified Agent service configuration.
                           type: string
@@ -277,18 +585,74 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                              operationalMetricsConfiguration:
+                                items:
+                                  properties:
+                                    destination:
+                                      description: (Updatable) Logging destination
+                                        object.
+                                      items:
+                                        properties:
+                                          compartmentId:
+                                            description: (Updatable) The OCID of the
+                                              compartment that the resource belongs
+                                              to.
+                                            type: string
+                                        required:
+                                        - compartmentId
+                                        type: object
+                                      type: array
+                                    source:
+                                      items:
+                                        properties:
+                                          metrics:
+                                            items:
+                                              type: string
+                                            type: array
+                                          recordInput:
+                                            items:
+                                              properties:
+                                                namespace:
+                                                  type: string
+                                                resourceGroup:
+                                                  type: string
+                                              required:
+                                              - namespace
+                                              type: object
+                                            type: array
+                                          type:
+                                            type: string
+                                        required:
+                                        - recordInput
+                                        - type
+                                        type: object
+                                      type: array
+                                  required:
+                                  - destination
+                                  - source
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         sources:
                           description: (Updatable)
                           items:
                             properties:
+                              advancedOptions:
+                                items:
+                                  properties:
+                                    isReadFromHead:
+                                      type: boolean
+                                  type: object
+                                type: array
                               channels:
                                 description: (Applicable when source_type=WINDOWS_EVENT_LOG)
                                   (Updatable)
                                 items:
                                   type: string
                                 type: array
+                              customPlugin:
+                                type: string
                               name:
                                 description: (Updatable) unique name for the source
                                 type: string
@@ -339,6 +703,8 @@ spec:
                                         (Updatable) If true, keep time field in the
                                         record.
                                       type: boolean
+                                    isMergeCriFields:
+                                      type: boolean
                                     isNullEmptyString:
                                       description: (Applicable when source_type=LOG_TAIL)
                                         (Updatable) If true, an empty string field
@@ -370,10 +736,42 @@ spec:
                                       description: (Applicable when parser_type=MULTILINE_GROK)
                                         (Updatable)
                                       type: string
+                                    nestedParser:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) source parser object.
+                                      items:
+                                        properties:
+                                          fieldTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify time field for the
+                                              event time. If the event doesn't have
+                                              this field, the current time is used.
+                                            type: string
+                                          isKeepTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) If true, keep time field
+                                              in the record.
+                                            type: boolean
+                                          parseNested:
+                                            type: boolean
+                                          separator:
+                                            type: string
+                                          timeFormat:
+                                            description: (Applicable when parser_type=JSON
+                                              | REGEXP | SYSLOG) (Updatable)
+                                            type: string
+                                          timeType:
+                                            description: (Applicable when parser_type=JSON)
+                                              (Updatable)
+                                            type: string
+                                        type: object
+                                      type: array
                                     nullValuePattern:
                                       description: (Applicable when source_type=LOG_TAIL)
                                         (Updatable) Specify the null value pattern.
                                       type: string
+                                    parseNested:
+                                      type: boolean
                                     parserType:
                                       description: (Updatable) Type of fluent parser.
                                       type: string
@@ -411,9 +809,24 @@ spec:
                                             type: string
                                         type: object
                                       type: array
+                                    recordInput:
+                                      items:
+                                        properties:
+                                          dimensions:
+                                            additionalProperties:
+                                              type: string
+                                            type: object
+                                          namespace:
+                                            type: string
+                                          resourceGroup:
+                                            type: string
+                                        type: object
+                                      type: array
                                     rfc5424timeFormat:
                                       description: (Applicable when parser_type=SYSLOG)
                                         (Updatable)
+                                      type: string
+                                    separator:
                                       type: string
                                     syslogParserType:
                                       description: (Applicable when parser_type=SYSLOG)
@@ -458,13 +871,312 @@ spec:
                             - sourceType
                             type: object
                           type: array
+                        unifiedAgentConfigurationFilter:
+                          items:
+                            properties:
+                              allowList:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    pattern:
+                                      description: (Updatable) The grok pattern.
+                                      type: string
+                                  type: object
+                                type: array
+                              customFilterType:
+                                type: string
+                              customSections:
+                                items:
+                                  properties:
+                                    name:
+                                      description: (Updatable) unique name for the
+                                        source
+                                      type: string
+                                    params:
+                                      additionalProperties:
+                                        type: string
+                                      type: object
+                                  type: object
+                                type: array
+                              denyList:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    pattern:
+                                      description: (Updatable) The grok pattern.
+                                      type: string
+                                  type: object
+                                type: array
+                              emitInvalidRecordToError:
+                                type: boolean
+                              filterType:
+                                type: string
+                              hashValueField:
+                                type: string
+                              injectKeyPrefix:
+                                type: string
+                              isAutoTypecastEnabled:
+                                type: boolean
+                              isRenewRecordEnabled:
+                                type: boolean
+                              isRubyEnabled:
+                                type: boolean
+                              keepKeys:
+                                description: (Applicable when parser_type=CSV | TSV)
+                                  (Updatable)
+                                items:
+                                  type: string
+                                type: array
+                              keyName:
+                                description: (Updatable) unique name for the source
+                                type: string
+                              name:
+                                description: (Updatable) unique name for the source
+                                type: string
+                              params:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              parser:
+                                description: (Applicable when source_type=LOG_TAIL)
+                                  (Updatable) source parser object.
+                                items:
+                                  properties:
+                                    delimiter:
+                                      description: (Applicable when parser_type=CSV
+                                        | TSV) (Updatable)
+                                      type: string
+                                    expression:
+                                      description: (Applicable when parser_type=REGEXP)
+                                        (Updatable)
+                                      type: string
+                                    fieldTimeKey:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) Specify time field for the event
+                                        time. If the event doesn't have this field,
+                                        the current time is used.
+                                      type: string
+                                    format:
+                                      description: (Applicable when parser_type=MULTILINE)
+                                        (Updatable)
+                                      items:
+                                        type: string
+                                      type: array
+                                    formatFirstline:
+                                      description: (Applicable when parser_type=MULTILINE)
+                                        (Updatable)
+                                      type: string
+                                    grokFailureKey:
+                                      description: (Applicable when parser_type=GROK
+                                        | MULTILINE_GROK) (Updatable)
+                                      type: string
+                                    grokNameKey:
+                                      description: (Applicable when parser_type=GROK
+                                        | MULTILINE_GROK) (Updatable)
+                                      type: string
+                                    isEstimateCurrentEvent:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) If true, use Fluent::EventTime.now(current
+                                        time) as a timestamp when time_key is specified.
+                                      type: boolean
+                                    isKeepTimeKey:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) If true, keep time field in the
+                                        record.
+                                      type: boolean
+                                    isMergeCriFields:
+                                      type: boolean
+                                    isNullEmptyString:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) If true, an empty string field
+                                        is replaced with nil.
+                                      type: boolean
+                                    isSupportColonlessIdent:
+                                      description: (Applicable when parser_type=SYSLOG)
+                                        (Updatable)
+                                      type: boolean
+                                    isWithPriority:
+                                      description: (Applicable when parser_type=SYSLOG)
+                                        (Updatable)
+                                      type: boolean
+                                    keys:
+                                      description: (Applicable when parser_type=CSV
+                                        | TSV) (Updatable)
+                                      items:
+                                        type: string
+                                      type: array
+                                    messageFormat:
+                                      description: (Applicable when parser_type=SYSLOG)
+                                        (Updatable)
+                                      type: string
+                                    messageKey:
+                                      description: (Applicable when parser_type=NONE)
+                                        (Updatable)
+                                      type: string
+                                    multiLineStartRegexp:
+                                      description: (Applicable when parser_type=MULTILINE_GROK)
+                                        (Updatable)
+                                      type: string
+                                    nestedParser:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) source parser object.
+                                      items:
+                                        properties:
+                                          fieldTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify time field for the
+                                              event time. If the event doesn't have
+                                              this field, the current time is used.
+                                            type: string
+                                          isKeepTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) If true, keep time field
+                                              in the record.
+                                            type: boolean
+                                          parseNested:
+                                            type: boolean
+                                          separator:
+                                            type: string
+                                          timeFormat:
+                                            description: (Applicable when parser_type=JSON
+                                              | REGEXP | SYSLOG) (Updatable)
+                                            type: string
+                                          timeType:
+                                            description: (Applicable when parser_type=JSON)
+                                              (Updatable)
+                                            type: string
+                                        type: object
+                                      type: array
+                                    nullValuePattern:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) Specify the null value pattern.
+                                      type: string
+                                    parseNested:
+                                      type: boolean
+                                    parserType:
+                                      description: (Updatable) Type of fluent parser.
+                                      type: string
+                                    patterns:
+                                      description: (Applicable when parser_type=GROK
+                                        | MULTILINE_GROK) (Updatable)
+                                      items:
+                                        properties:
+                                          fieldTimeFormat:
+                                            description: (Applicable when parser_type=GROK
+                                              | MULTILINE_GROK) (Updatable) Process
+                                              value using the specified format. This
+                                              is available only when time_type is
+                                              a string.
+                                            type: string
+                                          fieldTimeKey:
+                                            description: (Applicable when source_type=LOG_TAIL)
+                                              (Updatable) Specify time field for the
+                                              event time. If the event doesn't have
+                                              this field, the current time is used.
+                                            type: string
+                                          fieldTimeZone:
+                                            description: (Applicable when parser_type=GROK
+                                              | MULTILINE_GROK) (Updatable) Use the
+                                              specified time zone. The time value
+                                              can be parsed or formatted in the specified
+                                              time zone.
+                                            type: string
+                                          name:
+                                            description: (Updatable) unique name for
+                                              the source
+                                            type: string
+                                          pattern:
+                                            description: (Updatable) The grok pattern.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    recordInput:
+                                      items:
+                                        properties:
+                                          dimensions:
+                                            additionalProperties:
+                                              type: string
+                                            type: object
+                                          namespace:
+                                            type: string
+                                          resourceGroup:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    rfc5424timeFormat:
+                                      description: (Applicable when parser_type=SYSLOG)
+                                        (Updatable)
+                                      type: string
+                                    separator:
+                                      type: string
+                                    syslogParserType:
+                                      description: (Applicable when parser_type=SYSLOG)
+                                        (Updatable)
+                                      type: string
+                                    timeFormat:
+                                      description: (Applicable when parser_type=JSON
+                                        | REGEXP | SYSLOG) (Updatable)
+                                      type: string
+                                    timeType:
+                                      description: (Applicable when parser_type=JSON)
+                                        (Updatable)
+                                      type: string
+                                    timeoutInMilliseconds:
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) Specify the timeout for parse
+                                        processing. This is mainly for detecting an
+                                        incorrect regexp pattern.
+                                      type: number
+                                    types:
+                                      additionalProperties:
+                                        type: string
+                                      description: (Applicable when source_type=LOG_TAIL)
+                                        (Updatable) Specify types for converting a
+                                        field into another type.
+                                      type: object
+                                  required:
+                                  - parserType
+                                  type: object
+                                type: array
+                              recordList:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    value:
+                                      type: string
+                                  type: object
+                                type: array
+                              removeKeyNameField:
+                                type: boolean
+                              removeKeys:
+                                description: (Applicable when parser_type=CSV | TSV)
+                                  (Updatable)
+                                items:
+                                  type: string
+                                type: array
+                              renewTimeKey:
+                                type: string
+                              replaceInvalidSequence:
+                                type: boolean
+                              reserveData:
+                                type: boolean
+                              reserveTime:
+                                type: boolean
+                            required:
+                            - filterType
+                            - name
+                            type: object
+                          type: array
                       required:
                       - configurationType
-                      - destination
-                      - sources
                       type: object
                     type: array
                 required:
+                - description
+                - displayName
                 - isEnabled
                 - serviceConfiguration
                 type: object

@@ -13,6 +13,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type StorageReplicationLocksObservation struct {
+}
+
+type StorageReplicationLocksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	// The OCID of the source file system.
+	// +kubebuilder:validation:Optional
+	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
+
+	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
+	// +kubebuilder:validation:Optional
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type StorageReplicationObservation struct {
 
 	// The availability domain the replication is in. The replication must be in the same availability domain as the source file system. Example: Uocm:PHX-AD-1
@@ -41,6 +61,8 @@ type StorageReplicationObservation struct {
 
 	// The current state of this replication. This resource can be in a FAILED state if replication target is deleted instead of the replication resource.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
 	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -72,6 +94,12 @@ type StorageReplicationParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locks []StorageReplicationLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// (Updatable) Duration in minutes between replication snapshots.
 	// +kubebuilder:validation:Optional

@@ -470,6 +470,8 @@ spec:
                     description: Whether the Iscsi or Paravirtualized attachment is
                       multipath or not, it is not applicable to NVMe attachment.
                     type: boolean
+                  isVolumeCreatedDuringLaunch:
+                    type: boolean
                   iscsiLoginState:
                     description: The iscsi login state of the volume attachment. For
                       a Iscsi volume attachment, all iscsi sessions need to be all

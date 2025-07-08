@@ -233,6 +233,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                  maxConnections:
+                    type: number
                   offline:
                     description: '(Updatable) Whether the load balancer should treat
                       this server as offline. Offline servers receive no incoming

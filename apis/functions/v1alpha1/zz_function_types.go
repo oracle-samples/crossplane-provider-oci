@@ -24,6 +24,8 @@ type FunctionObservation struct {
 	// The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.
 	InvokeEndpoint *string `json:"invokeEndpoint,omitempty" tf:"invoke_endpoint,omitempty"`
 
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
 	// The current state of the function.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 

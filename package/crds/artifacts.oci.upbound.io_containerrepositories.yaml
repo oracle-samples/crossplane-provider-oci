@@ -144,9 +144,17 @@ spec:
                             type: string
                         type: object
                     type: object
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   displayName:
                     description: The container repository name.
                     type: string
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   isImmutable:
                     description: (Updatable) Whether the repository is immutable.
                       Images cannot be overwritten in an immutable repository.
@@ -371,9 +379,15 @@ spec:
                   layersSizeInBytes:
                     description: Total storage in bytes consumed by layers.
                     type: string
+                  namespace:
+                    type: string
                   state:
                     description: The current state of the container repository.
                     type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   timeCreated:
                     description: An RFC 3339 timestamp indicating when the repository
                       was created.

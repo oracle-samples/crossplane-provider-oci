@@ -67,6 +67,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  areOperationallyActiveBackendsPreferred:
+                    type: boolean
                   backends:
                     description: (Updatable) An array of backends to be associated
                       with the backend set.
@@ -128,6 +130,33 @@ spec:
                       For more information, see Editing Health Check Policies.
                     items:
                       properties:
+                        dns:
+                          items:
+                            properties:
+                              domainName:
+                                description: '(Updatable) A read-only field showing
+                                  the IP address/OCID and port that uniquely identify
+                                  this backend server in the backend set.  Example:
+                                  10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443
+                                  or 10.0.0.3:0'
+                                type: string
+                              queryClass:
+                                type: string
+                              queryType:
+                                type: string
+                              rcodes:
+                                items:
+                                  type: string
+                                type: array
+                              transportProtocol:
+                                description: '(Updatable) The protocol the health
+                                  check must use; either HTTP or HTTPS, or UDP or
+                                  TCP.  Example: HTTP'
+                                type: string
+                            required:
+                            - domainName
+                            type: object
+                          type: array
                         intervalInMillis:
                           description: '(Updatable) The interval between health checks,
                             in milliseconds. The default value is 10000 (10 seconds).  Example:
@@ -185,6 +214,12 @@ spec:
                     description: (Updatable) IP version associated with the backend
                       set.
                     type: string
+                  isFailOpen:
+                    type: boolean
+                  isInstantFailoverEnabled:
+                    type: boolean
+                  isInstantFailoverTcpResetEnabled:
+                    type: boolean
                   isPreserveSource:
                     description: (Updatable) If this parameter is enabled, then the
                       network load balancer preserves the source IP of the packet

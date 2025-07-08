@@ -21,6 +21,9 @@ type FirewallNetworkFirewallObservation struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NATConfiguration []NATConfigurationObservation `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
+
 	// The current state of the Network Firewall.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
@@ -73,6 +76,9 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NATConfiguration []NATConfigurationParameters `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
+
 	// (Updatable) The OCID of the Network Firewall Policy.
 	// +crossplane:generate:reference:type=FirewallNetworkFirewallPolicy
 	// +kubebuilder:validation:Optional
@@ -102,6 +108,16 @@ type FirewallNetworkFirewallParameters struct {
 	// Selector for a Subnet in core to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
+}
+
+type NATConfigurationObservation struct {
+	NATIPAddressList []*string `json:"natIpAddressList,omitempty" tf:"nat_ip_address_list,omitempty"`
+}
+
+type NATConfigurationParameters struct {
+
+	// +kubebuilder:validation:Required
+	MustEnablePrivateNAT *bool `json:"mustEnablePrivateNat" tf:"must_enable_private_nat,omitempty"`
 }
 
 // FirewallNetworkFirewallSpec defines the desired state of FirewallNetworkFirewall

@@ -98,6 +98,9 @@ type NodeEvictionNodePoolSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
+
 	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 	// +kubebuilder:validation:Optional
 	IsForceDeleteAfterGraceDuration *bool `json:"isForceDeleteAfterGraceDuration,omitempty" tf:"is_force_delete_after_grace_duration,omitempty"`
@@ -107,6 +110,9 @@ type NodePoolCyclingDetailsObservation struct {
 }
 
 type NodePoolCyclingDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
 
 	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
 	// +kubebuilder:validation:Optional

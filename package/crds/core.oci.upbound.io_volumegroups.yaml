@@ -72,6 +72,9 @@ spec:
                       policy to assign to the newly created volume group. If omitted,
                       no policy will be assigned.
                     type: string
+                  clusterPlacementGroupId:
+                    description: The OCID for the volume group.
+                    type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
                       the volume group.
@@ -294,6 +297,9 @@ spec:
                             have to be unique, and it's changeable. Avoid entering
                             confidential information.
                           type: string
+                        xrrKmsKeyId:
+                          description: The OCID for the volume group.
+                          type: string
                       required:
                       - availabilityDomain
                       type: object
@@ -305,6 +311,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  xrcKmsKeyId:
+                    description: The OCID for the volume group.
+                    type: string
                 required:
                 - availabilityDomain
                 - sourceDetails

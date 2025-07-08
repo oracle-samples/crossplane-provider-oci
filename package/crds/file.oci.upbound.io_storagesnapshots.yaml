@@ -71,6 +71,8 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags. Example: {"Operations.CostCenter": "42"}'
                     type: object
+                  expirationTime:
+                    type: string
                   fileSystemId:
                     description: The OCID of the file system to take a snapshot of.
                     type: string
@@ -155,6 +157,26 @@ spec:
                       or namespace. For more information, see Resource Tags. Example:
                       {"Department": "Finance"}'
                     type: object
+                  isLockOverride:
+                    type: boolean
+                  locks:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        relatedResourceId:
+                          description: The OCID of the snapshot.
+                          type: string
+                        timeCreated:
+                          description: 'The date and time the snapshot was created,
+                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   name:
                     description: Name of the snapshot. This value is immutable. It
                       must also be unique with respect to all other non-DELETED snapshots
@@ -339,6 +361,9 @@ spec:
             properties:
               atProvider:
                 properties:
+                  filesystemSnapshotPolicyId:
+                    description: The OCID of the snapshot.
+                    type: string
                   id:
                     description: The OCID of the snapshot.
                     type: string
@@ -367,6 +392,10 @@ spec:
                   state:
                     description: The current state of the snapshot.
                     type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   timeCreated:
                     description: 'The date and time the snapshot was created, expressed
                       in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'

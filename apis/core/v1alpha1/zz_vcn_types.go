@@ -112,6 +112,9 @@ type VcnParameters struct {
 	// Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN.
 	// +kubebuilder:validation:Optional
 	IsOracleGuaAllocationEnabled *bool `json:"isOracleGuaAllocationEnabled,omitempty" tf:"is_oracle_gua_allocation_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 }
 
 // VcnSpec defines the desired state of Vcn

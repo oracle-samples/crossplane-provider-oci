@@ -13,13 +13,29 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type KeyVersionExternalKeyReferenceDetailsObservation struct {
+
+	// The OCID of the key.
+	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
+
+	// The OCID of the key version.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+}
+
+type KeyVersionExternalKeyReferenceDetailsParameters struct {
+}
+
 type KeyVersionObservation struct {
 
 	// The OCID of the compartment that contains this key version.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	ExternalKeyReferenceDetails []KeyVersionExternalKeyReferenceDetailsObservation `json:"externalKeyReferenceDetails,omitempty" tf:"external_key_reference_details,omitempty"`
+
 	// The OCID of the key version.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IsAutoRotated *bool `json:"isAutoRotated,omitempty" tf:"is_auto_rotated,omitempty"`
 
 	// A boolean that will be true when key version is primary, and will be false when key version is a replica from a primary key version.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
@@ -50,6 +66,10 @@ type KeyVersionObservation struct {
 }
 
 type KeyVersionParameters struct {
+
+	// The OCID of the key version.
+	// +kubebuilder:validation:Optional
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
 
 	// The OCID of the key.
 	// +crossplane:generate:reference:type=Key

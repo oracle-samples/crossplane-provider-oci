@@ -140,6 +140,9 @@ spec:
                       reservations by specifying an empty string as input for this
                       field. For more information, see Capacity Reservations.
                     type: string
+                  clusterPlacementGroupId:
+                    description: The OCID of the instance.
+                    type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment.
                     type: string
@@ -229,6 +232,8 @@ spec:
                       VNICs, see Virtual Network Interface Cards (VNICs).
                     items:
                       properties:
+                        assignIpv6Ip:
+                          type: boolean
                         assignPrivateDnsRecord:
                           description: 'Whether the VNIC should be assigned a DNS
                             record. If set to false, no DNS record registion for the
@@ -277,6 +282,15 @@ spec:
                             object and also the PrivateIp object returned by ListPrivateIps
                             and GetPrivateIp.
                           type: string
+                        ipv6addressIpv6SubnetCidrPairDetails:
+                          items:
+                            properties:
+                              ipv6address:
+                                type: string
+                              ipv6subnetCidr:
+                                type: string
+                            type: object
+                          type: array
                         nsgIds:
                           description: (Updatable) A list of the OCIDs of the network
                             security groups (NSGs) to add the VNIC to. For more information
@@ -375,6 +389,10 @@ spec:
                             in the Vnic object and also the PrivateIp object returned
                             by ListPrivateIps and GetPrivateIp.
                           type: string
+                        securityAttributes:
+                          additionalProperties:
+                            type: string
+                          type: object
                         skipSourceDestCheck:
                           description: (Updatable) Whether the source/destination
                             check is disabled on the VNIC. Defaults to false, which
@@ -676,6 +694,9 @@ spec:
                       source type instead. If you specify values for both, the values
                       must match.
                     type: string
+                  instanceConfigurationId:
+                    description: The OCID of the instance.
+                    type: string
                   instanceOptions:
                     description: (Updatable) Optional mutable instance options
                     items:
@@ -730,12 +751,107 @@ spec:
                           type: string
                       type: object
                     type: array
+                  launchVolumeAttachments:
+                    items:
+                      properties:
+                        device:
+                          type: string
+                        displayName:
+                          description: (Updatable) A user-friendly name. Does not
+                            have to be unique, and it's changeable. Avoid entering
+                            confidential information.
+                          type: string
+                        encryptionInTransitType:
+                          description: The type of platform being configured.
+                          type: string
+                        isAgentAutoIscsiLoginEnabled:
+                          type: boolean
+                        isPvEncryptionInTransitEnabled:
+                          description: Whether to enable in-transit encryption for
+                            the data volume's paravirtualized attachment. The default
+                            value is false. Use this field only during create. To
+                            update use is_pv_encryption_in_transit_enabled under launch_options
+                            instead.
+                          type: boolean
+                        isReadOnly:
+                          type: boolean
+                        isShareable:
+                          type: boolean
+                        launchCreateVolumeDetails:
+                          items:
+                            properties:
+                              compartmentId:
+                                description: (Updatable) The OCID of the compartment.
+                                type: string
+                              displayName:
+                                description: (Updatable) A user-friendly name. Does
+                                  not have to be unique, and it's changeable. Avoid
+                                  entering confidential information.
+                                type: string
+                              kmsKeyId:
+                                description: (Applicable when source_type=image) The
+                                  OCID of the Vault service key to assign as the master
+                                  encryption key for the boot volume.
+                                type: string
+                              sizeInGbs:
+                                type: string
+                              volumeCreationType:
+                                description: The type of platform being configured.
+                                type: string
+                              vpusPerGb:
+                                type: string
+                            required:
+                            - sizeInGbs
+                            - volumeCreationType
+                            type: object
+                          type: array
+                        type:
+                          description: The type of platform being configured.
+                          type: string
+                        useChap:
+                          type: boolean
+                        volumeId:
+                          description: The OCID of the instance.
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
+                  licensingConfigs:
+                    items:
+                      properties:
+                        licenseType:
+                          description: The type of platform being configured.
+                          type: string
+                        type:
+                          description: The type of platform being configured.
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   metadata:
                     additionalProperties:
                       type: string
                     description: fields in that these can be nested JSON objects (whereas
                       metadata fields are string/string maps only).
                     type: object
+                  placementConstraintDetails:
+                    items:
+                      properties:
+                        computeBareMetalHostId:
+                          description: The OCID of the instance.
+                          type: string
+                        computeHostGroupId:
+                          description: The OCID of the instance.
+                          type: string
+                        type:
+                          description: The type of platform being configured.
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   platformConfig:
                     description: The platform configuration requested for the instance.
                     items:
@@ -746,6 +862,10 @@ spec:
                             instructions are available. For example, Secure Virtual
                             Machine for AMD shapes or VT-x for Intel shapes.
                           type: boolean
+                        configMap:
+                          additionalProperties:
+                            type: string
+                          type: object
                         isAccessControlServiceEnabled:
                           description: (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU
                             | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control
@@ -832,6 +952,12 @@ spec:
                       to launch the preemptible instance when the instance is terminated.
                       Defaults to false if not specified.
                     type: boolean
+                  preserveDataVolumesCreatedAtLaunch:
+                    type: boolean
+                  securityAttributes:
+                    additionalProperties:
+                      type: string
+                    type: object
                   shape:
                     description: that you specify. If you don't provide the parameter,
                       the default values for the shape are used.
@@ -859,6 +985,8 @@ spec:
                           description: (Updatable) The total number of OCPUs available
                             to the instance.
                           type: number
+                        vcpus:
+                          type: number
                       type: object
                     type: array
                   sourceDetails:
@@ -877,6 +1005,26 @@ spec:
                             elastic performance options. See Block Volume Performance
                             Levels for more information.
                           type: string
+                        instanceSourceImageFilterDetails:
+                          items:
+                            properties:
+                              compartmentId:
+                                description: (Updatable) The OCID of the compartment.
+                                type: string
+                              definedTagsFilter:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                              operatingSystem:
+                                type: string
+                              operatingSystemVersion:
+                                type: string
+                            required:
+                            - compartmentId
+                            type: object
+                          type: array
+                        isPreserveBootVolumeEnabled:
+                          type: boolean
                         kmsKeyId:
                           description: (Applicable when source_type=image) The OCID
                             of the Vault service key to assign as the master encryption
@@ -985,7 +1133,6 @@ spec:
                     type: string
                 required:
                 - availabilityDomain
-                - shape
                 type: object
               providerConfigRef:
                 default:
@@ -1178,6 +1325,13 @@ spec:
                     description: 'Specifies the configuration mode for launching virtual
                       machine (VM) instances. The configuration modes are:'
                     type: string
+                  licensingConfigs:
+                    items:
+                      properties:
+                        osVersion:
+                          type: string
+                      type: object
+                    type: array
                   privateIp:
                     description: A private IP address of your choice to assign to
                       the VNIC. Must be an available IP address within the subnet's
@@ -1192,6 +1346,10 @@ spec:
                   region:
                     description: The region that contains the availability domain
                       the instance is running in.
+                    type: string
+                  securityAttributesState:
+                    description: (Updatable) The target state for the instance. Could
+                      be set to RUNNING or STOPPED.
                     type: string
                   shapeConfig:
                     description: (Updatable) The shape configuration requested for

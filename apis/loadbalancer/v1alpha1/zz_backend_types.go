@@ -62,6 +62,9 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+
 	// (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
 	// +kubebuilder:validation:Optional
 	Offline *bool `json:"offline,omitempty" tf:"offline,omitempty"`

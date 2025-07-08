@@ -82,9 +82,13 @@ spec:
                           description: The IP address for the CPE end of the inside
                             tunnel interface.
                           type: string
+                        customerInterfaceIpv6:
+                          type: string
                         oracleInterfaceIp:
                           description: The IP address for the Oracle end of the inside
                             tunnel interface.
+                          type: string
+                        oracleInterfaceIpv6:
                           type: string
                       type: object
                     type: array
@@ -126,23 +130,72 @@ spec:
                   ipsecId:
                     description: The OCID of the IPSec connection.
                     type: string
+                  natTranslationEnabled:
+                    type: string
+                  oracleCanInitiate:
+                    type: string
+                  phaseOneDetails:
+                    items:
+                      properties:
+                        customAuthenticationAlgorithm:
+                          type: string
+                        customDhGroup:
+                          type: string
+                        customEncryptionAlgorithm:
+                          type: string
+                        isCustomPhaseOneConfig:
+                          type: boolean
+                        lifetime:
+                          type: number
+                      type: object
+                    type: array
+                  phaseTwoDetails:
+                    items:
+                      properties:
+                        customAuthenticationAlgorithm:
+                          type: string
+                        customEncryptionAlgorithm:
+                          type: string
+                        dhGroup:
+                          type: string
+                        isCustomPhaseTwoConfig:
+                          type: boolean
+                        isPfsEnabled:
+                          type: boolean
+                        lifetime:
+                          type: number
+                      type: object
+                    type: array
                   routing:
                     description: The type of routing to use for this tunnel (either
                       BGP dynamic routing, STATIC routing or POLICY routing).
                     type: string
-                  sharedSecret:
+                  sharedSecretSecretRef:
                     description: 'The shared secret (pre-shared key) to use for the
                       IPSec tunnel. If you don''t provide a value, Oracle generates
                       a value for you. You can specify your own shared secret later
                       if you like with UpdateIPSecConnectionTunnelSharedSecret.  Example:
                       EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o'
-                    type: string
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   tunnelId:
                     description: The OCID of the IPSec connection's tunnel.
                     type: string
                 required:
                 - ipsecId
-                - routing
                 - tunnelId
                 type: object
               providerConfigRef:
@@ -322,6 +375,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  associatedVirtualCircuits:
+                    items:
+                      type: string
+                    type: array
                   bgpSessionInfo:
                     description: Information for establishing a BGP session for the
                       IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
@@ -353,25 +410,11 @@ spec:
                   id:
                     description: The tunnel's Oracle ID (OCID).
                     type: string
-                  natTranslationEnabled:
-                    type: string
-                  oracleCanInitiate:
-                    type: string
                   phaseOneDetails:
                     items:
                       properties:
-                        customAuthenticationAlgorithm:
-                          type: string
-                        customDhGroup:
-                          type: string
-                        customEncryptionAlgorithm:
-                          type: string
-                        isCustomPhaseOneConfig:
-                          type: boolean
                         isIkeEstablished:
                           type: boolean
-                        lifetime:
-                          type: number
                         negotiatedAuthenticationAlgorithm:
                           type: string
                         negotiatedDhGroup:
@@ -380,6 +423,8 @@ spec:
                           type: string
                         remainingLifetime:
                           type: string
+                        remainingLifetimeInt:
+                          type: number
                         remainingLifetimeLastRetrieved:
                           type: string
                       type: object
@@ -387,20 +432,8 @@ spec:
                   phaseTwoDetails:
                     items:
                       properties:
-                        customAuthenticationAlgorithm:
-                          type: string
-                        customEncryptionAlgorithm:
-                          type: string
-                        dhGroup:
-                          type: string
-                        isCustomPhaseTwoConfig:
-                          type: boolean
                         isEspEstablished:
                           type: boolean
-                        isPfsEnabled:
-                          type: boolean
-                        lifetime:
-                          type: number
                         negotiatedAuthenticationAlgorithm:
                           type: string
                         negotiatedDhGroup:
@@ -409,6 +442,8 @@ spec:
                           type: string
                         remainingLifetime:
                           type: string
+                        remainingLifetimeInt:
+                          type: number
                         remainingLifetimeLastRetrieved:
                           type: string
                       type: object

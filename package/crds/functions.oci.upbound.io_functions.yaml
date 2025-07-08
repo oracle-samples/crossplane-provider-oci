@@ -431,6 +431,8 @@ spec:
                       to invoke a function. This URL will never change over the lifetime
                       of the function and can be cached.
                     type: string
+                  shape:
+                    type: string
                   state:
                     description: The current state of the function.
                     type: string

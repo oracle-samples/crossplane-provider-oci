@@ -79,6 +79,10 @@ spec:
                               category:
                                 description: Log object category.
                                 type: string
+                              parameters:
+                                additionalProperties:
+                                  type: string
+                                type: object
                               resource:
                                 description: The unique identifier of the resource
                                   emitting the log.

@@ -417,6 +417,10 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        ipFamilies:
+                          items:
+                            type: string
+                          type: array
                         kubernetesNetworkConfig:
                           description: Network configuration for Kubernetes.
                           items:
@@ -429,6 +433,52 @@ spec:
                                 description: The CIDR block for Kubernetes services.
                                   Optional, defaults to 10.96.0.0/16.
                                 type: string
+                            type: object
+                          type: array
+                        openIdConnectDiscovery:
+                          items:
+                            properties:
+                              isOpenIdConnectDiscoveryEnabled:
+                                type: boolean
+                            type: object
+                          type: array
+                        openIdConnectTokenAuthenticationConfig:
+                          items:
+                            properties:
+                              caCertificate:
+                                type: string
+                              clientId:
+                                description: The OCID of the cluster.
+                                type: string
+                              configurationFile:
+                                type: string
+                              groupsClaim:
+                                type: string
+                              groupsPrefix:
+                                type: string
+                              isOpenIdConnectAuthEnabled:
+                                type: boolean
+                              issuerUrl:
+                                type: string
+                              requiredClaims:
+                                items:
+                                  properties:
+                                    key:
+                                      type: string
+                                    value:
+                                      type: string
+                                  type: object
+                                type: array
+                              signingAlgorithms:
+                                items:
+                                  type: string
+                                type: array
+                              usernameClaim:
+                                type: string
+                              usernamePrefix:
+                                type: string
+                            required:
+                            - isOpenIdConnectAuthEnabled
                             type: object
                           type: array
                         persistentVolumeConfig:
@@ -839,6 +889,8 @@ spec:
                     description: Endpoints served up by the cluster masters.
                     items:
                       properties:
+                        ipv6endpoint:
+                          type: string
                         kubernetes:
                           description: The non-native networking Kubernetes API server
                             endpoint.
@@ -884,6 +936,8 @@ spec:
                         timeCreated:
                           description: The time the cluster was created.
                           type: string
+                        timeCredentialExpiration:
+                          type: string
                         timeDeleted:
                           description: The time the cluster was deleted.
                           type: string
@@ -899,6 +953,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  openIdConnectDiscoveryEndpoint:
+                    type: string
+                  openIdConnectDiscoveryKey:
+                    type: string
                   state:
                     description: The state of the cluster masters.
                     type: string

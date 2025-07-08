@@ -104,6 +104,18 @@ spec:
                       or namespace. For more information, see Resource Tags.  Example:
                       {"Department": "Finance"}'
                     type: object
+                  placementConstraintDetails:
+                    items:
+                      properties:
+                        computeBareMetalHostId:
+                          description: The OCID of the dedicated VM host.
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                 required:
                 - availabilityDomain
                 - compartmentId
@@ -285,6 +297,36 @@ spec:
             properties:
               atProvider:
                 properties:
+                  capacityBins:
+                    items:
+                      properties:
+                        capacityIndex:
+                          type: number
+                        remainingMemoryInGbs:
+                          description: The current available memory of the dedicated
+                            VM host, in GBs.
+                          type: number
+                        remainingOcpus:
+                          description: The current available OCPUs of the dedicated
+                            VM host.
+                          type: number
+                        supportedShapes:
+                          items:
+                            type: string
+                          type: array
+                        totalMemoryInGbs:
+                          description: The current total memory of the dedicated VM
+                            host, in GBs.
+                          type: number
+                        totalOcpus:
+                          description: The current total OCPUs of the dedicated VM
+                            host.
+                          type: number
+                      type: object
+                    type: array
+                  computeBareMetalHostId:
+                    description: The OCID of the dedicated VM host.
+                    type: string
                   id:
                     description: The OCID of the dedicated VM host.
                     type: string

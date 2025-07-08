@@ -107,12 +107,19 @@ spec:
                             have to be unique, and it's changeable. Avoid entering
                             confidential information.
                           type: string
+                        xrrKmsKeyId:
+                          description: (Updatable) The OCID of the Vault service key
+                            to assign as the master encryption key for the volume.
+                          type: string
                       required:
                       - availabilityDomain
                       type: object
                     type: array
                   blockVolumeReplicasDeletion:
                     type: boolean
+                  clusterPlacementGroupId:
+                    description: The OCID of the block volume replica.
+                    type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
                       the volume.
@@ -218,6 +225,8 @@ spec:
                       DetachedVolumeAutotunePolicy instead to enable the volume for
                       detached autotune.
                     type: boolean
+                  isReservationsEnabled:
+                    type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of the Vault service key to
                       assign as the master encryption key for the volume.
@@ -233,7 +242,15 @@ spec:
                   sourceDetails:
                     items:
                       properties:
+                        changeBlockSizeInBytes:
+                          type: string
+                        firstBackupId:
+                          description: The OCID of the block volume replica.
+                          type: string
                         id:
+                          description: The OCID of the block volume replica.
+                          type: string
+                        secondBackupId:
                           description: The OCID of the block volume replica.
                           type: string
                         type:
@@ -241,7 +258,6 @@ spec:
                             volume, volumeBackup'
                           type: string
                       required:
-                      - id
                       - type
                       type: object
                     type: array
@@ -256,6 +272,10 @@ spec:
                       (VPUs) that will be applied to this volume per GB, representing
                       the Block Volume service's elastic performance options. See
                       Block Volume Performance Levels for more information.
+                    type: string
+                  xrcKmsKeyId:
+                    description: (Updatable) The OCID of the Vault service key to
+                      assign as the master encryption key for the volume.
                     type: string
                 required:
                 - availabilityDomain
@@ -448,6 +468,10 @@ spec:
                       properties:
                         blockVolumeReplicaId:
                           description: The block volume replica's Oracle ID (OCID).
+                          type: string
+                        kmsKeyId:
+                          description: (Updatable) The OCID of the Vault service key
+                            to assign as the master encryption key for the volume.
                           type: string
                       type: object
                     type: array

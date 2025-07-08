@@ -22,10 +22,10 @@ type IPv6Observation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The IPv6's current state.
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
+	IPState *string `json:"ipState,omitempty" tf:"ip_state,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
-	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+	// The IPv6's current state.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The date and time the IPv6 was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -53,9 +53,20 @@ type IPv6Parameters struct {
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
+
+	// The OCID of the IPv6.
+	// +kubebuilder:validation:Optional
+	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
+
+	// The OCID of the subnet the VNIC is in.
+	// +kubebuilder:validation:Optional
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
 	// (Updatable) The OCID of the VNIC to assign the IPv6 to. The IPv6 will be in the VNIC's subnet.
-	// +kubebuilder:validation:Required
-	VnicID *string `json:"vnicId" tf:"vnic_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	VnicID *string `json:"vnicId,omitempty" tf:"vnic_id,omitempty"`
 }
 
 // IPv6Spec defines the desired state of IPv6

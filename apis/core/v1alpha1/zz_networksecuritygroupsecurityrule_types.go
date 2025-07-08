@@ -99,16 +99,44 @@ type NetworkSecurityGroupSecurityRuleParameters struct {
 	UDPOptions []NetworkSecurityGroupSecurityRuleUDPOptionsParameters `json:"udpOptions,omitempty" tf:"udp_options,omitempty"`
 }
 
+type NetworkSecurityGroupSecurityRuleTCPOptionsDestinationPortRangeObservation struct {
+}
+
+type NetworkSecurityGroupSecurityRuleTCPOptionsDestinationPortRangeParameters struct {
+
+	// The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
+}
+
 type NetworkSecurityGroupSecurityRuleTCPOptionsObservation struct {
 }
 
 type NetworkSecurityGroupSecurityRuleTCPOptionsParameters struct {
 
 	// +kubebuilder:validation:Optional
-	DestinationPortRange []TCPOptionsDestinationPortRangeParameters `json:"destinationPortRange,omitempty" tf:"destination_port_range,omitempty"`
+	DestinationPortRange []NetworkSecurityGroupSecurityRuleTCPOptionsDestinationPortRangeParameters `json:"destinationPortRange,omitempty" tf:"destination_port_range,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	SourcePortRange []TCPOptionsSourcePortRangeParameters `json:"sourcePortRange,omitempty" tf:"source_port_range,omitempty"`
+	SourcePortRange []NetworkSecurityGroupSecurityRuleTCPOptionsSourcePortRangeParameters `json:"sourcePortRange,omitempty" tf:"source_port_range,omitempty"`
+}
+
+type NetworkSecurityGroupSecurityRuleTCPOptionsSourcePortRangeObservation struct {
+}
+
+type NetworkSecurityGroupSecurityRuleTCPOptionsSourcePortRangeParameters struct {
+
+	// The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	// +kubebuilder:validation:Required
+	Max *float64 `json:"max" tf:"max,omitempty"`
+
+	// The minimum port number, which must not be greater than the maximum port number.
+	// +kubebuilder:validation:Required
+	Min *float64 `json:"min" tf:"min,omitempty"`
 }
 
 type NetworkSecurityGroupSecurityRuleUDPOptionsDestinationPortRangeObservation struct {
@@ -141,34 +169,6 @@ type NetworkSecurityGroupSecurityRuleUDPOptionsSourcePortRangeObservation struct
 }
 
 type NetworkSecurityGroupSecurityRuleUDPOptionsSourcePortRangeParameters struct {
-
-	// The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
-	// +kubebuilder:validation:Required
-	Max *float64 `json:"max" tf:"max,omitempty"`
-
-	// The minimum port number, which must not be greater than the maximum port number.
-	// +kubebuilder:validation:Required
-	Min *float64 `json:"min" tf:"min,omitempty"`
-}
-
-type TCPOptionsDestinationPortRangeObservation struct {
-}
-
-type TCPOptionsDestinationPortRangeParameters struct {
-
-	// The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
-	// +kubebuilder:validation:Required
-	Max *float64 `json:"max" tf:"max,omitempty"`
-
-	// The minimum port number, which must not be greater than the maximum port number.
-	// +kubebuilder:validation:Required
-	Min *float64 `json:"min" tf:"min,omitempty"`
-}
-
-type TCPOptionsSourcePortRangeObservation struct {
-}
-
-type TCPOptionsSourcePortRangeParameters struct {
 
 	// The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
 	// +kubebuilder:validation:Required

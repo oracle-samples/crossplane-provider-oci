@@ -13,7 +13,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type StorageSnapshotLocksObservation struct {
+}
+
+type StorageSnapshotLocksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	// The OCID of the snapshot.
+	// +kubebuilder:validation:Optional
+	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
+
+	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// +kubebuilder:validation:Optional
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type StorageSnapshotObservation struct {
+
+	// The OCID of the snapshot.
+	FilesystemSnapshotPolicyID *string `json:"filesystemSnapshotPolicyId,omitempty" tf:"filesystem_snapshot_policy_id,omitempty"`
 
 	// The OCID of the snapshot.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -36,6 +59,8 @@ type StorageSnapshotObservation struct {
 	// The current state of the snapshot.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
+
 	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
@@ -45,6 +70,9 @@ type StorageSnapshotParameters struct {
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
 	// +crossplane:generate:reference:type=StorageFileSystem
@@ -62,6 +90,12 @@ type StorageSnapshotParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locks []StorageSnapshotLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.
 	// +kubebuilder:validation:Required

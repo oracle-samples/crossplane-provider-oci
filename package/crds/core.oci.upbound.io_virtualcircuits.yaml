@@ -191,6 +191,8 @@ spec:
                       peering, or set to false to disable BFD. If this is not set,
                       the default is false.
                     type: boolean
+                  isTransportMode:
+                    type: boolean
                   providerServiceId:
                     description: The OCID of the service offered by the provider (if
                       you're connecting via a provider). To get a list of the available
@@ -453,6 +455,17 @@ spec:
                     description: 'The date and time the virtual circuit was created,
                       in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
+                  virtualCircuitRedundancyMetadata:
+                    items:
+                      properties:
+                        configuredRedundancyLevel:
+                          type: string
+                        ipv4bgpSessionRedundancyStatus:
+                          type: string
+                        ipv6bgpSessionRedundancyStatus:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

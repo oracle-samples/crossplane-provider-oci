@@ -109,12 +109,19 @@ spec:
                             have to be unique, and it's changeable. Avoid entering
                             confidential information.
                           type: string
+                        xrrKmsKeyId:
+                          description: (Updatable) The OCID of the Vault service key
+                            to assign as the master encryption key for the boot volume.
+                          type: string
                       required:
                       - availabilityDomain
                       type: object
                     type: array
                   bootVolumeReplicasDeletion:
                     type: boolean
+                  clusterPlacementGroupId:
+                    description: The OCID of the boot volume replica.
+                    type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
                       the boot volume.
@@ -155,7 +162,15 @@ spec:
                   sourceDetails:
                     items:
                       properties:
+                        changeBlockSizeInBytes:
+                          type: string
+                        firstBackupId:
+                          description: The OCID of the boot volume replica.
+                          type: string
                         id:
+                          description: The OCID of the boot volume replica.
+                          type: string
+                        secondBackupId:
                           description: The OCID of the boot volume replica.
                           type: string
                         type:
@@ -163,7 +178,6 @@ spec:
                             bootVolumeBackup, bootVolumeReplica'
                           type: string
                       required:
-                      - id
                       - type
                       type: object
                     type: array
@@ -172,6 +186,10 @@ spec:
                       (VPUs) that will be applied to this volume per GB, representing
                       the Block Volume service's elastic performance options. See
                       Block Volume Performance Levels for more information.
+                    type: string
+                  xrcKmsKeyId:
+                    description: (Updatable) The OCID of the Vault service key to
+                      assign as the master encryption key for the boot volume.
                     type: string
                 required:
                 - availabilityDomain
@@ -366,6 +384,10 @@ spec:
                       properties:
                         bootVolumeReplicaId:
                           description: The boot volume replica's Oracle ID (OCID).
+                          type: string
+                        kmsKeyId:
+                          description: (Updatable) The OCID of the Vault service key
+                            to assign as the master encryption key for the boot volume.
                           type: string
                       type: object
                     type: array

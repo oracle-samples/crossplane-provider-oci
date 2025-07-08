@@ -219,6 +219,9 @@ spec:
                             type: string
                         type: object
                     type: object
+                  xrcKmsKeyId:
+                    description: The OCID of the volume backup policy assignment.
+                    type: string
                 type: object
               providerConfigRef:
                 default:

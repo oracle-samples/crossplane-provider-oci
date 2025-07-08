@@ -80,17 +80,32 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
+
 	// Whether the load balancer has a VCN-local (private) IP address.
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
 
 	// (Updatable) An array of NSG OCIDs associated with this load balancer.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
+
 	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	// +kubebuilder:validation:Optional
 	ReservedIps []ReservedIpsParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
 	// +kubebuilder:validation:Required

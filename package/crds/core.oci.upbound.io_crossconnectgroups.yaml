@@ -101,6 +101,8 @@ spec:
                           description: Type of encryption cipher suite to use for
                             the MACsec connection.
                           type: string
+                        isUnprotectedTrafficAllowed:
+                          type: boolean
                         primaryKey:
                           description: An object defining the Secrets-in-Vault OCIDs
                             representing the MACsec key.

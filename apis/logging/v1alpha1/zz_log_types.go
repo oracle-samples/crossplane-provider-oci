@@ -101,6 +101,9 @@ type SourceParameters struct {
 	// +kubebuilder:validation:Required
 	Category *string `json:"category" tf:"category,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// The unique identifier of the resource emitting the log.
 	// +kubebuilder:validation:Required
 	Resource *string `json:"resource" tf:"resource,omitempty"`

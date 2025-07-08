@@ -30,6 +30,9 @@ type AlarmObservation struct {
 
 type AlarmParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AlarmSummary *string `json:"alarmSummary,omitempty" tf:"alarm_summary,omitempty"`
+
 	// (Updatable) The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: High CPU usage alert. Follow runbook instructions for resolution.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
@@ -58,6 +61,9 @@ type AlarmParameters struct {
 	// (Updatable) A user-friendly name for the alarm. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EvaluationSlackDuration *string `json:"evaluationSlackDuration,omitempty" tf:"evaluation_slack_duration,omitempty"`
 
 	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
@@ -96,6 +102,15 @@ type AlarmParameters struct {
 	// +kubebuilder:validation:Required
 	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NotificationTitle *string `json:"notificationTitle,omitempty" tf:"notification_title,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NotificationVersion *string `json:"notificationVersion,omitempty" tf:"notification_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Overrides []OverridesParameters `json:"overrides,omitempty" tf:"overrides,omitempty"`
+
 	// (Updatable) The period of time that the condition defined in the alarm must persist before the alarm state changes from "OK" to "FIRING". For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to "FIRING".
 	// +kubebuilder:validation:Optional
 	PendingDuration *string `json:"pendingDuration,omitempty" tf:"pending_duration,omitempty"`
@@ -116,6 +131,9 @@ type AlarmParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	RuleName *string `json:"ruleName,omitempty" tf:"rule_name,omitempty"`
+
 	// (Updatable) The perceived type of response required when the alarm is in the "FIRING" state.  Example: CRITICAL
 	// +kubebuilder:validation:Required
 	Severity *string `json:"severity" tf:"severity,omitempty"`
@@ -123,6 +141,31 @@ type AlarmParameters struct {
 	// (Updatable) The configuration details for suppressing an alarm.
 	// +kubebuilder:validation:Optional
 	Suppression []SuppressionParameters `json:"suppression,omitempty" tf:"suppression,omitempty"`
+}
+
+type OverridesObservation struct {
+}
+
+type OverridesParameters struct {
+
+	// (Updatable) The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: High CPU usage alert. Follow runbook instructions for resolution.
+	// +kubebuilder:validation:Optional
+	Body *string `json:"body,omitempty" tf:"body,omitempty"`
+
+	// (Updatable) The period of time that the condition defined in the alarm must persist before the alarm state changes from "OK" to "FIRING". For example, a value of 5 minutes means that the alarm must persist in breaching the condition for five minutes before the alarm updates its state to "FIRING".
+	// +kubebuilder:validation:Optional
+	PendingDuration *string `json:"pendingDuration,omitempty" tf:"pending_duration,omitempty"`
+
+	// (Updatable) The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of the Monitoring service interprets results for each returned time series as Boolean values, where zero represents false and a non-zero value represents true. A true value means that the trigger rule condition has been met. The query must specify a metric, statistic, interval, and trigger rule (threshold or absence). Supported values for interval depend on the specified time range. More interval values are supported for smaller time ranges. You can optionally specify dimensions and grouping functions. Supported grouping functions: grouping(), groupBy(). For details about Monitoring Query Language (MQL), see Monitoring Query Language (MQL) Reference. For available dimensions, review the metric definition for the supported service. See Supported Services.
+	// +kubebuilder:validation:Optional
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RuleName *string `json:"ruleName,omitempty" tf:"rule_name,omitempty"`
+
+	// (Updatable) The perceived type of response required when the alarm is in the "FIRING" state.  Example: CRITICAL
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 }
 
 type SuppressionObservation struct {

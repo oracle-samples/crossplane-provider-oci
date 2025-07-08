@@ -13,10 +13,58 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoKeyRotationDetailsObservation struct {
+}
+
+type AutoKeyRotationDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	LastRotationMessage *string `json:"lastRotationMessage,omitempty" tf:"last_rotation_message,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LastRotationStatus *string `json:"lastRotationStatus,omitempty" tf:"last_rotation_status,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RotationIntervalInDays *float64 `json:"rotationIntervalInDays,omitempty" tf:"rotation_interval_in_days,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TimeOfLastRotation *string `json:"timeOfLastRotation,omitempty" tf:"time_of_last_rotation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TimeOfNextRotation *string `json:"timeOfNextRotation,omitempty" tf:"time_of_next_rotation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TimeOfScheduleStart *string `json:"timeOfScheduleStart,omitempty" tf:"time_of_schedule_start,omitempty"`
+}
+
+type ExternalKeyReferenceDetailsObservation struct {
+
+	// The OCID of the key.
+	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
+
+	// The OCID of the key.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+}
+
+type ExternalKeyReferenceDetailsParameters struct {
+}
+
+type ExternalKeyReferenceObservation struct {
+}
+
+type ExternalKeyReferenceParameters struct {
+
+	// The OCID of the key.
+	// +kubebuilder:validation:Required
+	ExternalKeyID *string `json:"externalKeyId" tf:"external_key_id,omitempty"`
+}
+
 type KeyObservation struct {
 
 	// The OCID of the key version used in cryptographic operations. During key rotation, the service might be in a transitional state where this or a newer key version are used intermittently. The currentKeyVersion property is updated when the service is guaranteed to use the new key version for all subsequent encryption operations.
 	CurrentKeyVersion *string `json:"currentKeyVersion,omitempty" tf:"current_key_version,omitempty"`
+
+	ExternalKeyReferenceDetails []ExternalKeyReferenceDetailsObservation `json:"externalKeyReferenceDetails,omitempty" tf:"external_key_reference_details,omitempty"`
 
 	// The OCID of the key.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -41,6 +89,9 @@ type KeyObservation struct {
 }
 
 type KeyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AutoKeyRotationDetails []AutoKeyRotationDetailsParameters `json:"autoKeyRotationDetails,omitempty" tf:"auto_key_rotation_details,omitempty"`
 
 	// (Updatable) The OCID of the compartment where you want to create the master encryption key.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
@@ -67,9 +118,15 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ExternalKeyReference []ExternalKeyReferenceParameters `json:"externalKeyReference,omitempty" tf:"external_key_reference,omitempty"`
+
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsAutoRotationEnabled *bool `json:"isAutoRotationEnabled,omitempty" tf:"is_auto_rotation_enabled,omitempty"`
 
 	// The cryptographic properties of a key.
 	// +kubebuilder:validation:Required

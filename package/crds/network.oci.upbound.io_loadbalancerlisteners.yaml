@@ -72,6 +72,10 @@ spec:
                   ipVersion:
                     description: (Updatable) IP version associated with the listener.
                     type: string
+                  isPpv2Enabled:
+                    type: boolean
+                  l3ipIdleTimeout:
+                    type: number
                   name:
                     description: 'A friendly name for the listener. It must be unique
                       and it cannot be changed.  Example: example_listener'
@@ -167,6 +171,10 @@ spec:
                       of valid protocols, use the ListNetworkLoadBalancersProtocols
                       operation.  Example: TCP'
                     type: string
+                  tcpIdleTimeout:
+                    type: number
+                  udpIdleTimeout:
+                    type: number
                 required:
                 - defaultBackendSetName
                 - name

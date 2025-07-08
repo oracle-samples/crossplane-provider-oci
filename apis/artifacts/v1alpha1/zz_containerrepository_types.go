@@ -33,8 +33,12 @@ type ContainerRepositoryObservation struct {
 	// Total storage in bytes consumed by layers.
 	LayersSizeInBytes *string `json:"layersSizeInBytes,omitempty" tf:"layers_size_in_bytes,omitempty"`
 
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
 	// The current state of the container repository.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
 	// An RFC 3339 timestamp indicating when the repository was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -58,9 +62,15 @@ type ContainerRepositoryParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
 	// The container repository name.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Whether the repository is immutable. Images cannot be overwritten in an immutable repository.
 	// +kubebuilder:validation:Optional

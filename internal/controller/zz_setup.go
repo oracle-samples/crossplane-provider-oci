@@ -135,13 +135,6 @@ import (
 	notificationtopic "github.com/oracle/provider-oci/internal/controller/ons/notificationtopic"
 	subscription "github.com/oracle/provider-oci/internal/controller/ons/subscription"
 	providerconfig "github.com/oracle/provider-oci/internal/controller/providerconfig"
-	accesspolicy "github.com/oracle/provider-oci/internal/controller/servicemesh/accesspolicy"
-	ingressgateway "github.com/oracle/provider-oci/internal/controller/servicemesh/ingressgateway"
-	ingressgatewayroutetable "github.com/oracle/provider-oci/internal/controller/servicemesh/ingressgatewayroutetable"
-	mesh "github.com/oracle/provider-oci/internal/controller/servicemesh/mesh"
-	virtualdeployment "github.com/oracle/provider-oci/internal/controller/servicemesh/virtualdeployment"
-	virtualservice "github.com/oracle/provider-oci/internal/controller/servicemesh/virtualservice"
-	virtualserviceroutetable "github.com/oracle/provider-oci/internal/controller/servicemesh/virtualserviceroutetable"
 	connectharness "github.com/oracle/provider-oci/internal/controller/streaming/connectharness"
 	stream "github.com/oracle/provider-oci/internal/controller/streaming/stream"
 	streampool "github.com/oracle/provider-oci/internal/controller/streaming/streampool"
@@ -278,13 +271,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		notificationtopic.Setup,
 		subscription.Setup,
 		providerconfig.Setup,
-		accesspolicy.Setup,
-		ingressgateway.Setup,
-		ingressgatewayroutetable.Setup,
-		mesh.Setup,
-		virtualdeployment.Setup,
-		virtualservice.Setup,
-		virtualserviceroutetable.Setup,
 		connectharness.Setup,
 		stream.Setup,
 		streampool.Setup,

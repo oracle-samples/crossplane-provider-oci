@@ -76,6 +76,9 @@ type ApplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsSelector *v1.Selector `json:"networkSecurityGroupIdsSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
 	// The OCIDs of the subnets in which to run functions in the application.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional

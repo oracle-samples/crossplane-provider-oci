@@ -13,7 +13,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CapacityBinsObservation struct {
+	CapacityIndex *float64 `json:"capacityIndex,omitempty" tf:"capacity_index,omitempty"`
+
+	// The current available memory of the dedicated VM host, in GBs.
+	RemainingMemoryInGbs *float64 `json:"remainingMemoryInGbs,omitempty" tf:"remaining_memory_in_gbs,omitempty"`
+
+	// The current available OCPUs of the dedicated VM host.
+	RemainingOcpus *float64 `json:"remainingOcpus,omitempty" tf:"remaining_ocpus,omitempty"`
+
+	SupportedShapes []*string `json:"supportedShapes,omitempty" tf:"supported_shapes,omitempty"`
+
+	// The current total memory of the dedicated VM host, in GBs.
+	TotalMemoryInGbs *float64 `json:"totalMemoryInGbs,omitempty" tf:"total_memory_in_gbs,omitempty"`
+
+	// The current total OCPUs of the dedicated VM host.
+	TotalOcpus *float64 `json:"totalOcpus,omitempty" tf:"total_ocpus,omitempty"`
+}
+
+type CapacityBinsParameters struct {
+}
+
 type DedicatedVMHostObservation struct {
+	CapacityBins []CapacityBinsObservation `json:"capacityBins,omitempty" tf:"capacity_bins,omitempty"`
+
+	// The OCID of the dedicated VM host.
+	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
 	// The OCID of the dedicated VM host.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -66,6 +91,22 @@ type DedicatedVMHostParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PlacementConstraintDetails []PlacementConstraintDetailsParameters `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
+}
+
+type PlacementConstraintDetailsObservation struct {
+}
+
+type PlacementConstraintDetailsParameters struct {
+
+	// The OCID of the dedicated VM host.
+	// +kubebuilder:validation:Optional
+	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 // DedicatedVMHostSpec defines the desired state of DedicatedVMHost

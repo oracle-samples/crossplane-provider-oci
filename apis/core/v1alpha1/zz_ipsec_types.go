@@ -23,6 +23,8 @@ type IpsecObservation struct {
 
 	// The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	TransportType *string `json:"transportType,omitempty" tf:"transport_type,omitempty"`
 }
 
 type IpsecParameters struct {
@@ -89,6 +91,25 @@ type IpsecParameters struct {
 	// (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
 	// +kubebuilder:validation:Required
 	StaticRoutes []*string `json:"staticRoutes" tf:"static_routes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TunnelConfiguration []TunnelConfigurationParameters `json:"tunnelConfiguration,omitempty" tf:"tunnel_configuration,omitempty"`
+}
+
+type TunnelConfigurationObservation struct {
+}
+
+type TunnelConfigurationParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AssociatedVirtualCircuits []*string `json:"associatedVirtualCircuits,omitempty" tf:"associated_virtual_circuits,omitempty"`
+
+	// The IPSec connection's Oracle ID (OCID).
+	// +kubebuilder:validation:Optional
+	DrgRouteTableID *string `json:"drgRouteTableId,omitempty" tf:"drg_route_table_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OracleTunnelIP *string `json:"oracleTunnelIp,omitempty" tf:"oracle_tunnel_ip,omitempty"`
 }
 
 // IpsecSpec defines the desired state of Ipsec

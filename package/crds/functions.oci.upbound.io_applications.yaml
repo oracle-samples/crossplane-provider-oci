@@ -283,6 +283,8 @@ spec:
                             type: string
                         type: object
                     type: object
+                  shape:
+                    type: string
                   subnetIds:
                     description: The OCIDs of the subnets in which to run functions
                       in the application.

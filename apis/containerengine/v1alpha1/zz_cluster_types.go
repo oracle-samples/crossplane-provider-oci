@@ -54,6 +54,10 @@ type ClusterObservation struct {
 	// Metadata about the cluster.
 	Metadata []MetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	OpenIDConnectDiscoveryEndpoint *string `json:"openIdConnectDiscoveryEndpoint,omitempty" tf:"open_id_connect_discovery_endpoint,omitempty"`
+
+	OpenIDConnectDiscoveryKey *string `json:"openIdConnectDiscoveryKey,omitempty" tf:"open_id_connect_discovery_key,omitempty"`
+
 	// The state of the cluster masters.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -174,6 +178,7 @@ type EndpointConfigParameters struct {
 }
 
 type EndpointsObservation struct {
+	Ipv6Endpoint *string `json:"ipv6endpoint,omitempty" tf:"ipv6endpoint,omitempty"`
 
 	// The non-native networking Kubernetes API server endpoint.
 	Kubernetes *string `json:"kubernetes,omitempty" tf:"kubernetes,omitempty"`
@@ -246,6 +251,8 @@ type MetadataObservation struct {
 	// The time the cluster was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	TimeCredentialExpiration *string `json:"timeCredentialExpiration,omitempty" tf:"time_credential_expiration,omitempty"`
+
 	// The time the cluster was deleted.
 	TimeDeleted *string `json:"timeDeleted,omitempty" tf:"time_deleted,omitempty"`
 
@@ -262,6 +269,55 @@ type MetadataObservation struct {
 type MetadataParameters struct {
 }
 
+type OpenIDConnectDiscoveryObservation struct {
+}
+
+type OpenIDConnectDiscoveryParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
+}
+
+type OpenIDConnectTokenAuthenticationConfigObservation struct {
+}
+
+type OpenIDConnectTokenAuthenticationConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The OCID of the cluster.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
+
+	// +kubebuilder:validation:Required
+	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled" tf:"is_open_id_connect_auth_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RequiredClaims []RequiredClaimsParameters `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
+}
+
 type OptionsObservation struct {
 }
 
@@ -275,9 +331,18 @@ type OptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AdmissionControllerOptions []AdmissionControllerOptionsParameters `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
+
 	// Network configuration for Kubernetes.
 	// +kubebuilder:validation:Optional
 	KubernetesNetworkConfig []KubernetesNetworkConfigParameters `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OpenIDConnectDiscovery []OpenIDConnectDiscoveryParameters `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigParameters `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
 
 	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
 	// +kubebuilder:validation:Optional
@@ -315,6 +380,18 @@ type PersistentVolumeConfigParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+}
+
+type RequiredClaimsObservation struct {
+}
+
+type RequiredClaimsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ServiceLBConfigObservation struct {

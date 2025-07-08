@@ -82,6 +82,10 @@ type BootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	BootVolumeReplicasDeletion *bool `json:"bootVolumeReplicasDeletion,omitempty" tf:"boot_volume_replicas_deletion,omitempty"`
 
+	// The OCID of the boot volume replica.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
 	// (Updatable) The OCID of the compartment that contains the boot volume.
 	// +kubebuilder:validation:Required
 	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
@@ -116,12 +120,19 @@ type BootVolumeParameters struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type BootVolumeReplicasObservation struct {
 
 	// The boot volume replica's Oracle ID (OCID).
 	BootVolumeReplicaID *string `json:"bootVolumeReplicaId,omitempty" tf:"boot_volume_replica_id,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 }
 
 type BootVolumeReplicasParameters struct {
@@ -133,6 +144,10 @@ type BootVolumeReplicasParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// +kubebuilder:validation:Optional
+	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
 type SourceDetailsObservation struct {
@@ -140,9 +155,20 @@ type SourceDetailsObservation struct {
 
 type SourceDetailsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
+
 	// The OCID of the boot volume replica.
-	// +kubebuilder:validation:Required
-	ID *string `json:"id" tf:"id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
+
+	// The OCID of the boot volume replica.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the boot volume replica.
+	// +kubebuilder:validation:Optional
+	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
 	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeReplica
 	// +kubebuilder:validation:Required

@@ -175,6 +175,15 @@ spec:
                   ipv6address:
                     description: IPv6 address for the Network Firewall.
                     type: string
+                  natConfiguration:
+                    items:
+                      properties:
+                        mustEnablePrivateNat:
+                          type: boolean
+                      required:
+                      - mustEnablePrivateNat
+                      type: object
+                    type: array
                   networkFirewallPolicyId:
                     description: (Updatable) The OCID of the Network Firewall Policy.
                     type: string
@@ -522,6 +531,15 @@ spec:
                       For example, can be used to provide actionable information for
                       a resource in Failed state.
                     type: string
+                  natConfiguration:
+                    items:
+                      properties:
+                        natIpAddressList:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                   state:
                     description: The current state of the Network Firewall.
                     type: string

@@ -13,6 +13,42 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DNSSECConfigObservation struct {
+	KskDNSSECKeyVersions []KskDNSSECKeyVersionsObservation `json:"kskDnssecKeyVersions,omitempty" tf:"ksk_dnssec_key_versions,omitempty"`
+
+	ZskDNSSECKeyVersions []ZskDNSSECKeyVersionsObservation `json:"zskDnssecKeyVersions,omitempty" tf:"zsk_dnssec_key_versions,omitempty"`
+}
+
+type DNSSECConfigParameters struct {
+}
+
+type DsDataObservation struct {
+	DigestType *string `json:"digestType,omitempty" tf:"digest_type,omitempty"`
+
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
+}
+
+type DsDataParameters struct {
+}
+
+type ExternalDownstreamsObservation struct {
+}
+
+type ExternalDownstreamsParameters struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	// +kubebuilder:validation:Required
+	Address *string `json:"address" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	// +kubebuilder:validation:Optional
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
 type ExternalMastersObservation struct {
 }
 
@@ -31,6 +67,43 @@ type ExternalMastersParameters struct {
 	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
 }
 
+type KskDNSSECKeyVersionsObservation struct {
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	DsData []DsDataObservation `json:"dsData,omitempty" tf:"ds_data,omitempty"`
+
+	KeyTag *float64 `json:"keyTag,omitempty" tf:"key_tag,omitempty"`
+
+	LengthInBytes *float64 `json:"lengthInBytes,omitempty" tf:"length_in_bytes,omitempty"`
+
+	// The OCID of the zone.
+	PredecessorDNSSECKeyVersionUUID *string `json:"predecessorDnssecKeyVersionUuid,omitempty" tf:"predecessor_dnssec_key_version_uuid,omitempty"`
+
+	// The OCID of the zone.
+	SuccessorDNSSECKeyVersionUUID *string `json:"successorDnssecKeyVersionUuid,omitempty" tf:"successor_dnssec_key_version_uuid,omitempty"`
+
+	TimeActivated *string `json:"timeActivated,omitempty" tf:"time_activated,omitempty"`
+
+	// The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	TimeExpired *string `json:"timeExpired,omitempty" tf:"time_expired,omitempty"`
+
+	TimeInactivated *string `json:"timeInactivated,omitempty" tf:"time_inactivated,omitempty"`
+
+	TimePromoted *string `json:"timePromoted,omitempty" tf:"time_promoted,omitempty"`
+
+	TimePublished *string `json:"timePublished,omitempty" tf:"time_published,omitempty"`
+
+	TimeUnpublished *string `json:"timeUnpublished,omitempty" tf:"time_unpublished,omitempty"`
+
+	// The OCID of the zone.
+	UUID *string `json:"uuid,omitempty" tf:"uuid,omitempty"`
+}
+
+type KskDNSSECKeyVersionsParameters struct {
+}
+
 type NameserversObservation struct {
 
 	// The hostname of the nameserver.
@@ -41,6 +114,7 @@ type NameserversParameters struct {
 }
 
 type ZoneObservation struct {
+	DNSSECConfig []DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
 	// The OCID of the zone.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -65,6 +139,8 @@ type ZoneObservation struct {
 
 	// Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	ZoneTransferServers []ZoneTransferServersObservation `json:"zoneTransferServers,omitempty" tf:"zone_transfer_servers,omitempty"`
 }
 
 type ZoneParameters struct {
@@ -82,9 +158,16 @@ type ZoneParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
+	// The current state of the zone resource.
+	// +kubebuilder:validation:Optional
+	DNSSECState *string `json:"dnssecState,omitempty" tf:"dnssec_state,omitempty"`
+
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalDownstreams []ExternalDownstreamsParameters `json:"externalDownstreams,omitempty" tf:"external_downstreams,omitempty"`
 
 	// (Updatable) External master servers for the zone. externalMasters becomes a required parameter when the zoneType value is SECONDARY.
 	// +kubebuilder:validation:Optional
@@ -119,6 +202,57 @@ type ZoneParameters struct {
 	// The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
 	// +kubebuilder:validation:Required
 	ZoneType *string `json:"zoneType" tf:"zone_type,omitempty"`
+}
+
+type ZoneTransferServersObservation struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	IsTransferDestination *bool `json:"isTransferDestination,omitempty" tf:"is_transfer_destination,omitempty"`
+
+	IsTransferSource *bool `json:"isTransferSource,omitempty" tf:"is_transfer_source,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ZoneTransferServersParameters struct {
+}
+
+type ZskDNSSECKeyVersionsObservation struct {
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	KeyTag *float64 `json:"keyTag,omitempty" tf:"key_tag,omitempty"`
+
+	LengthInBytes *float64 `json:"lengthInBytes,omitempty" tf:"length_in_bytes,omitempty"`
+
+	// The OCID of the zone.
+	PredecessorDNSSECKeyVersionUUID *string `json:"predecessorDnssecKeyVersionUuid,omitempty" tf:"predecessor_dnssec_key_version_uuid,omitempty"`
+
+	// The OCID of the zone.
+	SuccessorDNSSECKeyVersionUUID *string `json:"successorDnssecKeyVersionUuid,omitempty" tf:"successor_dnssec_key_version_uuid,omitempty"`
+
+	TimeActivated *string `json:"timeActivated,omitempty" tf:"time_activated,omitempty"`
+
+	// The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	TimeExpired *string `json:"timeExpired,omitempty" tf:"time_expired,omitempty"`
+
+	TimeInactivated *string `json:"timeInactivated,omitempty" tf:"time_inactivated,omitempty"`
+
+	TimePromoted *string `json:"timePromoted,omitempty" tf:"time_promoted,omitempty"`
+
+	TimePublished *string `json:"timePublished,omitempty" tf:"time_published,omitempty"`
+
+	TimeUnpublished *string `json:"timeUnpublished,omitempty" tf:"time_unpublished,omitempty"`
+
+	// The OCID of the zone.
+	UUID *string `json:"uuid,omitempty" tf:"uuid,omitempty"`
+}
+
+type ZskDNSSECKeyVersionsParameters struct {
 }
 
 // ZoneSpec defines the desired state of Zone

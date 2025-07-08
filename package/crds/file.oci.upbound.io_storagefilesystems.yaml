@@ -65,9 +65,13 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  areQuotaRulesEnabled:
+                    type: boolean
                   availabilityDomain:
                     description: 'The availability domain to create the file system
                       in.  Example: Uocm:PHX-AD-1'
+                    type: string
+                  cloneAttachStatus:
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment to create
@@ -155,10 +159,15 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags. Example: {"Operations.CostCenter": "42"}'
                     type: object
+                  detachCloneTrigger:
+                    type: number
                   displayName:
                     description: '(Updatable) A user-friendly name. It does not have
                       to be unique, and it is changeable. Avoid entering confidential
                       information.  Example: My file system'
+                    type: string
+                  filesystemSnapshotPolicyId:
+                    description: The OCID of the file system.
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -168,12 +177,32 @@ spec:
                       or namespace. For more information, see Resource Tags. Example:
                       {"Department": "Finance"}'
                     type: object
+                  isLockOverride:
+                    type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of KMS key used to encrypt the
                       encryption keys associated with this file system. May be unset
                       as a blank or deleted from the configuration to remove the KMS
                       key.
                     type: string
+                  locks:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        relatedResourceId:
+                          description: The OCID of the file system.
+                          type: string
+                        timeCreated:
+                          description: 'The date and time the file system was created,
+                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   sourceSnapshotId:
                     description: The OCID of the snapshot used to create a cloned
                       file system. See Cloning a File System.
@@ -357,6 +386,8 @@ spec:
             properties:
               atProvider:
                 properties:
+                  cloneCount:
+                    type: number
                   id:
                     description: The OCID of the file system.
                     type: string
@@ -386,6 +417,11 @@ spec:
                       to updates to the file system. For more information, see File
                       System Usage and Metering.
                     type: string
+                  quotaEnforcementState:
+                    description: The current state of the file system.
+                    type: string
+                  replicationSourceCount:
+                    type: number
                   replicationTargetId:
                     description: The OCID of the replication target associated with
                       the file system. Empty if the file system is not being used
@@ -409,6 +445,10 @@ spec:
                   state:
                     description: The current state of the file system.
                     type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    type: object
                   timeCreated:
                     description: 'The date and time the file system was created, expressed
                       in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'

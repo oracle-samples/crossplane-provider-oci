@@ -64,6 +64,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  alarmSummary:
+                    type: string
                   body:
                     description: '(Updatable) The human-readable content of the notification
                       delivered. Oracle recommends providing guidance to operators
@@ -172,6 +174,8 @@ spec:
                     description: (Updatable) A user-friendly name for the alarm. It
                       does not have to be unique, and it's changeable. Avoid entering
                       confidential information.
+                    type: string
+                  evaluationSlackDuration:
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -286,6 +290,56 @@ spec:
                     description: '(Updatable) The source service or application emitting
                       the metric that is evaluated by the alarm.  Example: oci_computeagent'
                     type: string
+                  notificationTitle:
+                    type: string
+                  notificationVersion:
+                    type: string
+                  overrides:
+                    items:
+                      properties:
+                        body:
+                          description: '(Updatable) The human-readable content of
+                            the notification delivered. Oracle recommends providing
+                            guidance to operators for resolving the alarm condition.
+                            Consider adding links to standard runbook practices. Avoid
+                            entering confidential information.  Example: High CPU
+                            usage alert. Follow runbook instructions for resolution.'
+                          type: string
+                        pendingDuration:
+                          description: (Updatable) The period of time that the condition
+                            defined in the alarm must persist before the alarm state
+                            changes from "OK" to "FIRING". For example, a value of
+                            5 minutes means that the alarm must persist in breaching
+                            the condition for five minutes before the alarm updates
+                            its state to "FIRING".
+                          type: string
+                        query:
+                          description: '(Updatable) The Monitoring Query Language
+                            (MQL) expression to evaluate for the alarm. The Alarms
+                            feature of the Monitoring service interprets results for
+                            each returned time series as Boolean values, where zero
+                            represents false and a non-zero value represents true.
+                            A true value means that the trigger rule condition has
+                            been met. The query must specify a metric, statistic,
+                            interval, and trigger rule (threshold or absence). Supported
+                            values for interval depend on the specified time range.
+                            More interval values are supported for smaller time ranges.
+                            You can optionally specify dimensions and grouping functions.
+                            Supported grouping functions: grouping(), groupBy(). For
+                            details about Monitoring Query Language (MQL), see Monitoring
+                            Query Language (MQL) Reference. For available dimensions,
+                            review the metric definition for the supported service.
+                            See Supported Services.'
+                          type: string
+                        ruleName:
+                          type: string
+                        severity:
+                          description: '(Updatable) The perceived type of response
+                            required when the alarm is in the "FIRING" state.  Example:
+                            CRITICAL'
+                          type: string
+                      type: object
+                    type: array
                   pendingDuration:
                     description: (Updatable) The period of time that the condition
                       defined in the alarm must persist before the alarm state changes
@@ -328,6 +382,8 @@ spec:
                       character and includes only alphanumeric characters, periods
                       (.), underscores (_), hyphens (-), and dollar signs ($). Avoid
                       entering confidential information.  Example: frontend-fleet'
+                    type: string
+                  ruleName:
                     type: string
                   severity:
                     description: '(Updatable) The perceived type of response required

@@ -95,12 +95,18 @@ spec:
                     description: The IPv6 CIDR allocated to the subnet. This is required
                       if more than one IPv6 CIDR exists on the subnet.
                     type: string
+                  lifetime:
+                    type: string
+                  routeTableId:
+                    description: The OCID of the IPv6.
+                    type: string
+                  subnetId:
+                    description: The OCID of the subnet the VNIC is in.
+                    type: string
                   vnicId:
                     description: (Updatable) The OCID of the VNIC to assign the IPv6
                       to. The IPv6 will be in the VNIC's subnet.
                     type: string
-                required:
-                - vnicId
                 type: object
               providerConfigRef:
                 default:
@@ -285,11 +291,11 @@ spec:
                   id:
                     description: The OCID of the IPv6.
                     type: string
-                  state:
+                  ipState:
                     description: The IPv6's current state.
                     type: string
-                  subnetId:
-                    description: The OCID of the subnet the VNIC is in.
+                  state:
+                    description: The IPv6's current state.
                     type: string
                   timeCreated:
                     description: 'The date and time the IPv6 was created, in the format

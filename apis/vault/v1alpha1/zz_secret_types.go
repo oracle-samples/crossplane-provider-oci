@@ -13,14 +13,29 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RotationConfigObservation struct {
+}
+
+type RotationConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsScheduledRotationEnabled *bool `json:"isScheduledRotationEnabled,omitempty" tf:"is_scheduled_rotation_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
+
+	// +kubebuilder:validation:Required
+	TargetSystemDetails []TargetSystemDetailsParameters `json:"targetSystemDetails" tf:"target_system_details,omitempty"`
+}
+
 type SecretContentObservation struct {
 }
 
 type SecretContentParameters struct {
 
 	// (Updatable) The base64-encoded content of the secret.
-	// +kubebuilder:validation:Required
-	Content *string `json:"content" tf:"content,omitempty"`
+	// +kubebuilder:validation:Optional
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
 	// (Updatable) content type . Example BASE64 .
 	// +kubebuilder:validation:Required
@@ -35,6 +50,24 @@ type SecretContentParameters struct {
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 }
 
+type SecretGenerationContextObservation struct {
+}
+
+type SecretGenerationContextParameters struct {
+
+	// +kubebuilder:validation:Required
+	GenerationTemplate *string `json:"generationTemplate" tf:"generation_template,omitempty"`
+
+	// +kubebuilder:validation:Required
+	GenerationType *string `json:"generationType" tf:"generation_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PassphraseLength *float64 `json:"passphraseLength,omitempty" tf:"passphrase_length,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecretTemplate *string `json:"secretTemplate,omitempty" tf:"secret_template,omitempty"`
+}
+
 type SecretObservation struct {
 
 	// The version number of the secret version that's currently in use.
@@ -43,8 +76,16 @@ type SecretObservation struct {
 	// The OCID of the secret.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	IsAutoGenerationEnabled *bool `json:"isAutoGenerationEnabled,omitempty" tf:"is_auto_generation_enabled,omitempty"`
+
+	LastRotationTime *string `json:"lastRotationTime,omitempty" tf:"last_rotation_time,omitempty"`
+
 	// Additional information about the current lifecycle state of the secret.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
+
+	NextRotationTime *string `json:"nextRotationTime,omitempty" tf:"next_rotation_time,omitempty"`
+
+	RotationStatus *string `json:"rotationStatus,omitempty" tf:"rotation_status,omitempty"`
 
 	// The current lifecycle state of the secret.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -82,6 +123,9 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	EnableAutoGeneration *bool `json:"enableAutoGeneration,omitempty" tf:"enable_auto_generation,omitempty"`
+
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
@@ -103,9 +147,15 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	RotationConfig []RotationConfigParameters `json:"rotationConfig,omitempty" tf:"rotation_config,omitempty"`
+
 	// (Updatable) The content of the secret and metadata to help identify it.
-	// +kubebuilder:validation:Required
-	SecretContent []SecretContentParameters `json:"secretContent" tf:"secret_content,omitempty"`
+	// +kubebuilder:validation:Optional
+	SecretContent []SecretContentParameters `json:"secretContent,omitempty" tf:"secret_content,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecretGenerationContext []SecretGenerationContextParameters `json:"secretGenerationContext,omitempty" tf:"secret_generation_context,omitempty"`
 
 	// A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	// +kubebuilder:validation:Required
@@ -153,6 +203,23 @@ type SecretRulesParameters struct {
 	// (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) An optional property indicating the absolute time when this secret will expire, expressed in RFC 3339 timestamp format. The minimum number of days from current time is 1 day and the maximum number of days from current time is 365 days. Example: 2019-04-03T21:10:29.600Z
 	// +kubebuilder:validation:Optional
 	TimeOfAbsoluteExpiry *string `json:"timeOfAbsoluteExpiry,omitempty" tf:"time_of_absolute_expiry,omitempty"`
+}
+
+type TargetSystemDetailsObservation struct {
+}
+
+type TargetSystemDetailsParameters struct {
+
+	// The OCID of the secret.
+	// +kubebuilder:validation:Optional
+	AdbID *string `json:"adbId,omitempty" tf:"adb_id,omitempty"`
+
+	// The OCID of the secret.
+	// +kubebuilder:validation:Optional
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
+
+	// +kubebuilder:validation:Required
+	TargetSystemType *string `json:"targetSystemType" tf:"target_system_type,omitempty"`
 }
 
 // SecretSpec defines the desired state of Secret

@@ -163,6 +163,11 @@ spec:
                       or namespace. For more information, see Resource Tags.  Example:
                       {"Department": "Finance"}'
                     type: object
+                  kmsKeyId:
+                    description: The OCID of the KMS key in the destination region
+                      which will be the master encryption key for the copied volume
+                      backup.
+                    type: string
                   sourceDetails:
                     description: Details of the volume backup source in the cloud.
                     items:
@@ -452,11 +457,6 @@ spec:
                     type: string
                   id:
                     description: The OCID of the volume backup.
-                    type: string
-                  kmsKeyId:
-                    description: The OCID of the KMS key in the destination region
-                      which will be the master encryption key for the copied volume
-                      backup.
                     type: string
                   sizeInGbs:
                     description: The size of the volume, in GBs.

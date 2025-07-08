@@ -570,6 +570,8 @@ spec:
                             Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g
                             PT30M'
                           type: string
+                        isForceActionAfterGraceDuration:
+                          type: boolean
                         isForceDeleteAfterGraceDuration:
                           description: (Updatable) If the underlying compute instance
                             should be deleted if you cannot evict all the pods in
@@ -598,6 +600,10 @@ spec:
                     description: (Updatable) Node Pool Cycling Details
                     items:
                       properties:
+                        cycleModes:
+                          items:
+                            type: string
+                          type: array
                         isNodeCyclingEnabled:
                           description: (Updatable) If nodes in the nodepool will be
                             cycled to have new changes.

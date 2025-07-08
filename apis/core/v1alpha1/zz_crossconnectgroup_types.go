@@ -22,6 +22,9 @@ type CrossConnectGroupMacsecPropertiesParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
 	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []MacsecPropertiesPrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`

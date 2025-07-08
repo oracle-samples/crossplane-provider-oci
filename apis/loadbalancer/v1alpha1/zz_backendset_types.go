@@ -24,6 +24,8 @@ type BackendSetBackendObservation struct {
 	// The IP address of the backend server.  Example: 10.0.0.3
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+
 	// A friendly name for the backend set. It must be unique and it cannot be changed.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -49,6 +51,9 @@ type BackendSetObservation struct {
 }
 
 type BackendSetParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BackendMaxConnections *float64 `json:"backendMaxConnections,omitempty" tf:"backend_max_connections,omitempty"`
 
 	// (Updatable) The health check policy's configuration details.
 	// +kubebuilder:validation:Required

@@ -13,16 +13,77 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalKeyManagerMetadataObservation struct {
+}
+
+type ExternalKeyManagerMetadataParameters struct {
+
+	// +kubebuilder:validation:Required
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl" tf:"external_vault_endpoint_url,omitempty"`
+
+	// +kubebuilder:validation:Required
+	OauthMetadata []OauthMetadataParameters `json:"oauthMetadata" tf:"oauth_metadata,omitempty"`
+
+	// The OCID of the vault.
+	// +kubebuilder:validation:Required
+	PrivateEndpointID *string `json:"privateEndpointId" tf:"private_endpoint_id,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryObservation struct {
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl,omitempty" tf:"external_vault_endpoint_url,omitempty"`
+
+	OauthMetadataSummary []OauthMetadataSummaryObservation `json:"oauthMetadataSummary,omitempty" tf:"oauth_metadata_summary,omitempty"`
+
+	// The OCID of the vault.
+	PrivateEndpointID *string `json:"privateEndpointId,omitempty" tf:"private_endpoint_id,omitempty"`
+
+	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryParameters struct {
+}
+
+type OauthMetadataObservation struct {
+}
+
+type OauthMetadataParameters struct {
+
+	// The OCID of the vault.
+	// +kubebuilder:validation:Required
+	ClientAppID *string `json:"clientAppId" tf:"client_app_id,omitempty"`
+
+	// +kubebuilder:validation:Required
+	ClientAppSecret *string `json:"clientAppSecret" tf:"client_app_secret,omitempty"`
+
+	// +kubebuilder:validation:Required
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryObservation struct {
+
+	// The OCID of the vault.
+	ClientAppID *string `json:"clientAppId,omitempty" tf:"client_app_id,omitempty"`
+
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl,omitempty" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryParameters struct {
+}
+
 type VaultObservation struct {
 
 	// The service endpoint to perform cryptographic operations against. Cryptographic operations include Encrypt, Decrypt, and GenerateDataEncryptionKey operations.
 	CryptoEndpoint *string `json:"cryptoEndpoint,omitempty" tf:"crypto_endpoint,omitempty"`
+
+	ExternalKeyManagerMetadataSummary []ExternalKeyManagerMetadataSummaryObservation `json:"externalKeyManagerMetadataSummary,omitempty" tf:"external_key_manager_metadata_summary,omitempty"`
 
 	// The OCID of the vault.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A boolean that will be true when vault is primary, and will be false when vault is a replica from a primary vault.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
+
+	IsVaultReplicable *bool `json:"isVaultReplicable,omitempty" tf:"is_vault_replicable,omitempty"`
 
 	// The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations.
 	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
@@ -62,6 +123,9 @@ type VaultParameters struct {
 	// (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalKeyManagerMetadata []ExternalKeyManagerMetadataParameters `json:"externalKeyManagerMetadata,omitempty" tf:"external_key_manager_metadata,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional

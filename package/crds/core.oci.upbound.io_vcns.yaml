@@ -224,6 +224,10 @@ spec:
                       By default, Oracle will allocate one GUA of /56 size for an
                       IPv6 enabled VCN.
                     type: boolean
+                  securityAttributes:
+                    additionalProperties:
+                      type: string
+                    type: object
                 type: object
               providerConfigRef:
                 default:

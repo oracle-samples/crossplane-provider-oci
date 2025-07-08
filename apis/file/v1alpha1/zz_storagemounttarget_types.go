@@ -13,6 +13,80 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type KerberosObservation struct {
+}
+
+type KerberosParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BackupKeyTabSecretVersion *float64 `json:"backupKeyTabSecretVersion,omitempty" tf:"backup_key_tab_secret_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CurrentKeyTabSecretVersion *float64 `json:"currentKeyTabSecretVersion,omitempty" tf:"current_key_tab_secret_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsKerberosEnabled *bool `json:"isKerberosEnabled,omitempty" tf:"is_kerberos_enabled,omitempty"`
+
+	// +kubebuilder:validation:Required
+	KerberosRealm *string `json:"kerberosRealm" tf:"kerberos_realm,omitempty"`
+
+	// The OCID of the mount target.
+	// +kubebuilder:validation:Optional
+	KeyTabSecretID *string `json:"keyTabSecretId,omitempty" tf:"key_tab_secret_id,omitempty"`
+}
+
+type LdapIdmapObservation struct {
+}
+
+type LdapIdmapParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CacheLifetimeSeconds *float64 `json:"cacheLifetimeSeconds,omitempty" tf:"cache_lifetime_seconds,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CacheRefreshIntervalSeconds *float64 `json:"cacheRefreshIntervalSeconds,omitempty" tf:"cache_refresh_interval_seconds,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupSearchBase *string `json:"groupSearchBase,omitempty" tf:"group_search_base,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NegativeCacheLifetimeSeconds *float64 `json:"negativeCacheLifetimeSeconds,omitempty" tf:"negative_cache_lifetime_seconds,omitempty"`
+
+	// The OCID of the mount target.
+	// +kubebuilder:validation:Optional
+	OutboundConnector1Id *string `json:"outboundConnector1Id,omitempty" tf:"outbound_connector1id,omitempty"`
+
+	// The OCID of the mount target.
+	// +kubebuilder:validation:Optional
+	OutboundConnector2Id *string `json:"outboundConnector2Id,omitempty" tf:"outbound_connector2id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SchemaType *string `json:"schemaType,omitempty" tf:"schema_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UserSearchBase *string `json:"userSearchBase,omitempty" tf:"user_search_base,omitempty"`
+}
+
+type StorageMountTargetLocksObservation struct {
+}
+
+type StorageMountTargetLocksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	// The OCID of the mount target.
+	// +kubebuilder:validation:Optional
+	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
+
+	// The date and time the mount target was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// +kubebuilder:validation:Optional
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type StorageMountTargetObservation struct {
 
 	// The OCID of the associated export set. Controls what file systems will be exported through Network File System (NFS) protocol on this mount target.
@@ -24,11 +98,19 @@ type StorageMountTargetObservation struct {
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
+	ObservedThroughput *string `json:"observedThroughput,omitempty" tf:"observed_throughput,omitempty"`
+
 	// The OCIDs of the private IP addresses associated with this mount target.
 	PrivateIPIds []*string `json:"privateIpIds,omitempty" tf:"private_ip_ids,omitempty"`
 
+	ReservedStorageCapacity *string `json:"reservedStorageCapacity,omitempty" tf:"reserved_storage_capacity,omitempty"`
+
 	// The current state of the mount target.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
+
+	TimeBillingCycleEnd *string `json:"timeBillingCycleEnd,omitempty" tf:"time_billing_cycle_end,omitempty"`
 
 	// The date and time the mount target was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -73,9 +155,27 @@ type StorageMountTargetParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IdmapType *string `json:"idmapType,omitempty" tf:"idmap_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Kerberos []KerberosParameters `json:"kerberos,omitempty" tf:"kerberos,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LdapIdmap []LdapIdmapParameters `json:"ldapIdmap,omitempty" tf:"ldap_idmap,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locks []StorageMountTargetLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
+
 	// (Updatable) A list of Network Security Group OCIDs associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see Security Rules.
 	// +kubebuilder:validation:Optional
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RequestedThroughput *string `json:"requestedThroughput,omitempty" tf:"requested_throughput,omitempty"`
 
 	// The OCID of the subnet in which to create the mount target.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet

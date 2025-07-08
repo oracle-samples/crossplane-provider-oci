@@ -168,9 +168,15 @@ spec:
                     description: IPv6 is currently supported only in the Government
                       Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
                     type: string
+                  ipv6subnetCidr:
+                    type: string
+                  isDeleteProtectionEnabled:
+                    type: boolean
                   isPrivate:
                     description: Whether the load balancer has a VCN-local (private)
                       IP address.
+                    type: boolean
+                  isRequestIdEnabled:
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of NSG OCIDs associated with
@@ -178,6 +184,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  requestIdHeader:
+                    type: string
                   reservedIps:
                     description: An array of reserved Ips. Pre-created public IP that
                       will be used as the IP of this load balancer. This reserved
@@ -192,6 +200,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  securityAttributes:
+                    additionalProperties:
+                      type: string
+                    type: object
                   shape:
                     description: '(Updatable) A template that determines the total
                       pre-provisioned bandwidth (ingress plus egress). To get a list

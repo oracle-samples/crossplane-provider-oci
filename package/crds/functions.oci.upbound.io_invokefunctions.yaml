@@ -177,6 +177,8 @@ spec:
                       This limit is currently 6MB and the endpoint will not accept
                       requests that are bigger than this limit.'
                     type: string
+                  isDryRun:
+                    type: boolean
                 type: object
               providerConfigRef:
                 default:

@@ -48,6 +48,10 @@ type VolumeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
+	// The OCID for the volume group.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
 	// (Updatable) The OCID of the compartment that contains the volume group.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
@@ -90,6 +94,10 @@ type VolumeGroupParameters struct {
 	// OCIDs for the volumes in this volume group.
 	// +kubebuilder:validation:Optional
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
+
+	// The OCID for the volume group.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeGroupReplicasObservation struct {
@@ -107,6 +115,10 @@ type VolumeGroupReplicasParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID for the volume group.
+	// +kubebuilder:validation:Optional
+	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
 type VolumeGroupSourceDetailsObservation struct {

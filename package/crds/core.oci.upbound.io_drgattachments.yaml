@@ -631,10 +631,19 @@ spec:
                     description: (Updatable)
                     items:
                       properties:
+                        ids:
+                          items:
+                            type: string
+                          type: array
                         ipsecConnectionId:
                           description: The IPSec connection that contains the attached
                             IPSec tunnel.
                           type: string
+                        transportAttachmentId:
+                          description: The OCID of the network attached to the DRG.
+                          type: string
+                        transportOnlyMode:
+                          type: boolean
                       type: object
                     type: array
                   state:

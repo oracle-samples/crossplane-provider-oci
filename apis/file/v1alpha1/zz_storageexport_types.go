@@ -22,6 +22,9 @@ type ExportOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	Access *string `json:"access,omitempty" tf:"access,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	AllowedAuth []*string `json:"allowedAuth,omitempty" tf:"allowed_auth,omitempty"`
+
 	// (Updatable) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to 65534.
 	// +kubebuilder:validation:Optional
 	AnonymousGID *string `json:"anonymousGid,omitempty" tf:"anonymous_gid,omitempty"`
@@ -34,6 +37,9 @@ type ExportOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	IdentitySquash *string `json:"identitySquash,omitempty" tf:"identity_squash,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsAnonymousAccessAllowed *bool `json:"isAnonymousAccessAllowed,omitempty" tf:"is_anonymous_access_allowed,omitempty"`
+
 	// (Updatable) If true, clients accessing the file system through this export must connect from a privileged source port. If unspecified, defaults to true.
 	// +kubebuilder:validation:Optional
 	RequirePrivilegedSourcePort *bool `json:"requirePrivilegedSourcePort,omitempty" tf:"require_privileged_source_port,omitempty"`
@@ -41,6 +47,26 @@ type ExportOptionsParameters struct {
 	// (Updatable) Clients these options should apply to. Must be a either single IPv4 address or single IPv4 CIDR block.
 	// +kubebuilder:validation:Required
 	Source *string `json:"source" tf:"source,omitempty"`
+}
+
+type LocksObservation struct {
+}
+
+type LocksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	// The OCID of this export.
+	// +kubebuilder:validation:Optional
+	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
+
+	// The date and time the export was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// +kubebuilder:validation:Optional
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type StorageExportObservation struct {
@@ -86,6 +112,15 @@ type StorageExportParameters struct {
 	// Selector for a StorageFileSystem to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	IsIdmapGroupsForSysAuth *bool `json:"isIdmapGroupsForSysAuth,omitempty" tf:"is_idmap_groups_for_sys_auth,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locks []LocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Path used to access the associated file system.
 	// +kubebuilder:validation:Required

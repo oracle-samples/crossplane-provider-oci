@@ -124,6 +124,8 @@ spec:
                           description: Type of encryption cipher suite to use for
                             the MACsec connection.
                           type: string
+                        isUnprotectedTrafficAllowed:
+                          type: boolean
                         primaryKey:
                           description: An object defining the Secrets-in-Vault OCIDs
                             representing the MACsec key.
@@ -133,9 +135,17 @@ spec:
                                 description: Secret OCID containing the Connectivity
                                   Association Key (CAK) of this MACsec key.
                                 type: string
+                              connectivityAssociationKeySecretVersion:
+                                description: The secret version of the connectivityAssociationKey
+                                  secret in Vault.
+                                type: string
                               connectivityAssociationNameSecretId:
                                 description: Secret OCID containing the Connectivity
                                   association Key Name (CKN) of this MACsec key.
+                                type: string
+                              connectivityAssociationNameSecretVersion:
+                                description: The secret version of the connectivity
+                                  association name secret in Vault.
                                 type: string
                             required:
                             - connectivityAssociationKeySecretId
@@ -344,27 +354,6 @@ spec:
                   id:
                     description: The cross-connect's Oracle ID (OCID).
                     type: string
-                  macsecProperties:
-                    description: Properties used for MACsec (if capable).
-                    items:
-                      properties:
-                        primaryKey:
-                          description: An object defining the Secrets-in-Vault OCIDs
-                            representing the MACsec key.
-                          items:
-                            properties:
-                              connectivityAssociationKeySecretVersion:
-                                description: The secret version of the connectivityAssociationKey
-                                  secret in Vault.
-                                type: string
-                              connectivityAssociationNameSecretVersion:
-                                description: The secret version of the connectivity
-                                  association name secret in Vault.
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
                   ociLogicalDeviceName:
                     description: The FastConnect device that terminates the logical
                       connection. This device might be different than the device that

@@ -57,6 +57,12 @@ type LoadBalancerNetworkLoadBalancerObservation struct {
 
 type LoadBalancerNetworkLoadBalancerParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AssignedIPv6 *string `json:"assignedIpv6,omitempty" tf:"assigned_ipv6,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AssignedPrivateIPv4 *string `json:"assignedPrivateIpv4,omitempty" tf:"assigned_private_ipv4,omitempty"`
+
 	// (Updatable) The OCID of the compartment containing the network load balancer.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
@@ -90,6 +96,9 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsSymmetricHashEnabled *bool `json:"isSymmetricHashEnabled,omitempty" tf:"is_symmetric_hash_enabled,omitempty"`
+
 	// (Updatable) An array of network security groups OCIDs associated with the network load balancer.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
@@ -101,6 +110,9 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// An array of reserved Ips.
 	// +kubebuilder:validation:Optional
 	ReservedIps []ReservedIpsParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// The subnet in which the network load balancer is spawned OCIDs.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
@@ -114,6 +126,9 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// Selector for a Subnet in core to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SubnetIpv6Cidr *string `json:"subnetIpv6Cidr,omitempty" tf:"subnet_ipv6cidr,omitempty"`
 }
 
 type ReservedIPObservation struct {

@@ -117,6 +117,9 @@ spec:
                             - hpcIslandId
                             type: object
                           type: array
+                        clusterPlacementGroupId:
+                          description: The OCID of the compute capacity reservation.
+                          type: string
                         faultDomain:
                           description: (Updatable) The fault domain to use for instances
                             created using this capacity configuration. For more information,

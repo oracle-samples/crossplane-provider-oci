@@ -74,6 +74,10 @@ spec:
                             using the file system through this export. If unspecified
                             defaults to READ_ONLY.
                           type: string
+                        allowedAuth:
+                          items:
+                            type: string
+                          type: array
                         anonymousGid:
                           description: (Updatable) GID value to remap to when squashing
                             a client GID (see identitySquash for more details.) If
@@ -92,6 +96,8 @@ spec:
                             user and group (UID/GID 0) are remapped; if NONE, no remapping
                             is done. If unspecified, defaults to ROOT.
                           type: string
+                        isAnonymousAccessAllowed:
+                          type: boolean
                         requirePrivilegedSourcePort:
                           description: (Updatable) If true, clients accessing the
                             file system through this export must connect from a privileged
@@ -258,6 +264,28 @@ spec:
                             type: string
                         type: object
                     type: object
+                  isIdmapGroupsForSysAuth:
+                    type: boolean
+                  isLockOverride:
+                    type: boolean
+                  locks:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        relatedResourceId:
+                          description: The OCID of this export.
+                          type: string
+                        timeCreated:
+                          description: 'The date and time the export was created,
+                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   path:
                     description: Path used to access the associated file system.
                     type: string

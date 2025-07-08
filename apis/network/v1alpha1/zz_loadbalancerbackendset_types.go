@@ -43,10 +43,36 @@ type BackendsObservation struct {
 type BackendsParameters struct {
 }
 
+type DNSObservation struct {
+}
+
+type DNSParameters struct {
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	// +kubebuilder:validation:Required
+	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// +kubebuilder:validation:Optional
+	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
+}
+
 type HealthCheckerObservation struct {
 }
 
 type HealthCheckerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DNS []DNSParameters `json:"dns,omitempty" tf:"dns,omitempty"`
 
 	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
 	// +kubebuilder:validation:Optional
@@ -99,6 +125,9 @@ type LoadBalancerBackendSetObservation struct {
 
 type LoadBalancerBackendSetParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
+
 	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
 	// +kubebuilder:validation:Required
 	HealthChecker []HealthCheckerParameters `json:"healthChecker" tf:"health_checker,omitempty"`
@@ -106,6 +135,15 @@ type LoadBalancerBackendSetParameters struct {
 	// (Updatable) IP version associated with the backend set.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 
 	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
 	// +kubebuilder:validation:Optional

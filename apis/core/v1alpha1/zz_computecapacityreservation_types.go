@@ -95,6 +95,10 @@ type InstanceReservationConfigsParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterConfig []ClusterConfigParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
+	// The OCID of the compute capacity reservation.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
 	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
 	// +kubebuilder:validation:Optional
 	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`

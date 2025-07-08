@@ -64,6 +64,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  backendMaxConnections:
+                    type: number
                   healthChecker:
                     description: (Updatable) The health check policy's configuration
                       details.
@@ -527,6 +529,8 @@ spec:
                           description: 'The IP address of the backend server.  Example:
                             10.0.0.3'
                           type: string
+                        maxConnections:
+                          type: number
                         name:
                           description: A friendly name for the backend set. It must
                             be unique and it cannot be changed.

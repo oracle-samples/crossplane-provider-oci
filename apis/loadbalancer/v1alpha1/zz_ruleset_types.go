@@ -31,6 +31,18 @@ type ConditionsParameters struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 }
 
+type IPMaxConnectionsObservation struct {
+}
+
+type IPMaxConnectionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+}
+
 type ItemsObservation struct {
 }
 
@@ -52,6 +64,9 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
+
 	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -63,6 +78,9 @@ type ItemsParameters struct {
 	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
 	// +kubebuilder:validation:Optional
 	Header *string `json:"header,omitempty" tf:"header,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPMaxConnections []IPMaxConnectionsParameters `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
 
 	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
 	// +kubebuilder:validation:Optional

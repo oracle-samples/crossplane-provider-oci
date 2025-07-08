@@ -19,12 +19,12 @@ type AgentConfigPluginsConfigObservation struct {
 type AgentConfigPluginsConfigParameters struct {
 
 	// Whether the plugin should be enabled or disabled. Accepted values are ENABLED and DISABLED
-	// +kubebuilder:validation:Required
-	DesiredState *string `json:"desiredState" tf:"desired_state,omitempty"`
+	// +kubebuilder:validation:Optional
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// The plugin name. To get a list of available plugins, use the ListInstanceagentAvailablePlugins operation in the Oracle Cloud Agent API. For more information about the available plugins, see Managing Plugins with Oracle Cloud Agent.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type AttachDetailsObservation struct {
@@ -61,6 +61,145 @@ type AttachDetailsParameters struct {
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 }
 
+type BlockVolumeReplicasObservation struct {
+}
+
+type BlockVolumeReplicasParameters struct {
+
+	// The availability domain of the volume.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Required
+	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
+type BlockVolumesAttachDetailsObservation struct {
+}
+
+type BlockVolumesAttachDetailsParameters struct {
+
+	// (Applicable when instance_type=compute) The device name.
+	// +kubebuilder:validation:Optional
+	Device *string `json:"device,omitempty" tf:"device,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+	// +kubebuilder:validation:Optional
+	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether the attachment should be created in read-only mode.
+	// +kubebuilder:validation:Optional
+	IsReadOnly *bool `json:"isReadOnly,omitempty" tf:"is_read_only,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
+	// +kubebuilder:validation:Optional
+	IsShareable *bool `json:"isShareable,omitempty" tf:"is_shareable,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+
+	// (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
+	// +kubebuilder:validation:Optional
+	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
+}
+
+type BlockVolumesCreateDetailsAutotunePoliciesObservation struct {
+}
+
+type BlockVolumesCreateDetailsAutotunePoliciesParameters struct {
+
+	// This specifies the type of autotunes supported by OCI.
+	// +kubebuilder:validation:Required
+	AutotuneType *string `json:"autotuneType" tf:"autotune_type,omitempty"`
+
+	// This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
+	// +kubebuilder:validation:Optional
+	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
+}
+
+type BlockVolumesCreateDetailsObservation struct {
+}
+
+type BlockVolumesCreateDetailsParameters struct {
+
+	// The list of autotune policies enabled for this volume.
+	// +kubebuilder:validation:Optional
+	AutotunePolicies []BlockVolumesCreateDetailsAutotunePoliciesParameters `json:"autotunePolicies,omitempty" tf:"autotune_policies,omitempty"`
+
+	// The availability domain of the volume.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+	// +kubebuilder:validation:Optional
+	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BlockVolumeReplicas []CreateDetailsBlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+
+	// The OCID of the volume backup.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
+	// (Updatable) The OCID of the compartment containing the instance configuration.
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +kubebuilder:validation:Optional
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +kubebuilder:validation:Optional
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsAutoTuneEnabled *bool `json:"isAutoTuneEnabled,omitempty" tf:"is_auto_tune_enabled,omitempty"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// The size of the volume in GBs.
+	// +kubebuilder:validation:Optional
+	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceDetails []BlockVolumesCreateDetailsSourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
+
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
+	// +kubebuilder:validation:Optional
+	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
+}
+
+type BlockVolumesCreateDetailsSourceDetailsObservation struct {
+}
+
+type BlockVolumesCreateDetailsSourceDetailsParameters struct {
+
+	// The OCID of the volume backup.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type BlockVolumesObservation struct {
 }
 
@@ -93,6 +232,20 @@ type CreateDetailsAutotunePoliciesParameters struct {
 	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
 }
 
+type CreateDetailsBlockVolumeReplicasObservation struct {
+}
+
+type CreateDetailsBlockVolumeReplicasParameters struct {
+
+	// The availability domain of the volume.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Required
+	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
 type CreateDetailsObservation struct {
 }
 
@@ -110,6 +263,13 @@ type CreateDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	BlockVolumeReplicas []BlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+
+	// The OCID of the volume backup.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
 	// (Updatable) The OCID of the compartment containing the instance configuration.
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
@@ -126,6 +286,9 @@ type CreateDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsAutoTuneEnabled *bool `json:"isAutoTuneEnabled,omitempty" tf:"is_auto_tune_enabled,omitempty"`
+
 	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
@@ -140,6 +303,10 @@ type CreateDetailsParameters struct {
 	// The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type CreateDetailsSourceDetailsObservation struct {
@@ -210,6 +377,24 @@ type InstanceConfigurationParameters struct {
 type InstanceDetailsObservation struct {
 }
 
+type InstanceDetailsOptionsObservation struct {
+}
+
+type InstanceDetailsOptionsParameters struct {
+
+	// Block volume parameters.
+	// +kubebuilder:validation:Optional
+	BlockVolumes []OptionsBlockVolumesParameters `json:"blockVolumes,omitempty" tf:"block_volumes,omitempty"`
+
+	// Instance launch details for creating an instance from an instance configuration. Use the sourceDetails parameter to specify whether a boot volume or an image should be used to launch a new instance.
+	// +kubebuilder:validation:Optional
+	LaunchDetails []OptionsLaunchDetailsParameters `json:"launchDetails,omitempty" tf:"launch_details,omitempty"`
+
+	// Secondary VNIC parameters.
+	// +kubebuilder:validation:Optional
+	SecondaryVnics []SecondaryVnicsParameters `json:"secondaryVnics,omitempty" tf:"secondary_vnics,omitempty"`
+}
+
 type InstanceDetailsParameters struct {
 
 	// Block volume parameters.
@@ -224,47 +409,33 @@ type InstanceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	LaunchDetails []LaunchDetailsParameters `json:"launchDetails,omitempty" tf:"launch_details,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Options []InstanceDetailsOptionsParameters `json:"options,omitempty" tf:"options,omitempty"`
+
 	// Secondary VNIC parameters.
 	// +kubebuilder:validation:Optional
-	SecondaryVnics []SecondaryVnicsParameters `json:"secondaryVnics,omitempty" tf:"secondary_vnics,omitempty"`
+	SecondaryVnics []InstanceDetailsSecondaryVnicsParameters `json:"secondaryVnics,omitempty" tf:"secondary_vnics,omitempty"`
 }
 
-type LaunchDetailsAgentConfigObservation struct {
+type InstanceDetailsSecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
 }
 
-type LaunchDetailsAgentConfigParameters struct {
+type InstanceDetailsSecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
 
-	// Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
 	// +kubebuilder:validation:Optional
-	AreAllPluginsDisabled *bool `json:"areAllPluginsDisabled,omitempty" tf:"are_all_plugins_disabled,omitempty"`
+	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
 
-	// Whether Oracle Cloud Agent can run all the available management plugins. Default value is false (management plugins are enabled).
 	// +kubebuilder:validation:Optional
-	IsManagementDisabled *bool `json:"isManagementDisabled,omitempty" tf:"is_management_disabled,omitempty"`
-
-	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. Default value is false (monitoring plugins are enabled).
-	// +kubebuilder:validation:Optional
-	IsMonitoringDisabled *bool `json:"isMonitoringDisabled,omitempty" tf:"is_monitoring_disabled,omitempty"`
-
-	// The configuration of plugins associated with this instance.
-	// +kubebuilder:validation:Optional
-	PluginsConfig []AgentConfigPluginsConfigParameters `json:"pluginsConfig,omitempty" tf:"plugins_config,omitempty"`
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
-type LaunchDetailsAvailabilityConfigObservation struct {
+type InstanceDetailsSecondaryVnicsCreateVnicDetailsObservation struct {
 }
 
-type LaunchDetailsAvailabilityConfigParameters struct {
+type InstanceDetailsSecondaryVnicsCreateVnicDetailsParameters struct {
 
-	// The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 	// +kubebuilder:validation:Optional
-	RecoveryAction *string `json:"recoveryAction,omitempty" tf:"recovery_action,omitempty"`
-}
-
-type LaunchDetailsCreateVnicDetailsObservation struct {
-}
-
-type LaunchDetailsCreateVnicDetailsParameters struct {
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
 	// Whether the VNIC should be assigned a private DNS record. See the assignPrivateDnsRecord attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
@@ -290,6 +461,9 @@ type LaunchDetailsCreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []InstanceDetailsSecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
 	// +kubebuilder:validation:Optional
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
@@ -297,6 +471,143 @@ type LaunchDetailsCreateVnicDetailsParameters struct {
 	// A private IP address of your choice to assign to the VNIC. See the privateIp attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
+	// Whether the source/destination check is disabled on the VNIC. See the skipSourceDestCheck attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	SkipSourceDestCheck *bool `json:"skipSourceDestCheck,omitempty" tf:"skip_source_dest_check,omitempty"`
+
+	// The OCID of the subnet to create the VNIC in. See the subnetId attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+}
+
+type InstanceDetailsSecondaryVnicsObservation struct {
+}
+
+type InstanceDetailsSecondaryVnicsParameters struct {
+
+	// Contains the properties of the VNIC for an instance configuration. See CreateVnicDetails and Instance Configurations for more information.
+	// +kubebuilder:validation:Optional
+	CreateVnicDetails []InstanceDetailsSecondaryVnicsCreateVnicDetailsParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see Virtual Network Interface Cards (VNICs).
+	// +kubebuilder:validation:Optional
+	NicIndex *float64 `json:"nicIndex,omitempty" tf:"nic_index,omitempty"`
+}
+
+type LaunchDetailsAgentConfigObservation struct {
+}
+
+type LaunchDetailsAgentConfigParameters struct {
+
+	// Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
+	// +kubebuilder:validation:Optional
+	AreAllPluginsDisabled *bool `json:"areAllPluginsDisabled,omitempty" tf:"are_all_plugins_disabled,omitempty"`
+
+	// Whether Oracle Cloud Agent can run all the available management plugins. Default value is false (management plugins are enabled).
+	// +kubebuilder:validation:Optional
+	IsManagementDisabled *bool `json:"isManagementDisabled,omitempty" tf:"is_management_disabled,omitempty"`
+
+	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. Default value is false (monitoring plugins are enabled).
+	// +kubebuilder:validation:Optional
+	IsMonitoringDisabled *bool `json:"isMonitoringDisabled,omitempty" tf:"is_monitoring_disabled,omitempty"`
+
+	// The configuration of plugins associated with this instance.
+	// +kubebuilder:validation:Optional
+	PluginsConfig []AgentConfigPluginsConfigParameters `json:"pluginsConfig,omitempty" tf:"plugins_config,omitempty"`
+}
+
+type LaunchDetailsAgentConfigPluginsConfigObservation struct {
+}
+
+type LaunchDetailsAgentConfigPluginsConfigParameters struct {
+
+	// Whether the plugin should be enabled or disabled. Accepted values are ENABLED and DISABLED
+	// +kubebuilder:validation:Optional
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
+	// The plugin name. To get a list of available plugins, use the ListInstanceagentAvailablePlugins operation in the Oracle Cloud Agent API. For more information about the available plugins, see Managing Plugins with Oracle Cloud Agent.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type LaunchDetailsAvailabilityConfigObservation struct {
+}
+
+type LaunchDetailsAvailabilityConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
+
+	// The lifecycle state for an instance when it is recovered after infrastructure maintenance.
+	// +kubebuilder:validation:Optional
+	RecoveryAction *string `json:"recoveryAction,omitempty" tf:"recovery_action,omitempty"`
+}
+
+type LaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type LaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type LaunchDetailsCreateVnicDetailsObservation struct {
+}
+
+type LaunchDetailsCreateVnicDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
+
+	// Whether the VNIC should be assigned a private DNS record. See the assignPrivateDnsRecord attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
+
+	// Whether the VNIC should be assigned a public IP address. See the assignPublicIp attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	AssignPublicIP *bool `json:"assignPublicIp,omitempty" tf:"assign_public_ip,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +kubebuilder:validation:Optional
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +kubebuilder:validation:Optional
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The hostname for the VNIC's primary private IP. See the hostnameLabel attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []LaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
+	// +kubebuilder:validation:Optional
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// A private IP address of your choice to assign to the VNIC. See the privateIp attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// Whether the source/destination check is disabled on the VNIC. See the skipSourceDestCheck attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
@@ -347,6 +658,20 @@ type LaunchDetailsLaunchOptionsParameters struct {
 	RemoteDataVolumeType *string `json:"remoteDataVolumeType,omitempty" tf:"remote_data_volume_type,omitempty"`
 }
 
+type LaunchDetailsLicensingConfigsObservation struct {
+}
+
+type LaunchDetailsLicensingConfigsParameters struct {
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Optional
+	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type LaunchDetailsObservation struct {
 }
 
@@ -367,6 +692,10 @@ type LaunchDetailsParameters struct {
 	// The OCID of the compute capacity reservation this instance is launched under.
 	// +kubebuilder:validation:Optional
 	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
+
+	// The OCID of the volume backup.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the instance configuration.
 	// +kubebuilder:validation:Optional
@@ -420,6 +749,9 @@ type LaunchDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	LaunchOptions []LaunchDetailsLaunchOptionsParameters `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	LicensingConfigs []LaunchDetailsLicensingConfigsParameters `json:"licensingConfigs,omitempty" tf:"licensing_configs,omitempty"`
+
 	// fields in that these can be nested JSON objects (whereas metadata fields are string/string maps only).
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
@@ -435,6 +767,9 @@ type LaunchDetailsParameters struct {
 	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 	// +kubebuilder:validation:Optional
 	PreferredMaintenanceAction *string `json:"preferredMaintenanceAction,omitempty" tf:"preferred_maintenance_action,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// that you specify. If you don't provide the parameter, the default values for the shape are used.
 	// +kubebuilder:validation:Optional
@@ -456,6 +791,9 @@ type LaunchDetailsPlatformConfigParameters struct {
 	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
 	// +kubebuilder:validation:Optional
 	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConfigMap map[string]*string `json:"configMap,omitempty" tf:"config_map,omitempty"`
 
 	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	// +kubebuilder:validation:Optional
@@ -504,8 +842,22 @@ type LaunchDetailsPreemptibleInstanceConfigObservation struct {
 type LaunchDetailsPreemptibleInstanceConfigParameters struct {
 
 	// The action to run when the preemptible instance is interrupted for eviction.
+	// +kubebuilder:validation:Optional
+	PreemptionAction []PreemptibleInstanceConfigPreemptionActionParameters `json:"preemptionAction,omitempty" tf:"preemption_action,omitempty"`
+}
+
+type LaunchDetailsPreemptibleInstanceConfigPreemptionActionObservation struct {
+}
+
+type LaunchDetailsPreemptibleInstanceConfigPreemptionActionParameters struct {
+
+	// Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	// +kubebuilder:validation:Optional
+	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Required
-	PreemptionAction []PreemptibleInstanceConfigPreemptionActionParameters `json:"preemptionAction" tf:"preemption_action,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type LaunchDetailsShapeConfigObservation struct {
@@ -528,6 +880,28 @@ type LaunchDetailsShapeConfigParameters struct {
 	// The total number of OCPUs available to the instance.
 	// +kubebuilder:validation:Optional
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
+}
+
+type LaunchDetailsSourceDetailsInstanceSourceImageFilterDetailsObservation struct {
+}
+
+type LaunchDetailsSourceDetailsInstanceSourceImageFilterDetailsParameters struct {
+
+	// (Updatable) The OCID of the compartment containing the instance configuration.
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
 }
 
 type LaunchDetailsSourceDetailsObservation struct {
@@ -551,29 +925,90 @@ type LaunchDetailsSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	InstanceSourceImageFilterDetails []SourceDetailsInstanceSourceImageFilterDetailsParameters `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
 	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
 	// +kubebuilder:validation:Required
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
-type PreemptibleInstanceConfigPreemptionActionObservation struct {
+type OptionsBlockVolumesObservation struct {
 }
 
-type PreemptibleInstanceConfigPreemptionActionParameters struct {
+type OptionsBlockVolumesParameters struct {
 
-	// Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	// Volume attachmentDetails. Please see AttachVolumeDetails
 	// +kubebuilder:validation:Optional
-	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
+	AttachDetails []BlockVolumesAttachDetailsParameters `json:"attachDetails,omitempty" tf:"attach_details,omitempty"`
 
-	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// Creates a new block volume. Please see CreateVolumeDetails
+	// +kubebuilder:validation:Optional
+	CreateDetails []BlockVolumesCreateDetailsParameters `json:"createDetails,omitempty" tf:"create_details,omitempty"`
+
+	// The OCID of the volume.
+	// +kubebuilder:validation:Optional
+	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 }
 
-type SecondaryVnicsCreateVnicDetailsObservation struct {
+type OptionsLaunchDetailsAgentConfigObservation struct {
 }
 
-type SecondaryVnicsCreateVnicDetailsParameters struct {
+type OptionsLaunchDetailsAgentConfigParameters struct {
+
+	// Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
+	// +kubebuilder:validation:Optional
+	AreAllPluginsDisabled *bool `json:"areAllPluginsDisabled,omitempty" tf:"are_all_plugins_disabled,omitempty"`
+
+	// Whether Oracle Cloud Agent can run all the available management plugins. Default value is false (management plugins are enabled).
+	// +kubebuilder:validation:Optional
+	IsManagementDisabled *bool `json:"isManagementDisabled,omitempty" tf:"is_management_disabled,omitempty"`
+
+	// Whether Oracle Cloud Agent can gather performance metrics and monitor the instance using the monitoring plugins. Default value is false (monitoring plugins are enabled).
+	// +kubebuilder:validation:Optional
+	IsMonitoringDisabled *bool `json:"isMonitoringDisabled,omitempty" tf:"is_monitoring_disabled,omitempty"`
+
+	// The configuration of plugins associated with this instance.
+	// +kubebuilder:validation:Optional
+	PluginsConfig []LaunchDetailsAgentConfigPluginsConfigParameters `json:"pluginsConfig,omitempty" tf:"plugins_config,omitempty"`
+}
+
+type OptionsLaunchDetailsAvailabilityConfigObservation struct {
+}
+
+type OptionsLaunchDetailsAvailabilityConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
+
+	// The lifecycle state for an instance when it is recovered after infrastructure maintenance.
+	// +kubebuilder:validation:Optional
+	RecoveryAction *string `json:"recoveryAction,omitempty" tf:"recovery_action,omitempty"`
+}
+
+type OptionsLaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type OptionsLaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type OptionsLaunchDetailsCreateVnicDetailsObservation struct {
+}
+
+type OptionsLaunchDetailsCreateVnicDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
 	// Whether the VNIC should be assigned a private DNS record. See the assignPrivateDnsRecord attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
@@ -599,6 +1034,9 @@ type SecondaryVnicsCreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []OptionsLaunchDetailsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
 	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
 	// +kubebuilder:validation:Optional
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
@@ -606,6 +1044,373 @@ type SecondaryVnicsCreateVnicDetailsParameters struct {
 	// A private IP address of your choice to assign to the VNIC. See the privateIp attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
+	// Whether the source/destination check is disabled on the VNIC. See the skipSourceDestCheck attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	SkipSourceDestCheck *bool `json:"skipSourceDestCheck,omitempty" tf:"skip_source_dest_check,omitempty"`
+
+	// The OCID of the subnet to create the VNIC in. See the subnetId attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+}
+
+type OptionsLaunchDetailsInstanceOptionsObservation struct {
+}
+
+type OptionsLaunchDetailsInstanceOptionsParameters struct {
+
+	// Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false.
+	// +kubebuilder:validation:Optional
+	AreLegacyImdsEndpointsDisabled *bool `json:"areLegacyImdsEndpointsDisabled,omitempty" tf:"are_legacy_imds_endpoints_disabled,omitempty"`
+}
+
+type OptionsLaunchDetailsLaunchOptionsObservation struct {
+}
+
+type OptionsLaunchDetailsLaunchOptionsParameters struct {
+
+	// Emulation type for the boot volume.
+	// +kubebuilder:validation:Optional
+	BootVolumeType *string `json:"bootVolumeType,omitempty" tf:"boot_volume_type,omitempty"`
+
+	// Firmware used to boot VM. Select the option that matches your operating system.
+	// +kubebuilder:validation:Optional
+	Firmware *string `json:"firmware,omitempty" tf:"firmware,omitempty"`
+
+	// Whether to enable consistent volume naming feature. Defaults to false.
+	// +kubebuilder:validation:Optional
+	IsConsistentVolumeNamingEnabled *bool `json:"isConsistentVolumeNamingEnabled,omitempty" tf:"is_consistent_volume_naming_enabled,omitempty"`
+
+	// (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+	// +kubebuilder:validation:Optional
+	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
+
+	// Emulation type for the physical network interface card (NIC).
+	// +kubebuilder:validation:Optional
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
+
+	// Emulation type for volume.
+	// +kubebuilder:validation:Optional
+	RemoteDataVolumeType *string `json:"remoteDataVolumeType,omitempty" tf:"remote_data_volume_type,omitempty"`
+}
+
+type OptionsLaunchDetailsLicensingConfigsObservation struct {
+}
+
+type OptionsLaunchDetailsLicensingConfigsParameters struct {
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Optional
+	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type OptionsLaunchDetailsObservation struct {
+}
+
+type OptionsLaunchDetailsParameters struct {
+
+	// Configuration options for the Oracle Cloud Agent software running on the instance.
+	// +kubebuilder:validation:Optional
+	AgentConfig []OptionsLaunchDetailsAgentConfigParameters `json:"agentConfig,omitempty" tf:"agent_config,omitempty"`
+
+	// Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware.
+	// +kubebuilder:validation:Optional
+	AvailabilityConfig []OptionsLaunchDetailsAvailabilityConfigParameters `json:"availabilityConfig,omitempty" tf:"availability_config,omitempty"`
+
+	// The availability domain of the volume.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// The OCID of the compute capacity reservation this instance is launched under.
+	// +kubebuilder:validation:Optional
+	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
+
+	// The OCID of the volume backup.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
+	// (Updatable) The OCID of the compartment containing the instance configuration.
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Contains the properties of the VNIC for an instance configuration. See CreateVnicDetails and Instance Configurations for more information.
+	// +kubebuilder:validation:Optional
+	CreateVnicDetails []OptionsLaunchDetailsCreateVnicDetailsParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
+
+	// The OCID of the dedicated virtual machine host to place the instance on.
+	// +kubebuilder:validation:Optional
+	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +kubebuilder:validation:Optional
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the metadata object.
+	// +kubebuilder:validation:Optional
+	ExtendedMetadata map[string]*string `json:"extendedMetadata,omitempty" tf:"extended_metadata,omitempty"`
+
+	// A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+	// +kubebuilder:validation:Optional
+	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +kubebuilder:validation:Optional
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// Optional mutable instance options. As a part of Instance Metadata Service Security Header, This allows user to disable the legacy imds endpoints.
+	// +kubebuilder:validation:Optional
+	InstanceOptions []OptionsLaunchDetailsInstanceOptionsParameters `json:"instanceOptions,omitempty" tf:"instance_options,omitempty"`
+
+	// This is an advanced option.
+	// +kubebuilder:validation:Optional
+	IpxeScript *string `json:"ipxeScript,omitempty" tf:"ipxe_script,omitempty"`
+
+	// (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+	// +kubebuilder:validation:Optional
+	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
+
+	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
+	// +kubebuilder:validation:Optional
+	LaunchMode *string `json:"launchMode,omitempty" tf:"launch_mode,omitempty"`
+
+	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
+	// +kubebuilder:validation:Optional
+	LaunchOptions []OptionsLaunchDetailsLaunchOptionsParameters `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LicensingConfigs []OptionsLaunchDetailsLicensingConfigsParameters `json:"licensingConfigs,omitempty" tf:"licensing_configs,omitempty"`
+
+	// fields in that these can be nested JSON objects (whereas metadata fields are string/string maps only).
+	// +kubebuilder:validation:Optional
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The platform configuration requested for the instance.
+	// +kubebuilder:validation:Optional
+	PlatformConfig []OptionsLaunchDetailsPlatformConfigParameters `json:"platformConfig,omitempty" tf:"platform_config,omitempty"`
+
+	// Configuration options for preemptible instances.
+	// +kubebuilder:validation:Optional
+	PreemptibleInstanceConfig []OptionsLaunchDetailsPreemptibleInstanceConfigParameters `json:"preemptibleInstanceConfig,omitempty" tf:"preemptible_instance_config,omitempty"`
+
+	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+	// +kubebuilder:validation:Optional
+	PreferredMaintenanceAction *string `json:"preferredMaintenanceAction,omitempty" tf:"preferred_maintenance_action,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
+	// that you specify. If you don't provide the parameter, the default values for the shape are used.
+	// +kubebuilder:validation:Optional
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
+	// The shape configuration requested for the instance.
+	// +kubebuilder:validation:Optional
+	ShapeConfig []OptionsLaunchDetailsShapeConfigParameters `json:"shapeConfig,omitempty" tf:"shape_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceDetails []OptionsLaunchDetailsSourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
+}
+
+type OptionsLaunchDetailsPlatformConfigObservation struct {
+}
+
+type OptionsLaunchDetailsPlatformConfigParameters struct {
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
+	// +kubebuilder:validation:Optional
+	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	// +kubebuilder:validation:Optional
+	IsAccessControlServiceEnabled *bool `json:"isAccessControlServiceEnabled,omitempty" tf:"is_access_control_service_enabled,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
+	// +kubebuilder:validation:Optional
+	IsInputOutputMemoryManagementUnitEnabled *bool `json:"isInputOutputMemoryManagementUnitEnabled,omitempty" tf:"is_input_output_memory_management_unit_enabled,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether the Measured Boot feature is enabled on the instance.
+	// +kubebuilder:validation:Optional
+	IsMeasuredBootEnabled *bool `json:"isMeasuredBootEnabled,omitempty" tf:"is_measured_boot_enabled,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether the instance is a confidential instance. If this value is true, the instance is a confidential instance. The default value is false.
+	// +kubebuilder:validation:Optional
+	IsMemoryEncryptionEnabled *bool `json:"isMemoryEncryptionEnabled,omitempty" tf:"is_memory_encryption_enabled,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether Secure Boot is enabled on the instance.
+	// +kubebuilder:validation:Optional
+	IsSecureBootEnabled *bool `json:"isSecureBootEnabled,omitempty" tf:"is_secure_boot_enabled,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// +kubebuilder:validation:Optional
+	IsSymmetricMultiThreadingEnabled *bool `json:"isSymmetricMultiThreadingEnabled,omitempty" tf:"is_symmetric_multi_threading_enabled,omitempty"`
+
+	// (Applicable when instance_type=compute) Whether the Trusted Platform Module (TPM) is enabled on the instance.
+	// +kubebuilder:validation:Optional
+	IsTrustedPlatformModuleEnabled *bool `json:"isTrustedPlatformModuleEnabled,omitempty" tf:"is_trusted_platform_module_enabled,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	// +kubebuilder:validation:Optional
+	NumaNodesPerSocket *string `json:"numaNodesPerSocket,omitempty" tf:"numa_nodes_per_socket,omitempty"`
+
+	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	// +kubebuilder:validation:Optional
+	PercentageOfCoresEnabled *float64 `json:"percentageOfCoresEnabled,omitempty" tf:"percentage_of_cores_enabled,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type OptionsLaunchDetailsPreemptibleInstanceConfigObservation struct {
+}
+
+type OptionsLaunchDetailsPreemptibleInstanceConfigParameters struct {
+
+	// The action to run when the preemptible instance is interrupted for eviction.
+	// +kubebuilder:validation:Optional
+	PreemptionAction []LaunchDetailsPreemptibleInstanceConfigPreemptionActionParameters `json:"preemptionAction,omitempty" tf:"preemption_action,omitempty"`
+}
+
+type OptionsLaunchDetailsShapeConfigObservation struct {
+}
+
+type OptionsLaunchDetailsShapeConfigParameters struct {
+
+	// The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with BASELINE_1_1.
+	// +kubebuilder:validation:Optional
+	BaselineOcpuUtilization *string `json:"baselineOcpuUtilization,omitempty" tf:"baseline_ocpu_utilization,omitempty"`
+
+	// The total amount of memory available to the instance, in gigabytes.
+	// +kubebuilder:validation:Optional
+	MemoryInGbs *float64 `json:"memoryInGbs,omitempty" tf:"memory_in_gbs,omitempty"`
+
+	// The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	// +kubebuilder:validation:Optional
+	Nvmes *float64 `json:"nvmes,omitempty" tf:"nvmes,omitempty"`
+
+	// The total number of OCPUs available to the instance.
+	// +kubebuilder:validation:Optional
+	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
+}
+
+type OptionsLaunchDetailsSourceDetailsObservation struct {
+}
+
+type OptionsLaunchDetailsSourceDetailsParameters struct {
+
+	// (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
+	// +kubebuilder:validation:Optional
+	BootVolumeID *string `json:"bootVolumeId,omitempty" tf:"boot_volume_id,omitempty"`
+
+	// (Applicable when source_type=image) The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 32,768 GB (32 TB).
+	// +kubebuilder:validation:Optional
+	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
+
+	// (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
+	// +kubebuilder:validation:Optional
+	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
+
+	// (Applicable when source_type=image) The OCID of the image used to boot the instance.
+	// +kubebuilder:validation:Optional
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InstanceSourceImageFilterDetails []LaunchDetailsSourceDetailsInstanceSourceImageFilterDetailsParameters `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
+	// +kubebuilder:validation:Required
+	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
+}
+
+type PreemptibleInstanceConfigPreemptionActionObservation struct {
+}
+
+type PreemptibleInstanceConfigPreemptionActionParameters struct {
+
+	// Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	// +kubebuilder:validation:Optional
+	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
+
+	// The type of volume. The only supported values are "iscsi" and "paravirtualized".
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type SecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type SecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type SecondaryVnicsCreateVnicDetailsObservation struct {
+}
+
+type SecondaryVnicsCreateVnicDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
+
+	// Whether the VNIC should be assigned a private DNS record. See the assignPrivateDnsRecord attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
+
+	// Whether the VNIC should be assigned a public IP address. See the assignPublicIp attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	AssignPublicIP *bool `json:"assignPublicIp,omitempty" tf:"assign_public_ip,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +kubebuilder:validation:Optional
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +kubebuilder:validation:Optional
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The hostname for the VNIC's primary private IP. See the hostnameLabel attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []SecondaryVnicsCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
+	// +kubebuilder:validation:Optional
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// A private IP address of your choice to assign to the VNIC. See the privateIp attribute of CreateVnicDetails for more information.
+	// +kubebuilder:validation:Optional
+	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// Whether the source/destination check is disabled on the VNIC. See the skipSourceDestCheck attribute of CreateVnicDetails for more information.
 	// +kubebuilder:validation:Optional
@@ -632,6 +1437,25 @@ type SecondaryVnicsParameters struct {
 	// Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see Virtual Network Interface Cards (VNICs).
 	// +kubebuilder:validation:Optional
 	NicIndex *float64 `json:"nicIndex,omitempty" tf:"nic_index,omitempty"`
+}
+
+type SourceDetailsInstanceSourceImageFilterDetailsObservation struct {
+}
+
+type SourceDetailsInstanceSourceImageFilterDetailsParameters struct {
+
+	// (Updatable) The OCID of the compartment containing the instance configuration.
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
 }
 
 // InstanceConfigurationSpec defines the desired state of InstanceConfiguration

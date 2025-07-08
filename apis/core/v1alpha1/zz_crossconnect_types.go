@@ -18,10 +18,6 @@ type CrossConnectObservation struct {
 	// The cross-connect's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Properties used for MACsec (if capable).
-	// +kubebuilder:validation:Optional
-	MacsecProperties []MacsecPropertiesObservation `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
-
 	// The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection.
 	OciLogicalDeviceName *string `json:"ociLogicalDeviceName,omitempty" tf:"oci_logical_device_name,omitempty"`
 
@@ -90,10 +86,6 @@ type CrossConnectParameters struct {
 }
 
 type MacsecPropertiesObservation struct {
-
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
-	// +kubebuilder:validation:Optional
-	PrimaryKey []PrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 }
 
 type MacsecPropertiesParameters struct {
@@ -101,6 +93,9 @@ type MacsecPropertiesParameters struct {
 	// Type of encryption cipher suite to use for the MACsec connection.
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
 
 	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 	// +kubebuilder:validation:Optional
@@ -112,12 +107,6 @@ type MacsecPropertiesParameters struct {
 }
 
 type PrimaryKeyObservation struct {
-
-	// The secret version of the connectivityAssociationKey secret in Vault.
-	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
-
-	// The secret version of the connectivity association name secret in Vault.
-	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }
 
 type PrimaryKeyParameters struct {
@@ -126,9 +115,17 @@ type PrimaryKeyParameters struct {
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId" tf:"connectivity_association_key_secret_id,omitempty"`
 
+	// The secret version of the connectivityAssociationKey secret in Vault.
+	// +kubebuilder:validation:Optional
+	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
+
 	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	// +kubebuilder:validation:Required
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId" tf:"connectivity_association_name_secret_id,omitempty"`
+
+	// The secret version of the connectivity association name secret in Vault.
+	// +kubebuilder:validation:Optional
+	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }
 
 // CrossConnectSpec defines the desired state of CrossConnect

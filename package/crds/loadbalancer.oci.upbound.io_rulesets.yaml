@@ -113,6 +113,8 @@ spec:
                             - attributeValue
                             type: object
                           type: array
+                        defaultMaxConnections:
+                          type: number
                         description:
                           description: (Applicable when action=ALLOW) (Updatable)
                             A brief description of the access control rule. Avoid
@@ -129,6 +131,17 @@ spec:
                             size allowed for each buffer. The allowed values for buffer
                             size are 8, 16, 32 and 64.
                           type: number
+                        ipMaxConnections:
+                          items:
+                            properties:
+                              ipAddresses:
+                                items:
+                                  type: string
+                                type: array
+                              maxConnections:
+                                type: number
+                            type: object
+                          type: array
                         prefix:
                           description: '(Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE
                             | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string

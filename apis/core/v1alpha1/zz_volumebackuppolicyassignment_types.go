@@ -49,6 +49,10 @@ type VolumeBackupPolicyAssignmentParameters struct {
 	// Selector for a VolumeBackupPolicy to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the volume backup policy assignment.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 // VolumeBackupPolicyAssignmentSpec defines the desired state of VolumeBackupPolicyAssignment

@@ -13,23 +13,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BlockVolumeReplicasObservation struct {
-
-	// The block volume replica's Oracle ID (OCID).
-	BlockVolumeReplicaID *string `json:"blockVolumeReplicaId,omitempty" tf:"block_volume_replica_id,omitempty"`
-}
-
-type BlockVolumeReplicasParameters struct {
-
-	// (Updatable) The availability domain of the block volume replica.  Example: Uocm:PHX-AD-1
-	// +kubebuilder:validation:Required
-	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
-
-	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-	// +kubebuilder:validation:Optional
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-}
-
 type VolumeAutotunePoliciesObservation struct {
 }
 
@@ -44,6 +27,30 @@ type VolumeAutotunePoliciesParameters struct {
 	MaxVpusPerGb *string `json:"maxVpusPerGb,omitempty" tf:"max_vpus_per_gb,omitempty"`
 }
 
+type VolumeBlockVolumeReplicasObservation struct {
+
+	// The block volume replica's Oracle ID (OCID).
+	BlockVolumeReplicaID *string `json:"blockVolumeReplicaId,omitempty" tf:"block_volume_replica_id,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+}
+
+type VolumeBlockVolumeReplicasParameters struct {
+
+	// (Updatable) The availability domain of the block volume replica.  Example: Uocm:PHX-AD-1
+	// +kubebuilder:validation:Required
+	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
+}
+
 type VolumeObservation struct {
 
 	// The number of Volume Performance Units per GB that this volume is effectively tuned to.
@@ -51,7 +58,7 @@ type VolumeObservation struct {
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
 	// +kubebuilder:validation:Optional
-	BlockVolumeReplicas []BlockVolumeReplicasObservation `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+	BlockVolumeReplicas []VolumeBlockVolumeReplicasObservation `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
 
 	// The OCID of the block volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -88,10 +95,14 @@ type VolumeParameters struct {
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
 	// +kubebuilder:validation:Optional
-	BlockVolumeReplicas []BlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
+	BlockVolumeReplicas []VolumeBlockVolumeReplicasParameters `json:"blockVolumeReplicas,omitempty" tf:"block_volume_replicas,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	BlockVolumeReplicasDeletion *bool `json:"blockVolumeReplicasDeletion,omitempty" tf:"block_volume_replicas_deletion,omitempty"`
+
+	// The OCID of the block volume replica.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the volume.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
@@ -122,6 +133,9 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	IsAutoTuneEnabled *bool `json:"isAutoTuneEnabled,omitempty" tf:"is_auto_tune_enabled,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsReservationsEnabled *bool `json:"isReservationsEnabled,omitempty" tf:"is_reservations_enabled,omitempty"`
+
 	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
@@ -144,6 +158,10 @@ type VolumeParameters struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
+
+	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeSourceDetailsObservation struct {
@@ -151,9 +169,20 @@ type VolumeSourceDetailsObservation struct {
 
 type VolumeSourceDetailsParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
+
 	// The OCID of the block volume replica.
-	// +kubebuilder:validation:Required
-	ID *string `json:"id" tf:"id,omitempty"`
+	// +kubebuilder:validation:Optional
+	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
+
+	// The OCID of the block volume replica.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the block volume replica.
+	// +kubebuilder:validation:Optional
+	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
 	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup
 	// +kubebuilder:validation:Required

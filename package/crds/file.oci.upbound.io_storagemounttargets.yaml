@@ -176,12 +176,75 @@ spec:
                       Must be unique across all VNICs in the subnet and comply with
                       RFC 952 and RFC 1123.
                     type: string
+                  idmapType:
+                    type: string
                   ipAddress:
                     description: A private IP address of your choice. Must be an available
                       IP address within the subnet's CIDR. If you don't specify a
                       value, Oracle automatically assigns a private IP address from
                       the subnet.
                     type: string
+                  isLockOverride:
+                    type: boolean
+                  kerberos:
+                    items:
+                      properties:
+                        backupKeyTabSecretVersion:
+                          type: number
+                        currentKeyTabSecretVersion:
+                          type: number
+                        isKerberosEnabled:
+                          type: boolean
+                        kerberosRealm:
+                          type: string
+                        keyTabSecretId:
+                          description: The OCID of the mount target.
+                          type: string
+                      required:
+                      - kerberosRealm
+                      type: object
+                    type: array
+                  ldapIdmap:
+                    items:
+                      properties:
+                        cacheLifetimeSeconds:
+                          type: number
+                        cacheRefreshIntervalSeconds:
+                          type: number
+                        groupSearchBase:
+                          type: string
+                        negativeCacheLifetimeSeconds:
+                          type: number
+                        outboundConnector1Id:
+                          description: The OCID of the mount target.
+                          type: string
+                        outboundConnector2Id:
+                          description: The OCID of the mount target.
+                          type: string
+                        schemaType:
+                          type: string
+                        userSearchBase:
+                          type: string
+                      type: object
+                    type: array
+                  locks:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        relatedResourceId:
+                          description: The OCID of the mount target.
+                          type: string
+                        timeCreated:
+                          description: 'The date and time the mount target was created,
+                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   nsgIds:
                     description: (Updatable) A list of Network Security Group OCIDs
                       associated with this mount target. A maximum of 5 is allowed.
@@ -191,6 +254,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  requestedThroughput:
+                    type: string
                   subnetId:
                     description: The OCID of the subnet in which to create the mount
                       target.
@@ -458,14 +523,24 @@ spec:
                   lifecycleDetails:
                     description: Additional information about the current 'lifecycleState'.
                     type: string
+                  observedThroughput:
+                    type: string
                   privateIpIds:
                     description: The OCIDs of the private IP addresses associated
                       with this mount target.
                     items:
                       type: string
                     type: array
+                  reservedStorageCapacity:
+                    type: string
                   state:
                     description: The current state of the mount target.
+                    type: string
+                  systemTags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  timeBillingCycleEnd:
                     type: string
                   timeCreated:
                     description: 'The date and time the mount target was created,

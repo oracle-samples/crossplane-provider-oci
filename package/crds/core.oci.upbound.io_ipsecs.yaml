@@ -332,6 +332,20 @@ spec:
                     items:
                       type: string
                     type: array
+                  tunnelConfiguration:
+                    items:
+                      properties:
+                        associatedVirtualCircuits:
+                          items:
+                            type: string
+                          type: array
+                        drgRouteTableId:
+                          description: The IPSec connection's Oracle ID (OCID).
+                          type: string
+                        oracleTunnelIp:
+                          type: string
+                      type: object
+                    type: array
                 required:
                 - staticRoutes
                 type: object
@@ -520,6 +534,8 @@ spec:
                   timeCreated:
                     description: 'The date and time the IPSec connection was created,
                       in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
+                    type: string
+                  transportType:
                     type: string
                 type: object
               conditions:

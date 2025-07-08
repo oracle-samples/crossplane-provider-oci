@@ -25,7 +25,28 @@ type SourceDetailsObservation struct {
 type SourceDetailsParameters struct {
 }
 
+type StorageFileSystemLocksObservation struct {
+}
+
+type StorageFileSystemLocksParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Message *string `json:"message,omitempty" tf:"message,omitempty"`
+
+	// The OCID of the file system.
+	// +kubebuilder:validation:Optional
+	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
+
+	// The date and time the file system was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// +kubebuilder:validation:Optional
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type StorageFileSystemObservation struct {
+	CloneCount *float64 `json:"cloneCount,omitempty" tf:"clone_count,omitempty"`
 
 	// The OCID of the file system.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -45,6 +66,11 @@ type StorageFileSystemObservation struct {
 	// The number of bytes consumed by the file system, including any snapshots. This number reflects the metered size of the file system and is updated asynchronously with respect to updates to the file system. For more information, see File System Usage and Metering.
 	MeteredBytes *string `json:"meteredBytes,omitempty" tf:"metered_bytes,omitempty"`
 
+	// The current state of the file system.
+	QuotaEnforcementState *string `json:"quotaEnforcementState,omitempty" tf:"quota_enforcement_state,omitempty"`
+
+	ReplicationSourceCount *float64 `json:"replicationSourceCount,omitempty" tf:"replication_source_count,omitempty"`
+
 	// The OCID of the replication target associated with the file system. Empty if the file system is not being used as target in a replication.
 	ReplicationTargetID *string `json:"replicationTargetId,omitempty" tf:"replication_target_id,omitempty"`
 
@@ -54,15 +80,23 @@ type StorageFileSystemObservation struct {
 	// The current state of the file system.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
+
 	// The date and time the file system was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
 
 type StorageFileSystemParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AreQuotaRulesEnabled *bool `json:"areQuotaRulesEnabled,omitempty" tf:"are_quota_rules_enabled,omitempty"`
+
 	// The availability domain to create the file system in.  Example: Uocm:PHX-AD-1
 	// +kubebuilder:validation:Required
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloneAttachStatus *string `json:"cloneAttachStatus,omitempty" tf:"clone_attach_status,omitempty"`
 
 	// (Updatable) The OCID of the compartment to create the file system in.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
@@ -81,17 +115,30 @@ type StorageFileSystemParameters struct {
 	// +kubebuilder:validation:Optional
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	DetachCloneTrigger *float64 `json:"detachCloneTrigger,omitempty" tf:"detach_clone_trigger,omitempty"`
+
 	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: My file system
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID of the file system.
+	// +kubebuilder:validation:Optional
+	FilesystemSnapshotPolicyID *string `json:"filesystemSnapshotPolicyId,omitempty" tf:"filesystem_snapshot_policy_id,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
+
 	// (Updatable) The OCID of KMS key used to encrypt the encryption keys associated with this file system. May be unset as a blank or deleted from the configuration to remove the KMS key.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locks []StorageFileSystemLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// The OCID of the snapshot used to create a cloned file system. See Cloning a File System.
 	// +kubebuilder:validation:Optional

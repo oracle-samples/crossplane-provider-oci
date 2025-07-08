@@ -54,6 +54,8 @@ type VolumeAttachmentObservation struct {
 	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	IsMultipath *bool `json:"isMultipath,omitempty" tf:"is_multipath,omitempty"`
 
+	IsVolumeCreatedDuringLaunch *bool `json:"isVolumeCreatedDuringLaunch,omitempty" tf:"is_volume_created_during_launch,omitempty"`
+
 	// A list of secondary multipath devices
 	MultipathDevices []MultipathDevicesObservation `json:"multipathDevices,omitempty" tf:"multipath_devices,omitempty"`
 

@@ -13,10 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPv6SubnetCidr *string `json:"ipv6SubnetCidr,omitempty" tf:"ipv6_subnet_cidr,omitempty"`
+}
+
 type VnicAttachmentCreateVnicDetailsObservation struct {
 }
 
 type VnicAttachmentCreateVnicDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
 	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. Example: true
 	// +kubebuilder:validation:Optional
@@ -42,6 +57,9 @@ type VnicAttachmentCreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
 	// +kubebuilder:validation:Optional
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
@@ -49,6 +67,13 @@ type VnicAttachmentCreateVnicDetailsParameters struct {
 	// A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's primary private IP address. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	// +kubebuilder:validation:Optional
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
+
+	// The OCID of the VNIC attachment.
+	// +kubebuilder:validation:Optional
+	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
 	// (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to false, which means the check is performed. For information about why you would skip the source/destination check, see Using a Private IP as a Route Target.
 	// +kubebuilder:validation:Optional

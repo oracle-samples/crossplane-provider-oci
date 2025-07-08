@@ -88,6 +88,8 @@ type VirtualCircuitObservation struct {
 
 	// The date and time the virtual circuit was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	VirtualCircuitRedundancyMetadata []VirtualCircuitRedundancyMetadataObservation `json:"virtualCircuitRedundancyMetadata,omitempty" tf:"virtual_circuit_redundancy_metadata,omitempty"`
 }
 
 type VirtualCircuitParameters struct {
@@ -140,6 +142,9 @@ type VirtualCircuitParameters struct {
 	// +kubebuilder:validation:Optional
 	IsBfdEnabled *bool `json:"isBfdEnabled,omitempty" tf:"is_bfd_enabled,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsTransportMode *bool `json:"isTransportMode,omitempty" tf:"is_transport_mode,omitempty"`
+
 	// The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see ListFastConnectProviderServices.
 	// +kubebuilder:validation:Optional
 	ProviderServiceID *string `json:"providerServiceId,omitempty" tf:"provider_service_id,omitempty"`
@@ -163,6 +168,17 @@ type VirtualCircuitParameters struct {
 	// The type of IP addresses used in this virtual circuit. PRIVATE means RFC 1918 addresses (10.0.0.0/8, 172.16/12, and 192.168/16).
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type VirtualCircuitRedundancyMetadataObservation struct {
+	ConfiguredRedundancyLevel *string `json:"configuredRedundancyLevel,omitempty" tf:"configured_redundancy_level,omitempty"`
+
+	Ipv4BgpSessionRedundancyStatus *string `json:"ipv4bgpSessionRedundancyStatus,omitempty" tf:"ipv4bgp_session_redundancy_status,omitempty"`
+
+	Ipv6BgpSessionRedundancyStatus *string `json:"ipv6bgpSessionRedundancyStatus,omitempty" tf:"ipv6bgp_session_redundancy_status,omitempty"`
+}
+
+type VirtualCircuitRedundancyMetadataParameters struct {
 }
 
 // VirtualCircuitSpec defines the desired state of VirtualCircuit

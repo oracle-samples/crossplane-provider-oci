@@ -13,6 +13,29 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type HealthCheckerDNSObservation struct {
+}
+
+type HealthCheckerDNSParameters struct {
+
+	// (Updatable) A read-only field showing the IP address/OCID and port that uniquely identify this backend server in the backend set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443 or 10.0.0.3:0
+	// +kubebuilder:validation:Required
+	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// +kubebuilder:validation:Optional
+	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
+}
+
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsObservation struct {
 }
 
@@ -55,6 +78,9 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerObservation 
 }
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DNS []HealthCheckerDNSParameters `json:"dns,omitempty" tf:"dns,omitempty"`
 
 	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
 	// +kubebuilder:validation:Optional
@@ -103,6 +129,9 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedObservation struct {
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
+
 	// (Updatable) An array of backends to be associated with the backend set.
 	// +kubebuilder:validation:Optional
 	Backends []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsParameters `json:"backends,omitempty" tf:"backends,omitempty"`
@@ -114,6 +143,15 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedParameters struct {
 	// (Updatable) IP version associated with the backend set.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 
 	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
 	// +kubebuilder:validation:Optional

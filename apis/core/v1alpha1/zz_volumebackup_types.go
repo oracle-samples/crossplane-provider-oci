@@ -21,9 +21,6 @@ type VolumeBackupObservation struct {
 	// The OCID of the volume backup.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
 	// The size of the volume, in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
@@ -81,6 +78,10 @@ type VolumeBackupParameters struct {
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Details of the volume backup source in the cloud.
 	// +kubebuilder:validation:Optional

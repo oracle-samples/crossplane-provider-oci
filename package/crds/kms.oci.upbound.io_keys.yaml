@@ -64,6 +64,23 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  autoKeyRotationDetails:
+                    items:
+                      properties:
+                        lastRotationMessage:
+                          type: string
+                        lastRotationStatus:
+                          type: string
+                        rotationIntervalInDays:
+                          type: number
+                        timeOfLastRotation:
+                          type: string
+                        timeOfNextRotation:
+                          type: string
+                        timeOfScheduleStart:
+                          type: string
+                      type: object
+                    type: array
                   compartmentId:
                     description: (Updatable) The OCID of the compartment where you
                       want to create the master encryption key.
@@ -159,6 +176,16 @@ spec:
                       does not have to be unique, and it is changeable. Avoid entering
                       confidential information.
                     type: string
+                  externalKeyReference:
+                    items:
+                      properties:
+                        externalKeyId:
+                          description: The OCID of the key.
+                          type: string
+                      required:
+                      - externalKeyId
+                      type: object
+                    type: array
                   freeformTags:
                     additionalProperties:
                       type: string
@@ -167,6 +194,8 @@ spec:
                       or namespace. For more information, see Resource Tags. Example:
                       {"Department": "Finance"}'
                     type: object
+                  isAutoRotationEnabled:
+                    type: boolean
                   keyShape:
                     description: The cryptographic properties of a key.
                     items:
@@ -451,6 +480,17 @@ spec:
                       guaranteed to use the new key version for all subsequent encryption
                       operations.
                     type: string
+                  externalKeyReferenceDetails:
+                    items:
+                      properties:
+                        externalKeyId:
+                          description: The OCID of the key.
+                          type: string
+                        externalKeyVersionId:
+                          description: The OCID of the key.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: The OCID of the key.
                     type: string

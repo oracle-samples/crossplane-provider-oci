@@ -64,6 +64,9 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  externalKeyVersionId:
+                    description: The OCID of the key version.
+                    type: string
                   keyId:
                     description: The OCID of the key.
                     type: string
@@ -333,9 +336,22 @@ spec:
                     description: The OCID of the compartment that contains this key
                       version.
                     type: string
+                  externalKeyReferenceDetails:
+                    items:
+                      properties:
+                        externalKeyId:
+                          description: The OCID of the key.
+                          type: string
+                        externalKeyVersionId:
+                          description: The OCID of the key version.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: The OCID of the key version.
                     type: string
+                  isAutoRotated:
+                    type: boolean
                   isPrimary:
                     description: A boolean that will be true when key version is primary,
                       and will be false when key version is a replica from a primary

@@ -13,6 +13,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClusterConfigurationObservation struct {
+}
+
+type ClusterConfigurationParameters struct {
+
+	// The OCID of the hpc island used by the cluster network.
+	// +kubebuilder:validation:Required
+	HpcIslandID *string `json:"hpcIslandId" tf:"hpc_island_id,omitempty"`
+
+	// The list of network block OCIDs of the HPC island.
+	// +kubebuilder:validation:Optional
+	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
+}
+
 type ClusterNetworkObservation struct {
 
 	// The OCID of the hpc island used by the cluster network.
@@ -39,6 +53,9 @@ type ClusterNetworkObservation struct {
 }
 
 type ClusterNetworkParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ClusterConfiguration []ClusterConfigurationParameters `json:"clusterConfiguration,omitempty" tf:"cluster_configuration,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the cluster network.
 	// +kubebuilder:validation:Required
@@ -72,6 +89,10 @@ type InstancePoolsObservation struct {
 
 	// The OCID of the cluster network.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	InstanceDisplayNameFormatter *string `json:"instanceDisplayNameFormatter,omitempty" tf:"instance_display_name_formatter,omitempty"`
+
+	InstanceHostnameFormatter *string `json:"instanceHostnameFormatter,omitempty" tf:"instance_hostname_formatter,omitempty"`
 
 	// The load balancers attached to the instance pool.
 	LoadBalancers []LoadBalancersObservation `json:"loadBalancers,omitempty" tf:"load_balancers,omitempty"`
@@ -107,6 +128,13 @@ type InstancePoolsParameters struct {
 	// (Updatable) The number of instances that should be in the instance pool.
 	// +kubebuilder:validation:Required
 	Size *float64 `json:"size" tf:"size,omitempty"`
+}
+
+type Ipv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type Ipv6AddressIpv6SubnetCidrPairDetailsParameters struct {
 }
 
 type LoadBalancersObservation struct {
@@ -145,13 +173,44 @@ type PlacementConfigurationParameters struct {
 	// +kubebuilder:validation:Required
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PlacementConstraint *string `json:"placementConstraint,omitempty" tf:"placement_constraint,omitempty"`
+
 	// The OCID of the primary subnet to place instances.
-	// +kubebuilder:validation:Required
-	PrimarySubnetID *string `json:"primarySubnetId" tf:"primary_subnet_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PrimaryVnicSubnets []PlacementConfigurationPrimaryVnicSubnetsParameters `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
 
 	// The set of secondary VNIC data for instances in the pool.
 	// +kubebuilder:validation:Optional
 	SecondaryVnicSubnets []PlacementConfigurationSecondaryVnicSubnetsParameters `json:"secondaryVnicSubnets,omitempty" tf:"secondary_vnic_subnets,omitempty"`
+}
+
+type PlacementConfigurationPrimaryVnicSubnetsObservation struct {
+}
+
+type PlacementConfigurationPrimaryVnicSubnetsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
+
+	// The subnet OCID for the secondary VNIC.
+	// +kubebuilder:validation:Required
+	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
+}
+
+type PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PlacementConfigurationSecondaryVnicSubnetsObservation struct {
@@ -162,6 +221,12 @@ type PlacementConfigurationSecondaryVnicSubnetsParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Ipv6AddressIpv6SubnetCidrPairDetails []PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
 	// +kubebuilder:validation:Required
@@ -179,6 +244,8 @@ type PlacementConfigurationsObservation struct {
 	// The OCID of the primary subnet to place instances.
 	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
 
+	PrimaryVnicSubnets []PrimaryVnicSubnetsObservation `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
+
 	// The set of secondary VNIC data for instances in the pool.
 	SecondaryVnicSubnets []SecondaryVnicSubnetsObservation `json:"secondaryVnicSubnets,omitempty" tf:"secondary_vnic_subnets,omitempty"`
 }
@@ -186,10 +253,42 @@ type PlacementConfigurationsObservation struct {
 type PlacementConfigurationsParameters struct {
 }
 
+type PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+}
+
+type PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type PrimaryVnicSubnetsObservation struct {
+	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
+
+	// The subnet OCID for the secondary VNIC.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+}
+
+type PrimaryVnicSubnetsParameters struct {
+}
+
+type SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+}
+
+type SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
+}
+
 type SecondaryVnicSubnetsObservation struct {
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	Ipv6AddressIpv6SubnetCidrPairDetails []SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
+
+	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`

@@ -64,6 +64,23 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  clusterConfiguration:
+                    items:
+                      properties:
+                        hpcIslandId:
+                          description: The OCID of the hpc island used by the cluster
+                            network.
+                          type: string
+                        networkBlockIds:
+                          description: The list of network block OCIDs of the HPC
+                            island.
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - hpcIslandId
+                      type: object
+                    type: array
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
                       the cluster network.
@@ -136,9 +153,30 @@ spec:
                           description: 'The availability domain to place instances.  Example:
                             Uocm:PHX-AD-1'
                           type: string
+                        placementConstraint:
+                          type: string
                         primarySubnetId:
                           description: The OCID of the primary subnet to place instances.
                           type: string
+                        primaryVnicSubnets:
+                          items:
+                            properties:
+                              ipv6addressIpv6SubnetCidrPairDetails:
+                                items:
+                                  properties:
+                                    ipv6subnetCidr:
+                                      type: string
+                                  type: object
+                                type: array
+                              isAssignIpv6Ip:
+                                type: boolean
+                              subnetId:
+                                description: The subnet OCID for the secondary VNIC.
+                                type: string
+                            required:
+                            - subnetId
+                            type: object
+                          type: array
                         secondaryVnicSubnets:
                           description: The set of secondary VNIC data for instances
                             in the pool.
@@ -149,6 +187,15 @@ spec:
                                   not have to be unique, and it's changeable. Avoid
                                   entering confidential information.
                                 type: string
+                              ipv6addressIpv6SubnetCidrPairDetails:
+                                items:
+                                  properties:
+                                    ipv6subnetCidr:
+                                      type: string
+                                  type: object
+                                type: array
+                              isAssignIpv6Ip:
+                                type: boolean
                               subnetId:
                                 description: The subnet OCID for the secondary VNIC.
                                 type: string
@@ -158,7 +205,6 @@ spec:
                           type: array
                       required:
                       - availabilityDomain
-                      - primarySubnetId
                       type: object
                     type: array
                 required:
@@ -360,6 +406,10 @@ spec:
                         id:
                           description: The OCID of the cluster network.
                           type: string
+                        instanceDisplayNameFormatter:
+                          type: string
+                        instanceHostnameFormatter:
+                          type: string
                         loadBalancers:
                           description: The load balancers attached to the instance
                             pool.
@@ -415,6 +465,24 @@ spec:
                                 description: The OCID of the primary subnet to place
                                   instances.
                                 type: string
+                              primaryVnicSubnets:
+                                items:
+                                  properties:
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      items:
+                                        properties:
+                                          ipv6subnetCidr:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    isAssignIpv6Ip:
+                                      type: boolean
+                                    subnetId:
+                                      description: The subnet OCID for the secondary
+                                        VNIC.
+                                      type: string
+                                  type: object
+                                type: array
                               secondaryVnicSubnets:
                                 description: The set of secondary VNIC data for instances
                                   in the pool.
@@ -425,6 +493,15 @@ spec:
                                         Does not have to be unique, and it's changeable.
                                         Avoid entering confidential information.
                                       type: string
+                                    ipv6addressIpv6SubnetCidrPairDetails:
+                                      items:
+                                        properties:
+                                          ipv6subnetCidr:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    isAssignIpv6Ip:
+                                      type: boolean
                                     subnetId:
                                       description: The subnet OCID for the secondary
                                         VNIC.
