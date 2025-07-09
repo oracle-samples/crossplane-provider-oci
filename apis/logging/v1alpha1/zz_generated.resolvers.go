@@ -36,6 +36,22 @@ func (mg *Log) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.LogGroupID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LogGroupIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LogGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LogGroupIDRef,
+		Selector:     mg.Spec.InitProvider.LogGroupIDSelector,
+		To: reference.To{
+			List:    &LogGroupList{},
+			Managed: &LogGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LogGroupID")
+	}
+	mg.Spec.InitProvider.LogGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LogGroupIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -62,6 +78,22 @@ func (mg *LogGroup) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -87,6 +119,22 @@ func (mg *LogSavedSearch) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -131,6 +179,42 @@ func (mg *UnifiedAgentConfiguration) ResolveReferences(ctx context.Context, c cl
 			}
 			mg.Spec.ForProvider.ServiceConfiguration[i3].Destination[i4].LogObjectID = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.ServiceConfiguration[i3].Destination[i4].LogObjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ServiceConfiguration); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ServiceConfiguration[i3].Destination); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectIDRef,
+				Selector:     mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectIDSelector,
+				To: reference.To{
+					List:    &LogList{},
+					Managed: &Log{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectID")
+			}
+			mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ServiceConfiguration[i3].Destination[i4].LogObjectIDRef = rsp.ResolvedReference
 
 		}
 	}

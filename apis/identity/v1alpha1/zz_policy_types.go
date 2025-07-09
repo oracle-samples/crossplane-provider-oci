@@ -13,8 +13,58 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PolicyInitParameters struct {
+
+	// The OCID of the compartment containing the policy (either the tenancy or another compartment).
+	// +crossplane:generate:reference:type=Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the policy during creation. Does not have to be unique, and it's changeable.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) An array of policy statements written in the policy language. See How Policies Work and Common Policies.
+	Statements []*string `json:"statements,omitempty" tf:"statements,omitempty"`
+
+	// (Updatable) The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date.
+	VersionDate *string `json:"versionDate,omitempty" tf:"version_date,omitempty"`
+}
+
 type PolicyObservation struct {
-	ETag *string `json:"etag,omitempty" tf:"ETag,omitempty"`
+
+	// The OCID of the compartment containing the policy (either the tenancy or another compartment).
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the policy during creation. Does not have to be unique, and it's changeable.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Etag *string `json:"etag,omitempty" tf:"ETag,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -22,15 +72,24 @@ type PolicyObservation struct {
 	// The detailed status of INACTIVE lifecycleState.
 	InactiveState *string `json:"inactiveState,omitempty" tf:"inactive_state,omitempty"`
 
-	LastUpdateETag *string `json:"lastupdateetag,omitempty" tf:"lastUpdateETag,omitempty"`
+	LastUpdateEtag *string `json:"lastupdateetag,omitempty" tf:"lastUpdateETag,omitempty"`
+
+	// The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	PolicyHash *string `json:"policyhash,omitempty" tf:"policyHash,omitempty"`
 
 	// The policy's current state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Updatable) An array of policy statements written in the policy language. See How Policies Work and Common Policies.
+	Statements []*string `json:"statements,omitempty" tf:"statements,omitempty"`
+
 	// Date and time the policy was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// (Updatable) The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date.
+	VersionDate *string `json:"versionDate,omitempty" tf:"version_date,omitempty"`
 }
 
 type PolicyParameters struct {
@@ -50,23 +109,25 @@ type PolicyParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The description you assign to the policy during creation. Does not have to be unique, and it's changeable.
-	// +kubebuilder:validation:Required
-	Description *string `json:"description" tf:"description,omitempty"`
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The name you assign to the policy during creation. The name must be unique across all policies in the tenancy and cannot be changed.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) An array of policy statements written in the policy language. See How Policies Work and Common Policies.
-	// +kubebuilder:validation:Required
-	Statements []*string `json:"statements" tf:"statements,omitempty"`
+	// +kubebuilder:validation:Optional
+	Statements []*string `json:"statements,omitempty" tf:"statements,omitempty"`
 
 	// (Updatable) The version of the policy. If null or set to an empty string, when a request comes in for authorization, the policy will be evaluated according to the current behavior of the services at that moment. If set to a particular date (YYYY-MM-DD), the policy will be evaluated according to the behavior of the services on that date.
 	// +kubebuilder:validation:Optional
@@ -77,6 +138,17 @@ type PolicyParameters struct {
 type PolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider PolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // PolicyStatus defines the observed state of Policy.
@@ -86,19 +158,23 @@ type PolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Policy is the Schema for the Policys API. Provides the Policy resource in Oracle Cloud Infrastructure Identity service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Policy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PolicySpec   `json:"spec"`
-	Status            PolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.statements) || (has(self.initProvider) && has(self.initProvider.statements))",message="spec.forProvider.statements is a required parameter"
+	Spec   PolicySpec   `json:"spec"`
+	Status PolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

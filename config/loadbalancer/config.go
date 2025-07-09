@@ -18,7 +18,7 @@ package loadbalancer
 
 import (
 	"github.com/oracle/provider-oci/config/common"
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 )
 
 const (

@@ -13,17 +13,38 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConditionsInitParameters struct {
+
+	// (Updatable) The attribute_name can be one of these values: PATH, SOURCE_IP_ADDRESS, SOURCE_VCN_ID, SOURCE_VCN_IP_ADDRESS
+	AttributeName *string `json:"attributeName,omitempty" tf:"attribute_name,omitempty"`
+
+	// (Updatable) Depends on attribute_name:
+	AttributeValue *string `json:"attributeValue,omitempty" tf:"attribute_value,omitempty"`
+
+	// (Updatable) A string that specifies how to compare the PathMatchCondition object's attributeValue string to the incoming URI.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+}
+
 type ConditionsObservation struct {
+
+	// (Updatable) The attribute_name can be one of these values: PATH, SOURCE_IP_ADDRESS, SOURCE_VCN_ID, SOURCE_VCN_IP_ADDRESS
+	AttributeName *string `json:"attributeName,omitempty" tf:"attribute_name,omitempty"`
+
+	// (Updatable) Depends on attribute_name:
+	AttributeValue *string `json:"attributeValue,omitempty" tf:"attribute_value,omitempty"`
+
+	// (Updatable) A string that specifies how to compare the PathMatchCondition object's attributeValue string to the incoming URI.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 }
 
 type ConditionsParameters struct {
 
 	// (Updatable) The attribute_name can be one of these values: PATH, SOURCE_IP_ADDRESS, SOURCE_VCN_ID, SOURCE_VCN_IP_ADDRESS
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	AttributeName *string `json:"attributeName" tf:"attribute_name,omitempty"`
 
 	// (Updatable) Depends on attribute_name:
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	AttributeValue *string `json:"attributeValue" tf:"attribute_value,omitempty"`
 
 	// (Updatable) A string that specifies how to compare the PathMatchCondition object's attributeValue string to the incoming URI.
@@ -31,17 +52,130 @@ type ConditionsParameters struct {
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 }
 
+type IPMaxConnectionsInitParameters struct {
+	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+}
+
+type IPMaxConnectionsObservation struct {
+	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+}
+
+type IPMaxConnectionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+}
+
+type ItemsInitParameters struct {
+
+	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) The list of HTTP methods allowed for this listener.
+	// +listType=set
+	AllowedMethods []*string `json:"allowedMethods,omitempty" tf:"allowed_methods,omitempty"`
+
+	// (Applicable when action=HTTP_HEADER) (Updatable) Indicates whether or not invalid characters in client header fields will be allowed. Valid names are composed of English letters, digits, hyphens and underscores. If "true", invalid characters are allowed in the HTTP header. If "false", invalid characters are not allowed in the HTTP header
+	AreInvalidCharactersAllowed *bool `json:"areInvalidCharactersAllowed,omitempty" tf:"are_invalid_characters_allowed,omitempty"`
+
+	// (Updatable)
+	Conditions []ConditionsInitParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
+
+	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
+
+	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Applicable when action=HTTP_HEADER) (Updatable) The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64.
+	HTTPLargeHeaderSizeInKb *float64 `json:"httpLargeHeaderSizeInKb,omitempty" tf:"http_large_header_size_in_kb,omitempty"`
+
+	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
+	Header *string `json:"header,omitempty" tf:"header,omitempty"`
+
+	IPMaxConnections []IPMaxConnectionsInitParameters `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
+
+	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
+	RedirectURI []RedirectURIInitParameters `json:"redirectUri,omitempty" tf:"redirect_uri,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP status code to return when the incoming request is redirected.
+	ResponseCode *float64 `json:"responseCode,omitempty" tf:"response_code,omitempty"`
+
+	// (Applicable when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is 405 (Method Not Allowed).  Example: 403
+	StatusCode *float64 `json:"statusCode,omitempty" tf:"status_code,omitempty"`
+
+	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to append to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+	Suffix *string `json:"suffix,omitempty" tf:"suffix,omitempty"`
+
+	// (Updatable) A header value that conforms to RFC 7230. With the following exceptions:
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type ItemsObservation struct {
+
+	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) The list of HTTP methods allowed for this listener.
+	// +listType=set
+	AllowedMethods []*string `json:"allowedMethods,omitempty" tf:"allowed_methods,omitempty"`
+
+	// (Applicable when action=HTTP_HEADER) (Updatable) Indicates whether or not invalid characters in client header fields will be allowed. Valid names are composed of English letters, digits, hyphens and underscores. If "true", invalid characters are allowed in the HTTP header. If "false", invalid characters are not allowed in the HTTP header
+	AreInvalidCharactersAllowed *bool `json:"areInvalidCharactersAllowed,omitempty" tf:"are_invalid_characters_allowed,omitempty"`
+
+	// (Updatable)
+	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
+
+	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
+
+	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Applicable when action=HTTP_HEADER) (Updatable) The maximum size of each buffer used for reading http client request header. This value indicates the maximum size allowed for each buffer. The allowed values for buffer size are 8, 16, 32 and 64.
+	HTTPLargeHeaderSizeInKb *float64 `json:"httpLargeHeaderSizeInKb,omitempty" tf:"http_large_header_size_in_kb,omitempty"`
+
+	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
+	Header *string `json:"header,omitempty" tf:"header,omitempty"`
+
+	IPMaxConnections []IPMaxConnectionsObservation `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
+
+	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) An object that defines the redirect URI applied to the original request. The object property values compose the redirect URI.
+	RedirectURI []RedirectURIObservation `json:"redirectUri,omitempty" tf:"redirect_uri,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP status code to return when the incoming request is redirected.
+	ResponseCode *float64 `json:"responseCode,omitempty" tf:"response_code,omitempty"`
+
+	// (Applicable when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is 405 (Method Not Allowed).  Example: 403
+	StatusCode *float64 `json:"statusCode,omitempty" tf:"status_code,omitempty"`
+
+	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to append to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
+	Suffix *string `json:"suffix,omitempty" tf:"suffix,omitempty"`
+
+	// (Updatable) A header value that conforms to RFC 7230. With the following exceptions:
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ItemsParameters struct {
 
 	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
 	// (Updatable) The list of HTTP methods allowed for this listener.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	AllowedMethods []*string `json:"allowedMethods,omitempty" tf:"allowed_methods,omitempty"`
 
 	// (Applicable when action=HTTP_HEADER) (Updatable) Indicates whether or not invalid characters in client header fields will be allowed. Valid names are composed of English letters, digits, hyphens and underscores. If "true", invalid characters are allowed in the HTTP header. If "false", invalid characters are not allowed in the HTTP header
@@ -51,6 +185,9 @@ type ItemsParameters struct {
 	// (Updatable)
 	// +kubebuilder:validation:Optional
 	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
 
 	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
 	// +kubebuilder:validation:Optional
@@ -63,6 +200,9 @@ type ItemsParameters struct {
 	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
 	// +kubebuilder:validation:Optional
 	Header *string `json:"header,omitempty" tf:"header,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IPMaxConnections []IPMaxConnectionsParameters `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
 
 	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
 	// +kubebuilder:validation:Optional
@@ -89,7 +229,40 @@ type ItemsParameters struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
+type RedirectURIInitParameters struct {
+
+	// (Applicable when action=REDIRECT) (Updatable) The valid domain name (hostname) or IP address to use in the redirect URI.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP URI path to use in the redirect URI.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The communication port to use in the redirect URI.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP protocol to use in the redirect URI.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The query string to use in the redirect URI.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+}
+
 type RedirectURIObservation struct {
+
+	// (Applicable when action=REDIRECT) (Updatable) The valid domain name (hostname) or IP address to use in the redirect URI.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP URI path to use in the redirect URI.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The communication port to use in the redirect URI.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The HTTP protocol to use in the redirect URI.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Applicable when action=REDIRECT) (Updatable) The query string to use in the redirect URI.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 }
 
 type RedirectURIParameters struct {
@@ -115,8 +288,38 @@ type RedirectURIParameters struct {
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 }
 
+type RuleSetInitParameters struct {
+
+	// (Updatable) An array of rules that compose the rule set. For more information, see Managing Rule Sets
+	Items []ItemsInitParameters `json:"items,omitempty" tf:"items,omitempty"`
+
+	// The OCID of the specified load balancer.
+	// +crossplane:generate:reference:type=LoadBalancer
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+
+	// The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_rule_set
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type RuleSetObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) An array of rules that compose the rule set. For more information, see Managing Rule Sets
+	Items []ItemsObservation `json:"items,omitempty" tf:"items,omitempty"`
+
+	// The OCID of the specified load balancer.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_rule_set
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -124,8 +327,8 @@ type RuleSetObservation struct {
 type RuleSetParameters struct {
 
 	// (Updatable) An array of rules that compose the rule set. For more information, see Managing Rule Sets
-	// +kubebuilder:validation:Required
-	Items []ItemsParameters `json:"items" tf:"items,omitempty"`
+	// +kubebuilder:validation:Optional
+	Items []ItemsParameters `json:"items,omitempty" tf:"items,omitempty"`
 
 	// The OCID of the specified load balancer.
 	// +crossplane:generate:reference:type=LoadBalancer
@@ -141,14 +344,25 @@ type RuleSetParameters struct {
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_rule_set
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // RuleSetSpec defines the desired state of RuleSet
 type RuleSetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RuleSetParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RuleSetInitParameters `json:"initProvider,omitempty"`
 }
 
 // RuleSetStatus defines the observed state of RuleSet.
@@ -158,19 +372,22 @@ type RuleSetStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RuleSet is the Schema for the RuleSets API. Provides the Rule Set resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type RuleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RuleSetSpec   `json:"spec"`
-	Status            RuleSetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.items) || (has(self.initProvider) && has(self.initProvider.items))",message="spec.forProvider.items is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   RuleSetSpec   `json:"spec"`
+	Status RuleSetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

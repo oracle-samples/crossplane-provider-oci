@@ -1,0 +1,24 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: Tag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identity/v1alpha1/tag
+  labels:
+    testing.upbound.io/example-name: test_tag
+  name: test-tag
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.tag_description}
+    freeformTags:
+      Department: Finance
+    isCostTracking: ${var.tag_is_cost_tracking}
+    isRetired: false
+    name: ${var.tag_name}
+    tagNamespaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_tag_namespace
+    validator:
+    - validatorType: ${var.tag_validator_validator_type}
+      values: ${var.tag_validator_values}

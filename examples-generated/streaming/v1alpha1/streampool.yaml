@@ -1,0 +1,35 @@
+apiVersion: streaming.oci.upbound.io/v1alpha1
+kind: StreamPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: streaming/v1alpha1/streampool
+  labels:
+    testing.upbound.io/example-name: test_stream_pool
+  name: test-stream-pool
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    customEncryptionKey:
+    - kmsKeyIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_key
+    definedTags: ${var.stream_pool_defined_tags}
+    freeformTags:
+      Department: Finance
+    kafkaSettings:
+    - autoCreateTopicsEnable: ${var.stream_pool_kafka_settings_auto_create_topics_enable}
+      logRetentionHours: ${var.stream_pool_kafka_settings_log_retention_hours}
+      numPartitions: ${var.stream_pool_kafka_settings_num_partitions}
+    name: ${var.stream_pool_name}
+    privateEndpointSettings:
+    - nsgIdsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      privateEndpointIpSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      subnetIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_subnet

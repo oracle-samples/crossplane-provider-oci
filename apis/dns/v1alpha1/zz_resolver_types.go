@@ -13,14 +13,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AttachedViewsInitParameters struct {
+
+	// (Updatable) The OCID of the view.
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
+}
+
 type AttachedViewsObservation struct {
+
+	// (Updatable) The OCID of the view.
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 }
 
 type AttachedViewsParameters struct {
 
 	// (Updatable) The OCID of the view.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ViewID *string `json:"viewId" tf:"view_id,omitempty"`
+}
+
+type EndpointsInitParameters struct {
 }
 
 type EndpointsObservation struct {
@@ -65,22 +77,86 @@ type EndpointsObservation struct {
 type EndpointsParameters struct {
 }
 
+type ResolverInitParameters struct {
+
+	// (Updatable) The attached views. Views are evaluated in order.
+	AttachedViews []AttachedViewsInitParameters `json:"attachedViews,omitempty" tf:"attached_views,omitempty"`
+
+	// (Updatable) The OCID of the owning compartment.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The display name of the resolver.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The OCID of the target resolver.
+	ResolverID *string `json:"resolverId,omitempty" tf:"resolver_id,omitempty"`
+
+	// (Updatable) Rules for the resolver. Rules are evaluated in order.
+	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+
+	// If specified, must be PRIVATE when creating private name resolvers.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
 type ResolverObservation struct {
 
 	// The OCID of the attached VCN.
 	AttachedVcnID *string `json:"attachedVcnId,omitempty" tf:"attached_vcn_id,omitempty"`
 
+	// (Updatable) The attached views. Views are evaluated in order.
+	AttachedViews []AttachedViewsObservation `json:"attachedViews,omitempty" tf:"attached_views,omitempty"`
+
+	// (Updatable) The OCID of the owning compartment.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
 	// The OCID of the default view.
 	DefaultViewID *string `json:"defaultViewId,omitempty" tf:"default_view_id,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The display name of the resolver.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// Read-only array of endpoints for the resolver.
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the resolver.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
 	IsProtected *bool `json:"isProtected,omitempty" tf:"is_protected,omitempty"`
+
+	// The OCID of the target resolver.
+	ResolverID *string `json:"resolverId,omitempty" tf:"resolver_id,omitempty"`
+
+	// (Updatable) Rules for the resolver. Rules are evaluated in order.
+	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
+
+	// If specified, must be PRIVATE when creating private name resolvers.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The canonical absolute URL of the resource.
 	Self *string `json:"self,omitempty" tf:"self,omitempty"`
@@ -116,6 +192,7 @@ type ResolverParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The display name of the resolver.
@@ -124,11 +201,12 @@ type ResolverParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the target resolver.
-	// +kubebuilder:validation:Required
-	ResolverID *string `json:"resolverId" tf:"resolver_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ResolverID *string `json:"resolverId,omitempty" tf:"resolver_id,omitempty"`
 
 	// (Updatable) Rules for the resolver. Rules are evaluated in order.
 	// +kubebuilder:validation:Optional
@@ -139,13 +217,46 @@ type ResolverParameters struct {
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
 
+type RulesInitParameters struct {
+
+	// (Updatable) The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply.
+	ClientAddressConditions []*string `json:"clientAddressConditions,omitempty" tf:"client_address_conditions,omitempty"`
+
+	// (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address.
+	DestinationAddresses []*string `json:"destinationAddresses,omitempty" tf:"destination_addresses,omitempty"`
+
+	// (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
+	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
+
+	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
+	SourceEndpointName *string `json:"sourceEndpointName,omitempty" tf:"source_endpoint_name,omitempty"`
+}
+
 type RulesObservation struct {
+
+	// (Updatable) The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply.
+	ClientAddressConditions []*string `json:"clientAddressConditions,omitempty" tf:"client_address_conditions,omitempty"`
+
+	// (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address.
+	DestinationAddresses []*string `json:"destinationAddresses,omitempty" tf:"destination_addresses,omitempty"`
+
+	// (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
+	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
+
+	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
+	SourceEndpointName *string `json:"sourceEndpointName,omitempty" tf:"source_endpoint_name,omitempty"`
 }
 
 type RulesParameters struct {
 
 	// (Updatable) The action determines the behavior of the rule. If a query matches a supplied condition, the action will apply. If there are no conditions on the rule, all queries are subject to the specified action.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
 	// (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply.
@@ -153,7 +264,7 @@ type RulesParameters struct {
 	ClientAddressConditions []*string `json:"clientAddressConditions,omitempty" tf:"client_address_conditions,omitempty"`
 
 	// (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	DestinationAddresses []*string `json:"destinationAddresses" tf:"destination_addresses,omitempty"`
 
 	// (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
@@ -161,7 +272,7 @@ type RulesParameters struct {
 	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
 
 	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SourceEndpointName *string `json:"sourceEndpointName" tf:"source_endpoint_name,omitempty"`
 }
 
@@ -169,6 +280,17 @@ type RulesParameters struct {
 type ResolverSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ResolverParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ResolverInitParameters `json:"initProvider,omitempty"`
 }
 
 // ResolverStatus defines the observed state of Resolver.
@@ -178,19 +300,21 @@ type ResolverStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Resolver is the Schema for the Resolvers API. Provides the Resolver resource in Oracle Cloud Infrastructure DNS service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Resolver struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ResolverSpec   `json:"spec"`
-	Status            ResolverStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resolverId) || (has(self.initProvider) && has(self.initProvider.resolverId))",message="spec.forProvider.resolverId is a required parameter"
+	Spec   ResolverSpec   `json:"spec"`
+	Status ResolverStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

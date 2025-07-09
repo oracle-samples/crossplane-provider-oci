@@ -1,0 +1,31 @@
+apiVersion: functions.oci.upbound.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: functions/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: test_function
+  name: test-function
+spec:
+  forProvider:
+    applicationIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_application
+    config: ${var.function_config}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.function_display_name}
+    freeformTags:
+      Department: Finance
+    image: ${var.function_image}
+    imageDigest: ${var.function_image_digest}
+    memoryInMbs: ${var.function_memory_in_mbs}
+    provisionedConcurrencyConfig:
+    - count: ${var.function_provisioned_concurrency_config_count}
+      strategy: ${var.function_provisioned_concurrency_config_strategy}
+    sourceDetails:
+    - pbfListingId: ${oci_functions_pbf_listing.test_pbf_listing.id}
+      sourceType: ${var.function_source_details_source_type}
+    timeoutInSeconds: ${var.function_timeout_in_seconds}
+    traceConfig:
+    - isEnabled: ${var.function_trace_config_is_enabled}

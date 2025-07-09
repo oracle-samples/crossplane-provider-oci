@@ -20,7 +20,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/upbound/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/oracle/provider-oci/config/artifacts"
 	"github.com/oracle/provider-oci/config/certificatesmanagement"
@@ -40,7 +40,6 @@ import (
 	"github.com/oracle/provider-oci/config/networkloadbalancer"
 	"github.com/oracle/provider-oci/config/objectstorage"
 	"github.com/oracle/provider-oci/config/ons"
-	"github.com/oracle/provider-oci/config/servicemesh"
 	"github.com/oracle/provider-oci/config/streaming"
 	"github.com/oracle/provider-oci/config/vault"
 )
@@ -81,7 +80,6 @@ func GetProvider() *ujconfig.Provider {
 		logging.Configure,
 		monitoring.Configure,
 		loadbalancer.Configure,
-		servicemesh.Configure,
 		certificatesmanagement.Configure,
 		filestorage.Configure,
 		events.Configure,

@@ -13,19 +13,71 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type KeyVersionExternalKeyReferenceDetailsInitParameters struct {
+}
+
+type KeyVersionExternalKeyReferenceDetailsObservation struct {
+
+	// The OCID of the key.
+	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
+
+	// The OCID of the key version.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+}
+
+type KeyVersionExternalKeyReferenceDetailsParameters struct {
+}
+
+type KeyVersionInitParameters struct {
+
+	// The OCID of the key version.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+
+	// The OCID of the key.
+	// +crossplane:generate:reference:type=Key
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+
+	// Reference to a Key to populate keyId.
+	// +kubebuilder:validation:Optional
+	KeyIDRef *v1.Reference `json:"keyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key to populate keyId.
+	// +kubebuilder:validation:Optional
+	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
+
+	// The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
+	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
+
+	// (Updatable) An optional property for the deletion time of the key version, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
+}
+
 type KeyVersionObservation struct {
 
 	// The OCID of the compartment that contains this key version.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	ExternalKeyReferenceDetails []KeyVersionExternalKeyReferenceDetailsObservation `json:"externalKeyReferenceDetails,omitempty" tf:"external_key_reference_details,omitempty"`
+
+	// The OCID of the key version.
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
+
 	// The OCID of the key version.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	IsAutoRotated *bool `json:"isAutoRotated,omitempty" tf:"is_auto_rotated,omitempty"`
 
 	// A boolean that will be true when key version is primary, and will be false when key version is a replica from a primary key version.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
+	// The OCID of the key.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+
 	// The OCID of the key version.
 	KeyVersionID *string `json:"keyVersionId,omitempty" tf:"key_version_id,omitempty"`
+
+	// The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
+	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
 	// The public key in PEM format. (This value pertains only to RSA and ECDSA keys.)
 	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
@@ -45,11 +97,18 @@ type KeyVersionObservation struct {
 	// The date and time this key version was created, expressed in RFC 3339 timestamp format.  Example: "2018-04-03T21:10:29.600Z"
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// (Updatable) An optional property for the deletion time of the key version, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
+
 	// The OCID of the vault that contains this key version.
 	VaultID *string `json:"vaultId,omitempty" tf:"vault_id,omitempty"`
 }
 
 type KeyVersionParameters struct {
+
+	// The OCID of the key version.
+	// +kubebuilder:validation:Optional
+	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
 
 	// The OCID of the key.
 	// +crossplane:generate:reference:type=Key
@@ -65,12 +124,15 @@ type KeyVersionParameters struct {
 	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
 
 	// The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
-	// +kubebuilder:validation:Required
-	ManagementEndpoint *string `json:"managementEndpoint" tf:"management_endpoint,omitempty"`
+	// +kubebuilder:validation:Optional
+	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
 	// (Updatable) An optional property for the deletion time of the key version, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
 	// +kubebuilder:validation:Optional
 	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
+}
+
+type KeyVersionReplicaDetailsInitParameters struct {
 }
 
 type KeyVersionReplicaDetailsObservation struct {
@@ -86,6 +148,17 @@ type KeyVersionReplicaDetailsParameters struct {
 type KeyVersionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     KeyVersionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider KeyVersionInitParameters `json:"initProvider,omitempty"`
 }
 
 // KeyVersionStatus defines the observed state of KeyVersion.
@@ -95,19 +168,21 @@ type KeyVersionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // KeyVersion is the Schema for the KeyVersions API. Provides the Key Version resource in Oracle Cloud Infrastructure Kms service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type KeyVersion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              KeyVersionSpec   `json:"spec"`
-	Status            KeyVersionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.managementEndpoint) || (has(self.initProvider) && has(self.initProvider.managementEndpoint))",message="spec.forProvider.managementEndpoint is a required parameter"
+	Spec   KeyVersionSpec   `json:"spec"`
+	Status KeyVersionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

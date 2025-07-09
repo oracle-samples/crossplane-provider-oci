@@ -18,7 +18,7 @@ package config
 
 import (
 	"github.com/oracle/provider-oci/config/common"
-	"github.com/upbound/upjet/pkg/config"
+	"github.com/crossplane/upjet/pkg/config"
 )
 
 // ExternalNameConfigs contains all external name configurations for this

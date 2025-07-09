@@ -5704,7 +5704,6 @@ resources:
                 }
               references:
                 availability_domain: var.migration_asset_availability_domain
-                depends_on: var.migration_asset_depends_on
                 display_name: var.migration_asset_display_name
                 inventory_asset_id: oci_cloud_migrations_inventory_asset.test_inventory_asset.id
                 migration_id: oci_cloud_migrations_migration.test_migration.id
@@ -10684,6 +10683,7 @@ resources:
                 backup_policy_id: data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
                 compartment_id: var.compartment_id
                 display_name: var.volume_group_display_name
+                source_details.volume_ids: var.volume_group_source_id
                 volume_group_replicas.availability_domain: var.volume_group_volume_group_replicas_availability_domain
                 volume_group_replicas.display_name: var.volume_group_volume_group_replicas_display_name
         argumentDocs:
@@ -19000,7 +19000,6 @@ resources:
                 log_configuration_details.log_group_id: oci_logging_log_group.test_log_group.id
                 log_configuration_details.log_id: oci_logging_log.test_log.id
                 project_id: oci_datascience_project.test_project.id
-                step_details.depends_on: var.pipeline_step_details_depends_on
                 step_details.description: var.pipeline_step_details_description
                 step_details.is_artifact_uploaded: var.pipeline_step_details_is_artifact_uploaded
                 step_details.job_id: oci_datascience_job.test_job.id
@@ -27766,12 +27765,14 @@ resources:
                 connection_configuration.backend_tcp_proxy_protocol_version: var.listener_connection_configuration_backend_tcp_proxy_protocol_version
                 connection_configuration.idle_timeout_in_seconds: var.listener_connection_configuration_idle_timeout_in_seconds
                 default_backend_set_name: oci_load_balancer_backend_set.test_backend_set.name
+                hostname_names: oci_load_balancer_hostname.test_hostname.name
                 load_balancer_id: oci_load_balancer_load_balancer.test_load_balancer.id
                 name: var.listener_name
                 path_route_set_name: oci_load_balancer_path_route_set.test_path_route_set.name
                 port: var.listener_port
                 protocol: var.listener_protocol
                 routing_policy_name: oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name
+                rule_set_names: oci_load_balancer_rule_set.test_rule_set.name
                 ssl_configuration.certificate_ids: var.listener_ssl_configuration_certificate_ids
                 ssl_configuration.certificate_name: oci_load_balancer_certificate.test_certificate.name
                 ssl_configuration.cipher_suite_name: var.listener_ssl_configuration_cipher_suite_name
@@ -30039,6 +30040,7 @@ resources:
               references:
                 body: var.alarm_body
                 compartment_id: var.compartment_id
+                destinations: oci_ons_notification_topic.test_notification_topic.id
                 display_name: var.alarm_display_name
                 is_enabled: var.alarm_is_enabled
                 is_notifications_per_metric_dimension_enabled: var.alarm_is_notifications_per_metric_dimension_enabled

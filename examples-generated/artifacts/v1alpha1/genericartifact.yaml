@@ -1,0 +1,15 @@
+apiVersion: artifacts.oci.upbound.io/v1alpha1
+kind: GenericArtifact
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifacts/v1alpha1/genericartifact
+  labels:
+    testing.upbound.io/example-name: test_generic_artifact
+  name: test-generic-artifact
+spec:
+  forProvider:
+    artifactId: ${oci_artifacts_artifact.test_artifact.id}
+    definedTags:
+      Operations.CostCenter: "42"
+    freeformTags:
+      Department: Finance

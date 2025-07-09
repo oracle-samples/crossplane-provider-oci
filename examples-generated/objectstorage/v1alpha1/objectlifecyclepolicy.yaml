@@ -1,0 +1,23 @@
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: ObjectLifecyclePolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/objectlifecyclepolicy
+  labels:
+    testing.upbound.io/example-name: test_object_lifecycle_policy
+  name: test-object-lifecycle-policy
+spec:
+  forProvider:
+    bucket: ${var.object_lifecycle_policy_bucket}
+    namespace: ${var.object_lifecycle_policy_namespace}
+    rules:
+    - action: ${var.object_lifecycle_policy_rules_action}
+      isEnabled: ${var.object_lifecycle_policy_rules_is_enabled}
+      name: ${var.object_lifecycle_policy_rules_name}
+      objectNameFilter:
+      - exclusionPatterns: ${var.object_lifecycle_policy_rules_object_name_filter_exclusion_patterns}
+        inclusionPatterns: ${var.object_lifecycle_policy_rules_object_name_filter_inclusion_patterns}
+        inclusionPrefixes: ${var.object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes}
+      target: ${var.object_lifecycle_policy_rules_target}
+      timeAmount: ${var.object_lifecycle_policy_rules_time_amount}
+      timeUnit: ${var.object_lifecycle_policy_rules_time_unit}

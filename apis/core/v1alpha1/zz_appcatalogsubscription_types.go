@@ -13,61 +13,117 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppCatalogSubscriptionInitParameters struct {
+
+	// The compartmentID for the subscription.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// EULA link
+	EulaLink *string `json:"eulaLink,omitempty" tf:"eula_link,omitempty"`
+
+	// The OCID of the listing.
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
+
+	// Listing resource version.
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
+
+	// Oracle TOU link
+	OracleTermsOfUseLink *string `json:"oracleTermsOfUseLink,omitempty" tf:"oracle_terms_of_use_link,omitempty"`
+
+	// A generated signature for this listing resource version retrieved the agreements API.
+	Signature *string `json:"signature,omitempty" tf:"signature,omitempty"`
+
+	// Date and time the agreements were retrieved, in RFC3339 format. Example: 2018-03-20T12:32:53.532Z
+	TimeRetrieved *string `json:"timeRetrieved,omitempty" tf:"time_retrieved,omitempty"`
+}
+
 type AppCatalogSubscriptionObservation struct {
+
+	// The compartmentID for the subscription.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// EULA link
+	EulaLink *string `json:"eulaLink,omitempty" tf:"eula_link,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the listing.
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
 
 	// Listing resource id.
 	ListingResourceID *string `json:"listingResourceId,omitempty" tf:"listing_resource_id,omitempty"`
 
+	// Listing resource version.
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
+
+	// Oracle TOU link
+	OracleTermsOfUseLink *string `json:"oracleTermsOfUseLink,omitempty" tf:"oracle_terms_of_use_link,omitempty"`
+
 	// Name of the publisher who published this listing.
 	PublisherName *string `json:"publisherName,omitempty" tf:"publisher_name,omitempty"`
+
+	// A generated signature for this listing resource version retrieved the agreements API.
+	Signature *string `json:"signature,omitempty" tf:"signature,omitempty"`
 
 	// The short summary to the listing.
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
 
 	// Date and time at which the subscription was created, in RFC3339 format. Example: 2018-03-20T12:32:53.532Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// Date and time the agreements were retrieved, in RFC3339 format. Example: 2018-03-20T12:32:53.532Z
+	TimeRetrieved *string `json:"timeRetrieved,omitempty" tf:"time_retrieved,omitempty"`
 }
 
 type AppCatalogSubscriptionParameters struct {
 
 	// The compartmentID for the subscription.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// EULA link
 	// +kubebuilder:validation:Optional
 	EulaLink *string `json:"eulaLink,omitempty" tf:"eula_link,omitempty"`
 
 	// The OCID of the listing.
-	// +kubebuilder:validation:Required
-	ListingID *string `json:"listingId" tf:"listing_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
 
 	// Listing resource version.
-	// +kubebuilder:validation:Required
-	ListingResourceVersion *string `json:"listingResourceVersion" tf:"listing_resource_version,omitempty"`
+	// +kubebuilder:validation:Optional
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
 
 	// Oracle TOU link
-	// +kubebuilder:validation:Required
-	OracleTermsOfUseLink *string `json:"oracleTermsOfUseLink" tf:"oracle_terms_of_use_link,omitempty"`
+	// +kubebuilder:validation:Optional
+	OracleTermsOfUseLink *string `json:"oracleTermsOfUseLink,omitempty" tf:"oracle_terms_of_use_link,omitempty"`
 
 	// A generated signature for this listing resource version retrieved the agreements API.
-	// +kubebuilder:validation:Required
-	Signature *string `json:"signature" tf:"signature,omitempty"`
+	// +kubebuilder:validation:Optional
+	Signature *string `json:"signature,omitempty" tf:"signature,omitempty"`
 
 	// Date and time the agreements were retrieved, in RFC3339 format. Example: 2018-03-20T12:32:53.532Z
-	// +kubebuilder:validation:Required
-	TimeRetrieved *string `json:"timeRetrieved" tf:"time_retrieved,omitempty"`
+	// +kubebuilder:validation:Optional
+	TimeRetrieved *string `json:"timeRetrieved,omitempty" tf:"time_retrieved,omitempty"`
 }
 
 // AppCatalogSubscriptionSpec defines the desired state of AppCatalogSubscription
 type AppCatalogSubscriptionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppCatalogSubscriptionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AppCatalogSubscriptionInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppCatalogSubscriptionStatus defines the observed state of AppCatalogSubscription.
@@ -77,19 +133,26 @@ type AppCatalogSubscriptionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AppCatalogSubscription is the Schema for the AppCatalogSubscriptions API. Provides the App Catalog Subscription resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type AppCatalogSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AppCatalogSubscriptionSpec   `json:"spec"`
-	Status            AppCatalogSubscriptionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.listingId) || (has(self.initProvider) && has(self.initProvider.listingId))",message="spec.forProvider.listingId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.listingResourceVersion) || (has(self.initProvider) && has(self.initProvider.listingResourceVersion))",message="spec.forProvider.listingResourceVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.oracleTermsOfUseLink) || (has(self.initProvider) && has(self.initProvider.oracleTermsOfUseLink))",message="spec.forProvider.oracleTermsOfUseLink is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.signature) || (has(self.initProvider) && has(self.initProvider.signature))",message="spec.forProvider.signature is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeRetrieved) || (has(self.initProvider) && has(self.initProvider.timeRetrieved))",message="spec.forProvider.timeRetrieved is a required parameter"
+	Spec   AppCatalogSubscriptionSpec   `json:"spec"`
+	Status AppCatalogSubscriptionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

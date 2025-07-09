@@ -70,6 +70,54 @@ func (mg *Application) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.SubnetIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SubnetIdsRefs = mrsp.ResolvedReferences
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.NetworkSecurityGroupIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.NetworkSecurityGroupIdsRefs,
+		Selector:      mg.Spec.InitProvider.NetworkSecurityGroupIdsSelector,
+		To: reference.To{
+			List:    &v1alpha11.NetworkSecurityGroupList{},
+			Managed: &v1alpha11.NetworkSecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkSecurityGroupIds")
+	}
+	mg.Spec.InitProvider.NetworkSecurityGroupIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.NetworkSecurityGroupIdsRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SubnetIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.SubnetIdsRefs,
+		Selector:      mg.Spec.InitProvider.SubnetIdsSelector,
+		To: reference.To{
+			List:    &v1alpha11.SubnetList{},
+			Managed: &v1alpha11.Subnet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubnetIds")
+	}
+	mg.Spec.InitProvider.SubnetIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.SubnetIdsRefs = mrsp.ResolvedReferences
+
 	return nil
 }
 
@@ -96,6 +144,22 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.ApplicationID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ApplicationIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ApplicationID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ApplicationIDRef,
+		Selector:     mg.Spec.InitProvider.ApplicationIDSelector,
+		To: reference.To{
+			List:    &ApplicationList{},
+			Managed: &Application{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ApplicationID")
+	}
+	mg.Spec.InitProvider.ApplicationID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ApplicationIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -121,6 +185,22 @@ func (mg *InvokeFunction) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.FunctionID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FunctionIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.FunctionIDRef,
+		Selector:     mg.Spec.InitProvider.FunctionIDSelector,
+		To: reference.To{
+			List:    &FunctionList{},
+			Managed: &Function{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.FunctionID")
+	}
+	mg.Spec.InitProvider.FunctionID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FunctionIDRef = rsp.ResolvedReference
 
 	return nil
 }

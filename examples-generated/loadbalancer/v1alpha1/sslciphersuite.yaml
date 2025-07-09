@@ -1,0 +1,15 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: SSLCipherSuite
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/sslciphersuite
+  labels:
+    testing.upbound.io/example-name: test_ssl_cipher_suite
+  name: test-ssl-cipher-suite
+spec:
+  forProvider:
+    ciphers: ${var.ssl_cipher_suite_ciphers}
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    name: ${var.ssl_cipher_suite_name}

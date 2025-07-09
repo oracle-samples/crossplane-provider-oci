@@ -13,19 +13,86 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SubscriptionInitParameters struct {
+
+	// (Updatable) The OCID of the compartment for the subscription.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The delivery policy of the subscription. Stored as a JSON string.
+	DeliveryPolicy *string `json:"deliveryPolicy,omitempty" tf:"delivery_policy,omitempty"`
+
+	// A locator that corresponds to the subscription protocol. For example, an email address for a subscription that uses the EMAIL protocol, or a URL for a subscription that uses an HTTP-based protocol. HTTP-based protocols use URL endpoints that begin with "http:" or "https:". A URL cannot exceed 512 characters. Avoid entering confidential information.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The protocol used for the subscription.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// The OCID of the topic for the subscription.
+	// +crossplane:generate:reference:type=NotificationTopic
+	TopicID *string `json:"topicId,omitempty" tf:"topic_id,omitempty"`
+
+	// Reference to a NotificationTopic to populate topicId.
+	// +kubebuilder:validation:Optional
+	TopicIDRef *v1.Reference `json:"topicIdRef,omitempty" tf:"-"`
+
+	// Selector for a NotificationTopic to populate topicId.
+	// +kubebuilder:validation:Optional
+	TopicIDSelector *v1.Selector `json:"topicIdSelector,omitempty" tf:"-"`
+}
+
 type SubscriptionObservation struct {
+
+	// (Updatable) The OCID of the compartment for the subscription.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The time when this suscription was created.
 	CreatedTime *string `json:"createdTime,omitempty" tf:"created_time,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The delivery policy of the subscription. Stored as a JSON string.
+	DeliveryPolicy *string `json:"deliveryPolicy,omitempty" tf:"delivery_policy,omitempty"`
+
+	// A locator that corresponds to the subscription protocol. For example, an email address for a subscription that uses the EMAIL protocol, or a URL for a subscription that uses an HTTP-based protocol. HTTP-based protocols use URL endpoints that begin with "http:" or "https:". A URL cannot exceed 512 characters. Avoid entering confidential information.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
 	// For optimistic concurrency control. See if-match.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the subscription.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The protocol used for the subscription.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
 	// The lifecycle state of the subscription. The status of a new subscription is PENDING; when confirmed, the subscription status changes to ACTIVE.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The OCID of the topic for the subscription.
+	TopicID *string `json:"topicId,omitempty" tf:"topic_id,omitempty"`
 }
 
 type SubscriptionParameters struct {
@@ -45,6 +112,7 @@ type SubscriptionParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// The delivery policy of the subscription. Stored as a JSON string.
@@ -52,16 +120,17 @@ type SubscriptionParameters struct {
 	DeliveryPolicy *string `json:"deliveryPolicy,omitempty" tf:"delivery_policy,omitempty"`
 
 	// A locator that corresponds to the subscription protocol. For example, an email address for a subscription that uses the EMAIL protocol, or a URL for a subscription that uses an HTTP-based protocol. HTTP-based protocols use URL endpoints that begin with "http:" or "https:". A URL cannot exceed 512 characters. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	Endpoint *string `json:"endpoint" tf:"endpoint,omitempty"`
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The protocol used for the subscription.
-	// +kubebuilder:validation:Required
-	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The OCID of the topic for the subscription.
 	// +crossplane:generate:reference:type=NotificationTopic
@@ -81,6 +150,17 @@ type SubscriptionParameters struct {
 type SubscriptionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SubscriptionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SubscriptionInitParameters `json:"initProvider,omitempty"`
 }
 
 // SubscriptionStatus defines the observed state of Subscription.
@@ -90,19 +170,22 @@ type SubscriptionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Subscription is the Schema for the Subscriptions API. Provides the Subscription resource in Oracle Cloud Infrastructure Notifications service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Subscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SubscriptionSpec   `json:"spec"`
-	Status            SubscriptionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.endpoint) || (has(self.initProvider) && has(self.initProvider.endpoint))",message="spec.forProvider.endpoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protocol) || (has(self.initProvider) && has(self.initProvider.protocol))",message="spec.forProvider.protocol is a required parameter"
+	Spec   SubscriptionSpec   `json:"spec"`
+	Status SubscriptionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

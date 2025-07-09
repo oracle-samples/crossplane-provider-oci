@@ -13,17 +13,66 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RecordInitParameters struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// The fully qualified domain name where the record can be located. Domain value is case insensitive.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// (Updatable) The Time To Live for the record, in seconds.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+
+	// The name or OCID of the target zone.
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
+}
+
 type RecordObservation struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The fully qualified domain name where the record can be located. Domain value is case insensitive.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A Boolean flag indicating whether or not parts of the record are unable to be explicitly managed.
 	IsProtected *bool `json:"isProtected,omitempty" tf:"is_protected,omitempty"`
+
+	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
 
 	// A unique identifier for the record within its zone.
 	RecordHash *string `json:"recordHash,omitempty" tf:"record_hash,omitempty"`
 
 	// The latest version of the record's zone in which its RRSet differs from the preceding version.
 	RrsetVersion *string `json:"rrsetVersion,omitempty" tf:"rrset_version,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// (Updatable) The Time To Live for the record, in seconds.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+
+	// The name or OCID of the target zone.
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
 }
 
 type RecordParameters struct {
@@ -42,30 +91,41 @@ type RecordParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// The fully qualified domain name where the record can be located. Domain value is case insensitive.
-	// +kubebuilder:validation:Required
-	Domain *string `json:"domain" tf:"domain,omitempty"`
+	// +kubebuilder:validation:Optional
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
 	// +kubebuilder:validation:Optional
 	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
 
 	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
-	// +kubebuilder:validation:Required
-	Rtype *string `json:"rtype" tf:"rtype,omitempty"`
+	// +kubebuilder:validation:Optional
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
 	// (Updatable) The Time To Live for the record, in seconds.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
 	// The name or OCID of the target zone.
-	// +kubebuilder:validation:Required
-	ZoneNameOrID *string `json:"zoneNameOrId" tf:"zone_name_or_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
 }
 
 // RecordSpec defines the desired state of Record
 type RecordSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RecordParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RecordInitParameters `json:"initProvider,omitempty"`
 }
 
 // RecordStatus defines the observed state of Record.
@@ -75,19 +135,23 @@ type RecordStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Record is the Schema for the Records API. Provides the Record resource in Oracle Cloud Infrastructure DNS service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Record struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RecordSpec   `json:"spec"`
-	Status            RecordStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain) || (has(self.initProvider) && has(self.initProvider.domain))",message="spec.forProvider.domain is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rtype) || (has(self.initProvider) && has(self.initProvider.rtype))",message="spec.forProvider.rtype is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.zoneNameOrId) || (has(self.initProvider) && has(self.initProvider.zoneNameOrId))",message="spec.forProvider.zoneNameOrId is a required parameter"
+	Spec   RecordSpec   `json:"spec"`
+	Status RecordStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

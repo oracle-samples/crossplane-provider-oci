@@ -1,0 +1,22 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: AuthenticationPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identity/v1alpha1/authenticationpolicy
+  labels:
+    testing.upbound.io/example-name: test_authentication_policy
+  name: test-authentication-policy
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    networkPolicy:
+    - networkSourceIds: ${var.authentication_policy_network_policy_network_source_ids}
+    passwordPolicy:
+    - isLowercaseCharactersRequired: ${var.authentication_policy_password_policy_is_lowercase_characters_required}
+      isNumericCharactersRequired: ${var.authentication_policy_password_policy_is_numeric_characters_required}
+      isSpecialCharactersRequired: ${var.authentication_policy_password_policy_is_special_characters_required}
+      isUppercaseCharactersRequired: ${var.authentication_policy_password_policy_is_uppercase_characters_required}
+      isUsernameContainmentAllowed: ${var.authentication_policy_password_policy_is_username_containment_allowed}
+      minimumPasswordLength: ${var.authentication_policy_password_policy_minimum_password_length}

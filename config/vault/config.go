@@ -16,7 +16,7 @@
 
 package vault
 
-import "github.com/upbound/upjet/pkg/config"
+import "github.com/crossplane/upjet/pkg/config"
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("oci_vault_secret", func(r *config.Resource) {

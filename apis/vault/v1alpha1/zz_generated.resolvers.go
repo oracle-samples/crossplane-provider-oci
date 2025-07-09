@@ -69,5 +69,53 @@ func (mg *Secret) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.VaultID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.VaultIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.KeyIDRef,
+		Selector:     mg.Spec.InitProvider.KeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KeyID")
+	}
+	mg.Spec.InitProvider.KeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VaultID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.VaultIDRef,
+		Selector:     mg.Spec.InitProvider.VaultIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.VaultList{},
+			Managed: &v1alpha11.Vault{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.VaultID")
+	}
+	mg.Spec.InitProvider.VaultID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.VaultIDRef = rsp.ResolvedReference
+
 	return nil
 }

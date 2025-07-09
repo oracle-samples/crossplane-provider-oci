@@ -1,0 +1,35 @@
+apiVersion: events.oci.upbound.io/v1alpha1
+kind: Rule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: events/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: test_rule
+  name: test-rule
+spec:
+  forProvider:
+    actions:
+    - actions:
+      - actionType: ${var.rule_actions_actions_action_type}
+        description: ${var.rule_actions_actions_description}
+        functionIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_function
+        isEnabled: ${var.rule_actions_actions_is_enabled}
+        streamIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_stream
+        topicIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_topic
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    condition: ${var.rule_condition}
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.rule_description}
+    displayName: ${var.rule_display_name}
+    freeformTags:
+      Department: Finance
+    isEnabled: ${var.rule_is_enabled}

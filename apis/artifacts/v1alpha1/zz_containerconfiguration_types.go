@@ -13,8 +13,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ContainerConfigurationInitParameters struct {
+
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// Whether to create a new container repository when a container is pushed to a new repository path. Repositories created in this way belong to the root compartment.
+	IsRepositoryCreatedOnFirstPush *bool `json:"isRepositoryCreatedOnFirstPush,omitempty" tf:"is_repository_created_on_first_push,omitempty"`
+}
+
 type ContainerConfigurationObservation struct {
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Whether to create a new container repository when a container is pushed to a new repository path. Repositories created in this way belong to the root compartment.
+	IsRepositoryCreatedOnFirstPush *bool `json:"isRepositoryCreatedOnFirstPush,omitempty" tf:"is_repository_created_on_first_push,omitempty"`
 
 	// The tenancy namespace used in the container repository path.
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
@@ -35,14 +57,25 @@ type ContainerConfigurationParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// Whether to create a new container repository when a container is pushed to a new repository path. Repositories created in this way belong to the root compartment.
-	// +kubebuilder:validation:Required
-	IsRepositoryCreatedOnFirstPush *bool `json:"isRepositoryCreatedOnFirstPush" tf:"is_repository_created_on_first_push,omitempty"`
+	// +kubebuilder:validation:Optional
+	IsRepositoryCreatedOnFirstPush *bool `json:"isRepositoryCreatedOnFirstPush,omitempty" tf:"is_repository_created_on_first_push,omitempty"`
 }
 
 // ContainerConfigurationSpec defines the desired state of ContainerConfiguration
 type ContainerConfigurationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ContainerConfigurationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ContainerConfigurationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ContainerConfigurationStatus defines the observed state of ContainerConfiguration.
@@ -52,19 +85,21 @@ type ContainerConfigurationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ContainerConfiguration is the Schema for the ContainerConfigurations API. Provides the Container Configuration resource in Oracle Cloud Infrastructure Artifacts service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ContainerConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ContainerConfigurationSpec   `json:"spec"`
-	Status            ContainerConfigurationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.isRepositoryCreatedOnFirstPush) || (has(self.initProvider) && has(self.initProvider.isRepositoryCreatedOnFirstPush))",message="spec.forProvider.isRepositoryCreatedOnFirstPush is a required parameter"
+	Spec   ContainerConfigurationSpec   `json:"spec"`
+	Status ContainerConfigurationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -17,17 +17,14 @@ func (mg *FirewallNetworkFirewall) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this FirewallNetworkFirewall.
+func (mg *FirewallNetworkFirewall) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this FirewallNetworkFirewall.
 func (mg *FirewallNetworkFirewall) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this FirewallNetworkFirewall.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FirewallNetworkFirewall) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this FirewallNetworkFirewall.
@@ -50,17 +47,14 @@ func (mg *FirewallNetworkFirewall) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this FirewallNetworkFirewall.
+func (mg *FirewallNetworkFirewall) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this FirewallNetworkFirewall.
 func (mg *FirewallNetworkFirewall) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FirewallNetworkFirewall.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FirewallNetworkFirewall) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FirewallNetworkFirewall.
@@ -83,17 +77,14 @@ func (mg *FirewallNetworkFirewallPolicy) GetDeletionPolicy() xpv1.DeletionPolicy
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this FirewallNetworkFirewallPolicy.
+func (mg *FirewallNetworkFirewallPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this FirewallNetworkFirewallPolicy.
 func (mg *FirewallNetworkFirewallPolicy) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this FirewallNetworkFirewallPolicy.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *FirewallNetworkFirewallPolicy) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this FirewallNetworkFirewallPolicy.
@@ -116,17 +107,14 @@ func (mg *FirewallNetworkFirewallPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this FirewallNetworkFirewallPolicy.
+func (mg *FirewallNetworkFirewallPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this FirewallNetworkFirewallPolicy.
 func (mg *FirewallNetworkFirewallPolicy) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this FirewallNetworkFirewallPolicy.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *FirewallNetworkFirewallPolicy) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this FirewallNetworkFirewallPolicy.
@@ -149,17 +137,14 @@ func (mg *LoadBalancerBackend) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LoadBalancerBackend.
+func (mg *LoadBalancerBackend) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LoadBalancerBackend.
 func (mg *LoadBalancerBackend) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LoadBalancerBackend.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LoadBalancerBackend) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LoadBalancerBackend.
@@ -182,17 +167,14 @@ func (mg *LoadBalancerBackend) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LoadBalancerBackend.
+func (mg *LoadBalancerBackend) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LoadBalancerBackend.
 func (mg *LoadBalancerBackend) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LoadBalancerBackend.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LoadBalancerBackend) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LoadBalancerBackend.
@@ -215,17 +197,14 @@ func (mg *LoadBalancerBackendSet) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LoadBalancerBackendSet.
+func (mg *LoadBalancerBackendSet) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LoadBalancerBackendSet.
 func (mg *LoadBalancerBackendSet) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LoadBalancerBackendSet.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LoadBalancerBackendSet) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LoadBalancerBackendSet.
@@ -248,17 +227,14 @@ func (mg *LoadBalancerBackendSet) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LoadBalancerBackendSet.
+func (mg *LoadBalancerBackendSet) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LoadBalancerBackendSet.
 func (mg *LoadBalancerBackendSet) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LoadBalancerBackendSet.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LoadBalancerBackendSet) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LoadBalancerBackendSet.
@@ -281,17 +257,14 @@ func (mg *LoadBalancerListener) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LoadBalancerListener.
+func (mg *LoadBalancerListener) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LoadBalancerListener.
 func (mg *LoadBalancerListener) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LoadBalancerListener.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LoadBalancerListener) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LoadBalancerListener.
@@ -314,17 +287,14 @@ func (mg *LoadBalancerListener) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LoadBalancerListener.
+func (mg *LoadBalancerListener) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LoadBalancerListener.
 func (mg *LoadBalancerListener) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LoadBalancerListener.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LoadBalancerListener) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LoadBalancerListener.
@@ -347,17 +317,14 @@ func (mg *LoadBalancerNetworkLoadBalancer) GetDeletionPolicy() xpv1.DeletionPoli
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LoadBalancerNetworkLoadBalancer.
+func (mg *LoadBalancerNetworkLoadBalancer) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LoadBalancerNetworkLoadBalancer.
 func (mg *LoadBalancerNetworkLoadBalancer) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LoadBalancerNetworkLoadBalancer.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LoadBalancerNetworkLoadBalancer) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LoadBalancerNetworkLoadBalancer.
@@ -380,17 +347,14 @@ func (mg *LoadBalancerNetworkLoadBalancer) SetDeletionPolicy(r xpv1.DeletionPoli
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LoadBalancerNetworkLoadBalancer.
+func (mg *LoadBalancerNetworkLoadBalancer) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LoadBalancerNetworkLoadBalancer.
 func (mg *LoadBalancerNetworkLoadBalancer) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LoadBalancerNetworkLoadBalancer.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LoadBalancerNetworkLoadBalancer) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LoadBalancerNetworkLoadBalancer.
@@ -413,17 +377,14 @@ func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) GetDeletionPolicy(
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
+func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
 func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
@@ -446,17 +407,14 @@ func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) SetDeletionPolicy(
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
+func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
 func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LoadBalancerNetworkLoadBalancersBackendSetsUnified.

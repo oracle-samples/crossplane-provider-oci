@@ -17,17 +17,14 @@ func (mg *Log) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Log.
+func (mg *Log) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Log.
 func (mg *Log) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this Log.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Log) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this Log.
@@ -50,17 +47,14 @@ func (mg *Log) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Log.
+func (mg *Log) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Log.
 func (mg *Log) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Log.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Log) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Log.
@@ -83,17 +77,14 @@ func (mg *LogGroup) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LogGroup.
+func (mg *LogGroup) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LogGroup.
 func (mg *LogGroup) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LogGroup.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LogGroup) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LogGroup.
@@ -116,17 +107,14 @@ func (mg *LogGroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LogGroup.
+func (mg *LogGroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LogGroup.
 func (mg *LogGroup) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LogGroup.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LogGroup) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LogGroup.
@@ -149,17 +137,14 @@ func (mg *LogSavedSearch) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this LogSavedSearch.
+func (mg *LogSavedSearch) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this LogSavedSearch.
 func (mg *LogSavedSearch) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this LogSavedSearch.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *LogSavedSearch) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this LogSavedSearch.
@@ -182,17 +167,14 @@ func (mg *LogSavedSearch) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this LogSavedSearch.
+func (mg *LogSavedSearch) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this LogSavedSearch.
 func (mg *LogSavedSearch) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this LogSavedSearch.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *LogSavedSearch) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this LogSavedSearch.
@@ -215,17 +197,14 @@ func (mg *UnifiedAgentConfiguration) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this UnifiedAgentConfiguration.
+func (mg *UnifiedAgentConfiguration) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this UnifiedAgentConfiguration.
 func (mg *UnifiedAgentConfiguration) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this UnifiedAgentConfiguration.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *UnifiedAgentConfiguration) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this UnifiedAgentConfiguration.
@@ -248,17 +227,14 @@ func (mg *UnifiedAgentConfiguration) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this UnifiedAgentConfiguration.
+func (mg *UnifiedAgentConfiguration) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this UnifiedAgentConfiguration.
 func (mg *UnifiedAgentConfiguration) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this UnifiedAgentConfiguration.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *UnifiedAgentConfiguration) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this UnifiedAgentConfiguration.

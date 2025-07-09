@@ -16,7 +16,7 @@
 
 package artifacts
 
-import "github.com/upbound/upjet/pkg/config"
+import "github.com/crossplane/upjet/pkg/config"
 
 // Configure configures the null group
 func Configure(p *config.Provider) {

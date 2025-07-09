@@ -13,19 +13,50 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PublicIPPoolCapacityInitParameters struct {
+
+	// The OCID of the Byoip Range Id object to which the cidr block belongs.
+	ByoipID *string `json:"byoipId,omitempty" tf:"byoip_id,omitempty"`
+
+	// The CIDR IP address range to be added to the Public Ip Pool. Example: 10.0.1.0/24
+	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
+
+	// The OCID of the pool object created by the current tenancy
+	// +crossplane:generate:reference:type=PublicIPPool
+	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
+
+	// Reference to a PublicIPPool to populate publicIpPoolId.
+	// +kubebuilder:validation:Optional
+	PublicIPPoolIDRef *v1.Reference `json:"publicIpPoolIdRef,omitempty" tf:"-"`
+
+	// Selector for a PublicIPPool to populate publicIpPoolId.
+	// +kubebuilder:validation:Optional
+	PublicIPPoolIDSelector *v1.Selector `json:"publicIpPoolIdSelector,omitempty" tf:"-"`
+}
+
 type PublicIPPoolCapacityObservation struct {
+
+	// The OCID of the Byoip Range Id object to which the cidr block belongs.
+	ByoipID *string `json:"byoipId,omitempty" tf:"byoip_id,omitempty"`
+
+	// The CIDR IP address range to be added to the Public Ip Pool. Example: 10.0.1.0/24
+	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the pool object created by the current tenancy
+	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
 }
 
 type PublicIPPoolCapacityParameters struct {
 
 	// The OCID of the Byoip Range Id object to which the cidr block belongs.
-	// +kubebuilder:validation:Required
-	ByoipID *string `json:"byoipId" tf:"byoip_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ByoipID *string `json:"byoipId,omitempty" tf:"byoip_id,omitempty"`
 
 	// The CIDR IP address range to be added to the Public Ip Pool. Example: 10.0.1.0/24
-	// +kubebuilder:validation:Required
-	CidrBlock *string `json:"cidrBlock" tf:"cidr_block,omitempty"`
+	// +kubebuilder:validation:Optional
+	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// The OCID of the pool object created by the current tenancy
 	// +crossplane:generate:reference:type=PublicIPPool
@@ -45,6 +76,17 @@ type PublicIPPoolCapacityParameters struct {
 type PublicIPPoolCapacitySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PublicIPPoolCapacityParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider PublicIPPoolCapacityInitParameters `json:"initProvider,omitempty"`
 }
 
 // PublicIPPoolCapacityStatus defines the observed state of PublicIPPoolCapacity.
@@ -54,19 +96,22 @@ type PublicIPPoolCapacityStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // PublicIPPoolCapacity is the Schema for the PublicIPPoolCapacitys API. Provides the Public Ip Pool Capacity resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type PublicIPPoolCapacity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PublicIPPoolCapacitySpec   `json:"spec"`
-	Status            PublicIPPoolCapacityStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.byoipId) || (has(self.initProvider) && has(self.initProvider.byoipId))",message="spec.forProvider.byoipId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cidrBlock) || (has(self.initProvider) && has(self.initProvider.cidrBlock))",message="spec.forProvider.cidrBlock is a required parameter"
+	Spec   PublicIPPoolCapacitySpec   `json:"spec"`
+	Status PublicIPPoolCapacityStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

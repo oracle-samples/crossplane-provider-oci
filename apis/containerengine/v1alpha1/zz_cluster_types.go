@@ -13,7 +13,22 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AddOnsInitParameters struct {
+
+	// Whether or not to enable the Kubernetes Dashboard add-on.
+	IsKubernetesDashboardEnabled *bool `json:"isKubernetesDashboardEnabled,omitempty" tf:"is_kubernetes_dashboard_enabled,omitempty"`
+
+	// Whether or not to enable the Tiller add-on.
+	IsTillerEnabled *bool `json:"isTillerEnabled,omitempty" tf:"is_tiller_enabled,omitempty"`
+}
+
 type AddOnsObservation struct {
+
+	// Whether or not to enable the Kubernetes Dashboard add-on.
+	IsKubernetesDashboardEnabled *bool `json:"isKubernetesDashboardEnabled,omitempty" tf:"is_kubernetes_dashboard_enabled,omitempty"`
+
+	// Whether or not to enable the Tiller add-on.
+	IsTillerEnabled *bool `json:"isTillerEnabled,omitempty" tf:"is_tiller_enabled,omitempty"`
 }
 
 type AddOnsParameters struct {
@@ -27,7 +42,16 @@ type AddOnsParameters struct {
 	IsTillerEnabled *bool `json:"isTillerEnabled,omitempty" tf:"is_tiller_enabled,omitempty"`
 }
 
+type AdmissionControllerOptionsInitParameters struct {
+
+	// (Updatable) Whether or not to enable the Pod Security Policy admission controller.
+	IsPodSecurityPolicyEnabled *bool `json:"isPodSecurityPolicyEnabled,omitempty" tf:"is_pod_security_policy_enabled,omitempty"`
+}
+
 type AdmissionControllerOptionsObservation struct {
+
+	// (Updatable) Whether or not to enable the Pod Security Policy admission controller.
+	IsPodSecurityPolicyEnabled *bool `json:"isPodSecurityPolicyEnabled,omitempty" tf:"is_pod_security_policy_enabled,omitempty"`
 }
 
 type AdmissionControllerOptionsParameters struct {
@@ -37,16 +61,101 @@ type AdmissionControllerOptionsParameters struct {
 	IsPodSecurityPolicyEnabled *bool `json:"isPodSecurityPolicyEnabled,omitempty" tf:"is_pod_security_policy_enabled,omitempty"`
 }
 
+type ClusterInitParameters struct {
+
+	// Available CNIs and network options for existing and new node pools of the cluster
+	ClusterPodNetworkOptions []ClusterPodNetworkOptionsInitParameters `json:"clusterPodNetworkOptions,omitempty" tf:"cluster_pod_network_options,omitempty"`
+
+	// The OCID of the compartment in which to create the cluster.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The network configuration for access to the Cluster control plane.
+	EndpointConfig []EndpointConfigInitParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy.
+	ImagePolicyConfig []ImagePolicyConfigInitParameters `json:"imagePolicyConfig,omitempty" tf:"image_policy_config,omitempty"`
+
+	// (Updatable) The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// (Updatable) The version of Kubernetes to install into the cluster masters.
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
+	// (Updatable) The name of the cluster. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) Optional attributes for the cluster.
+	Options []OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
+
+	// (Updatable) Type of cluster
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// The OCID of the virtual cloud network (VCN) in which to create the cluster.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn
+	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
+
+	// Reference to a Vcn in core to populate vcnId.
+	// +kubebuilder:validation:Optional
+	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vcn in core to populate vcnId.
+	// +kubebuilder:validation:Optional
+	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
+}
+
 type ClusterObservation struct {
 
 	// Available Kubernetes versions to which the clusters masters may be upgraded.
 	AvailableKubernetesUpgrades []*string `json:"availableKubernetesUpgrades,omitempty" tf:"available_kubernetes_upgrades,omitempty"`
 
+	// Available CNIs and network options for existing and new node pools of the cluster
+	ClusterPodNetworkOptions []ClusterPodNetworkOptionsObservation `json:"clusterPodNetworkOptions,omitempty" tf:"cluster_pod_network_options,omitempty"`
+
+	// The OCID of the compartment in which to create the cluster.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The network configuration for access to the Cluster control plane.
+	EndpointConfig []EndpointConfigObservation `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
 	// Endpoints served up by the cluster masters.
 	Endpoints []EndpointsObservation `json:"endpoints,omitempty" tf:"endpoints,omitempty"`
 
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy.
+	ImagePolicyConfig []ImagePolicyConfigObservation `json:"imagePolicyConfig,omitempty" tf:"image_policy_config,omitempty"`
+
+	// (Updatable) The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// (Updatable) The version of Kubernetes to install into the cluster masters.
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// Details about the state of the cluster masters.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
@@ -54,8 +163,24 @@ type ClusterObservation struct {
 	// Metadata about the cluster.
 	Metadata []MetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// (Updatable) The name of the cluster. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	OpenIDConnectDiscoveryEndpoint *string `json:"openIdConnectDiscoveryEndpoint,omitempty" tf:"open_id_connect_discovery_endpoint,omitempty"`
+
+	OpenIDConnectDiscoveryKey *string `json:"openIdConnectDiscoveryKey,omitempty" tf:"open_id_connect_discovery_key,omitempty"`
+
+	// (Updatable) Optional attributes for the cluster.
+	Options []OptionsObservation `json:"options,omitempty" tf:"options,omitempty"`
+
 	// The state of the cluster masters.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// (Updatable) Type of cluster
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// The OCID of the virtual cloud network (VCN) in which to create the cluster.
+	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 }
 
 type ClusterParameters struct {
@@ -79,6 +204,7 @@ type ClusterParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// The network configuration for access to the Cluster control plane.
@@ -87,6 +213,7 @@ type ClusterParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy.
@@ -98,12 +225,12 @@ type ClusterParameters struct {
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// (Updatable) The version of Kubernetes to install into the cluster masters.
-	// +kubebuilder:validation:Required
-	KubernetesVersion *string `json:"kubernetesVersion" tf:"kubernetes_version,omitempty"`
+	// +kubebuilder:validation:Optional
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// (Updatable) The name of the cluster. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) Optional attributes for the cluster.
 	// +kubebuilder:validation:Optional
@@ -127,17 +254,67 @@ type ClusterParameters struct {
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
 
+type ClusterPodNetworkOptionsInitParameters struct {
+
+	// The CNI used by the node pools of this cluster
+	CniType *string `json:"cniType,omitempty" tf:"cni_type,omitempty"`
+}
+
 type ClusterPodNetworkOptionsObservation struct {
+
+	// The CNI used by the node pools of this cluster
+	CniType *string `json:"cniType,omitempty" tf:"cni_type,omitempty"`
 }
 
 type ClusterPodNetworkOptionsParameters struct {
 
 	// The CNI used by the node pools of this cluster
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	CniType *string `json:"cniType" tf:"cni_type,omitempty"`
 }
 
+type EndpointConfigInitParameters struct {
+
+	// Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
+	IsPublicIPEnabled *bool `json:"isPublicIpEnabled,omitempty" tf:"is_public_ip_enabled,omitempty"`
+
+	// A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see NetworkSecurityGroup.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +listType=set
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// +kubebuilder:validation:Optional
+	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// +kubebuilder:validation:Optional
+	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
+
+	// The OCID of the regional subnet in which to place the Cluster endpoint.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
+	// Reference to a Subnet in core to populate subnetId.
+	// +kubebuilder:validation:Optional
+	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Subnet in core to populate subnetId.
+	// +kubebuilder:validation:Optional
+	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
+}
+
 type EndpointConfigObservation struct {
+
+	// Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
+	IsPublicIPEnabled *bool `json:"isPublicIpEnabled,omitempty" tf:"is_public_ip_enabled,omitempty"`
+
+	// A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see NetworkSecurityGroup.
+	// +listType=set
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// The OCID of the regional subnet in which to place the Cluster endpoint.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 }
 
 type EndpointConfigParameters struct {
@@ -149,6 +326,7 @@ type EndpointConfigParameters struct {
 	// A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see NetworkSecurityGroup.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
 	// References to NetworkSecurityGroup in core to populate nsgIds.
@@ -173,7 +351,11 @@ type EndpointConfigParameters struct {
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
 
+type EndpointsInitParameters struct {
+}
+
 type EndpointsObservation struct {
+	Ipv6Endpoint *string `json:"ipv6endpoint,omitempty" tf:"ipv6endpoint,omitempty"`
 
 	// The non-native networking Kubernetes API server endpoint.
 	Kubernetes *string `json:"kubernetes,omitempty" tf:"kubernetes,omitempty"`
@@ -191,7 +373,22 @@ type EndpointsObservation struct {
 type EndpointsParameters struct {
 }
 
+type ImagePolicyConfigInitParameters struct {
+
+	// (Updatable) Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
+	IsPolicyEnabled *bool `json:"isPolicyEnabled,omitempty" tf:"is_policy_enabled,omitempty"`
+
+	// (Updatable) A list of KMS key details.
+	KeyDetails []KeyDetailsInitParameters `json:"keyDetails,omitempty" tf:"key_details,omitempty"`
+}
+
 type ImagePolicyConfigObservation struct {
+
+	// (Updatable) Whether the image verification policy is enabled. Defaults to false. If set to true, the images will be verified against the policy at runtime.
+	IsPolicyEnabled *bool `json:"isPolicyEnabled,omitempty" tf:"is_policy_enabled,omitempty"`
+
+	// (Updatable) A list of KMS key details.
+	KeyDetails []KeyDetailsObservation `json:"keyDetails,omitempty" tf:"key_details,omitempty"`
 }
 
 type ImagePolicyConfigParameters struct {
@@ -205,7 +402,16 @@ type ImagePolicyConfigParameters struct {
 	KeyDetails []KeyDetailsParameters `json:"keyDetails,omitempty" tf:"key_details,omitempty"`
 }
 
+type KeyDetailsInitParameters struct {
+
+	// (Updatable) The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+}
+
 type KeyDetailsObservation struct {
+
+	// (Updatable) The OCIDs of the KMS key that will be used to verify whether the images are signed by an approved source.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 }
 
 type KeyDetailsParameters struct {
@@ -215,7 +421,22 @@ type KeyDetailsParameters struct {
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 }
 
+type KubernetesNetworkConfigInitParameters struct {
+
+	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+	PodsCidr *string `json:"podsCidr,omitempty" tf:"pods_cidr,omitempty"`
+
+	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
+}
+
 type KubernetesNetworkConfigObservation struct {
+
+	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+	PodsCidr *string `json:"podsCidr,omitempty" tf:"pods_cidr,omitempty"`
+
+	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
 }
 
 type KubernetesNetworkConfigParameters struct {
@@ -227,6 +448,9 @@ type KubernetesNetworkConfigParameters struct {
 	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
 	// +kubebuilder:validation:Optional
 	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
+}
+
+type MetadataInitParameters struct {
 }
 
 type MetadataObservation struct {
@@ -246,6 +470,8 @@ type MetadataObservation struct {
 	// The time the cluster was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	TimeCredentialExpiration *string `json:"timeCredentialExpiration,omitempty" tf:"time_credential_expiration,omitempty"`
+
 	// The time the cluster was deleted.
 	TimeDeleted *string `json:"timeDeleted,omitempty" tf:"time_deleted,omitempty"`
 
@@ -262,7 +488,170 @@ type MetadataObservation struct {
 type MetadataParameters struct {
 }
 
+type OpenIDConnectDiscoveryInitParameters struct {
+	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
+}
+
+type OpenIDConnectDiscoveryObservation struct {
+	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
+}
+
+type OpenIDConnectDiscoveryParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
+}
+
+type OpenIDConnectTokenAuthenticationConfigInitParameters struct {
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The OCID of the cluster.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
+
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
+
+	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled,omitempty" tf:"is_open_id_connect_auth_enabled,omitempty"`
+
+	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
+
+	RequiredClaims []RequiredClaimsInitParameters `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
+
+	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
+
+	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
+
+	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
+}
+
+type OpenIDConnectTokenAuthenticationConfigObservation struct {
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The OCID of the cluster.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
+
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
+
+	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled,omitempty" tf:"is_open_id_connect_auth_enabled,omitempty"`
+
+	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
+
+	RequiredClaims []RequiredClaimsObservation `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
+
+	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
+
+	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
+
+	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
+}
+
+type OpenIDConnectTokenAuthenticationConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The OCID of the cluster.
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled" tf:"is_open_id_connect_auth_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RequiredClaims []RequiredClaimsParameters `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
+}
+
+type OptionsInitParameters struct {
+
+	// Configurable cluster add-ons
+	AddOns []AddOnsInitParameters `json:"addOns,omitempty" tf:"add_ons,omitempty"`
+
+	// (Updatable) Configurable cluster admission controllers
+	AdmissionControllerOptions []AdmissionControllerOptionsInitParameters `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
+
+	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
+
+	// Network configuration for Kubernetes.
+	KubernetesNetworkConfig []KubernetesNetworkConfigInitParameters `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
+
+	OpenIDConnectDiscovery []OpenIDConnectDiscoveryInitParameters `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
+
+	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigInitParameters `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
+
+	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
+	PersistentVolumeConfig []PersistentVolumeConfigInitParameters `json:"persistentVolumeConfig,omitempty" tf:"persistent_volume_config,omitempty"`
+
+	// (Updatable) Configuration to be applied to load balancers created by Kubernetes services
+	ServiceLBConfig []ServiceLBConfigInitParameters `json:"serviceLbConfig,omitempty" tf:"service_lb_config,omitempty"`
+
+	// Selector for a list of Subnet in core to populate serviceLbSubnetIds.
+	// +kubebuilder:validation:Optional
+	ServiceLBSubnetIDSelector *v1.Selector `json:"serviceLbSubnetIdSelector,omitempty" tf:"-"`
+
+	// The OCIDs of the subnets used for Kubernetes services load balancers.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:refFieldName=ServiceLBSubnetIdsRef
+	// +crossplane:generate:reference:selectorFieldName=ServiceLBSubnetIDSelector
+	ServiceLBSubnetIds []*string `json:"serviceLbSubnetIds,omitempty" tf:"service_lb_subnet_ids,omitempty"`
+
+	// References to Subnet in core to populate serviceLbSubnetIds.
+	// +kubebuilder:validation:Optional
+	ServiceLBSubnetIdsRef []v1.Reference `json:"serviceLbSubnetIdsRef,omitempty" tf:"-"`
+}
+
 type OptionsObservation struct {
+
+	// Configurable cluster add-ons
+	AddOns []AddOnsObservation `json:"addOns,omitempty" tf:"add_ons,omitempty"`
+
+	// (Updatable) Configurable cluster admission controllers
+	AdmissionControllerOptions []AdmissionControllerOptionsObservation `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
+
+	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
+
+	// Network configuration for Kubernetes.
+	KubernetesNetworkConfig []KubernetesNetworkConfigObservation `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
+
+	OpenIDConnectDiscovery []OpenIDConnectDiscoveryObservation `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
+
+	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigObservation `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
+
+	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
+	PersistentVolumeConfig []PersistentVolumeConfigObservation `json:"persistentVolumeConfig,omitempty" tf:"persistent_volume_config,omitempty"`
+
+	// (Updatable) Configuration to be applied to load balancers created by Kubernetes services
+	ServiceLBConfig []ServiceLBConfigObservation `json:"serviceLbConfig,omitempty" tf:"service_lb_config,omitempty"`
+
+	// The OCIDs of the subnets used for Kubernetes services load balancers.
+	ServiceLBSubnetIds []*string `json:"serviceLbSubnetIds,omitempty" tf:"service_lb_subnet_ids,omitempty"`
 }
 
 type OptionsParameters struct {
@@ -275,9 +664,18 @@ type OptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AdmissionControllerOptions []AdmissionControllerOptionsParameters `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
+
 	// Network configuration for Kubernetes.
 	// +kubebuilder:validation:Optional
 	KubernetesNetworkConfig []KubernetesNetworkConfigParameters `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OpenIDConnectDiscovery []OpenIDConnectDiscoveryParameters `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigParameters `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
 
 	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
 	// +kubebuilder:validation:Optional
@@ -303,31 +701,94 @@ type OptionsParameters struct {
 	ServiceLBSubnetIdsRef []v1.Reference `json:"serviceLbSubnetIdsRef,omitempty" tf:"-"`
 }
 
+type PersistentVolumeConfigInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+}
+
 type PersistentVolumeConfigObservation struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 }
 
 type PersistentVolumeConfigParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+}
+
+type RequiredClaimsInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequiredClaimsObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequiredClaimsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ServiceLBConfigInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 }
 
 type ServiceLBConfigObservation struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 }
 
 type ServiceLBConfigParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 }
 
@@ -335,6 +796,17 @@ type ServiceLBConfigParameters struct {
 type ClusterSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ClusterParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ClusterInitParameters `json:"initProvider,omitempty"`
 }
 
 // ClusterStatus defines the observed state of Cluster.
@@ -344,19 +816,22 @@ type ClusterStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Cluster is the Schema for the Clusters API. Provides the Cluster resource in Oracle Cloud Infrastructure Container Engine service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ClusterSpec   `json:"spec"`
-	Status            ClusterStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.kubernetesVersion) || (has(self.initProvider) && has(self.initProvider.kubernetesVersion))",message="spec.forProvider.kubernetesVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   ClusterSpec   `json:"spec"`
+	Status ClusterStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -13,26 +13,212 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdvancedOptionsInitParameters struct {
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type AdvancedOptionsObservation struct {
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type AdvancedOptionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type AllowListInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type AllowListObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type AllowListParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type ApplicationConfigurationsInitParameters struct {
+
+	// (Updatable) Logging destination object.
+	Destination []DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	Source []ApplicationConfigurationsSourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+
+	// (Updatable)
+	Sources []SourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	UnifiedAgentConfigurationFilter []UnifiedAgentConfigurationFilterInitParameters `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
+}
+
+type ApplicationConfigurationsObservation struct {
+
+	// (Updatable) Logging destination object.
+	Destination []DestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	Source []ApplicationConfigurationsSourceObservation `json:"source,omitempty" tf:"source,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+
+	// (Updatable)
+	Sources []SourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	UnifiedAgentConfigurationFilter []UnifiedAgentConfigurationFilterObservation `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
+}
+
+type ApplicationConfigurationsParameters struct {
+
+	// (Updatable) Logging destination object.
+	// +kubebuilder:validation:Optional
+	Destination []DestinationParameters `json:"destination" tf:"destination,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Source []ApplicationConfigurationsSourceParameters `json:"source,omitempty" tf:"source,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	// +kubebuilder:validation:Optional
+	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
+
+	// (Updatable)
+	// +kubebuilder:validation:Optional
+	Sources []SourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UnifiedAgentConfigurationFilter []UnifiedAgentConfigurationFilterParameters `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
+}
+
+type ApplicationConfigurationsSourceInitParameters struct {
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ScrapeTargets []ScrapeTargetsInitParameters `json:"scrapeTargets,omitempty" tf:"scrape_targets,omitempty"`
+}
+
+type ApplicationConfigurationsSourceObservation struct {
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ScrapeTargets []ScrapeTargetsObservation `json:"scrapeTargets,omitempty" tf:"scrape_targets,omitempty"`
+}
+
+type ApplicationConfigurationsSourceParameters struct {
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ScrapeTargets []ScrapeTargetsParameters `json:"scrapeTargets,omitempty" tf:"scrape_targets,omitempty"`
+}
+
+type CustomSectionsInitParameters struct {
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+}
+
+type CustomSectionsObservation struct {
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+}
+
+type CustomSectionsParameters struct {
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+}
+
+type DenyListInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type DenyListObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type DenyListParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The grok pattern.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type DestinationInitParameters struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	MetricsNamespace *string `json:"metricsNamespace,omitempty" tf:"metrics_namespace,omitempty"`
+}
+
 type DestinationObservation struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	MetricsNamespace *string `json:"metricsNamespace,omitempty" tf:"metrics_namespace,omitempty"`
 }
 
 type DestinationParameters struct {
 
-	// (Updatable) The OCID of the resource.
-	// +crossplane:generate:reference:type=Log
+	// (Updatable) The OCID of the compartment that the resource belongs to.
 	// +kubebuilder:validation:Optional
-	LogObjectID *string `json:"logObjectId,omitempty" tf:"log_object_id,omitempty"`
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// Reference to a Log to populate logObjectId.
 	// +kubebuilder:validation:Optional
-	LogObjectIDRef *v1.Reference `json:"logObjectIdRef,omitempty" tf:"-"`
+	MetricsNamespace *string `json:"metricsNamespace,omitempty" tf:"metrics_namespace,omitempty"`
+}
 
-	// Selector for a Log to populate logObjectId.
-	// +kubebuilder:validation:Optional
-	LogObjectIDSelector *v1.Selector `json:"logObjectIdSelector,omitempty" tf:"-"`
+type GroupAssociationInitParameters struct {
+
+	// (Updatable) list of group/dynamic group ids associated with this configuration.
+	GroupList []*string `json:"groupList,omitempty" tf:"group_list,omitempty"`
 }
 
 type GroupAssociationObservation struct {
+
+	// (Updatable) list of group/dynamic group ids associated with this configuration.
+	GroupList []*string `json:"groupList,omitempty" tf:"group_list,omitempty"`
 }
 
 type GroupAssociationParameters struct {
@@ -42,7 +228,383 @@ type GroupAssociationParameters struct {
 	GroupList []*string `json:"groupList,omitempty" tf:"group_list,omitempty"`
 }
 
+type NestedParserInitParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type NestedParserObservation struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type NestedParserParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type OperationalMetricsConfigurationDestinationInitParameters struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+}
+
+type OperationalMetricsConfigurationDestinationObservation struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+}
+
+type OperationalMetricsConfigurationDestinationParameters struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+}
+
+type OperationalMetricsConfigurationInitParameters struct {
+
+	// (Updatable) Logging destination object.
+	Destination []OperationalMetricsConfigurationDestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	Source []OperationalMetricsConfigurationSourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+}
+
+type OperationalMetricsConfigurationObservation struct {
+
+	// (Updatable) Logging destination object.
+	Destination []OperationalMetricsConfigurationDestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	Source []OperationalMetricsConfigurationSourceObservation `json:"source,omitempty" tf:"source,omitempty"`
+}
+
+type OperationalMetricsConfigurationParameters struct {
+
+	// (Updatable) Logging destination object.
+	// +kubebuilder:validation:Optional
+	Destination []OperationalMetricsConfigurationDestinationParameters `json:"destination" tf:"destination,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Source []OperationalMetricsConfigurationSourceParameters `json:"source" tf:"source,omitempty"`
+}
+
+type OperationalMetricsConfigurationSourceInitParameters struct {
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
+
+	RecordInput []SourceRecordInputInitParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type OperationalMetricsConfigurationSourceObservation struct {
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
+
+	RecordInput []SourceRecordInputObservation `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type OperationalMetricsConfigurationSourceParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RecordInput []SourceRecordInputParameters `json:"recordInput" tf:"record_input,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type ParserInitParameters struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []NestedParserInitParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []PatternsInitParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []RecordInputInitParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type ParserNestedParserInitParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type ParserNestedParserObservation struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type ParserNestedParserParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
 type ParserObservation struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []NestedParserObservation `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []PatternsObservation `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []RecordInputObservation `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
 }
 
 type ParserParameters struct {
@@ -83,6 +645,9 @@ type ParserParameters struct {
 	// +kubebuilder:validation:Optional
 	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
 	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
 	// +kubebuilder:validation:Optional
 	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
@@ -111,21 +676,34 @@ type ParserParameters struct {
 	// +kubebuilder:validation:Optional
 	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
 
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// +kubebuilder:validation:Optional
+	NestedParser []NestedParserParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
 	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
 	// +kubebuilder:validation:Optional
 	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
 	// (Updatable) Type of fluent parser.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ParserType *string `json:"parserType" tf:"parser_type,omitempty"`
 
 	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
 	// +kubebuilder:validation:Optional
 	Patterns []PatternsParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	RecordInput []RecordInputParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
 	// (Applicable when parser_type=SYSLOG) (Updatable)
 	// +kubebuilder:validation:Optional
 	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
 
 	// (Applicable when parser_type=SYSLOG) (Updatable)
 	// +kubebuilder:validation:Optional
@@ -145,10 +723,136 @@ type ParserParameters struct {
 
 	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
 }
 
+type ParserPatternsInitParameters struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type ParserPatternsObservation struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type ParserPatternsParameters struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	// +kubebuilder:validation:Optional
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	// +kubebuilder:validation:Optional
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type ParserRecordInputInitParameters struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type ParserRecordInputObservation struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type ParserRecordInputParameters struct {
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type PatternsInitParameters struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
 type PatternsObservation struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type PatternsParameters struct {
@@ -174,32 +878,541 @@ type PatternsParameters struct {
 	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
+type RecordInputInitParameters struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type RecordInputObservation struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type RecordInputParameters struct {
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type RecordListInitParameters struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RecordListObservation struct {
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RecordListParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ScrapeTargetsInitParameters struct {
+	K8SNamespace *string `json:"k8sNamespace,omitempty" tf:"k8s_namespace,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
+
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type ScrapeTargetsObservation struct {
+	K8SNamespace *string `json:"k8sNamespace,omitempty" tf:"k8s_namespace,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
+
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type ScrapeTargetsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	K8SNamespace *string `json:"k8sNamespace,omitempty" tf:"k8s_namespace,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	// +kubebuilder:validation:Optional
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type ServiceConfigurationDestinationInitParameters struct {
+
+	// (Updatable) The OCID of the resource.
+	// +crossplane:generate:reference:type=Log
+	LogObjectID *string `json:"logObjectId,omitempty" tf:"log_object_id,omitempty"`
+
+	// Reference to a Log to populate logObjectId.
+	// +kubebuilder:validation:Optional
+	LogObjectIDRef *v1.Reference `json:"logObjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Log to populate logObjectId.
+	// +kubebuilder:validation:Optional
+	LogObjectIDSelector *v1.Selector `json:"logObjectIdSelector,omitempty" tf:"-"`
+
+	OperationalMetricsConfiguration []OperationalMetricsConfigurationInitParameters `json:"operationalMetricsConfiguration,omitempty" tf:"operational_metrics_configuration,omitempty"`
+}
+
+type ServiceConfigurationDestinationObservation struct {
+
+	// (Updatable) The OCID of the resource.
+	LogObjectID *string `json:"logObjectId,omitempty" tf:"log_object_id,omitempty"`
+
+	OperationalMetricsConfiguration []OperationalMetricsConfigurationObservation `json:"operationalMetricsConfiguration,omitempty" tf:"operational_metrics_configuration,omitempty"`
+}
+
+type ServiceConfigurationDestinationParameters struct {
+
+	// (Updatable) The OCID of the resource.
+	// +crossplane:generate:reference:type=Log
+	// +kubebuilder:validation:Optional
+	LogObjectID *string `json:"logObjectId,omitempty" tf:"log_object_id,omitempty"`
+
+	// Reference to a Log to populate logObjectId.
+	// +kubebuilder:validation:Optional
+	LogObjectIDRef *v1.Reference `json:"logObjectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Log to populate logObjectId.
+	// +kubebuilder:validation:Optional
+	LogObjectIDSelector *v1.Selector `json:"logObjectIdSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	OperationalMetricsConfiguration []OperationalMetricsConfigurationParameters `json:"operationalMetricsConfiguration,omitempty" tf:"operational_metrics_configuration,omitempty"`
+}
+
+type ServiceConfigurationInitParameters struct {
+	ApplicationConfigurations []ApplicationConfigurationsInitParameters `json:"applicationConfigurations,omitempty" tf:"application_configurations,omitempty"`
+
+	// (Updatable) Type of Unified Agent service configuration.
+	ConfigurationType *string `json:"configurationType,omitempty" tf:"configuration_type,omitempty"`
+
+	// (Updatable) Logging destination object.
+	Destination []ServiceConfigurationDestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// (Updatable)
+	Sources []ServiceConfigurationSourcesInitParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	UnifiedAgentConfigurationFilter []ServiceConfigurationUnifiedAgentConfigurationFilterInitParameters `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
+}
+
 type ServiceConfigurationObservation struct {
+	ApplicationConfigurations []ApplicationConfigurationsObservation `json:"applicationConfigurations,omitempty" tf:"application_configurations,omitempty"`
+
+	// (Updatable) Type of Unified Agent service configuration.
+	ConfigurationType *string `json:"configurationType,omitempty" tf:"configuration_type,omitempty"`
+
+	// (Updatable) Logging destination object.
+	Destination []ServiceConfigurationDestinationObservation `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// (Updatable)
+	Sources []ServiceConfigurationSourcesObservation `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	UnifiedAgentConfigurationFilter []ServiceConfigurationUnifiedAgentConfigurationFilterObservation `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
 }
 
 type ServiceConfigurationParameters struct {
 
+	// +kubebuilder:validation:Optional
+	ApplicationConfigurations []ApplicationConfigurationsParameters `json:"applicationConfigurations,omitempty" tf:"application_configurations,omitempty"`
+
 	// (Updatable) Type of Unified Agent service configuration.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ConfigurationType *string `json:"configurationType" tf:"configuration_type,omitempty"`
 
 	// (Updatable) Logging destination object.
-	// +kubebuilder:validation:Required
-	Destination []DestinationParameters `json:"destination" tf:"destination,omitempty"`
+	// +kubebuilder:validation:Optional
+	Destination []ServiceConfigurationDestinationParameters `json:"destination,omitempty" tf:"destination,omitempty"`
 
 	// (Updatable)
-	// +kubebuilder:validation:Required
-	Sources []SourcesParameters `json:"sources" tf:"sources,omitempty"`
+	// +kubebuilder:validation:Optional
+	Sources []ServiceConfigurationSourcesParameters `json:"sources,omitempty" tf:"sources,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UnifiedAgentConfigurationFilter []ServiceConfigurationUnifiedAgentConfigurationFilterParameters `json:"unifiedAgentConfigurationFilter,omitempty" tf:"unified_agent_configuration_filter,omitempty"`
 }
 
-type SourcesObservation struct {
+type ServiceConfigurationSourcesInitParameters struct {
+	AdvancedOptions []SourcesAdvancedOptionsInitParameters `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
+
+	// (Applicable when source_type=WINDOWS_EVENT_LOG) (Updatable)
+	Channels []*string `json:"channels,omitempty" tf:"channels,omitempty"`
+
+	CustomPlugin *string `json:"customPlugin,omitempty" tf:"custom_plugin,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []SourcesParserInitParameters `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
-type SourcesParameters struct {
+type ServiceConfigurationSourcesObservation struct {
+	AdvancedOptions []SourcesAdvancedOptionsObservation `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
+
+	// (Applicable when source_type=WINDOWS_EVENT_LOG) (Updatable)
+	Channels []*string `json:"channels,omitempty" tf:"channels,omitempty"`
+
+	CustomPlugin *string `json:"customPlugin,omitempty" tf:"custom_plugin,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []SourcesParserObservation `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
+type ServiceConfigurationSourcesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AdvancedOptions []SourcesAdvancedOptionsParameters `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
 
 	// (Applicable when source_type=WINDOWS_EVENT_LOG) (Updatable)
 	// +kubebuilder:validation:Optional
 	Channels []*string `json:"channels,omitempty" tf:"channels,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomPlugin *string `json:"customPlugin,omitempty" tf:"custom_plugin,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// +kubebuilder:validation:Optional
+	Parser []SourcesParserParameters `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	// +kubebuilder:validation:Optional
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	// +kubebuilder:validation:Optional
+	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
+}
+
+type ServiceConfigurationUnifiedAgentConfigurationFilterInitParameters struct {
+	AllowList []AllowListInitParameters `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	CustomFilterType *string `json:"customFilterType,omitempty" tf:"custom_filter_type,omitempty"`
+
+	CustomSections []CustomSectionsInitParameters `json:"customSections,omitempty" tf:"custom_sections,omitempty"`
+
+	DenyList []DenyListInitParameters `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	EmitInvalidRecordToError *bool `json:"emitInvalidRecordToError,omitempty" tf:"emit_invalid_record_to_error,omitempty"`
+
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	HashValueField *string `json:"hashValueField,omitempty" tf:"hash_value_field,omitempty"`
+
+	InjectKeyPrefix *string `json:"injectKeyPrefix,omitempty" tf:"inject_key_prefix,omitempty"`
+
+	IsAutoTypecastEnabled *bool `json:"isAutoTypecastEnabled,omitempty" tf:"is_auto_typecast_enabled,omitempty"`
+
+	IsRenewRecordEnabled *bool `json:"isRenewRecordEnabled,omitempty" tf:"is_renew_record_enabled,omitempty"`
+
+	IsRubyEnabled *bool `json:"isRubyEnabled,omitempty" tf:"is_ruby_enabled,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	KeepKeys []*string `json:"keepKeys,omitempty" tf:"keep_keys,omitempty"`
+
+	// (Updatable) unique name for the source
+	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []UnifiedAgentConfigurationFilterParserInitParameters `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	RecordList []RecordListInitParameters `json:"recordList,omitempty" tf:"record_list,omitempty"`
+
+	RemoveKeyNameField *bool `json:"removeKeyNameField,omitempty" tf:"remove_key_name_field,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	RemoveKeys []*string `json:"removeKeys,omitempty" tf:"remove_keys,omitempty"`
+
+	RenewTimeKey *string `json:"renewTimeKey,omitempty" tf:"renew_time_key,omitempty"`
+
+	ReplaceInvalidSequence *bool `json:"replaceInvalidSequence,omitempty" tf:"replace_invalid_sequence,omitempty"`
+
+	ReserveData *bool `json:"reserveData,omitempty" tf:"reserve_data,omitempty"`
+
+	ReserveTime *bool `json:"reserveTime,omitempty" tf:"reserve_time,omitempty"`
+}
+
+type ServiceConfigurationUnifiedAgentConfigurationFilterObservation struct {
+	AllowList []AllowListObservation `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	CustomFilterType *string `json:"customFilterType,omitempty" tf:"custom_filter_type,omitempty"`
+
+	CustomSections []CustomSectionsObservation `json:"customSections,omitempty" tf:"custom_sections,omitempty"`
+
+	DenyList []DenyListObservation `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	EmitInvalidRecordToError *bool `json:"emitInvalidRecordToError,omitempty" tf:"emit_invalid_record_to_error,omitempty"`
+
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	HashValueField *string `json:"hashValueField,omitempty" tf:"hash_value_field,omitempty"`
+
+	InjectKeyPrefix *string `json:"injectKeyPrefix,omitempty" tf:"inject_key_prefix,omitempty"`
+
+	IsAutoTypecastEnabled *bool `json:"isAutoTypecastEnabled,omitempty" tf:"is_auto_typecast_enabled,omitempty"`
+
+	IsRenewRecordEnabled *bool `json:"isRenewRecordEnabled,omitempty" tf:"is_renew_record_enabled,omitempty"`
+
+	IsRubyEnabled *bool `json:"isRubyEnabled,omitempty" tf:"is_ruby_enabled,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	KeepKeys []*string `json:"keepKeys,omitempty" tf:"keep_keys,omitempty"`
+
+	// (Updatable) unique name for the source
+	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []UnifiedAgentConfigurationFilterParserObservation `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	RecordList []RecordListObservation `json:"recordList,omitempty" tf:"record_list,omitempty"`
+
+	RemoveKeyNameField *bool `json:"removeKeyNameField,omitempty" tf:"remove_key_name_field,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	RemoveKeys []*string `json:"removeKeys,omitempty" tf:"remove_keys,omitempty"`
+
+	RenewTimeKey *string `json:"renewTimeKey,omitempty" tf:"renew_time_key,omitempty"`
+
+	ReplaceInvalidSequence *bool `json:"replaceInvalidSequence,omitempty" tf:"replace_invalid_sequence,omitempty"`
+
+	ReserveData *bool `json:"reserveData,omitempty" tf:"reserve_data,omitempty"`
+
+	ReserveTime *bool `json:"reserveTime,omitempty" tf:"reserve_time,omitempty"`
+}
+
+type ServiceConfigurationUnifiedAgentConfigurationFilterParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AllowList []AllowListParameters `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomFilterType *string `json:"customFilterType,omitempty" tf:"custom_filter_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomSections []CustomSectionsParameters `json:"customSections,omitempty" tf:"custom_sections,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DenyList []DenyListParameters `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EmitInvalidRecordToError *bool `json:"emitInvalidRecordToError,omitempty" tf:"emit_invalid_record_to_error,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FilterType *string `json:"filterType" tf:"filter_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HashValueField *string `json:"hashValueField,omitempty" tf:"hash_value_field,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InjectKeyPrefix *string `json:"injectKeyPrefix,omitempty" tf:"inject_key_prefix,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsAutoTypecastEnabled *bool `json:"isAutoTypecastEnabled,omitempty" tf:"is_auto_typecast_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsRenewRecordEnabled *bool `json:"isRenewRecordEnabled,omitempty" tf:"is_renew_record_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsRubyEnabled *bool `json:"isRubyEnabled,omitempty" tf:"is_ruby_enabled,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	KeepKeys []*string `json:"keepKeys,omitempty" tf:"keep_keys,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// +kubebuilder:validation:Optional
+	Parser []UnifiedAgentConfigurationFilterParserParameters `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RecordList []RecordListParameters `json:"recordList,omitempty" tf:"record_list,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RemoveKeyNameField *bool `json:"removeKeyNameField,omitempty" tf:"remove_key_name_field,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	RemoveKeys []*string `json:"removeKeys,omitempty" tf:"remove_keys,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RenewTimeKey *string `json:"renewTimeKey,omitempty" tf:"renew_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReplaceInvalidSequence *bool `json:"replaceInvalidSequence,omitempty" tf:"replace_invalid_sequence,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReserveData *bool `json:"reserveData,omitempty" tf:"reserve_data,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ReserveTime *bool `json:"reserveTime,omitempty" tf:"reserve_time,omitempty"`
+}
+
+type SourceRecordInputInitParameters struct {
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type SourceRecordInputObservation struct {
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type SourceRecordInputParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type SourcesAdvancedOptionsInitParameters struct {
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type SourcesAdvancedOptionsObservation struct {
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type SourcesAdvancedOptionsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	IsReadFromHead *bool `json:"isReadFromHead,omitempty" tf:"is_read_from_head,omitempty"`
+}
+
+type SourcesInitParameters struct {
+	AdvancedOptions []AdvancedOptionsInitParameters `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []ParserInitParameters `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
+type SourcesObservation struct {
+	AdvancedOptions []AdvancedOptionsObservation `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	Parser []ParserObservation `json:"parser,omitempty" tf:"parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable)
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// (Updatable) Unified schema logging source type.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
+type SourcesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AdvancedOptions []AdvancedOptionsParameters `json:"advancedOptions,omitempty" tf:"advanced_options,omitempty"`
 
 	// (Updatable) unique name for the source
 	// +kubebuilder:validation:Optional
@@ -214,17 +1427,874 @@ type SourcesParameters struct {
 	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
 
 	// (Updatable) Unified schema logging source type.
-	// +kubebuilder:validation:Required
-	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
+type SourcesParserInitParameters struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []ParserNestedParserInitParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []ParserPatternsInitParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []ParserRecordInputInitParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type SourcesParserObservation struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []ParserNestedParserObservation `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []ParserPatternsObservation `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []ParserRecordInputObservation `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type SourcesParserParameters struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// +kubebuilder:validation:Optional
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// +kubebuilder:validation:Optional
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// +kubebuilder:validation:Optional
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	// +kubebuilder:validation:Optional
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	// +kubebuilder:validation:Optional
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// +kubebuilder:validation:Optional
+	NestedParser []ParserNestedParserParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	// +kubebuilder:validation:Optional
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	// +kubebuilder:validation:Optional
+	ParserType *string `json:"parserType" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	Patterns []ParserPatternsParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RecordInput []ParserRecordInputParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	// +kubebuilder:validation:Optional
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterInitParameters struct {
+	AllowList []*string `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	DenyList []*string `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterObservation struct {
+	AllowList []*string `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	DenyList []*string `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AllowList []*string `json:"allowList,omitempty" tf:"allow_list,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DenyList []*string `json:"denyList,omitempty" tf:"deny_list,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserInitParameters struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []UnifiedAgentConfigurationFilterParserNestedParserInitParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []UnifiedAgentConfigurationFilterParserPatternsInitParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []UnifiedAgentConfigurationFilterParserRecordInputInitParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserNestedParserInitParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserNestedParserObservation struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserNestedParserParameters struct {
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserObservation struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	NestedParser []UnifiedAgentConfigurationFilterParserNestedParserObservation `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	ParserType *string `json:"parserType,omitempty" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	Patterns []UnifiedAgentConfigurationFilterParserPatternsObservation `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	RecordInput []UnifiedAgentConfigurationFilterParserRecordInputObservation `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserParameters struct {
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// (Applicable when parser_type=REGEXP) (Updatable)
+	// +kubebuilder:validation:Optional
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// +kubebuilder:validation:Optional
+	Format []*string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE) (Updatable)
+	// +kubebuilder:validation:Optional
+	FormatFirstline *string `json:"formatFirstline,omitempty" tf:"format_firstline,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	GrokFailureKey *string `json:"grokFailureKey,omitempty" tf:"grok_failure_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	GrokNameKey *string `json:"grokNameKey,omitempty" tf:"grok_name_key,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// +kubebuilder:validation:Optional
+	IsEstimateCurrentEvent *bool `json:"isEstimateCurrentEvent,omitempty" tf:"is_estimate_current_event,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, keep time field in the record.
+	// +kubebuilder:validation:Optional
+	IsKeepTimeKey *bool `json:"isKeepTimeKey,omitempty" tf:"is_keep_time_key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsMergeCriFields *bool `json:"isMergeCriFields,omitempty" tf:"is_merge_cri_fields,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) If true, an empty string field is replaced with nil.
+	// +kubebuilder:validation:Optional
+	IsNullEmptyString *bool `json:"isNullEmptyString,omitempty" tf:"is_null_empty_string,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	IsSupportColonlessIdent *bool `json:"isSupportColonlessIdent,omitempty" tf:"is_support_colonless_ident,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	IsWithPriority *bool `json:"isWithPriority,omitempty" tf:"is_with_priority,omitempty"`
+
+	// (Applicable when parser_type=CSV | TSV) (Updatable)
+	// +kubebuilder:validation:Optional
+	Keys []*string `json:"keys,omitempty" tf:"keys,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// (Applicable when parser_type=NONE) (Updatable)
+	// +kubebuilder:validation:Optional
+	MessageKey *string `json:"messageKey,omitempty" tf:"message_key,omitempty"`
+
+	// (Applicable when parser_type=MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	MultiLineStartRegexp *string `json:"multiLineStartRegexp,omitempty" tf:"multi_line_start_regexp,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) source parser object.
+	// +kubebuilder:validation:Optional
+	NestedParser []UnifiedAgentConfigurationFilterParserNestedParserParameters `json:"nestedParser,omitempty" tf:"nested_parser,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the null value pattern.
+	// +kubebuilder:validation:Optional
+	NullValuePattern *string `json:"nullValuePattern,omitempty" tf:"null_value_pattern,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParseNested *bool `json:"parseNested,omitempty" tf:"parse_nested,omitempty"`
+
+	// (Updatable) Type of fluent parser.
+	// +kubebuilder:validation:Optional
+	ParserType *string `json:"parserType" tf:"parser_type,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable)
+	// +kubebuilder:validation:Optional
+	Patterns []UnifiedAgentConfigurationFilterParserPatternsParameters `json:"patterns,omitempty" tf:"patterns,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RecordInput []UnifiedAgentConfigurationFilterParserRecordInputParameters `json:"recordInput,omitempty" tf:"record_input,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	Rfc5424TimeFormat *string `json:"rfc5424timeFormat,omitempty" tf:"rfc5424time_format,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Separator *string `json:"separator,omitempty" tf:"separator,omitempty"`
+
+	// (Applicable when parser_type=SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	SyslogParserType *string `json:"syslogParserType,omitempty" tf:"syslog_parser_type,omitempty"`
+
+	// (Applicable when parser_type=JSON | REGEXP | SYSLOG) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeFormat *string `json:"timeFormat,omitempty" tf:"time_format,omitempty"`
+
+	// (Applicable when parser_type=JSON) (Updatable)
+	// +kubebuilder:validation:Optional
+	TimeType *string `json:"timeType,omitempty" tf:"time_type,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
+	// +kubebuilder:validation:Optional
+	TimeoutInMilliseconds *float64 `json:"timeoutInMilliseconds,omitempty" tf:"timeout_in_milliseconds,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify types for converting a field into another type.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Types map[string]*string `json:"types,omitempty" tf:"types,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserPatternsInitParameters struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserPatternsObservation struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserPatternsParameters struct {
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Process value using the specified format. This is available only when time_type is a string.
+	// +kubebuilder:validation:Optional
+	FieldTimeFormat *string `json:"fieldTimeFormat,omitempty" tf:"field_time_format,omitempty"`
+
+	// (Applicable when source_type=LOG_TAIL) (Updatable) Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// +kubebuilder:validation:Optional
+	FieldTimeKey *string `json:"fieldTimeKey,omitempty" tf:"field_time_key,omitempty"`
+
+	// (Applicable when parser_type=GROK | MULTILINE_GROK) (Updatable) Use the specified time zone. The time value can be parsed or formatted in the specified time zone.
+	// +kubebuilder:validation:Optional
+	FieldTimeZone *string `json:"fieldTimeZone,omitempty" tf:"field_time_zone,omitempty"`
+
+	// (Updatable) unique name for the source
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The grok pattern.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserRecordInputInitParameters struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserRecordInputObservation struct {
+
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type UnifiedAgentConfigurationFilterParserRecordInputParameters struct {
+
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceGroup *string `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
+}
+
+type UnifiedAgentConfigurationInitParameters struct {
+
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Description for this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Groups using the configuration.
+	GroupAssociation []GroupAssociationInitParameters `json:"groupAssociation,omitempty" tf:"group_association,omitempty"`
+
+	// (Updatable) Whether or not this resource is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) Top level Unified Agent service configuration object.
+	ServiceConfiguration []ServiceConfigurationInitParameters `json:"serviceConfiguration,omitempty" tf:"service_configuration,omitempty"`
 }
 
 type UnifiedAgentConfigurationObservation struct {
 
+	// (Updatable) The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
 	// State of unified agent service configuration.
 	ConfigurationState *string `json:"configurationState,omitempty" tf:"configuration_state,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Description for this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Groups using the configuration.
+	GroupAssociation []GroupAssociationObservation `json:"groupAssociation,omitempty" tf:"group_association,omitempty"`
+
 	// The OCID of the resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) Whether or not this resource is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) Top level Unified Agent service configuration object.
+	ServiceConfiguration []ServiceConfigurationObservation `json:"serviceConfiguration,omitempty" tf:"service_configuration,omitempty"`
 
 	// The pipeline state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -253,6 +2323,7 @@ type UnifiedAgentConfigurationParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Description for this resource.
@@ -265,6 +2336,7 @@ type UnifiedAgentConfigurationParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Groups using the configuration.
@@ -272,18 +2344,29 @@ type UnifiedAgentConfigurationParameters struct {
 	GroupAssociation []GroupAssociationParameters `json:"groupAssociation,omitempty" tf:"group_association,omitempty"`
 
 	// (Updatable) Whether or not this resource is currently enabled.
-	// +kubebuilder:validation:Required
-	IsEnabled *bool `json:"isEnabled" tf:"is_enabled,omitempty"`
+	// +kubebuilder:validation:Optional
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
 	// (Updatable) Top level Unified Agent service configuration object.
-	// +kubebuilder:validation:Required
-	ServiceConfiguration []ServiceConfigurationParameters `json:"serviceConfiguration" tf:"service_configuration,omitempty"`
+	// +kubebuilder:validation:Optional
+	ServiceConfiguration []ServiceConfigurationParameters `json:"serviceConfiguration,omitempty" tf:"service_configuration,omitempty"`
 }
 
 // UnifiedAgentConfigurationSpec defines the desired state of UnifiedAgentConfiguration
 type UnifiedAgentConfigurationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     UnifiedAgentConfigurationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider UnifiedAgentConfigurationInitParameters `json:"initProvider,omitempty"`
 }
 
 // UnifiedAgentConfigurationStatus defines the observed state of UnifiedAgentConfiguration.
@@ -293,19 +2376,24 @@ type UnifiedAgentConfigurationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // UnifiedAgentConfiguration is the Schema for the UnifiedAgentConfigurations API. Provides the Unified Agent Configuration resource in Oracle Cloud Infrastructure Logging service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type UnifiedAgentConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UnifiedAgentConfigurationSpec   `json:"spec"`
-	Status            UnifiedAgentConfigurationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.isEnabled) || (has(self.initProvider) && has(self.initProvider.isEnabled))",message="spec.forProvider.isEnabled is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.serviceConfiguration) || (has(self.initProvider) && has(self.initProvider.serviceConfiguration))",message="spec.forProvider.serviceConfiguration is a required parameter"
+	Spec   UnifiedAgentConfigurationSpec   `json:"spec"`
+	Status UnifiedAgentConfigurationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

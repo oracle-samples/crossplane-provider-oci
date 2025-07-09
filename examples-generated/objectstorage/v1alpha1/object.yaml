@@ -1,0 +1,25 @@
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: Object
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/object
+  labels:
+    testing.upbound.io/example-name: test_object
+  name: test-object
+spec:
+  forProvider:
+    bucket: ${var.object_bucket}
+    cacheControl: ${var.object_cache_control}
+    content: ${var.object_content}
+    contentDisposition: ${var.object_content_disposition}
+    contentEncoding: ${var.object_content_encoding}
+    contentLanguage: ${var.object_content_language}
+    contentType: ${var.object_content_type}
+    deleteAllObjectVersions: ${var.object_delete_all_object_versions}
+    metadata: ${var.object_metadata}
+    namespace: ${var.object_namespace}
+    object: ${var.object_object}
+    opcSseKmsKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    storageTier: ${var.object_storage_tier}

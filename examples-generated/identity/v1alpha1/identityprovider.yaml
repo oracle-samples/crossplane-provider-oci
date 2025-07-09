@@ -1,0 +1,24 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: IdentityProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identity/v1alpha1/identityprovider
+  labels:
+    testing.upbound.io/example-name: test_identity_provider
+  name: test-identity-provider
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.identity_provider_description}
+    freeformAttributes: ${var.identity_provider_freeform_attributes}
+    freeformTags:
+      Department: Finance
+    metadata: ${var.identity_provider_metadata}
+    metadataUrl: ${var.identity_provider_metadata_url}
+    name: ${var.identity_provider_name}
+    productType: ${var.identity_provider_product_type}
+    protocol: ${var.identity_provider_protocol}

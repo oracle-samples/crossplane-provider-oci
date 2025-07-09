@@ -1,0 +1,24 @@
+apiVersion: kms.oci.upbound.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/key
+  labels:
+    testing.upbound.io/example-name: test_key
+  name: test-key
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.key_display_name}
+    freeformTags:
+      Department: Finance
+    keyShape:
+    - algorithm: ${var.key_key_shape_algorithm}
+      curveId: ${oci_kms_curve.test_curve.id}
+      length: ${var.key_key_shape_length}
+    managementEndpoint: ${var.key_management_endpoint}
+    protectionMode: ${var.key_protection_mode}

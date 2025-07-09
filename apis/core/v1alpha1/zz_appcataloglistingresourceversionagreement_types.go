@@ -13,12 +13,27 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AppCatalogListingResourceVersionAgreementInitParameters struct {
+
+	// The OCID of the listing.
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
+
+	// Listing Resource Version.
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
+}
+
 type AppCatalogListingResourceVersionAgreementObservation struct {
 
 	// EULA link
 	EulaLink *string `json:"eulaLink,omitempty" tf:"eula_link,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the listing.
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
+
+	// Listing Resource Version.
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
 
 	// Oracle TOU link
 	OracleTermsOfUseLink *string `json:"oracleTermsOfUseLink,omitempty" tf:"oracle_terms_of_use_link,omitempty"`
@@ -33,18 +48,29 @@ type AppCatalogListingResourceVersionAgreementObservation struct {
 type AppCatalogListingResourceVersionAgreementParameters struct {
 
 	// The OCID of the listing.
-	// +kubebuilder:validation:Required
-	ListingID *string `json:"listingId" tf:"listing_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
 
 	// Listing Resource Version.
-	// +kubebuilder:validation:Required
-	ListingResourceVersion *string `json:"listingResourceVersion" tf:"listing_resource_version,omitempty"`
+	// +kubebuilder:validation:Optional
+	ListingResourceVersion *string `json:"listingResourceVersion,omitempty" tf:"listing_resource_version,omitempty"`
 }
 
 // AppCatalogListingResourceVersionAgreementSpec defines the desired state of AppCatalogListingResourceVersionAgreement
 type AppCatalogListingResourceVersionAgreementSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppCatalogListingResourceVersionAgreementParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AppCatalogListingResourceVersionAgreementInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppCatalogListingResourceVersionAgreementStatus defines the observed state of AppCatalogListingResourceVersionAgreement.
@@ -54,19 +80,22 @@ type AppCatalogListingResourceVersionAgreementStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AppCatalogListingResourceVersionAgreement is the Schema for the AppCatalogListingResourceVersionAgreements API. Provides details about a specific AppCatalogListingResourceVersionAgreement
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type AppCatalogListingResourceVersionAgreement struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AppCatalogListingResourceVersionAgreementSpec   `json:"spec"`
-	Status            AppCatalogListingResourceVersionAgreementStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.listingId) || (has(self.initProvider) && has(self.initProvider.listingId))",message="spec.forProvider.listingId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.listingResourceVersion) || (has(self.initProvider) && has(self.initProvider.listingResourceVersion))",message="spec.forProvider.listingResourceVersion is a required parameter"
+	Spec   AppCatalogListingResourceVersionAgreementSpec   `json:"spec"`
+	Status AppCatalogListingResourceVersionAgreementStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

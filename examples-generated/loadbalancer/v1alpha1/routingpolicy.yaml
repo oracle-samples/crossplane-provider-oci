@@ -1,0 +1,23 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: RoutingPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/routingpolicy
+  labels:
+    testing.upbound.io/example-name: test_load_balancer_routing_policy
+  name: test-load-balancer-routing-policy
+spec:
+  forProvider:
+    conditionLanguageVersion: ${var.load_balancer_routing_policy_condition_language_version}
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    name: ${var.load_balancer_routing_policy_name}
+    rules:
+    - actions:
+      - backendSetNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_backend_set
+        name: ${var.load_balancer_routing_policy_rules_actions_name}
+      condition: ${var.load_balancer_routing_policy_rules_condition}
+      name: ${var.load_balancer_routing_policy_rules_name}

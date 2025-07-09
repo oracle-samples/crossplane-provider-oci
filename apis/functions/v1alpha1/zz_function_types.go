@@ -13,16 +13,102 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FunctionInitParameters struct {
+
+	// The OCID of the application this function belongs to.
+	// +crossplane:generate:reference:type=Application
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// Reference to a Application to populate applicationId.
+	// +kubebuilder:validation:Optional
+	ApplicationIDRef *v1.Reference `json:"applicationIdRef,omitempty" tf:"-"`
+
+	// Selector for a Application to populate applicationId.
+	// +kubebuilder:validation:Optional
+	ApplicationIDSelector *v1.Selector `json:"applicationIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Function configuration. These values are passed on to the function as environment variables, this overrides application configuration values. Keys must be ASCII strings consisting solely of letters, digits, and the '_' (underscore) character, and must not begin with a digit. Values should be limited to printable unicode characters.  Example: {"MY_FUNCTION_CONFIG": "ConfVal"}
+	// +mapType=granular
+	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: phx.ocir.io/ten/functions/function:0.0.1
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7
+	ImageDigest *string `json:"imageDigest,omitempty" tf:"image_digest,omitempty"`
+
+	// (Updatable) Maximum usable memory for the function (MiB).
+	MemoryInMbs *string `json:"memoryInMbs,omitempty" tf:"memory_in_mbs,omitempty"`
+
+	// (Updatable) Define the strategy for provisioned concurrency for the function.
+	ProvisionedConcurrencyConfig []ProvisionedConcurrencyConfigInitParameters `json:"provisionedConcurrencyConfig,omitempty" tf:"provisioned_concurrency_config,omitempty"`
+
+	// The source details for the Function. The function can be created from various sources.
+	SourceDetails []SourceDetailsInitParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
+
+	// (Updatable) Timeout for executions of the function. Value in seconds.
+	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
+
+	// (Updatable) Define the tracing configuration for a function.
+	TraceConfig []FunctionTraceConfigInitParameters `json:"traceConfig,omitempty" tf:"trace_config,omitempty"`
+}
+
 type FunctionObservation struct {
+
+	// The OCID of the application this function belongs to.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
 	// The OCID of the compartment that contains the function.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Updatable) Function configuration. These values are passed on to the function as environment variables, this overrides application configuration values. Keys must be ASCII strings consisting solely of letters, digits, and the '_' (underscore) character, and must not begin with a digit. Values should be limited to printable unicode characters.  Example: {"MY_FUNCTION_CONFIG": "ConfVal"}
+	// +mapType=granular
+	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the function.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: phx.ocir.io/ten/functions/function:0.0.1
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7
+	ImageDigest *string `json:"imageDigest,omitempty" tf:"image_digest,omitempty"`
+
 	// The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.
 	InvokeEndpoint *string `json:"invokeEndpoint,omitempty" tf:"invoke_endpoint,omitempty"`
+
+	// (Updatable) Maximum usable memory for the function (MiB).
+	MemoryInMbs *string `json:"memoryInMbs,omitempty" tf:"memory_in_mbs,omitempty"`
+
+	// (Updatable) Define the strategy for provisioned concurrency for the function.
+	ProvisionedConcurrencyConfig []ProvisionedConcurrencyConfigObservation `json:"provisionedConcurrencyConfig,omitempty" tf:"provisioned_concurrency_config,omitempty"`
+
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
+	// The source details for the Function. The function can be created from various sources.
+	SourceDetails []SourceDetailsObservation `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
 	// The current state of the function.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -32,6 +118,12 @@ type FunctionObservation struct {
 
 	// The time the function was updated, expressed in RFC 3339 timestamp format.  Example: 2018-09-12T22:47:12.613Z
 	TimeUpdated *string `json:"timeUpdated,omitempty" tf:"time_updated,omitempty"`
+
+	// (Updatable) Timeout for executions of the function. Value in seconds.
+	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
+
+	// (Updatable) Define the tracing configuration for a function.
+	TraceConfig []FunctionTraceConfigObservation `json:"traceConfig,omitempty" tf:"trace_config,omitempty"`
 }
 
 type FunctionParameters struct {
@@ -51,18 +143,21 @@ type FunctionParameters struct {
 
 	// (Updatable) Function configuration. These values are passed on to the function as environment variables, this overrides application configuration values. Keys must be ASCII strings consisting solely of letters, digits, and the '_' (underscore) character, and must not begin with a digit. Values should be limited to printable unicode characters.  Example: {"MY_FUNCTION_CONFIG": "ConfVal"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: phx.ocir.io/ten/functions/function:0.0.1
@@ -74,8 +169,8 @@ type FunctionParameters struct {
 	ImageDigest *string `json:"imageDigest,omitempty" tf:"image_digest,omitempty"`
 
 	// (Updatable) Maximum usable memory for the function (MiB).
-	// +kubebuilder:validation:Required
-	MemoryInMbs *string `json:"memoryInMbs" tf:"memory_in_mbs,omitempty"`
+	// +kubebuilder:validation:Optional
+	MemoryInMbs *string `json:"memoryInMbs,omitempty" tf:"memory_in_mbs,omitempty"`
 
 	// (Updatable) Define the strategy for provisioned concurrency for the function.
 	// +kubebuilder:validation:Optional
@@ -94,7 +189,16 @@ type FunctionParameters struct {
 	TraceConfig []FunctionTraceConfigParameters `json:"traceConfig,omitempty" tf:"trace_config,omitempty"`
 }
 
+type FunctionTraceConfigInitParameters struct {
+
+	// (Updatable) Define if tracing is enabled for the resource.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+}
+
 type FunctionTraceConfigObservation struct {
+
+	// (Updatable) Define if tracing is enabled for the resource.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 }
 
 type FunctionTraceConfigParameters struct {
@@ -104,7 +208,22 @@ type FunctionTraceConfigParameters struct {
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 }
 
+type ProvisionedConcurrencyConfigInitParameters struct {
+
+	// (Updatable)
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// (Updatable) The strategy for provisioned concurrency to be used.
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
 type ProvisionedConcurrencyConfigObservation struct {
+
+	// (Updatable)
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// (Updatable) The strategy for provisioned concurrency to be used.
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
 type ProvisionedConcurrencyConfigParameters struct {
@@ -114,21 +233,36 @@ type ProvisionedConcurrencyConfigParameters struct {
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// (Updatable) The strategy for provisioned concurrency to be used.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Strategy *string `json:"strategy" tf:"strategy,omitempty"`
 }
 
+type SourceDetailsInitParameters struct {
+
+	// The OCID of the PbfListing this function is sourced from.
+	PbfListingID *string `json:"pbfListingId,omitempty" tf:"pbf_listing_id,omitempty"`
+
+	// Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
 type SourceDetailsObservation struct {
+
+	// The OCID of the PbfListing this function is sourced from.
+	PbfListingID *string `json:"pbfListingId,omitempty" tf:"pbf_listing_id,omitempty"`
+
+	// Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
 type SourceDetailsParameters struct {
 
 	// The OCID of the PbfListing this function is sourced from.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PbfListingID *string `json:"pbfListingId" tf:"pbf_listing_id,omitempty"`
 
 	// Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
@@ -136,6 +270,17 @@ type SourceDetailsParameters struct {
 type FunctionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FunctionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider FunctionInitParameters `json:"initProvider,omitempty"`
 }
 
 // FunctionStatus defines the observed state of Function.
@@ -145,19 +290,22 @@ type FunctionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Function is the Schema for the Functions API. Provides the Function resource in Oracle Cloud Infrastructure Functions service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Function struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FunctionSpec   `json:"spec"`
-	Status            FunctionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.memoryInMbs) || (has(self.initProvider) && has(self.initProvider.memoryInMbs))",message="spec.forProvider.memoryInMbs is a required parameter"
+	Spec   FunctionSpec   `json:"spec"`
+	Status FunctionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

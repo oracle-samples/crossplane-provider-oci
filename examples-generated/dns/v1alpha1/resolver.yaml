@@ -1,0 +1,23 @@
+apiVersion: dns.oci.upbound.io/v1alpha1
+kind: Resolver
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/resolver
+  labels:
+    testing.upbound.io/example-name: test_resolver
+  name: test-resolver
+spec:
+  forProvider:
+    attachedViews:
+    - viewId: ${oci_dns_view.test_view.id}
+    definedTags: ${var.resolver_defined_tags}
+    displayName: ${var.resolver_display_name}
+    freeformTags: ${var.resolver_freeform_tags}
+    resolverId: ${oci_dns_resolver.test_resolver.id}
+    rules:
+    - action: ${var.resolver_rules_action}
+      clientAddressConditions: ${var.resolver_rules_client_address_conditions}
+      destinationAddresses: ${var.resolver_rules_destination_addresses}
+      qnameCoverConditions: ${var.resolver_rules_qname_cover_conditions}
+      sourceEndpointName: ${oci_data_connectivity_endpoint.test_endpoint.name}
+    scope: PRIVATE

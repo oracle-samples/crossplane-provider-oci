@@ -13,16 +13,83 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DHCPOptionsInitParameters struct {
+
+	// (Updatable) The OCID of the compartment to contain the set of DHCP options.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) The search domain name type of DHCP options
+	DomainNameType *string `json:"domainNameType,omitempty" tf:"domain_name_type,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) A set of DHCP options.
+	Options []OptionsInitParameters `json:"options,omitempty" tf:"options,omitempty"`
+
+	// The OCID of the VCN the set of DHCP options belongs to.
+	// +crossplane:generate:reference:type=Vcn
+	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
+
+	// Reference to a Vcn to populate vcnId.
+	// +kubebuilder:validation:Optional
+	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vcn to populate vcnId.
+	// +kubebuilder:validation:Optional
+	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
+}
+
 type DHCPOptionsObservation struct {
+
+	// (Updatable) The OCID of the compartment to contain the set of DHCP options.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) The search domain name type of DHCP options
+	DomainNameType *string `json:"domainNameType,omitempty" tf:"domain_name_type,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// Oracle ID (OCID) for the set of DHCP options.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) A set of DHCP options.
+	Options []OptionsObservation `json:"options,omitempty" tf:"options,omitempty"`
 
 	// The current state of the set of DHCP options.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// Date and time the set of DHCP options was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// The OCID of the VCN the set of DHCP options belongs to.
+	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 }
 
 type DHCPOptionsParameters struct {
@@ -42,6 +109,7 @@ type DHCPOptionsParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -54,11 +122,12 @@ type DHCPOptionsParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) A set of DHCP options.
-	// +kubebuilder:validation:Required
-	Options []OptionsParameters `json:"options" tf:"options,omitempty"`
+	// +kubebuilder:validation:Optional
+	Options []OptionsParameters `json:"options,omitempty" tf:"options,omitempty"`
 
 	// The OCID of the VCN the set of DHCP options belongs to.
 	// +crossplane:generate:reference:type=Vcn
@@ -74,7 +143,34 @@ type DHCPOptionsParameters struct {
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
 
+type OptionsInitParameters struct {
+
+	// (Applicable when type=DomainNameServer) (Updatable) If you set serverType to CustomDnsServer, specify the IP address of at least one DNS server of your choice (three maximum).
+	CustomDNSServers []*string `json:"customDnsServers,omitempty" tf:"custom_dns_servers,omitempty"`
+
+	// (Updatable) A single search domain name according to RFC 952 and RFC 1123. During a DNS query, the OS will append this search domain name to the value being queried.
+	SearchDomainNames []*string `json:"searchDomainNames,omitempty" tf:"search_domain_names,omitempty"`
+
+	// (Updatable)
+	ServerType *string `json:"serverType,omitempty" tf:"server_type,omitempty"`
+
+	// (Updatable) The specific DHCP option. Either DomainNameServer (for DhcpDnsOption) or SearchDomain (for DhcpSearchDomainOption).
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type OptionsObservation struct {
+
+	// (Applicable when type=DomainNameServer) (Updatable) If you set serverType to CustomDnsServer, specify the IP address of at least one DNS server of your choice (three maximum).
+	CustomDNSServers []*string `json:"customDnsServers,omitempty" tf:"custom_dns_servers,omitempty"`
+
+	// (Updatable) A single search domain name according to RFC 952 and RFC 1123. During a DNS query, the OS will append this search domain name to the value being queried.
+	SearchDomainNames []*string `json:"searchDomainNames,omitempty" tf:"search_domain_names,omitempty"`
+
+	// (Updatable)
+	ServerType *string `json:"serverType,omitempty" tf:"server_type,omitempty"`
+
+	// (Updatable) The specific DHCP option. Either DomainNameServer (for DhcpDnsOption) or SearchDomain (for DhcpSearchDomainOption).
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type OptionsParameters struct {
@@ -92,7 +188,7 @@ type OptionsParameters struct {
 	ServerType *string `json:"serverType,omitempty" tf:"server_type,omitempty"`
 
 	// (Updatable) The specific DHCP option. Either DomainNameServer (for DhcpDnsOption) or SearchDomain (for DhcpSearchDomainOption).
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
@@ -100,6 +196,17 @@ type OptionsParameters struct {
 type DHCPOptionsSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DHCPOptionsParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DHCPOptionsInitParameters `json:"initProvider,omitempty"`
 }
 
 // DHCPOptionsStatus defines the observed state of DHCPOptions.
@@ -109,19 +216,21 @@ type DHCPOptionsStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DHCPOptions is the Schema for the DHCPOptionss API. Provides the Dhcp Options resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type DHCPOptions struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DHCPOptionsSpec   `json:"spec"`
-	Status            DHCPOptionsStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.options) || (has(self.initProvider) && has(self.initProvider.options))",message="spec.forProvider.options is a required parameter"
+	Spec   DHCPOptionsSpec   `json:"spec"`
+	Status DHCPOptionsStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

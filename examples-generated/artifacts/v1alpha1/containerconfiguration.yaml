@@ -1,0 +1,10 @@
+apiVersion: artifacts.oci.upbound.io/v1alpha1
+kind: ContainerConfiguration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifacts/v1alpha1/containerconfiguration
+  labels:
+    testing.upbound.io/example-name: test_container_configuration
+  name: test-container-configuration
+spec:
+  forProvider: {}

@@ -1,0 +1,18 @@
+apiVersion: dns.oci.upbound.io/v1alpha1
+kind: SteeringPolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/steeringpolicyattachment
+  labels:
+    testing.upbound.io/example-name: test_steering_policy_attachment
+  name: test-steering-policy-attachment
+spec:
+  forProvider:
+    displayName: ${var.steering_policy_attachment_display_name}
+    domainName: ${var.steering_policy_attachment_domain_name}
+    steeringPolicyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_steering_policy
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_zone

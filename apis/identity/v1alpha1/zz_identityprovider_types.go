@@ -13,13 +13,91 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type IdentityProviderInitParameters struct {
+
+	// The OCID of your tenancy.
+	// +crossplane:generate:reference:type=Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the IdentityProvider during creation. Does not have to be unique, and it's changeable.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Extra name value pairs associated with this identity provider. Example: {"clientId": "app_sf3kdjf3"}
+	// +mapType=granular
+	FreeformAttributes map[string]*string `json:"freeformAttributes,omitempty" tf:"freeform_attributes,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The XML that contains the information required for federating.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// (Updatable) The URL for retrieving the identity provider's metadata, which contains information required for federating.
+	MetadataURL *string `json:"metadataUrl,omitempty" tf:"metadata_url,omitempty"`
+
+	// The name you assign to the IdentityProvider during creation. The name must be unique across all IdentityProvider objects in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).  Example: IDCS
+	ProductType *string `json:"productType,omitempty" tf:"product_type,omitempty"`
+
+	// (Updatable) The protocol used for federation.  Example: SAML2
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+}
+
 type IdentityProviderObservation struct {
+
+	// The OCID of your tenancy.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the IdentityProvider during creation. Does not have to be unique, and it's changeable.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Extra name value pairs associated with this identity provider. Example: {"clientId": "app_sf3kdjf3"}
+	// +mapType=granular
+	FreeformAttributes map[string]*string `json:"freeformAttributes,omitempty" tf:"freeform_attributes,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the IdentityProvider.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The detailed status of INACTIVE lifecycleState.
 	InactiveState *string `json:"inactiveState,omitempty" tf:"inactive_state,omitempty"`
+
+	// (Updatable) The XML that contains the information required for federating.
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// (Updatable) The URL for retrieving the identity provider's metadata, which contains information required for federating.
+	MetadataURL *string `json:"metadataUrl,omitempty" tf:"metadata_url,omitempty"`
+
+	// The name you assign to the IdentityProvider during creation. The name must be unique across all IdentityProvider objects in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).  Example: IDCS
+	ProductType *string `json:"productType,omitempty" tf:"product_type,omitempty"`
+
+	// (Updatable) The protocol used for federation.  Example: SAML2
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The URL to redirect federated users to for authentication with the identity provider.
 	RedirectURL *string `json:"redirectUrl,omitempty" tf:"redirect_url,omitempty"`
@@ -51,45 +129,59 @@ type IdentityProviderParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The description you assign to the IdentityProvider during creation. Does not have to be unique, and it's changeable.
-	// +kubebuilder:validation:Required
-	Description *string `json:"description" tf:"description,omitempty"`
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// (Updatable) Extra name value pairs associated with this identity provider. Example: {"clientId": "app_sf3kdjf3"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformAttributes map[string]*string `json:"freeformAttributes,omitempty" tf:"freeform_attributes,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The XML that contains the information required for federating.
-	// +kubebuilder:validation:Required
-	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
+	// +kubebuilder:validation:Optional
+	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// (Updatable) The URL for retrieving the identity provider's metadata, which contains information required for federating.
-	// +kubebuilder:validation:Required
-	MetadataURL *string `json:"metadataUrl" tf:"metadata_url,omitempty"`
+	// +kubebuilder:validation:Optional
+	MetadataURL *string `json:"metadataUrl,omitempty" tf:"metadata_url,omitempty"`
 
 	// The name you assign to the IdentityProvider during creation. The name must be unique across all IdentityProvider objects in the tenancy and cannot be changed.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The identity provider service or product. Supported identity providers are Oracle Identity Cloud Service (IDCS) and Microsoft Active Directory Federation Services (ADFS).  Example: IDCS
-	// +kubebuilder:validation:Required
-	ProductType *string `json:"productType" tf:"product_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProductType *string `json:"productType,omitempty" tf:"product_type,omitempty"`
 
 	// (Updatable) The protocol used for federation.  Example: SAML2
-	// +kubebuilder:validation:Required
-	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
 // IdentityProviderSpec defines the desired state of IdentityProvider
 type IdentityProviderSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     IdentityProviderParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider IdentityProviderInitParameters `json:"initProvider,omitempty"`
 }
 
 // IdentityProviderStatus defines the observed state of IdentityProvider.
@@ -99,19 +191,26 @@ type IdentityProviderStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // IdentityProvider is the Schema for the IdentityProviders API. Provides the Identity Provider resource in Oracle Cloud Infrastructure Identity service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type IdentityProvider struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              IdentityProviderSpec   `json:"spec"`
-	Status            IdentityProviderStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadata) || (has(self.initProvider) && has(self.initProvider.metadata))",message="spec.forProvider.metadata is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadataUrl) || (has(self.initProvider) && has(self.initProvider.metadataUrl))",message="spec.forProvider.metadataUrl is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.productType) || (has(self.initProvider) && has(self.initProvider.productType))",message="spec.forProvider.productType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protocol) || (has(self.initProvider) && has(self.initProvider.protocol))",message="spec.forProvider.protocol is a required parameter"
+	Spec   IdentityProviderSpec   `json:"spec"`
+	Status IdentityProviderStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

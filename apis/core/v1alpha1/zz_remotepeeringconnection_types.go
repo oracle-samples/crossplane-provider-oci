@@ -13,13 +13,80 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type RemotePeeringConnectionInitParameters struct {
+
+	// (Updatable) The OCID of the compartment to contain the RPC.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID of the DRG the RPC belongs to.
+	// +crossplane:generate:reference:type=Drg
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// Reference to a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// and a peer_region_name creates a connection to the specified RPC ID. Both peer_id and peer_region_name are optional for creating the resource but are required for the connection to succeed. If only one of them is present the connection will not succeed.
+	PeerID *string `json:"peerId,omitempty" tf:"peer_id,omitempty"`
+
+	// The name of the region that contains the RPC you want to peer with.  Example: us-ashburn-1
+	PeerRegionName *string `json:"peerRegionName,omitempty" tf:"peer_region_name,omitempty"`
+}
+
 type RemotePeeringConnectionObservation struct {
+
+	// (Updatable) The OCID of the compartment to contain the RPC.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID of the DRG the RPC belongs to.
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the RPC.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Whether the VCN at the other end of the peering is in a different tenancy.  Example: false
 	IsCrossTenancyPeering *bool `json:"isCrossTenancyPeering,omitempty" tf:"is_cross_tenancy_peering,omitempty"`
+
+	// and a peer_region_name creates a connection to the specified RPC ID. Both peer_id and peer_region_name are optional for creating the resource but are required for the connection to succeed. If only one of them is present the connection will not succeed.
+	PeerID *string `json:"peerId,omitempty" tf:"peer_id,omitempty"`
+
+	// The name of the region that contains the RPC you want to peer with.  Example: us-ashburn-1
+	PeerRegionName *string `json:"peerRegionName,omitempty" tf:"peer_region_name,omitempty"`
 
 	// If this RPC is peered, this value is the OCID of the other RPC's tenancy.
 	PeerTenancyID *string `json:"peerTenancyId,omitempty" tf:"peer_tenancy_id,omitempty"`
@@ -51,6 +118,7 @@ type RemotePeeringConnectionParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -72,6 +140,7 @@ type RemotePeeringConnectionParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// and a peer_region_name creates a connection to the specified RPC ID. Both peer_id and peer_region_name are optional for creating the resource but are required for the connection to succeed. If only one of them is present the connection will not succeed.
@@ -87,6 +156,17 @@ type RemotePeeringConnectionParameters struct {
 type RemotePeeringConnectionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RemotePeeringConnectionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RemotePeeringConnectionInitParameters `json:"initProvider,omitempty"`
 }
 
 // RemotePeeringConnectionStatus defines the observed state of RemotePeeringConnection.
@@ -96,13 +176,14 @@ type RemotePeeringConnectionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RemotePeeringConnection is the Schema for the RemotePeeringConnections API. Provides the Remote Peering Connection resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type RemotePeeringConnection struct {
 	metav1.TypeMeta   `json:",inline"`

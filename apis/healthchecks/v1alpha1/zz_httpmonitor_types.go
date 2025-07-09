@@ -13,7 +13,82 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type HTTPMonitorInitParameters struct {
+
+	// (Updatable) The OCID of the compartment.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly and mutable name suitable for display in a user interface.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) A dictionary of HTTP request headers.
+	// +mapType=granular
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
+
+	// (Updatable) The monitor interval in seconds. Valid values: 10, 30, and 60.
+	IntervalInSeconds *float64 `json:"intervalInSeconds,omitempty" tf:"interval_in_seconds,omitempty"`
+
+	// (Updatable) Enables or disables the monitor. Set to 'true' to launch monitoring.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) The supported HTTP methods available for probes.
+	Method *string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// (Updatable) The optional URL path to probe, including query parameters.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// (Updatable) The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The supported protocols available for HTTP probes.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) A list of targets (hostnames or IP addresses) of the probe.
+	Targets []*string `json:"targets,omitempty" tf:"targets,omitempty"`
+
+	// (Updatable) The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to intervalInSeconds for monitors.
+	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
+
+	// (Updatable) A list of names of vantage points from which to execute the probe.
+	VantagePointNames []*string `json:"vantagePointNames,omitempty" tf:"vantage_point_names,omitempty"`
+}
+
 type HTTPMonitorObservation struct {
+
+	// (Updatable) The OCID of the compartment.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly and mutable name suitable for display in a user interface.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) A dictionary of HTTP request headers.
+	// +mapType=granular
+	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// The region where updates must be made and where results must be fetched from.
 	HomeRegion *string `json:"homeRegion,omitempty" tf:"home_region,omitempty"`
@@ -21,11 +96,38 @@ type HTTPMonitorObservation struct {
 	// The OCID of the resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Updatable) The monitor interval in seconds. Valid values: 10, 30, and 60.
+	IntervalInSeconds *float64 `json:"intervalInSeconds,omitempty" tf:"interval_in_seconds,omitempty"`
+
+	// (Updatable) Enables or disables the monitor. Set to 'true' to launch monitoring.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) The supported HTTP methods available for probes.
+	Method *string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// (Updatable) The optional URL path to probe, including query parameters.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// (Updatable) The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The supported protocols available for HTTP probes.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
 	// A URL for fetching the probe results.
 	ResultsURL *string `json:"resultsUrl,omitempty" tf:"results_url,omitempty"`
 
+	// (Updatable) A list of targets (hostnames or IP addresses) of the probe.
+	Targets []*string `json:"targets,omitempty" tf:"targets,omitempty"`
+
 	// The RFC 3339-formatted creation date and time of the probe.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// (Updatable) The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to intervalInSeconds for monitors.
+	TimeoutInSeconds *float64 `json:"timeoutInSeconds,omitempty" tf:"timeout_in_seconds,omitempty"`
+
+	// (Updatable) A list of names of vantage points from which to execute the probe.
+	VantagePointNames []*string `json:"vantagePointNames,omitempty" tf:"vantage_point_names,omitempty"`
 }
 
 type HTTPMonitorParameters struct {
@@ -45,23 +147,26 @@ type HTTPMonitorParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly and mutable name suitable for display in a user interface.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) A dictionary of HTTP request headers.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
 	// (Updatable) The monitor interval in seconds. Valid values: 10, 30, and 60.
-	// +kubebuilder:validation:Required
-	IntervalInSeconds *float64 `json:"intervalInSeconds" tf:"interval_in_seconds,omitempty"`
+	// +kubebuilder:validation:Optional
+	IntervalInSeconds *float64 `json:"intervalInSeconds,omitempty" tf:"interval_in_seconds,omitempty"`
 
 	// (Updatable) Enables or disables the monitor. Set to 'true' to launch monitoring.
 	// +kubebuilder:validation:Optional
@@ -80,12 +185,12 @@ type HTTPMonitorParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The supported protocols available for HTTP probes.
-	// +kubebuilder:validation:Required
-	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// (Updatable) A list of targets (hostnames or IP addresses) of the probe.
-	// +kubebuilder:validation:Required
-	Targets []*string `json:"targets" tf:"targets,omitempty"`
+	// +kubebuilder:validation:Optional
+	Targets []*string `json:"targets,omitempty" tf:"targets,omitempty"`
 
 	// (Updatable) The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to intervalInSeconds for monitors.
 	// +kubebuilder:validation:Optional
@@ -100,6 +205,17 @@ type HTTPMonitorParameters struct {
 type HTTPMonitorSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     HTTPMonitorParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider HTTPMonitorInitParameters `json:"initProvider,omitempty"`
 }
 
 // HTTPMonitorStatus defines the observed state of HTTPMonitor.
@@ -109,19 +225,24 @@ type HTTPMonitorStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // HTTPMonitor is the Schema for the HTTPMonitors API. Provides the Http Monitor resource in Oracle Cloud Infrastructure Health Checks service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type HTTPMonitor struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              HTTPMonitorSpec   `json:"spec"`
-	Status            HTTPMonitorStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.intervalInSeconds) || (has(self.initProvider) && has(self.initProvider.intervalInSeconds))",message="spec.forProvider.intervalInSeconds is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protocol) || (has(self.initProvider) && has(self.initProvider.protocol))",message="spec.forProvider.protocol is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.targets) || (has(self.initProvider) && has(self.initProvider.targets))",message="spec.forProvider.targets is a required parameter"
+	Spec   HTTPMonitorSpec   `json:"spec"`
+	Status HTTPMonitorStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
