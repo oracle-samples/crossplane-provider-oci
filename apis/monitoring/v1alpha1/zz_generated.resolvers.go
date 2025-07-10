@@ -52,5 +52,37 @@ func (mg *Alarm) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.MetricCompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.MetricCompartmentIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MetricCompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.MetricCompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.MetricCompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.MetricCompartmentID")
+	}
+	mg.Spec.InitProvider.MetricCompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.MetricCompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }

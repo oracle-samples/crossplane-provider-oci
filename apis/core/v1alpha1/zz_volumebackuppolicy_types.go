@@ -13,13 +13,78 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SchedulesInitParameters struct {
+
+	// (Updatable) The type of volume backup to create.
+	BackupType *string `json:"backupType,omitempty" tf:"backup_type,omitempty"`
+
+	// (Updatable) The day of the month to schedule the volume backup.
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	// (Updatable) The day of the week to schedule the volume backup.
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) The hour of the day to schedule the volume backup.
+	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+
+	// (Updatable) The month of the year to schedule the volume backup.
+	Month *string `json:"month,omitempty" tf:"month,omitempty"`
+
+	// (Updatable) The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset.
+	OffsetSeconds *float64 `json:"offsetSeconds,omitempty" tf:"offset_seconds,omitempty"`
+
+	// (Updatable) Indicates how the offset is defined. If value is STRUCTURED, then hourOfDay, dayOfWeek, dayOfMonth, and month fields are used and offsetSeconds will be ignored in requests and users should ignore its value from the responses.
+	OffsetType *string `json:"offsetType,omitempty" tf:"offset_type,omitempty"`
+
+	// (Updatable) The volume backup frequency.
+	Period *string `json:"period,omitempty" tf:"period,omitempty"`
+
+	// (Updatable) How long, in seconds, to keep the volume backups created by this schedule.
+	RetentionSeconds *float64 `json:"retentionSeconds,omitempty" tf:"retention_seconds,omitempty"`
+
+	// (Updatable) Specifies what time zone is the schedule in
+	// enum:
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
 type SchedulesObservation struct {
+
+	// (Updatable) The type of volume backup to create.
+	BackupType *string `json:"backupType,omitempty" tf:"backup_type,omitempty"`
+
+	// (Updatable) The day of the month to schedule the volume backup.
+	DayOfMonth *float64 `json:"dayOfMonth,omitempty" tf:"day_of_month,omitempty"`
+
+	// (Updatable) The day of the week to schedule the volume backup.
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) The hour of the day to schedule the volume backup.
+	HourOfDay *float64 `json:"hourOfDay,omitempty" tf:"hour_of_day,omitempty"`
+
+	// (Updatable) The month of the year to schedule the volume backup.
+	Month *string `json:"month,omitempty" tf:"month,omitempty"`
+
+	// (Updatable) The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset.
+	OffsetSeconds *float64 `json:"offsetSeconds,omitempty" tf:"offset_seconds,omitempty"`
+
+	// (Updatable) Indicates how the offset is defined. If value is STRUCTURED, then hourOfDay, dayOfWeek, dayOfMonth, and month fields are used and offsetSeconds will be ignored in requests and users should ignore its value from the responses.
+	OffsetType *string `json:"offsetType,omitempty" tf:"offset_type,omitempty"`
+
+	// (Updatable) The volume backup frequency.
+	Period *string `json:"period,omitempty" tf:"period,omitempty"`
+
+	// (Updatable) How long, in seconds, to keep the volume backups created by this schedule.
+	RetentionSeconds *float64 `json:"retentionSeconds,omitempty" tf:"retention_seconds,omitempty"`
+
+	// (Updatable) Specifies what time zone is the schedule in
+	// enum:
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type SchedulesParameters struct {
 
 	// (Updatable) The type of volume backup to create.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	BackupType *string `json:"backupType" tf:"backup_type,omitempty"`
 
 	// (Updatable) The day of the month to schedule the volume backup.
@@ -47,11 +112,11 @@ type SchedulesParameters struct {
 	OffsetType *string `json:"offsetType,omitempty" tf:"offset_type,omitempty"`
 
 	// (Updatable) The volume backup frequency.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Period *string `json:"period" tf:"period,omitempty"`
 
 	// (Updatable) How long, in seconds, to keep the volume backups created by this schedule.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RetentionSeconds *float64 `json:"retentionSeconds" tf:"retention_seconds,omitempty"`
 
 	// (Updatable) Specifies what time zone is the schedule in
@@ -60,10 +125,62 @@ type SchedulesParameters struct {
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
+type VolumeBackupPolicyInitParameters struct {
+
+	// The OCID of the compartment.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The paired destination region for copying scheduled backups to. Example: us-ashburn-1. See Region Pairs for details about paired regions.
+	DestinationRegion *string `json:"destinationRegion,omitempty" tf:"destination_region,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The collection of schedules for the volume backup policy. See see Schedules in Policy-Based Backups for more information.
+	Schedules []SchedulesInitParameters `json:"schedules,omitempty" tf:"schedules,omitempty"`
+}
+
 type VolumeBackupPolicyObservation struct {
+
+	// The OCID of the compartment.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The paired destination region for copying scheduled backups to. Example: us-ashburn-1. See Region Pairs for details about paired regions.
+	DestinationRegion *string `json:"destinationRegion,omitempty" tf:"destination_region,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the volume backup policy.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) The collection of schedules for the volume backup policy. See see Schedules in Policy-Based Backups for more information.
+	Schedules []SchedulesObservation `json:"schedules,omitempty" tf:"schedules,omitempty"`
 
 	// The date and time the volume backup policy was created. Format defined by RFC3339.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -86,6 +203,7 @@ type VolumeBackupPolicyParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The paired destination region for copying scheduled backups to. Example: us-ashburn-1. See Region Pairs for details about paired regions.
@@ -98,6 +216,7 @@ type VolumeBackupPolicyParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The collection of schedules for the volume backup policy. See see Schedules in Policy-Based Backups for more information.
@@ -109,6 +228,17 @@ type VolumeBackupPolicyParameters struct {
 type VolumeBackupPolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VolumeBackupPolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider VolumeBackupPolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // VolumeBackupPolicyStatus defines the observed state of VolumeBackupPolicy.
@@ -118,13 +248,14 @@ type VolumeBackupPolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // VolumeBackupPolicy is the Schema for the VolumeBackupPolicys API. Provides the Volume Backup Policy resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type VolumeBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -13,31 +13,63 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ShapeManagementInitParameters struct {
+
+	// The OCID of the compartment containing the image.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The OCID of the Image to which the shape should be added.
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// The compatible shape that is to be added to the compatible shapes list for the image.
+	ShapeName *string `json:"shapeName,omitempty" tf:"shape_name,omitempty"`
+}
+
 type ShapeManagementObservation struct {
+
+	// The OCID of the compartment containing the image.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The image's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the Image to which the shape should be added.
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// The compatible shape that is to be added to the compatible shapes list for the image.
+	ShapeName *string `json:"shapeName,omitempty" tf:"shape_name,omitempty"`
 }
 
 type ShapeManagementParameters struct {
 
 	// The OCID of the compartment containing the image.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The OCID of the Image to which the shape should be added.
-	// +kubebuilder:validation:Required
-	ImageID *string `json:"imageId" tf:"image_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
 	// The compatible shape that is to be added to the compatible shapes list for the image.
-	// +kubebuilder:validation:Required
-	ShapeName *string `json:"shapeName" tf:"shape_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ShapeName *string `json:"shapeName,omitempty" tf:"shape_name,omitempty"`
 }
 
 // ShapeManagementSpec defines the desired state of ShapeManagement
 type ShapeManagementSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ShapeManagementParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ShapeManagementInitParameters `json:"initProvider,omitempty"`
 }
 
 // ShapeManagementStatus defines the observed state of ShapeManagement.
@@ -47,19 +79,23 @@ type ShapeManagementStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ShapeManagement is the Schema for the ShapeManagements API. Provides details about a specific Shape in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ShapeManagement struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ShapeManagementSpec   `json:"spec"`
-	Status            ShapeManagementStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.imageId) || (has(self.initProvider) && has(self.initProvider.imageId))",message="spec.forProvider.imageId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.shapeName) || (has(self.initProvider) && has(self.initProvider.shapeName))",message="spec.forProvider.shapeName is a required parameter"
+	Spec   ShapeManagementSpec   `json:"spec"`
+	Status ShapeManagementStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

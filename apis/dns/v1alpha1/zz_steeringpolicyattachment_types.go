@@ -13,10 +13,49 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SteeringPolicyAttachmentInitParameters struct {
+
+	// (Updatable) A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The attached domain within the attached zone. domain_name is case insensitive.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
+	// The OCID of the attached steering policy.
+	// +crossplane:generate:reference:type=SteeringPolicy
+	SteeringPolicyID *string `json:"steeringPolicyId,omitempty" tf:"steering_policy_id,omitempty"`
+
+	// Reference to a SteeringPolicy to populate steeringPolicyId.
+	// +kubebuilder:validation:Optional
+	SteeringPolicyIDRef *v1.Reference `json:"steeringPolicyIdRef,omitempty" tf:"-"`
+
+	// Selector for a SteeringPolicy to populate steeringPolicyId.
+	// +kubebuilder:validation:Optional
+	SteeringPolicyIDSelector *v1.Selector `json:"steeringPolicyIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the attached zone.
+	// +crossplane:generate:reference:type=Zone
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+
+	// Reference to a Zone to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+
+	// Selector for a Zone to populate zoneId.
+	// +kubebuilder:validation:Optional
+	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+}
+
 type SteeringPolicyAttachmentObservation struct {
 
 	// The OCID of the compartment containing the steering policy attachment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The attached domain within the attached zone. domain_name is case insensitive.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// The OCID of the resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -30,8 +69,14 @@ type SteeringPolicyAttachmentObservation struct {
 	// The current state of the resource.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// The OCID of the attached steering policy.
+	SteeringPolicyID *string `json:"steeringPolicyId,omitempty" tf:"steering_policy_id,omitempty"`
+
 	// The date and time the resource was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// The OCID of the attached zone.
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 }
 
 type SteeringPolicyAttachmentParameters struct {
@@ -41,8 +86,8 @@ type SteeringPolicyAttachmentParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The attached domain within the attached zone. domain_name is case insensitive.
-	// +kubebuilder:validation:Required
-	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// The OCID of the attached steering policy.
 	// +crossplane:generate:reference:type=SteeringPolicy
@@ -75,6 +120,17 @@ type SteeringPolicyAttachmentParameters struct {
 type SteeringPolicyAttachmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SteeringPolicyAttachmentParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SteeringPolicyAttachmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // SteeringPolicyAttachmentStatus defines the observed state of SteeringPolicyAttachment.
@@ -84,19 +140,21 @@ type SteeringPolicyAttachmentStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SteeringPolicyAttachment is the Schema for the SteeringPolicyAttachments API. Provides the Steering Policy Attachment resource in Oracle Cloud Infrastructure DNS service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type SteeringPolicyAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SteeringPolicyAttachmentSpec   `json:"spec"`
-	Status            SteeringPolicyAttachmentStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domainName) || (has(self.initProvider) && has(self.initProvider.domainName))",message="spec.forProvider.domainName is a required parameter"
+	Spec   SteeringPolicyAttachmentSpec   `json:"spec"`
+	Status SteeringPolicyAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

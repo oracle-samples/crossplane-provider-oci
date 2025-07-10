@@ -36,6 +36,22 @@ func (mg *NotificationTopic) ResolveReferences(ctx context.Context, c client.Rea
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -77,6 +93,38 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.ForProvider.TopicID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TopicID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.TopicIDRef,
+		Selector:     mg.Spec.InitProvider.TopicIDSelector,
+		To: reference.To{
+			List:    &NotificationTopicList{},
+			Managed: &NotificationTopic{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TopicID")
+	}
+	mg.Spec.InitProvider.TopicID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TopicIDRef = rsp.ResolvedReference
 
 	return nil
 }

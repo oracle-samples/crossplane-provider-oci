@@ -13,7 +13,22 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConfigurationInitParameters struct {
+
+	// The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The source the log object comes from.
+	Source []SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+}
+
 type ConfigurationObservation struct {
+
+	// The OCID of the compartment that the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The source the log object comes from.
+	Source []SourceObservation `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type ConfigurationParameters struct {
@@ -23,8 +38,46 @@ type ConfigurationParameters struct {
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The source the log object comes from.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Source []SourceParameters `json:"source" tf:"source,omitempty"`
+}
+
+type LogInitParameters struct {
+
+	// Log object configuration.
+	Configuration []ConfigurationInitParameters `json:"configuration,omitempty" tf:"configuration,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Whether or not this resource is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) OCID of a log group to work with.
+	// +crossplane:generate:reference:type=LogGroup
+	LogGroupID *string `json:"logGroupId,omitempty" tf:"log_group_id,omitempty"`
+
+	// Reference to a LogGroup to populate logGroupId.
+	// +kubebuilder:validation:Optional
+	LogGroupIDRef *v1.Reference `json:"logGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a LogGroup to populate logGroupId.
+	// +kubebuilder:validation:Optional
+	LogGroupIDSelector *v1.Selector `json:"logGroupIdSelector,omitempty" tf:"-"`
+
+	// The logType that the log object is for, whether custom or service.
+	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
+
+	// (Updatable) Log retention duration in 30-day increments (30, 60, 90 and so on).
+	RetentionDuration *float64 `json:"retentionDuration,omitempty" tf:"retention_duration,omitempty"`
 }
 
 type LogObservation struct {
@@ -32,8 +85,34 @@ type LogObservation struct {
 	// The OCID of the compartment that the resource belongs to.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// Log object configuration.
+	Configuration []ConfigurationObservation `json:"configuration,omitempty" tf:"configuration,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) Whether or not this resource is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) OCID of a log group to work with.
+	LogGroupID *string `json:"logGroupId,omitempty" tf:"log_group_id,omitempty"`
+
+	// The logType that the log object is for, whether custom or service.
+	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
+
+	// (Updatable) Log retention duration in 30-day increments (30, 60, 90 and so on).
+	RetentionDuration *float64 `json:"retentionDuration,omitempty" tf:"retention_duration,omitempty"`
 
 	// The pipeline state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -56,14 +135,16 @@ type LogParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The user-friendly display name. This must be unique within the enclosing resource, and it's changeable. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Whether or not this resource is currently enabled.
@@ -84,33 +165,70 @@ type LogParameters struct {
 	LogGroupIDSelector *v1.Selector `json:"logGroupIdSelector,omitempty" tf:"-"`
 
 	// The logType that the log object is for, whether custom or service.
-	// +kubebuilder:validation:Required
-	LogType *string `json:"logType" tf:"log_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 
 	// (Updatable) Log retention duration in 30-day increments (30, 60, 90 and so on).
 	// +kubebuilder:validation:Optional
 	RetentionDuration *float64 `json:"retentionDuration,omitempty" tf:"retention_duration,omitempty"`
 }
 
+type SourceInitParameters struct {
+
+	// Log object category.
+	Category *string `json:"category,omitempty" tf:"category,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// The unique identifier of the resource emitting the log.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+
+	// Service generating log.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// The log source.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
 type SourceObservation struct {
+
+	// Log object category.
+	Category *string `json:"category,omitempty" tf:"category,omitempty"`
+
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// The unique identifier of the resource emitting the log.
+	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+
+	// Service generating log.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// The log source.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
 type SourceParameters struct {
 
 	// Log object category.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Category *string `json:"category" tf:"category,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
 	// The unique identifier of the resource emitting the log.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource" tf:"resource,omitempty"`
 
 	// Service generating log.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Service *string `json:"service" tf:"service,omitempty"`
 
 	// The log source.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
 
@@ -118,6 +236,17 @@ type SourceParameters struct {
 type LogSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LogParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LogInitParameters `json:"initProvider,omitempty"`
 }
 
 // LogStatus defines the observed state of Log.
@@ -127,19 +256,22 @@ type LogStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Log is the Schema for the Logs API. Provides the Log resource in Oracle Cloud Infrastructure Logging service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Log struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LogSpec   `json:"spec"`
-	Status            LogStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.logType) || (has(self.initProvider) && has(self.initProvider.logType))",message="spec.forProvider.logType is a required parameter"
+	Spec   LogSpec   `json:"spec"`
+	Status LogStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

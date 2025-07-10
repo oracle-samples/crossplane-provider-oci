@@ -13,13 +13,87 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackendInitParameters struct {
+
+	// The name of the backend set to add the backend server to.  Example: example_backend_set
+	// +crossplane:generate:reference:type=BackendSet
+	BackendsetName *string `json:"backendsetName,omitempty" tf:"backendset_name,omitempty"`
+
+	// Reference to a BackendSet to populate backendsetName.
+	// +kubebuilder:validation:Optional
+	BackendsetNameRef *v1.Reference `json:"backendsetNameRef,omitempty" tf:"-"`
+
+	// Selector for a BackendSet to populate backendsetName.
+	// +kubebuilder:validation:Optional
+	BackendsetNameSelector *v1.Selector `json:"backendsetNameSelector,omitempty" tf:"-"`
+
+	// (Updatable) Whether the load balancer should treat this server as a backup unit. If true, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+	Backup *bool `json:"backup,omitempty" tf:"backup,omitempty"`
+
+	// (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: false
+	Drain *bool `json:"drain,omitempty" tf:"drain,omitempty"`
+
+	// The IP address of the backend server.  Example: 10.0.0.3
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The OCID of the load balancer associated with the backend set and servers.
+	// +crossplane:generate:reference:type=LoadBalancer
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+
+	// (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
+	Offline *bool `json:"offline,omitempty" tf:"offline,omitempty"`
+
+	// The communication port for the backend server.  Example: 8080
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see How Load Balancing Policies Work.  Example: 3
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
+}
+
 type BackendObservation struct {
+
+	// The name of the backend set to add the backend server to.  Example: example_backend_set
+	BackendsetName *string `json:"backendsetName,omitempty" tf:"backendset_name,omitempty"`
+
+	// (Updatable) Whether the load balancer should treat this server as a backup unit. If true, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+	Backup *bool `json:"backup,omitempty" tf:"backup,omitempty"`
+
+	// (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: false
+	Drain *bool `json:"drain,omitempty" tf:"drain,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP address of the backend server.  Example: 10.0.0.3
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The OCID of the load balancer associated with the backend set and servers.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
 	// A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: 10.0.0.3:8080
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
+	Offline *bool `json:"offline,omitempty" tf:"offline,omitempty"`
+
+	// The communication port for the backend server.  Example: 8080
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see How Load Balancing Policies Work.  Example: 3
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type BackendParameters struct {
@@ -46,8 +120,8 @@ type BackendParameters struct {
 	Drain *bool `json:"drain,omitempty" tf:"drain,omitempty"`
 
 	// The IP address of the backend server.  Example: 10.0.0.3
-	// +kubebuilder:validation:Required
-	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+	// +kubebuilder:validation:Optional
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The OCID of the load balancer associated with the backend set and servers.
 	// +crossplane:generate:reference:type=LoadBalancer
@@ -62,13 +136,16 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
+	// +kubebuilder:validation:Optional
+	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
+
 	// (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
 	// +kubebuilder:validation:Optional
 	Offline *bool `json:"offline,omitempty" tf:"offline,omitempty"`
 
 	// The communication port for the backend server.  Example: 8080
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see How Load Balancing Policies Work.  Example: 3
 	// +kubebuilder:validation:Optional
@@ -79,6 +156,17 @@ type BackendParameters struct {
 type BackendSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackendParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider BackendInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackendStatus defines the observed state of Backend.
@@ -88,19 +176,22 @@ type BackendStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Backend is the Schema for the Backends API. Provides the Backend resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Backend struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackendSpec   `json:"spec"`
-	Status            BackendStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress) || (has(self.initProvider) && has(self.initProvider.ipAddress))",message="spec.forProvider.ipAddress is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || (has(self.initProvider) && has(self.initProvider.port))",message="spec.forProvider.port is a required parameter"
+	Spec   BackendSpec   `json:"spec"`
+	Status BackendStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

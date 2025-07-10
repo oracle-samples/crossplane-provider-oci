@@ -13,13 +13,80 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DrgRouteTableInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID of the DRG the DRG route table belongs to.
+	// +crossplane:generate:reference:type=Drg
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// Reference to a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The OCID of the import route distribution used to specify how incoming route advertisements through referenced attachments are inserted into the DRG route table.
+	// +crossplane:generate:reference:type=DrgRouteDistribution
+	ImportDrgRouteDistributionID *string `json:"importDrgRouteDistributionId,omitempty" tf:"import_drg_route_distribution_id,omitempty"`
+
+	// Reference to a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// +kubebuilder:validation:Optional
+	ImportDrgRouteDistributionIDRef *v1.Reference `json:"importDrgRouteDistributionIdRef,omitempty" tf:"-"`
+
+	// Selector for a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// +kubebuilder:validation:Optional
+	ImportDrgRouteDistributionIDSelector *v1.Selector `json:"importDrgRouteDistributionIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) If you want traffic to be routed using ECMP across your virtual circuits or IPSec tunnels to your on-premises networks, enable ECMP on the DRG route table.
+	IsEcmpEnabled *bool `json:"isEcmpEnabled,omitempty" tf:"is_ecmp_enabled,omitempty"`
+
+	// (Updatable) An optional property when flipped disables the import of route Distribution by setting import_drg_route_distribution_id to null.
+	RemoveImportTrigger *bool `json:"removeImportTrigger,omitempty" tf:"remove_import_trigger,omitempty"`
+}
+
 type DrgRouteTableObservation struct {
 
 	// The OCID of the compartment the DRG is in. The DRG route table is always in the same compartment as the DRG.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The OCID of the DRG the DRG route table belongs to.
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the DRG route table.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) The OCID of the import route distribution used to specify how incoming route advertisements through referenced attachments are inserted into the DRG route table.
+	ImportDrgRouteDistributionID *string `json:"importDrgRouteDistributionId,omitempty" tf:"import_drg_route_distribution_id,omitempty"`
+
+	// (Updatable) If you want traffic to be routed using ECMP across your virtual circuits or IPSec tunnels to your on-premises networks, enable ECMP on the DRG route table.
+	IsEcmpEnabled *bool `json:"isEcmpEnabled,omitempty" tf:"is_ecmp_enabled,omitempty"`
+
+	// (Updatable) An optional property when flipped disables the import of route Distribution by setting import_drg_route_distribution_id to null.
+	RemoveImportTrigger *bool `json:"removeImportTrigger,omitempty" tf:"remove_import_trigger,omitempty"`
 
 	// The DRG route table's current state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -32,6 +99,7 @@ type DrgRouteTableParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -53,6 +121,7 @@ type DrgRouteTableParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The OCID of the import route distribution used to specify how incoming route advertisements through referenced attachments are inserted into the DRG route table.
@@ -81,6 +150,17 @@ type DrgRouteTableParameters struct {
 type DrgRouteTableSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DrgRouteTableParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DrgRouteTableInitParameters `json:"initProvider,omitempty"`
 }
 
 // DrgRouteTableStatus defines the observed state of DrgRouteTable.
@@ -90,13 +170,14 @@ type DrgRouteTableStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DrgRouteTable is the Schema for the DrgRouteTables API. Provides the Drg Route Table resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type DrgRouteTable struct {
 	metav1.TypeMeta   `json:",inline"`

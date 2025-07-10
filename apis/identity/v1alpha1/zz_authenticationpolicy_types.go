@@ -13,8 +13,39 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuthenticationPolicyInitParameters struct {
+
+	// The OCID of the compartment.
+	// +crossplane:generate:reference:type=Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Network policy, Consists of a list of Network Source ids.
+	NetworkPolicy []NetworkPolicyInitParameters `json:"networkPolicy,omitempty" tf:"network_policy,omitempty"`
+
+	// (Updatable) Password policy, currently set for the given compartment.
+	PasswordPolicy []PasswordPolicyInitParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
+}
+
 type AuthenticationPolicyObservation struct {
+
+	// The OCID of the compartment.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) Network policy, Consists of a list of Network Source ids.
+	NetworkPolicy []NetworkPolicyObservation `json:"networkPolicy,omitempty" tf:"network_policy,omitempty"`
+
+	// (Updatable) Password policy, currently set for the given compartment.
+	PasswordPolicy []PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 }
 
 type AuthenticationPolicyParameters struct {
@@ -41,7 +72,16 @@ type AuthenticationPolicyParameters struct {
 	PasswordPolicy []PasswordPolicyParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 }
 
+type NetworkPolicyInitParameters struct {
+
+	// (Updatable) Network Source ids
+	NetworkSourceIds []*string `json:"networkSourceIds,omitempty" tf:"network_source_ids,omitempty"`
+}
+
 type NetworkPolicyObservation struct {
+
+	// (Updatable) Network Source ids
+	NetworkSourceIds []*string `json:"networkSourceIds,omitempty" tf:"network_source_ids,omitempty"`
 }
 
 type NetworkPolicyParameters struct {
@@ -51,7 +91,46 @@ type NetworkPolicyParameters struct {
 	NetworkSourceIds []*string `json:"networkSourceIds,omitempty" tf:"network_source_ids,omitempty"`
 }
 
+type PasswordPolicyInitParameters struct {
+
+	// (Updatable) At least one lower case character required.
+	IsLowercaseCharactersRequired *bool `json:"isLowercaseCharactersRequired,omitempty" tf:"is_lowercase_characters_required,omitempty"`
+
+	// (Updatable) At least one numeric character required.
+	IsNumericCharactersRequired *bool `json:"isNumericCharactersRequired,omitempty" tf:"is_numeric_characters_required,omitempty"`
+
+	// (Updatable) At least one special character required.
+	IsSpecialCharactersRequired *bool `json:"isSpecialCharactersRequired,omitempty" tf:"is_special_characters_required,omitempty"`
+
+	// (Updatable) At least one uppercase character required.
+	IsUppercaseCharactersRequired *bool `json:"isUppercaseCharactersRequired,omitempty" tf:"is_uppercase_characters_required,omitempty"`
+
+	// (Updatable) User name is allowed to be part of the password.
+	IsUsernameContainmentAllowed *bool `json:"isUsernameContainmentAllowed,omitempty" tf:"is_username_containment_allowed,omitempty"`
+
+	// (Updatable) Minimum password length required.
+	MinimumPasswordLength *float64 `json:"minimumPasswordLength,omitempty" tf:"minimum_password_length,omitempty"`
+}
+
 type PasswordPolicyObservation struct {
+
+	// (Updatable) At least one lower case character required.
+	IsLowercaseCharactersRequired *bool `json:"isLowercaseCharactersRequired,omitempty" tf:"is_lowercase_characters_required,omitempty"`
+
+	// (Updatable) At least one numeric character required.
+	IsNumericCharactersRequired *bool `json:"isNumericCharactersRequired,omitempty" tf:"is_numeric_characters_required,omitempty"`
+
+	// (Updatable) At least one special character required.
+	IsSpecialCharactersRequired *bool `json:"isSpecialCharactersRequired,omitempty" tf:"is_special_characters_required,omitempty"`
+
+	// (Updatable) At least one uppercase character required.
+	IsUppercaseCharactersRequired *bool `json:"isUppercaseCharactersRequired,omitempty" tf:"is_uppercase_characters_required,omitempty"`
+
+	// (Updatable) User name is allowed to be part of the password.
+	IsUsernameContainmentAllowed *bool `json:"isUsernameContainmentAllowed,omitempty" tf:"is_username_containment_allowed,omitempty"`
+
+	// (Updatable) Minimum password length required.
+	MinimumPasswordLength *float64 `json:"minimumPasswordLength,omitempty" tf:"minimum_password_length,omitempty"`
 }
 
 type PasswordPolicyParameters struct {
@@ -85,6 +164,17 @@ type PasswordPolicyParameters struct {
 type AuthenticationPolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AuthenticationPolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AuthenticationPolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // AuthenticationPolicyStatus defines the observed state of AuthenticationPolicy.
@@ -94,13 +184,14 @@ type AuthenticationPolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AuthenticationPolicy is the Schema for the AuthenticationPolicys API. Provides the Authentication Policy resource in Oracle Cloud Infrastructure Identity service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type AuthenticationPolicy struct {
 	metav1.TypeMeta   `json:",inline"`

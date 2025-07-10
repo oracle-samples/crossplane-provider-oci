@@ -13,8 +13,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ObjectLifecyclePolicyInitParameters struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The bucket's set of lifecycle policy rules.
+	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+}
+
 type ObjectLifecyclePolicyObservation struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The bucket's set of lifecycle policy rules.
+	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// The date and time the object lifecycle policy was created, as described in RFC 3339.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -23,51 +45,126 @@ type ObjectLifecyclePolicyObservation struct {
 type ObjectLifecyclePolicyParameters struct {
 
 	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// The Object Storage namespace used for the request.
-	// +kubebuilder:validation:Required
-	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// (Updatable) The bucket's set of lifecycle policy rules.
 	// +kubebuilder:validation:Optional
 	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
+type ObjectNameFilterInitParameters struct {
+
+	// (Updatable) An array of glob patterns to match the object names to exclude. An empty array is ignored. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
+	// +listType=set
+	ExclusionPatterns []*string `json:"exclusionPatterns,omitempty" tf:"exclusion_patterns,omitempty"`
+
+	// (Updatable) An array of glob patterns to match the object names to include. An empty array includes all objects in the bucket. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
+	// +listType=set
+	InclusionPatterns []*string `json:"inclusionPatterns,omitempty" tf:"inclusion_patterns,omitempty"`
+
+	// (Updatable) An array of object name prefixes that the rule will apply to. An empty array means to include all objects.
+	// +listType=set
+	InclusionPrefixes []*string `json:"inclusionPrefixes,omitempty" tf:"inclusion_prefixes,omitempty"`
+}
+
 type ObjectNameFilterObservation struct {
+
+	// (Updatable) An array of glob patterns to match the object names to exclude. An empty array is ignored. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
+	// +listType=set
+	ExclusionPatterns []*string `json:"exclusionPatterns,omitempty" tf:"exclusion_patterns,omitempty"`
+
+	// (Updatable) An array of glob patterns to match the object names to include. An empty array includes all objects in the bucket. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
+	// +listType=set
+	InclusionPatterns []*string `json:"inclusionPatterns,omitempty" tf:"inclusion_patterns,omitempty"`
+
+	// (Updatable) An array of object name prefixes that the rule will apply to. An empty array means to include all objects.
+	// +listType=set
+	InclusionPrefixes []*string `json:"inclusionPrefixes,omitempty" tf:"inclusion_prefixes,omitempty"`
 }
 
 type ObjectNameFilterParameters struct {
 
 	// (Updatable) An array of glob patterns to match the object names to exclude. An empty array is ignored. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ExclusionPatterns []*string `json:"exclusionPatterns,omitempty" tf:"exclusion_patterns,omitempty"`
 
 	// (Updatable) An array of glob patterns to match the object names to include. An empty array includes all objects in the bucket. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	InclusionPatterns []*string `json:"inclusionPatterns,omitempty" tf:"inclusion_patterns,omitempty"`
 
 	// (Updatable) An array of object name prefixes that the rule will apply to. An empty array means to include all objects.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	InclusionPrefixes []*string `json:"inclusionPrefixes,omitempty" tf:"inclusion_prefixes,omitempty"`
 }
 
+type RulesInitParameters struct {
+
+	// (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects from Standard and InfrequentAccess storage tiers into the Archive storage tier. Rules using the action 'INFREQUENT_ACCESS' move objects from Standard storage tier into the Infrequent Access Storage tier. Objects that are already in InfrequentAccess tier or in Archive tier are left untouched. Rules using the action 'DELETE' permanently delete objects from buckets. Rules using 'ABORT' abort the uncommitted multipart-uploads and permanently delete their parts from buckets.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) A Boolean that determines whether this rule is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) The name of the lifecycle rule to be applied.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) A filter that compares object names to a set of prefixes or patterns to determine if a rule applies to a given object. The filter can contain include glob patterns, exclude glob patterns and inclusion prefixes. The inclusion prefixes property is kept for backward compatibility. It is recommended to use inclusion patterns instead of prefixes. Exclusions take precedence over inclusions.
+	ObjectNameFilter []ObjectNameFilterInitParameters `json:"objectNameFilter,omitempty" tf:"object_name_filter,omitempty"`
+
+	// (Updatable) The target of the object lifecycle policy rule. The values of target can be either "objects", "multipart-uploads" or "previous-object-versions". This field when declared as "objects" is used to specify ARCHIVE, INFREQUENT_ACCESS or DELETE rule for objects. This field when declared as "previous-object-versions" is used to specify ARCHIVE, INFREQUENT_ACCESS or DELETE rule for previous versions of existing objects. This field when declared as "multipart-uploads" is used to specify the ABORT (only) rule for uncommitted multipart-uploads.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// (Updatable) Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object's Last-Modified time.
+	TimeAmount *string `json:"timeAmount,omitempty" tf:"time_amount,omitempty"`
+
+	// (Updatable) The unit that should be used to interpret timeAmount.  Days are defined as starting and ending at midnight UTC. Years are defined as 365.2425 days long and likewise round up to the next midnight UTC.
+	TimeUnit *string `json:"timeUnit,omitempty" tf:"time_unit,omitempty"`
+}
+
 type RulesObservation struct {
+
+	// (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects from Standard and InfrequentAccess storage tiers into the Archive storage tier. Rules using the action 'INFREQUENT_ACCESS' move objects from Standard storage tier into the Infrequent Access Storage tier. Objects that are already in InfrequentAccess tier or in Archive tier are left untouched. Rules using the action 'DELETE' permanently delete objects from buckets. Rules using 'ABORT' abort the uncommitted multipart-uploads and permanently delete their parts from buckets.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// (Updatable) A Boolean that determines whether this rule is currently enabled.
+	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
+
+	// (Updatable) The name of the lifecycle rule to be applied.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) A filter that compares object names to a set of prefixes or patterns to determine if a rule applies to a given object. The filter can contain include glob patterns, exclude glob patterns and inclusion prefixes. The inclusion prefixes property is kept for backward compatibility. It is recommended to use inclusion patterns instead of prefixes. Exclusions take precedence over inclusions.
+	ObjectNameFilter []ObjectNameFilterObservation `json:"objectNameFilter,omitempty" tf:"object_name_filter,omitempty"`
+
+	// (Updatable) The target of the object lifecycle policy rule. The values of target can be either "objects", "multipart-uploads" or "previous-object-versions". This field when declared as "objects" is used to specify ARCHIVE, INFREQUENT_ACCESS or DELETE rule for objects. This field when declared as "previous-object-versions" is used to specify ARCHIVE, INFREQUENT_ACCESS or DELETE rule for previous versions of existing objects. This field when declared as "multipart-uploads" is used to specify the ABORT (only) rule for uncommitted multipart-uploads.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// (Updatable) Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object's Last-Modified time.
+	TimeAmount *string `json:"timeAmount,omitempty" tf:"time_amount,omitempty"`
+
+	// (Updatable) The unit that should be used to interpret timeAmount.  Days are defined as starting and ending at midnight UTC. Years are defined as 365.2425 days long and likewise round up to the next midnight UTC.
+	TimeUnit *string `json:"timeUnit,omitempty" tf:"time_unit,omitempty"`
 }
 
 type RulesParameters struct {
 
 	// (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects from Standard and InfrequentAccess storage tiers into the Archive storage tier. Rules using the action 'INFREQUENT_ACCESS' move objects from Standard storage tier into the Infrequent Access Storage tier. Objects that are already in InfrequentAccess tier or in Archive tier are left untouched. Rules using the action 'DELETE' permanently delete objects from buckets. Rules using 'ABORT' abort the uncommitted multipart-uploads and permanently delete their parts from buckets.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
 	// (Updatable) A Boolean that determines whether this rule is currently enabled.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	IsEnabled *bool `json:"isEnabled" tf:"is_enabled,omitempty"`
 
 	// (Updatable) The name of the lifecycle rule to be applied.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// (Updatable) A filter that compares object names to a set of prefixes or patterns to determine if a rule applies to a given object. The filter can contain include glob patterns, exclude glob patterns and inclusion prefixes. The inclusion prefixes property is kept for backward compatibility. It is recommended to use inclusion patterns instead of prefixes. Exclusions take precedence over inclusions.
@@ -79,11 +176,11 @@ type RulesParameters struct {
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// (Updatable) Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object's Last-Modified time.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	TimeAmount *string `json:"timeAmount" tf:"time_amount,omitempty"`
 
 	// (Updatable) The unit that should be used to interpret timeAmount.  Days are defined as starting and ending at midnight UTC. Years are defined as 365.2425 days long and likewise round up to the next midnight UTC.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	TimeUnit *string `json:"timeUnit" tf:"time_unit,omitempty"`
 }
 
@@ -91,6 +188,17 @@ type RulesParameters struct {
 type ObjectLifecyclePolicySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ObjectLifecyclePolicyParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ObjectLifecyclePolicyInitParameters `json:"initProvider,omitempty"`
 }
 
 // ObjectLifecyclePolicyStatus defines the observed state of ObjectLifecyclePolicy.
@@ -100,19 +208,22 @@ type ObjectLifecyclePolicyStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ObjectLifecyclePolicy is the Schema for the ObjectLifecyclePolicys API. Provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ObjectLifecyclePolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ObjectLifecyclePolicySpec   `json:"spec"`
-	Status            ObjectLifecyclePolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucket) || (has(self.initProvider) && has(self.initProvider.bucket))",message="spec.forProvider.bucket is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.__namespace__) || (has(self.initProvider) && has(self.initProvider.__namespace__))",message="spec.forProvider.namespace is a required parameter"
+	Spec   ObjectLifecyclePolicySpec   `json:"spec"`
+	Status ObjectLifecyclePolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

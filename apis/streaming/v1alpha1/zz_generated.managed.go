@@ -17,17 +17,14 @@ func (mg *ConnectHarness) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this ConnectHarness.
+func (mg *ConnectHarness) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this ConnectHarness.
 func (mg *ConnectHarness) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this ConnectHarness.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ConnectHarness) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this ConnectHarness.
@@ -50,17 +47,14 @@ func (mg *ConnectHarness) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this ConnectHarness.
+func (mg *ConnectHarness) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this ConnectHarness.
 func (mg *ConnectHarness) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this ConnectHarness.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ConnectHarness) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this ConnectHarness.
@@ -83,17 +77,14 @@ func (mg *Stream) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Stream.
+func (mg *Stream) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Stream.
 func (mg *Stream) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this Stream.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Stream) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this Stream.
@@ -116,17 +107,14 @@ func (mg *Stream) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Stream.
+func (mg *Stream) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Stream.
 func (mg *Stream) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Stream.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Stream) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Stream.
@@ -149,17 +137,14 @@ func (mg *StreamPool) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this StreamPool.
+func (mg *StreamPool) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this StreamPool.
 func (mg *StreamPool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this StreamPool.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *StreamPool) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this StreamPool.
@@ -182,17 +167,14 @@ func (mg *StreamPool) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this StreamPool.
+func (mg *StreamPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this StreamPool.
 func (mg *StreamPool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this StreamPool.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *StreamPool) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this StreamPool.

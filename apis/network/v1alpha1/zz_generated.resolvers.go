@@ -69,6 +69,54 @@ func (mg *FirewallNetworkFirewall) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.ForProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkFirewallPolicyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkFirewallPolicyIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkFirewallPolicyIDSelector,
+		To: reference.To{
+			List:    &FirewallNetworkFirewallPolicyList{},
+			Managed: &FirewallNetworkFirewallPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkFirewallPolicyID")
+	}
+	mg.Spec.InitProvider.NetworkFirewallPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkFirewallPolicyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubnetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SubnetIDRef,
+		Selector:     mg.Spec.InitProvider.SubnetIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.SubnetList{},
+			Managed: &v1alpha11.Subnet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubnetID")
+	}
+	mg.Spec.InitProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SubnetIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -94,6 +142,22 @@ func (mg *FirewallNetworkFirewallPolicy) ResolveReferences(ctx context.Context, 
 	}
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -121,6 +185,22 @@ func (mg *LoadBalancerBackend) ResolveReferences(ctx context.Context, c client.R
 	mg.Spec.ForProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkLoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkLoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkLoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerNetworkLoadBalancerList{},
+			Managed: &LoadBalancerNetworkLoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkLoadBalancerID")
+	}
+	mg.Spec.InitProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -147,6 +227,22 @@ func (mg *LoadBalancerBackendSet) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.ForProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkLoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkLoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkLoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerNetworkLoadBalancerList{},
+			Managed: &LoadBalancerNetworkLoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkLoadBalancerID")
+	}
+	mg.Spec.InitProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -172,6 +268,22 @@ func (mg *LoadBalancerListener) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.ForProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkLoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkLoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkLoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerNetworkLoadBalancerList{},
+			Managed: &LoadBalancerNetworkLoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkLoadBalancerID")
+	}
+	mg.Spec.InitProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -215,6 +327,38 @@ func (mg *LoadBalancerNetworkLoadBalancer) ResolveReferences(ctx context.Context
 	mg.Spec.ForProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubnetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SubnetIDRef,
+		Selector:     mg.Spec.InitProvider.SubnetIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.SubnetList{},
+			Managed: &v1alpha11.Subnet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubnetID")
+	}
+	mg.Spec.InitProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SubnetIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -240,6 +384,22 @@ func (mg *LoadBalancerNetworkLoadBalancersBackendSetsUnified) ResolveReferences(
 	}
 	mg.Spec.ForProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkLoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.NetworkLoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkLoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerNetworkLoadBalancerList{},
+			Managed: &LoadBalancerNetworkLoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkLoadBalancerID")
+	}
+	mg.Spec.InitProvider.NetworkLoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkLoadBalancerIDRef = rsp.ResolvedReference
 
 	return nil
 }

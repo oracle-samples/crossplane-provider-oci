@@ -13,44 +13,125 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ItemsInitParameters struct {
+
+	// The target fully-qualified domain name (FQDN) within the target zone.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// (Updatable) The Time To Live for the record, in seconds.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
 type ItemsObservation struct {
+
+	// The target fully-qualified domain name (FQDN) within the target zone.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// A Boolean flag indicating whether or not parts of the record are unable to be explicitly managed.
 	IsProtected *bool `json:"isProtected,omitempty" tf:"is_protected,omitempty"`
+
+	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
 
 	// A unique identifier for the record within its zone.
 	RecordHash *string `json:"recordHash,omitempty" tf:"record_hash,omitempty"`
 
 	// The latest version of the record's zone in which its RRSet differs from the preceding version.
 	RrsetVersion *string `json:"rrsetVersion,omitempty" tf:"rrset_version,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// (Updatable) The Time To Live for the record, in seconds.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type ItemsParameters struct {
 
 	// The target fully-qualified domain name (FQDN) within the target zone.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain" tf:"domain,omitempty"`
 
 	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Rdata *string `json:"rdata" tf:"rdata,omitempty"`
 
 	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Rtype *string `json:"rtype" tf:"rtype,omitempty"`
 
 	// (Updatable) The Time To Live for the record, in seconds.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl" tf:"ttl,omitempty"`
 }
 
+type RrsetInitParameters struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// The target fully-qualified domain name (FQDN) within the target zone.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// (Updatable)
+	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
+	Items []ItemsInitParameters `json:"items,omitempty" tf:"items,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// Specifies to operate only on resources that have a matching DNS scope.
+	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// The OCID of the view the resource is associated with.
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
+
+	// The name or OCID of the target zone.
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
+}
+
 type RrsetObservation struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The target fully-qualified domain name (FQDN) within the target zone.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Updatable)
 	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
-	// +kubebuilder:validation:Optional
 	Items []ItemsObservation `json:"items,omitempty" tf:"items,omitempty"`
+
+	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
+
+	// Specifies to operate only on resources that have a matching DNS scope.
+	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// The OCID of the view the resource is associated with.
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
+
+	// The name or OCID of the target zone.
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
 }
 
 type RrsetParameters struct {
@@ -69,8 +150,8 @@ type RrsetParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// The target fully-qualified domain name (FQDN) within the target zone.
-	// +kubebuilder:validation:Required
-	Domain *string `json:"domain" tf:"domain,omitempty"`
+	// +kubebuilder:validation:Optional
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// (Updatable)
 	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
@@ -78,8 +159,8 @@ type RrsetParameters struct {
 	Items []ItemsParameters `json:"items,omitempty" tf:"items,omitempty"`
 
 	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
-	// +kubebuilder:validation:Required
-	Rtype *string `json:"rtype" tf:"rtype,omitempty"`
+	// +kubebuilder:validation:Optional
+	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.
 	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
@@ -91,14 +172,25 @@ type RrsetParameters struct {
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 
 	// The name or OCID of the target zone.
-	// +kubebuilder:validation:Required
-	ZoneNameOrID *string `json:"zoneNameOrId" tf:"zone_name_or_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ZoneNameOrID *string `json:"zoneNameOrId,omitempty" tf:"zone_name_or_id,omitempty"`
 }
 
 // RrsetSpec defines the desired state of Rrset
 type RrsetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RrsetParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider RrsetInitParameters `json:"initProvider,omitempty"`
 }
 
 // RrsetStatus defines the observed state of Rrset.
@@ -108,19 +200,23 @@ type RrsetStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Rrset is the Schema for the Rrsets API. Provides the Rrset resource in Oracle Cloud Infrastructure DNS service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Rrset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RrsetSpec   `json:"spec"`
-	Status            RrsetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain) || (has(self.initProvider) && has(self.initProvider.domain))",message="spec.forProvider.domain is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rtype) || (has(self.initProvider) && has(self.initProvider.rtype))",message="spec.forProvider.rtype is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.zoneNameOrId) || (has(self.initProvider) && has(self.initProvider.zoneNameOrId))",message="spec.forProvider.zoneNameOrId is a required parameter"
+	Spec   RrsetSpec   `json:"spec"`
+	Status RrsetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

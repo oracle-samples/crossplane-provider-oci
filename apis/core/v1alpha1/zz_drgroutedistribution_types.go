@@ -13,10 +13,56 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DrgRouteDistributionInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
+
+	// The OCID of the DRG the DRG route table belongs to.
+	// +crossplane:generate:reference:type=Drg
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// Reference to a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Drg to populate drgId.
+	// +kubebuilder:validation:Optional
+	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+}
+
 type DrgRouteDistributionObservation struct {
 
 	// The OCID of the compartment containing the route distribution.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
+
+	// The OCID of the DRG the DRG route table belongs to.
+	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The route distribution's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -32,6 +78,7 @@ type DrgRouteDistributionParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -39,8 +86,8 @@ type DrgRouteDistributionParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
-	// +kubebuilder:validation:Required
-	DistributionType *string `json:"distributionType" tf:"distribution_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
 
 	// The OCID of the DRG the DRG route table belongs to.
 	// +crossplane:generate:reference:type=Drg
@@ -57,6 +104,7 @@ type DrgRouteDistributionParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 }
 
@@ -64,6 +112,17 @@ type DrgRouteDistributionParameters struct {
 type DrgRouteDistributionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DrgRouteDistributionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider DrgRouteDistributionInitParameters `json:"initProvider,omitempty"`
 }
 
 // DrgRouteDistributionStatus defines the observed state of DrgRouteDistribution.
@@ -73,19 +132,21 @@ type DrgRouteDistributionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DrgRouteDistribution is the Schema for the DrgRouteDistributions API. Provides the Drg Route Distribution resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type DrgRouteDistribution struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DrgRouteDistributionSpec   `json:"spec"`
-	Status            DrgRouteDistributionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.distributionType) || (has(self.initProvider) && has(self.initProvider.distributionType))",message="spec.forProvider.distributionType is a required parameter"
+	Spec   DrgRouteDistributionSpec   `json:"spec"`
+	Status DrgRouteDistributionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -1,0 +1,17 @@
+apiVersion: streaming.oci.upbound.io/v1alpha1
+kind: ConnectHarness
+metadata:
+  annotations:
+    meta.upbound.io/example-id: streaming/v1alpha1/connectharness
+  labels:
+    testing.upbound.io/example-name: test_connect_harness
+  name: test-connect-harness
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags: ${var.connect_harness_defined_tags}
+    freeformTags:
+      Department: Finance
+    name: ${var.connect_harness_name}

@@ -13,15 +13,61 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NotificationTopicInitParameters struct {
+
+	// (Updatable) The OCID of the compartment to create the topic in.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description of the topic being created. Avoid entering confidential information.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The name of the topic being created. The topic name must be unique across the tenancy. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type NotificationTopicObservation struct {
 
 	// The endpoint for managing subscriptions or publishing messages to the topic.
 	APIEndpoint *string `json:"apiEndpoint,omitempty" tf:"api_endpoint,omitempty"`
 
+	// (Updatable) The OCID of the compartment to create the topic in.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description of the topic being created. Avoid entering confidential information.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// For optimistic concurrency control. See if-match.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the topic being created. The topic name must be unique across the tenancy. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A unique short topic Id. This is used only for SMS subscriptions.
 	ShortTopicID *string `json:"shortTopicId,omitempty" tf:"short_topic_id,omitempty"`
@@ -53,6 +99,7 @@ type NotificationTopicParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The description of the topic being created. Avoid entering confidential information.
@@ -61,17 +108,29 @@ type NotificationTopicParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The name of the topic being created. The topic name must be unique across the tenancy. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // NotificationTopicSpec defines the desired state of NotificationTopic
 type NotificationTopicSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NotificationTopicParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NotificationTopicInitParameters `json:"initProvider,omitempty"`
 }
 
 // NotificationTopicStatus defines the observed state of NotificationTopic.
@@ -81,19 +140,21 @@ type NotificationTopicStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // NotificationTopic is the Schema for the NotificationTopics API. Provides the Notification Topic resource in Oracle Cloud Infrastructure Notifications service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type NotificationTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NotificationTopicSpec   `json:"spec"`
-	Status            NotificationTopicStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   NotificationTopicSpec   `json:"spec"`
+	Status NotificationTopicStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

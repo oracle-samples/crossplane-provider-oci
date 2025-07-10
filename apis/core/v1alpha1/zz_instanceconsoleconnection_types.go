@@ -13,6 +13,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceConsoleConnectionInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The OCID of the instance to create the console connection to.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// The SSH public key used to authenticate the console connection.
+	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+}
+
 type InstanceConsoleConnectionObservation struct {
 
 	// The OCID of the compartment to contain the console connection.
@@ -21,11 +38,25 @@ type InstanceConsoleConnectionObservation struct {
 	// The SSH connection string for the console connection.
 	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
 	// The SSH public key's fingerprint for client authentication to the console connection.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the console connection.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the instance to create the console connection to.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// The SSH public key used to authenticate the console connection.
+	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
 	// The SSH public key's fingerprint for the console connection service host.
 	ServiceHostKeyFingerprint *string `json:"serviceHostKeyFingerprint,omitempty" tf:"service_host_key_fingerprint,omitempty"`
@@ -41,25 +72,38 @@ type InstanceConsoleConnectionParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the instance to create the console connection to.
-	// +kubebuilder:validation:Required
-	InstanceID *string `json:"instanceId" tf:"instance_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The SSH public key used to authenticate the console connection.
-	// +kubebuilder:validation:Required
-	PublicKey *string `json:"publicKey" tf:"public_key,omitempty"`
+	// +kubebuilder:validation:Optional
+	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 }
 
 // InstanceConsoleConnectionSpec defines the desired state of InstanceConsoleConnection
 type InstanceConsoleConnectionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceConsoleConnectionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider InstanceConsoleConnectionInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceConsoleConnectionStatus defines the observed state of InstanceConsoleConnection.
@@ -69,19 +113,22 @@ type InstanceConsoleConnectionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InstanceConsoleConnection is the Schema for the InstanceConsoleConnections API. Provides the Instance Console Connection resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type InstanceConsoleConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceConsoleConnectionSpec   `json:"spec"`
-	Status            InstanceConsoleConnectionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceId) || (has(self.initProvider) && has(self.initProvider.instanceId))",message="spec.forProvider.instanceId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.publicKey) || (has(self.initProvider) && has(self.initProvider.publicKey))",message="spec.forProvider.publicKey is a required parameter"
+	Spec   InstanceConsoleConnectionSpec   `json:"spec"`
+	Status InstanceConsoleConnectionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

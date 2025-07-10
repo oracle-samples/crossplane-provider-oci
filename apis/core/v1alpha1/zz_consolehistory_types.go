@@ -13,6 +13,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConsoleHistoryInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The OCID of the instance to get the console history from.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+}
+
 type ConsoleHistoryObservation struct {
 
 	// The availability domain of an instance.  Example: Uocm:PHX-AD-1
@@ -21,8 +38,22 @@ type ConsoleHistoryObservation struct {
 	// The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the console history metadata object.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the instance to get the console history from.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The current state of the console history.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -35,6 +66,7 @@ type ConsoleHistoryParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -43,17 +75,29 @@ type ConsoleHistoryParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the instance to get the console history from.
-	// +kubebuilder:validation:Required
-	InstanceID *string `json:"instanceId" tf:"instance_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 }
 
 // ConsoleHistorySpec defines the desired state of ConsoleHistory
 type ConsoleHistorySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConsoleHistoryParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ConsoleHistoryInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConsoleHistoryStatus defines the observed state of ConsoleHistory.
@@ -63,19 +107,21 @@ type ConsoleHistoryStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ConsoleHistory is the Schema for the ConsoleHistorys API. Provides the Console History resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ConsoleHistory struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConsoleHistorySpec   `json:"spec"`
-	Status            ConsoleHistoryStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceId) || (has(self.initProvider) && has(self.initProvider.instanceId))",message="spec.forProvider.instanceId is a required parameter"
+	Spec   ConsoleHistorySpec   `json:"spec"`
+	Status ConsoleHistoryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

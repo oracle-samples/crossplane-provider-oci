@@ -13,14 +13,128 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ObjectInitParameters struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify objects that require caching restrictions.
+	CacheControl *string `json:"cacheControl,omitempty" tf:"cache_control,omitempty"`
+
+	// The object to upload to the object store. Cannot be defined if source or source_uri_details is defined.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The optional Content-Disposition header that defines presentational information for the object to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to let users download objects with custom filenames in a browser.
+	ContentDisposition *string `json:"contentDisposition,omitempty" tf:"content_disposition,omitempty"`
+
+	// The optional Content-Encoding header that defines the content encodings that were applied to the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to determine what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of the object.
+	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
+
+	// The optional Content-Language header that defines the content language of the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and differentiate objects based on a particular language.
+	ContentLanguage *string `json:"contentLanguage,omitempty" tf:"content_language,omitempty"`
+
+	// (Updatable) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
+
+	// The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and perform special operations on text only objects.
+	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
+
+	// (Updatable) A boolean to delete all object versions for an object in a bucket that has or ever had versioning enabled.
+	DeleteAllObjectVersions *bool `json:"deleteAllObjectVersions,omitempty" tf:"delete_all_object_versions,omitempty"`
+
+	// Optional user-defined metadata key and value.
+	// Note: All specified keys must be in lower case.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// (Updatable) The OCID of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/kms/v1alpha1.Key
+	OpcSseKMSKeyID *string `json:"opcSseKmsKeyId,omitempty" tf:"opc_sse_kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate opcSseKmsKeyId.
+	// +kubebuilder:validation:Optional
+	OpcSseKMSKeyIDRef *v1.Reference `json:"opcSseKmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate opcSseKmsKeyId.
+	// +kubebuilder:validation:Optional
+	OpcSseKMSKeyIDSelector *v1.Selector `json:"opcSseKmsKeyIdSelector,omitempty" tf:"-"`
+
+	// An absolute path to a file on the local system. Cannot be defined if content or source_uri_details is defined.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Details of the source URI of the object in the cloud. Cannot be defined if content or source is defined.
+	// Note: To enable object copy, you must authorize the service to manage objects on your behalf.
+	SourceURIDetails []SourceURIDetailsInitParameters `json:"sourceUriDetails,omitempty" tf:"source_uri_details,omitempty"`
+
+	// (Updatable) The storage tier that the object should be stored in. If not specified, the object will be stored in the same storage tier as the bucket.
+	StorageTier *string `json:"storageTier,omitempty" tf:"storage_tier,omitempty"`
+}
+
 type ObjectObservation struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify objects that require caching restrictions.
+	CacheControl *string `json:"cacheControl,omitempty" tf:"cache_control,omitempty"`
+
+	// The object to upload to the object store. Cannot be defined if source or source_uri_details is defined.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The optional Content-Disposition header that defines presentational information for the object to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to let users download objects with custom filenames in a browser.
+	ContentDisposition *string `json:"contentDisposition,omitempty" tf:"content_disposition,omitempty"`
+
+	// The optional Content-Encoding header that defines the content encodings that were applied to the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to determine what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of the object.
+	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
+
+	// The optional Content-Language header that defines the content language of the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and differentiate objects based on a particular language.
+	ContentLanguage *string `json:"contentLanguage,omitempty" tf:"content_language,omitempty"`
 
 	// (Updatable) The content length of the body.
 	ContentLength *string `json:"contentLength,omitempty" tf:"content_length,omitempty"`
 
+	// (Updatable) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
+
+	// The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and perform special operations on text only objects.
+	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
+
+	// (Updatable) A boolean to delete all object versions for an object in a bucket that has or ever had versioning enabled.
+	DeleteAllObjectVersions *bool `json:"deleteAllObjectVersions,omitempty" tf:"delete_all_object_versions,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Optional user-defined metadata key and value.
+	// Note: All specified keys must be in lower case.
+	// +mapType=granular
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// (Updatable) The OCID of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
+	OpcSseKMSKeyID *string `json:"opcSseKmsKeyId,omitempty" tf:"opc_sse_kms_key_id,omitempty"`
+
+	// An absolute path to a file on the local system. Cannot be defined if content or source_uri_details is defined.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// Details of the source URI of the object in the cloud. Cannot be defined if content or source is defined.
+	// Note: To enable object copy, you must authorize the service to manage objects on your behalf.
+	SourceURIDetails []SourceURIDetailsObservation `json:"sourceUriDetails,omitempty" tf:"source_uri_details,omitempty"`
+
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// (Updatable) The storage tier that the object should be stored in. If not specified, the object will be stored in the same storage tier as the bucket.
+	StorageTier *string `json:"storageTier,omitempty" tf:"storage_tier,omitempty"`
 
 	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 
@@ -30,8 +144,8 @@ type ObjectObservation struct {
 type ObjectParameters struct {
 
 	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Optional
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify objects that require caching restrictions.
 	// +kubebuilder:validation:Optional
@@ -68,15 +182,16 @@ type ObjectParameters struct {
 	// Optional user-defined metadata key and value.
 	// Note: All specified keys must be in lower case.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The Object Storage namespace used for the request.
-	// +kubebuilder:validation:Required
-	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+	// +kubebuilder:validation:Optional
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
-	// +kubebuilder:validation:Required
-	Object *string `json:"object" tf:"object,omitempty"`
+	// +kubebuilder:validation:Optional
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// (Updatable) The OCID of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/kms/v1alpha1.Key
@@ -105,13 +220,64 @@ type ObjectParameters struct {
 	StorageTier *string `json:"storageTier,omitempty" tf:"storage_tier,omitempty"`
 }
 
+type SourceURIDetailsInitParameters struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The entity tag to match the target object.
+	DestinationObjectIfMatchEtag *string `json:"destinationObjectIfMatchEtag,omitempty" tf:"destination_object_if_match_etag,omitempty"`
+
+	// The entity tag to not match the target object.
+	DestinationObjectIfNoneMatchEtag *string `json:"destinationObjectIfNoneMatchEtag,omitempty" tf:"destination_object_if_none_match_etag,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// The region of the source object.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The entity tag to match the source object.
+	SourceObjectIfMatchEtag *string `json:"sourceObjectIfMatchEtag,omitempty" tf:"source_object_if_match_etag,omitempty"`
+
+	// The version id of the object to be restored.
+	SourceVersionID *string `json:"sourceVersionId,omitempty" tf:"source_version_id,omitempty"`
+}
+
 type SourceURIDetailsObservation struct {
+
+	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The entity tag to match the target object.
+	DestinationObjectIfMatchEtag *string `json:"destinationObjectIfMatchEtag,omitempty" tf:"destination_object_if_match_etag,omitempty"`
+
+	// The entity tag to not match the target object.
+	DestinationObjectIfNoneMatchEtag *string `json:"destinationObjectIfNoneMatchEtag,omitempty" tf:"destination_object_if_none_match_etag,omitempty"`
+
+	// The Object Storage namespace used for the request.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// The region of the source object.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The entity tag to match the source object.
+	SourceObjectIfMatchEtag *string `json:"sourceObjectIfMatchEtag,omitempty" tf:"source_object_if_match_etag,omitempty"`
+
+	// The version id of the object to be restored.
+	SourceVersionID *string `json:"sourceVersionId,omitempty" tf:"source_version_id,omitempty"`
 }
 
 type SourceURIDetailsParameters struct {
 
 	// The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// The entity tag to match the target object.
@@ -123,15 +289,15 @@ type SourceURIDetailsParameters struct {
 	DestinationObjectIfNoneMatchEtag *string `json:"destinationObjectIfNoneMatchEtag,omitempty" tf:"destination_object_if_none_match_etag,omitempty"`
 
 	// The Object Storage namespace used for the request.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
 
 	// (Updatable) The name of the object. Avoid entering confidential information. Example: test/object1.log
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Object *string `json:"object" tf:"object,omitempty"`
 
 	// The region of the source object.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The entity tag to match the source object.
@@ -147,6 +313,17 @@ type SourceURIDetailsParameters struct {
 type ObjectSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ObjectParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ObjectInitParameters `json:"initProvider,omitempty"`
 }
 
 // ObjectStatus defines the observed state of Object.
@@ -156,19 +333,23 @@ type ObjectStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Object is the Schema for the Objects API. Provides the Object resource in Oracle Cloud Infrastructure Object Storage service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Object struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ObjectSpec   `json:"spec"`
-	Status            ObjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bucket) || (has(self.initProvider) && has(self.initProvider.bucket))",message="spec.forProvider.bucket is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.__namespace__) || (has(self.initProvider) && has(self.initProvider.__namespace__))",message="spec.forProvider.namespace is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.object) || (has(self.initProvider) && has(self.initProvider.object))",message="spec.forProvider.object is a required parameter"
+	Spec   ObjectSpec   `json:"spec"`
+	Status ObjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -13,6 +13,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackendsInitParameters struct {
+}
+
 type BackendsObservation struct {
 
 	// The IP address of the backend server. Example: 10.0.0.3
@@ -43,10 +46,128 @@ type BackendsObservation struct {
 type BackendsParameters struct {
 }
 
+type DNSInitParameters struct {
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
+	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
+
+	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
+
+	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
+}
+
+type DNSObservation struct {
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
+	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
+
+	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
+
+	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
+}
+
+type DNSParameters struct {
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	// +kubebuilder:validation:Optional
+	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// +kubebuilder:validation:Optional
+	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
+}
+
+type HealthCheckerInitParameters struct {
+	DNS []DNSInitParameters `json:"dns,omitempty" tf:"dns,omitempty"`
+
+	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
+	IntervalInMillis *float64 `json:"intervalInMillis,omitempty" tf:"interval_in_millis,omitempty"`
+
+	// (Updatable) The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the Backend object. The port must be specified if the backend port is 0.  Example: 8080
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) Base64 encoded pattern to be sent as UDP or TCP health check probe.
+	RequestData *string `json:"requestData,omitempty" tf:"request_data,omitempty"`
+
+	// (Updatable) A regular expression for parsing the response body from the backend server.  Example: ^((?!false).|\s)*$
+	ResponseBodyRegex *string `json:"responseBodyRegex,omitempty" tf:"response_body_regex,omitempty"`
+
+	// (Updatable) Base64 encoded pattern to be validated as UDP or TCP health check probe response.
+	ResponseData *string `json:"responseData,omitempty" tf:"response_data,omitempty"`
+
+	// (Updatable) The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: 3
+	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
+
+	// (Updatable) The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: 200
+	ReturnCode *float64 `json:"returnCode,omitempty" tf:"return_code,omitempty"`
+
+	// (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: 3000
+	TimeoutInMillis *float64 `json:"timeoutInMillis,omitempty" tf:"timeout_in_millis,omitempty"`
+
+	// (Updatable) The path against which to run the health check.  Example: /healthcheck
+	URLPath *string `json:"urlPath,omitempty" tf:"url_path,omitempty"`
+}
+
 type HealthCheckerObservation struct {
+	DNS []DNSObservation `json:"dns,omitempty" tf:"dns,omitempty"`
+
+	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
+	IntervalInMillis *float64 `json:"intervalInMillis,omitempty" tf:"interval_in_millis,omitempty"`
+
+	// (Updatable) The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the Backend object. The port must be specified if the backend port is 0.  Example: 8080
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) Base64 encoded pattern to be sent as UDP or TCP health check probe.
+	RequestData *string `json:"requestData,omitempty" tf:"request_data,omitempty"`
+
+	// (Updatable) A regular expression for parsing the response body from the backend server.  Example: ^((?!false).|\s)*$
+	ResponseBodyRegex *string `json:"responseBodyRegex,omitempty" tf:"response_body_regex,omitempty"`
+
+	// (Updatable) Base64 encoded pattern to be validated as UDP or TCP health check probe response.
+	ResponseData *string `json:"responseData,omitempty" tf:"response_data,omitempty"`
+
+	// (Updatable) The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: 3
+	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
+
+	// (Updatable) The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: 200
+	ReturnCode *float64 `json:"returnCode,omitempty" tf:"return_code,omitempty"`
+
+	// (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: 3000
+	TimeoutInMillis *float64 `json:"timeoutInMillis,omitempty" tf:"timeout_in_millis,omitempty"`
+
+	// (Updatable) The path against which to run the health check.  Example: /healthcheck
+	URLPath *string `json:"urlPath,omitempty" tf:"url_path,omitempty"`
 }
 
 type HealthCheckerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DNS []DNSParameters `json:"dns,omitempty" tf:"dns,omitempty"`
 
 	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
 	// +kubebuilder:validation:Optional
@@ -57,7 +178,7 @@ type HealthCheckerParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 
 	// (Updatable) Base64 encoded pattern to be sent as UDP or TCP health check probe.
@@ -89,31 +210,105 @@ type HealthCheckerParameters struct {
 	URLPath *string `json:"urlPath,omitempty" tf:"url_path,omitempty"`
 }
 
+type LoadBalancerBackendSetInitParameters struct {
+	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
+
+	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
+	HealthChecker []HealthCheckerInitParameters `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
+
+	// (Updatable) IP version associated with the backend set.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
+
+	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
+
+	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
+
+	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
+	IsPreserveSource *bool `json:"isPreserveSource,omitempty" tf:"is_preserve_source,omitempty"`
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The OCID of the network load balancer to update.
+	// +crossplane:generate:reference:type=LoadBalancerNetworkLoadBalancer
+	NetworkLoadBalancerID *string `json:"networkLoadBalancerId,omitempty" tf:"network_load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// +kubebuilder:validation:Optional
+	NetworkLoadBalancerIDRef *v1.Reference `json:"networkLoadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// +kubebuilder:validation:Optional
+	NetworkLoadBalancerIDSelector *v1.Selector `json:"networkLoadBalancerIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE“
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
 type LoadBalancerBackendSetObservation struct {
+	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
 
 	// Array of backends.
 	Backends []BackendsObservation `json:"backends,omitempty" tf:"backends,omitempty"`
 
+	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
+	HealthChecker []HealthCheckerObservation `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) IP version associated with the backend set.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
+
+	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
+
+	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
+
+	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
+	IsPreserveSource *bool `json:"isPreserveSource,omitempty" tf:"is_preserve_source,omitempty"`
+
+	// A user-friendly name for the backend set that must be unique and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The OCID of the network load balancer to update.
+	NetworkLoadBalancerID *string `json:"networkLoadBalancerId,omitempty" tf:"network_load_balancer_id,omitempty"`
+
+	// (Updatable) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE“
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type LoadBalancerBackendSetParameters struct {
 
+	// +kubebuilder:validation:Optional
+	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
+
 	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
-	// +kubebuilder:validation:Required
-	HealthChecker []HealthCheckerParameters `json:"healthChecker" tf:"health_checker,omitempty"`
+	// +kubebuilder:validation:Optional
+	HealthChecker []HealthCheckerParameters `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
 
 	// (Updatable) IP version associated with the backend set.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 
 	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
 	// +kubebuilder:validation:Optional
 	IsPreserveSource *bool `json:"isPreserveSource,omitempty" tf:"is_preserve_source,omitempty"`
 
 	// A user-friendly name for the backend set that must be unique and cannot be changed.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The OCID of the network load balancer to update.
 	// +crossplane:generate:reference:type=LoadBalancerNetworkLoadBalancer
@@ -129,14 +324,25 @@ type LoadBalancerBackendSetParameters struct {
 	NetworkLoadBalancerIDSelector *v1.Selector `json:"networkLoadBalancerIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE“
-	// +kubebuilder:validation:Required
-	Policy *string `json:"policy" tf:"policy,omitempty"`
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 // LoadBalancerBackendSetSpec defines the desired state of LoadBalancerBackendSet
 type LoadBalancerBackendSetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LoadBalancerBackendSetParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LoadBalancerBackendSetInitParameters `json:"initProvider,omitempty"`
 }
 
 // LoadBalancerBackendSetStatus defines the observed state of LoadBalancerBackendSet.
@@ -146,19 +352,23 @@ type LoadBalancerBackendSetStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // LoadBalancerBackendSet is the Schema for the LoadBalancerBackendSets API. Provides the Backend Set resource in Oracle Cloud Infrastructure Network Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type LoadBalancerBackendSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LoadBalancerBackendSetSpec   `json:"spec"`
-	Status            LoadBalancerBackendSetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.healthChecker) || (has(self.initProvider) && has(self.initProvider.healthChecker))",message="spec.forProvider.healthChecker is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policy) || (has(self.initProvider) && has(self.initProvider.policy))",message="spec.forProvider.policy is a required parameter"
+	Spec   LoadBalancerBackendSetSpec   `json:"spec"`
+	Status LoadBalancerBackendSetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

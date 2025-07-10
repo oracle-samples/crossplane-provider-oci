@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.8.0
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: backendsets.loadbalancer.oci.upbound.io
 spec:
   group: loadbalancer.oci.upbound.io
@@ -20,11 +19,11 @@ spec:
   scope: Cluster
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .status.conditions[?(@.type=='Ready')].status
-      name: READY
-      type: string
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
       name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
       type: string
     - jsonPath: .metadata.annotations.crossplane\.io/external-name
       name: EXTERNAL-NAME
@@ -39,14 +38,19 @@ spec:
           Backend Set resource in Oracle Cloud Infrastructure Load Balancer service
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -55,15 +59,22 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
                 type: string
               forProvider:
                 properties:
+                  backendMaxConnections:
+                    type: number
                   healthChecker:
                     description: (Updatable) The health check policy's configuration
                       details.
@@ -112,8 +123,6 @@ spec:
                           description: '(Updatable) The path against which to run
                             the health check.  Example: /healthcheck'
                           type: string
-                      required:
-                      - protocol
                       type: object
                     type: array
                   lbCookieSessionPersistenceConfiguration:
@@ -182,21 +191,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -209,8 +218,9 @@ spec:
                     description: Selector for a LoadBalancer to populate loadBalancerId.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -223,21 +233,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -271,8 +281,6 @@ spec:
                             to a different backend server if the original server is
                             unavailable. Defaults to false.  Example: false'
                           type: boolean
-                      required:
-                      - cookieName
                       type: object
                     type: array
                   sslConfiguration:
@@ -327,97 +335,129 @@ spec:
                           type: boolean
                       type: object
                     type: array
-                required:
-                - healthChecker
-                - name
-                - policy
                 type: object
-              providerConfigRef:
-                default:
-                  name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
-                  name:
-                    description: Name of the referenced object.
+                  backendMaxConnections:
+                    type: number
+                  healthChecker:
+                    description: (Updatable) The health check policy's configuration
+                      details.
+                    items:
+                      properties:
+                        intervalMs:
+                          description: '(Updatable) The interval between health checks,
+                            in milliseconds.  Example: 10000'
+                          type: number
+                        isForcePlainText:
+                          description: (Updatable) Specifies if health checks should
+                            always be done using plain text instead of depending on
+                            whether or not the associated backend set is using SSL.
+                          type: boolean
+                        port:
+                          description: '(Updatable) The backend server port against
+                            which to run the health check. If the port is not specified,
+                            the load balancer uses the port information from the Backend
+                            object.  Example: 8080'
+                          type: number
+                        protocol:
+                          description: '(Updatable) The protocol the health check
+                            must use; either HTTP or TCP.  Example: HTTP'
+                          type: string
+                        responseBodyRegex:
+                          description: '(Updatable) A regular expression for parsing
+                            the response body from the backend server.  Example: ^((?!false).|\s)*$'
+                          type: string
+                        retries:
+                          description: '(Updatable) The number of retries to attempt
+                            before a backend server is considered "unhealthy". This
+                            number also applies when recovering a server to the "healthy"
+                            state.  Example: 3'
+                          type: number
+                        returnCode:
+                          description: '(Updatable) The status code a healthy backend
+                            server should return.  Example: 200'
+                          type: number
+                        timeoutInMillis:
+                          description: '(Updatable) The maximum time, in milliseconds,
+                            to wait for a reply to a health check. A health check
+                            is successful only if a reply returns within this timeout
+                            period.  Example: 3000'
+                          type: number
+                        urlPath:
+                          description: '(Updatable) The path against which to run
+                            the health check.  Example: /healthcheck'
+                          type: string
+                      type: object
+                    type: array
+                  lbCookieSessionPersistenceConfiguration:
+                    description: (Updatable) The configuration details for implementing
+                      load balancer cookie session persistence (LB cookie stickiness).
+                    items:
+                      properties:
+                        cookieName:
+                          description: '(Updatable) The name of the cookie inserted
+                            by the load balancer. If this field is not configured,
+                            the cookie name defaults to "X-Oracle-BMC-LBS-Route".  Example:
+                            example_cookie'
+                          type: string
+                        disableFallback:
+                          description: '(Updatable) Whether the load balancer is prevented
+                            from directing traffic from a persistent session client
+                            to a different backend server if the original server is
+                            unavailable. Defaults to false.  Example: false'
+                          type: boolean
+                        domain:
+                          description: (Updatable) The domain in which the cookie
+                            is valid. The Set-cookie header inserted by the load balancer
+                            contains a domain attribute with the specified value.
+                          type: string
+                        isHttpOnly:
+                          description: '(Updatable) Whether the Set-cookie header
+                            should contain the HttpOnly attribute. If true, the Set-cookie
+                            header inserted by the load balancer contains the HttpOnly
+                            attribute, which limits the scope of the cookie to HTTP
+                            requests. This attribute directs the client or browser
+                            to omit the cookie when providing access to cookies through
+                            non-HTTP APIs. For example, it restricts the cookie from
+                            JavaScript channels.  Example: true'
+                          type: boolean
+                        isSecure:
+                          description: (Updatable) Whether the Set-cookie header should
+                            contain the Secure attribute. If true, the Set-cookie
+                            header inserted by the load balancer contains the Secure
+                            attribute, which directs the client or browser to send
+                            the cookie only using a secure protocol.
+                          type: boolean
+                        maxAgeInSeconds:
+                          description: (Updatable) The amount of time the cookie remains
+                            valid. The Set-cookie header inserted by the load balancer
+                            contains a Max-Age attribute with the specified value.
+                          type: number
+                        path:
+                          description: (Updatable) The path in which the cookie is
+                            valid. The Set-cookie header inserted by the load balancer
+                            contains a Path attribute with the specified value.
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerId:
+                    description: The OCID of the load balancer on which to add a backend
+                      set.
                     type: string
-                  policy:
-                    description: Policies for referencing.
-                    properties:
-                      resolution:
-                        default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
-                        enum:
-                        - Required
-                        - Optional
-                        type: string
-                      resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
-                        enum:
-                        - Always
-                        - IfNotPresent
-                        type: string
-                    type: object
-                required:
-                - name
-                type: object
-              providerRef:
-                description: 'ProviderReference specifies the provider that will be
-                  used to create, observe, update, and delete this managed resource.
-                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
-                properties:
-                  name:
-                    description: Name of the referenced object.
-                    type: string
-                  policy:
-                    description: Policies for referencing.
-                    properties:
-                      resolution:
-                        default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
-                        enum:
-                        - Required
-                        - Optional
-                        type: string
-                      resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
-                        enum:
-                        - Always
-                        - IfNotPresent
-                        type: string
-                    type: object
-                required:
-                - name
-                type: object
-              publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
-                properties:
-                  configRef:
-                    default:
-                      name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                  loadBalancerIdRef:
+                    description: Reference to a LoadBalancer to populate loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -427,21 +467,255 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  loadBalancerIdSelector:
+                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  name:
+                    description: A friendly name for the backend set. It must be unique
+                      and it cannot be changed.
+                    type: string
+                  policy:
+                    description: '(Updatable) The load balancer policy for the backend
+                      set. To get a list of available policies, use the ListPolicies
+                      operation.  Example: LEAST_CONNECTIONS'
+                    type: string
+                  sessionPersistenceConfiguration:
+                    description: (Updatable) The configuration details for implementing
+                      session persistence based on a user-specified cookie name (application
+                      cookie stickiness).
+                    items:
+                      properties:
+                        cookieName:
+                          description: '(Updatable) The name of the cookie inserted
+                            by the load balancer. If this field is not configured,
+                            the cookie name defaults to "X-Oracle-BMC-LBS-Route".  Example:
+                            example_cookie'
+                          type: string
+                        disableFallback:
+                          description: '(Updatable) Whether the load balancer is prevented
+                            from directing traffic from a persistent session client
+                            to a different backend server if the original server is
+                            unavailable. Defaults to false.  Example: false'
+                          type: boolean
+                      type: object
+                    type: array
+                  sslConfiguration:
+                    description: (Updatable) The load balancer's SSL handling configuration
+                      details.
+                    items:
+                      properties:
+                        certificateIds:
+                          description: '(Updatable) Ids for Oracle Cloud Infrastructure
+                            certificates service certificates. Currently only a single
+                            Id may be passed.  Example: [ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]'
+                          items:
+                            type: string
+                          type: array
+                        certificateName:
+                          description: '(Updatable) A friendly name for the certificate
+                            bundle. It must be unique and it cannot be changed. Valid
+                            certificate bundle names include only alphanumeric characters,
+                            dashes, and underscores. Certificate bundle names cannot
+                            contain spaces. Avoid entering confidential information.  Example:
+                            example_certificate_bundle'
+                          type: string
+                        cipherSuiteName:
+                          description: (Updatable) The name of the cipher suite to
+                            use for HTTPS or SSL connections.
+                          type: string
+                        protocols:
+                          description: (Updatable) A list of SSL protocols the load
+                            balancer must support for HTTPS or SSL connections.
+                          items:
+                            type: string
+                          type: array
+                        serverOrderPreference:
+                          description: (Updatable) When this attribute is set to ENABLED,
+                            the system gives preference to the server ciphers over
+                            the client ciphers.
+                          type: string
+                        trustedCertificateAuthorityIds:
+                          description: '(Updatable) Ids for Oracle Cloud Infrastructure
+                            certificates service CA or CA bundles for the load balancer
+                            to trust.  Example: [ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]'
+                          items:
+                            type: string
+                          type: array
+                        verifyDepth:
+                          description: '(Updatable) The maximum depth for peer certificate
+                            chain verification.  Example: 3'
+                          type: number
+                        verifyPeerCertificate:
+                          description: '(Updatable) Whether the load balancer listener
+                            should verify peer certificates.  Example: true'
+                          type: boolean
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -456,21 +730,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -481,14 +756,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -503,6 +779,19 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.healthChecker is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.healthChecker)
+                || (has(self.initProvider) && has(self.initProvider.healthChecker))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.policy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.policy)
+                || (has(self.initProvider) && has(self.initProvider.policy))'
           status:
             description: BackendSetStatus defines the observed state of BackendSet.
             properties:
@@ -527,6 +816,8 @@ spec:
                           description: 'The IP address of the backend server.  Example:
                             10.0.0.3'
                           type: string
+                        maxConnections:
+                          type: number
                         name:
                           description: A friendly name for the backend set. It must
                             be unique and it cannot be changed.
@@ -553,8 +844,196 @@ spec:
                           type: number
                       type: object
                     type: array
+                  backendMaxConnections:
+                    type: number
+                  healthChecker:
+                    description: (Updatable) The health check policy's configuration
+                      details.
+                    items:
+                      properties:
+                        intervalMs:
+                          description: '(Updatable) The interval between health checks,
+                            in milliseconds.  Example: 10000'
+                          type: number
+                        isForcePlainText:
+                          description: (Updatable) Specifies if health checks should
+                            always be done using plain text instead of depending on
+                            whether or not the associated backend set is using SSL.
+                          type: boolean
+                        port:
+                          description: '(Updatable) The backend server port against
+                            which to run the health check. If the port is not specified,
+                            the load balancer uses the port information from the Backend
+                            object.  Example: 8080'
+                          type: number
+                        protocol:
+                          description: '(Updatable) The protocol the health check
+                            must use; either HTTP or TCP.  Example: HTTP'
+                          type: string
+                        responseBodyRegex:
+                          description: '(Updatable) A regular expression for parsing
+                            the response body from the backend server.  Example: ^((?!false).|\s)*$'
+                          type: string
+                        retries:
+                          description: '(Updatable) The number of retries to attempt
+                            before a backend server is considered "unhealthy". This
+                            number also applies when recovering a server to the "healthy"
+                            state.  Example: 3'
+                          type: number
+                        returnCode:
+                          description: '(Updatable) The status code a healthy backend
+                            server should return.  Example: 200'
+                          type: number
+                        timeoutInMillis:
+                          description: '(Updatable) The maximum time, in milliseconds,
+                            to wait for a reply to a health check. A health check
+                            is successful only if a reply returns within this timeout
+                            period.  Example: 3000'
+                          type: number
+                        urlPath:
+                          description: '(Updatable) The path against which to run
+                            the health check.  Example: /healthcheck'
+                          type: string
+                      type: object
+                    type: array
                   id:
                     type: string
+                  lbCookieSessionPersistenceConfiguration:
+                    description: (Updatable) The configuration details for implementing
+                      load balancer cookie session persistence (LB cookie stickiness).
+                    items:
+                      properties:
+                        cookieName:
+                          description: '(Updatable) The name of the cookie inserted
+                            by the load balancer. If this field is not configured,
+                            the cookie name defaults to "X-Oracle-BMC-LBS-Route".  Example:
+                            example_cookie'
+                          type: string
+                        disableFallback:
+                          description: '(Updatable) Whether the load balancer is prevented
+                            from directing traffic from a persistent session client
+                            to a different backend server if the original server is
+                            unavailable. Defaults to false.  Example: false'
+                          type: boolean
+                        domain:
+                          description: (Updatable) The domain in which the cookie
+                            is valid. The Set-cookie header inserted by the load balancer
+                            contains a domain attribute with the specified value.
+                          type: string
+                        isHttpOnly:
+                          description: '(Updatable) Whether the Set-cookie header
+                            should contain the HttpOnly attribute. If true, the Set-cookie
+                            header inserted by the load balancer contains the HttpOnly
+                            attribute, which limits the scope of the cookie to HTTP
+                            requests. This attribute directs the client or browser
+                            to omit the cookie when providing access to cookies through
+                            non-HTTP APIs. For example, it restricts the cookie from
+                            JavaScript channels.  Example: true'
+                          type: boolean
+                        isSecure:
+                          description: (Updatable) Whether the Set-cookie header should
+                            contain the Secure attribute. If true, the Set-cookie
+                            header inserted by the load balancer contains the Secure
+                            attribute, which directs the client or browser to send
+                            the cookie only using a secure protocol.
+                          type: boolean
+                        maxAgeInSeconds:
+                          description: (Updatable) The amount of time the cookie remains
+                            valid. The Set-cookie header inserted by the load balancer
+                            contains a Max-Age attribute with the specified value.
+                          type: number
+                        path:
+                          description: (Updatable) The path in which the cookie is
+                            valid. The Set-cookie header inserted by the load balancer
+                            contains a Path attribute with the specified value.
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerId:
+                    description: The OCID of the load balancer on which to add a backend
+                      set.
+                    type: string
+                  name:
+                    description: A friendly name for the backend set. It must be unique
+                      and it cannot be changed.
+                    type: string
+                  policy:
+                    description: '(Updatable) The load balancer policy for the backend
+                      set. To get a list of available policies, use the ListPolicies
+                      operation.  Example: LEAST_CONNECTIONS'
+                    type: string
+                  sessionPersistenceConfiguration:
+                    description: (Updatable) The configuration details for implementing
+                      session persistence based on a user-specified cookie name (application
+                      cookie stickiness).
+                    items:
+                      properties:
+                        cookieName:
+                          description: '(Updatable) The name of the cookie inserted
+                            by the load balancer. If this field is not configured,
+                            the cookie name defaults to "X-Oracle-BMC-LBS-Route".  Example:
+                            example_cookie'
+                          type: string
+                        disableFallback:
+                          description: '(Updatable) Whether the load balancer is prevented
+                            from directing traffic from a persistent session client
+                            to a different backend server if the original server is
+                            unavailable. Defaults to false.  Example: false'
+                          type: boolean
+                      type: object
+                    type: array
+                  sslConfiguration:
+                    description: (Updatable) The load balancer's SSL handling configuration
+                      details.
+                    items:
+                      properties:
+                        certificateIds:
+                          description: '(Updatable) Ids for Oracle Cloud Infrastructure
+                            certificates service certificates. Currently only a single
+                            Id may be passed.  Example: [ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]'
+                          items:
+                            type: string
+                          type: array
+                        certificateName:
+                          description: '(Updatable) A friendly name for the certificate
+                            bundle. It must be unique and it cannot be changed. Valid
+                            certificate bundle names include only alphanumeric characters,
+                            dashes, and underscores. Certificate bundle names cannot
+                            contain spaces. Avoid entering confidential information.  Example:
+                            example_certificate_bundle'
+                          type: string
+                        cipherSuiteName:
+                          description: (Updatable) The name of the cipher suite to
+                            use for HTTPS or SSL connections.
+                          type: string
+                        protocols:
+                          description: (Updatable) A list of SSL protocols the load
+                            balancer must support for HTTPS or SSL connections.
+                          items:
+                            type: string
+                          type: array
+                        serverOrderPreference:
+                          description: (Updatable) When this attribute is set to ENABLED,
+                            the system gives preference to the server ciphers over
+                            the client ciphers.
+                          type: string
+                        trustedCertificateAuthorityIds:
+                          description: '(Updatable) Ids for Oracle Cloud Infrastructure
+                            certificates service CA or CA bundles for the load balancer
+                            to trust.  Example: [ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]'
+                          items:
+                            type: string
+                          type: array
+                        verifyDepth:
+                          description: '(Updatable) The maximum depth for peer certificate
+                            chain verification.  Example: 3'
+                          type: number
+                        verifyPeerCertificate:
+                          description: '(Updatable) Whether the load balancer listener
+                            should verify peer certificates.  Example: true'
+                          type: boolean
+                      type: object
+                    type: array
                   state:
                     type: string
                 type: object
@@ -564,14 +1043,23 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
                     reason:
                       description: A Reason for this condition's last transition from
                         one status to another.
@@ -581,8 +1069,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
@@ -591,6 +1080,16 @@ spec:
                   - type
                   type: object
                 type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
             type: object
         required:
         - spec
@@ -599,9 +1098,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

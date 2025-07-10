@@ -13,22 +13,166 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConnectionConfigurationInitParameters struct {
+	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
+
+	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
+	BackendTCPProxyProtocolVersion *float64 `json:"backendTcpProxyProtocolVersion,omitempty" tf:"backend_tcp_proxy_protocol_version,omitempty"`
+
+	// (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
+	IdleTimeoutInSeconds *string `json:"idleTimeoutInSeconds,omitempty" tf:"idle_timeout_in_seconds,omitempty"`
+}
+
 type ConnectionConfigurationObservation struct {
+	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
+
+	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
+	BackendTCPProxyProtocolVersion *float64 `json:"backendTcpProxyProtocolVersion,omitempty" tf:"backend_tcp_proxy_protocol_version,omitempty"`
+
+	// (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
+	IdleTimeoutInSeconds *string `json:"idleTimeoutInSeconds,omitempty" tf:"idle_timeout_in_seconds,omitempty"`
 }
 
 type ConnectionConfigurationParameters struct {
+
+	// +kubebuilder:validation:Optional
+	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
 
 	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
 	// +kubebuilder:validation:Optional
 	BackendTCPProxyProtocolVersion *float64 `json:"backendTcpProxyProtocolVersion,omitempty" tf:"backend_tcp_proxy_protocol_version,omitempty"`
 
 	// (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	IdleTimeoutInSeconds *string `json:"idleTimeoutInSeconds" tf:"idle_timeout_in_seconds,omitempty"`
 }
 
+type ListenerInitParameters struct {
+
+	// (Updatable) Configuration details for the connection between the client and backend servers.
+	ConnectionConfiguration []ConnectionConfigurationInitParameters `json:"connectionConfiguration,omitempty" tf:"connection_configuration,omitempty"`
+
+	// (Updatable) The name of the associated backend set.  Example: example_backend_set
+	// +crossplane:generate:reference:type=BackendSet
+	DefaultBackendSetName *string `json:"defaultBackendSetName,omitempty" tf:"default_backend_set_name,omitempty"`
+
+	// Reference to a BackendSet to populate defaultBackendSetName.
+	// +kubebuilder:validation:Optional
+	DefaultBackendSetNameRef *v1.Reference `json:"defaultBackendSetNameRef,omitempty" tf:"-"`
+
+	// Selector for a BackendSet to populate defaultBackendSetName.
+	// +kubebuilder:validation:Optional
+	DefaultBackendSetNameSelector *v1.Selector `json:"defaultBackendSetNameSelector,omitempty" tf:"-"`
+
+	// (Updatable) An array of hostname resource names.
+	// +crossplane:generate:reference:type=LBHostname
+	HostnameNames []*string `json:"hostnameNames,omitempty" tf:"hostname_names,omitempty"`
+
+	// References to LBHostname to populate hostnameNames.
+	// +kubebuilder:validation:Optional
+	HostnameNamesRefs []v1.Reference `json:"hostnameNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of LBHostname to populate hostnameNames.
+	// +kubebuilder:validation:Optional
+	HostnameNamesSelector *v1.Selector `json:"hostnameNamesSelector,omitempty" tf:"-"`
+
+	// The OCID of the load balancer on which to add a listener.
+	// +crossplane:generate:reference:type=LoadBalancer
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+
+	// A friendly name for the listener. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_listener
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) Deprecated. Please use routingPolicies instead.
+	// +crossplane:generate:reference:type=PathRouteSet
+	PathRouteSetName *string `json:"pathRouteSetName,omitempty" tf:"path_route_set_name,omitempty"`
+
+	// Reference to a PathRouteSet to populate pathRouteSetName.
+	// +kubebuilder:validation:Optional
+	PathRouteSetNameRef *v1.Reference `json:"pathRouteSetNameRef,omitempty" tf:"-"`
+
+	// Selector for a PathRouteSet to populate pathRouteSetName.
+	// +kubebuilder:validation:Optional
+	PathRouteSetNameSelector *v1.Selector `json:"pathRouteSetNameSelector,omitempty" tf:"-"`
+
+	// (Updatable) The communication port for the listener.  Example: 80
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the ListProtocols operation.  Example: HTTP
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) The name of the routing policy applied to this listener's traffic.  Example: example_routing_policy
+	// +crossplane:generate:reference:type=RoutingPolicy
+	RoutingPolicyName *string `json:"routingPolicyName,omitempty" tf:"routing_policy_name,omitempty"`
+
+	// Reference to a RoutingPolicy to populate routingPolicyName.
+	// +kubebuilder:validation:Optional
+	RoutingPolicyNameRef *v1.Reference `json:"routingPolicyNameRef,omitempty" tf:"-"`
+
+	// Selector for a RoutingPolicy to populate routingPolicyName.
+	// +kubebuilder:validation:Optional
+	RoutingPolicyNameSelector *v1.Selector `json:"routingPolicyNameSelector,omitempty" tf:"-"`
+
+	// (Updatable) The names of the rule sets to apply to the listener.  Example: ["example_rule_set"]
+	// +crossplane:generate:reference:type=RuleSet
+	RuleSetNames []*string `json:"ruleSetNames,omitempty" tf:"rule_set_names,omitempty"`
+
+	// References to RuleSet to populate ruleSetNames.
+	// +kubebuilder:validation:Optional
+	RuleSetNamesRefs []v1.Reference `json:"ruleSetNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of RuleSet to populate ruleSetNames.
+	// +kubebuilder:validation:Optional
+	RuleSetNamesSelector *v1.Selector `json:"ruleSetNamesSelector,omitempty" tf:"-"`
+
+	// (Updatable) The load balancer's SSL handling configuration details.
+	SSLConfiguration []ListenerSSLConfigurationInitParameters `json:"sslConfiguration,omitempty" tf:"ssl_configuration,omitempty"`
+}
+
 type ListenerObservation struct {
+
+	// (Updatable) Configuration details for the connection between the client and backend servers.
+	ConnectionConfiguration []ConnectionConfigurationObservation `json:"connectionConfiguration,omitempty" tf:"connection_configuration,omitempty"`
+
+	// (Updatable) The name of the associated backend set.  Example: example_backend_set
+	DefaultBackendSetName *string `json:"defaultBackendSetName,omitempty" tf:"default_backend_set_name,omitempty"`
+
+	// (Updatable) An array of hostname resource names.
+	HostnameNames []*string `json:"hostnameNames,omitempty" tf:"hostname_names,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the load balancer on which to add a listener.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// A friendly name for the listener. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_listener
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) Deprecated. Please use routingPolicies instead.
+	PathRouteSetName *string `json:"pathRouteSetName,omitempty" tf:"path_route_set_name,omitempty"`
+
+	// (Updatable) The communication port for the listener.  Example: 80
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the ListProtocols operation.  Example: HTTP
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// (Updatable) The name of the routing policy applied to this listener's traffic.  Example: example_routing_policy
+	RoutingPolicyName *string `json:"routingPolicyName,omitempty" tf:"routing_policy_name,omitempty"`
+
+	// (Updatable) The names of the rule sets to apply to the listener.  Example: ["example_rule_set"]
+	RuleSetNames []*string `json:"ruleSetNames,omitempty" tf:"rule_set_names,omitempty"`
+
+	// (Updatable) The load balancer's SSL handling configuration details.
+	SSLConfiguration []ListenerSSLConfigurationObservation `json:"sslConfiguration,omitempty" tf:"ssl_configuration,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -79,8 +223,8 @@ type ListenerParameters struct {
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// A friendly name for the listener. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: example_listener
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) Deprecated. Please use routingPolicies instead.
 	// +crossplane:generate:reference:type=PathRouteSet
@@ -96,12 +240,12 @@ type ListenerParameters struct {
 	PathRouteSetNameSelector *v1.Selector `json:"pathRouteSetNameSelector,omitempty" tf:"-"`
 
 	// (Updatable) The communication port for the listener.  Example: 80
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the ListProtocols operation.  Example: HTTP
-	// +kubebuilder:validation:Required
-	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// (Updatable) The name of the routing policy applied to this listener's traffic.  Example: example_routing_policy
 	// +crossplane:generate:reference:type=RoutingPolicy
@@ -134,7 +278,62 @@ type ListenerParameters struct {
 	SSLConfiguration []ListenerSSLConfigurationParameters `json:"sslConfiguration,omitempty" tf:"ssl_configuration,omitempty"`
 }
 
+type ListenerSSLConfigurationInitParameters struct {
+
+	// (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: [ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]
+	CertificateIds []*string `json:"certificateIds,omitempty" tf:"certificate_ids,omitempty"`
+
+	// (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: example_certificate_bundle
+	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
+
+	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
+	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
+
+	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
+
+	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
+	Protocols []*string `json:"protocols,omitempty" tf:"protocols,omitempty"`
+
+	// (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
+	ServerOrderPreference *string `json:"serverOrderPreference,omitempty" tf:"server_order_preference,omitempty"`
+
+	// (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: [ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]
+	TrustedCertificateAuthorityIds []*string `json:"trustedCertificateAuthorityIds,omitempty" tf:"trusted_certificate_authority_ids,omitempty"`
+
+	// (Updatable) The maximum depth for peer certificate chain verification.  Example: 3
+	VerifyDepth *float64 `json:"verifyDepth,omitempty" tf:"verify_depth,omitempty"`
+
+	// (Updatable) Whether the load balancer listener should verify peer certificates.  Example: true
+	VerifyPeerCertificate *bool `json:"verifyPeerCertificate,omitempty" tf:"verify_peer_certificate,omitempty"`
+}
+
 type ListenerSSLConfigurationObservation struct {
+
+	// (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: [ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]
+	CertificateIds []*string `json:"certificateIds,omitempty" tf:"certificate_ids,omitempty"`
+
+	// (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: example_certificate_bundle
+	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
+
+	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
+	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
+
+	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
+
+	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
+	Protocols []*string `json:"protocols,omitempty" tf:"protocols,omitempty"`
+
+	// (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
+	ServerOrderPreference *string `json:"serverOrderPreference,omitempty" tf:"server_order_preference,omitempty"`
+
+	// (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: [ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]
+	TrustedCertificateAuthorityIds []*string `json:"trustedCertificateAuthorityIds,omitempty" tf:"trusted_certificate_authority_ids,omitempty"`
+
+	// (Updatable) The maximum depth for peer certificate chain verification.  Example: 3
+	VerifyDepth *float64 `json:"verifyDepth,omitempty" tf:"verify_depth,omitempty"`
+
+	// (Updatable) Whether the load balancer listener should verify peer certificates.  Example: true
+	VerifyPeerCertificate *bool `json:"verifyPeerCertificate,omitempty" tf:"verify_peer_certificate,omitempty"`
 }
 
 type ListenerSSLConfigurationParameters struct {
@@ -150,6 +349,9 @@ type ListenerSSLConfigurationParameters struct {
 	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 	// +kubebuilder:validation:Optional
 	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
 
 	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
 	// +kubebuilder:validation:Optional
@@ -176,6 +378,17 @@ type ListenerSSLConfigurationParameters struct {
 type ListenerSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ListenerParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ListenerInitParameters `json:"initProvider,omitempty"`
 }
 
 // ListenerStatus defines the observed state of Listener.
@@ -185,19 +398,23 @@ type ListenerStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Listener is the Schema for the Listeners API. Provides the Listener resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Listener struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ListenerSpec   `json:"spec"`
-	Status            ListenerStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || (has(self.initProvider) && has(self.initProvider.port))",message="spec.forProvider.port is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protocol) || (has(self.initProvider) && has(self.initProvider.protocol))",message="spec.forProvider.protocol is a required parameter"
+	Spec   ListenerSpec   `json:"spec"`
+	Status ListenerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

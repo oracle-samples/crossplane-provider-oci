@@ -13,13 +13,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClusterConfigInitParameters struct {
+
+	// (Updatable) The OCID of the HpcIsland.
+	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
+
+	// (Updatable) The list of OCID of the network blocks.
+	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
+}
+
 type ClusterConfigObservation struct {
+
+	// (Updatable) The OCID of the HpcIsland.
+	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
+
+	// (Updatable) The list of OCID of the network blocks.
+	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterConfigParameters struct {
 
 	// (Updatable) The OCID of the HpcIsland.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	HpcIslandID *string `json:"hpcIslandId" tf:"hpc_island_id,omitempty"`
 
 	// (Updatable) The list of OCID of the network blocks.
@@ -27,14 +42,59 @@ type ClusterConfigParameters struct {
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
+type ComputeCapacityReservationInitParameters struct {
+
+	// The availability domain of this compute capacity reservation.  Example: Uocm:PHX-AD-1
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) The OCID of the compartment containing the capacity reservation.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) The capacity configurations for the capacity reservation.
+	InstanceReservationConfigs []InstanceReservationConfigsInitParameters `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
+
+	// (Updatable) Whether this capacity reservation is the default. For more information, see Capacity Reservations.
+	IsDefaultReservation *bool `json:"isDefaultReservation,omitempty" tf:"is_default_reservation,omitempty"`
+}
+
 type ComputeCapacityReservationObservation struct {
+
+	// The availability domain of this compute capacity reservation.  Example: Uocm:PHX-AD-1
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) The OCID of the compartment containing the capacity reservation.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the compute capacity reservation.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Updatable) The capacity configurations for the capacity reservation.
-	// +kubebuilder:validation:Required
 	InstanceReservationConfigs []InstanceReservationConfigsObservation `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
+
+	// (Updatable) Whether this capacity reservation is the default. For more information, see Capacity Reservations.
+	IsDefaultReservation *bool `json:"isDefaultReservation,omitempty" tf:"is_default_reservation,omitempty"`
 
 	// The number of instances for which capacity will be held with this compute capacity reservation. This number is the sum of the values of the reservedCount fields for all of the instance capacity configurations under this reservation. The purpose of this field is to calculate the percentage usage of the reservation.
 	ReservedInstanceCount *string `json:"reservedInstanceCount,omitempty" tf:"reserved_instance_count,omitempty"`
@@ -55,15 +115,16 @@ type ComputeCapacityReservationObservation struct {
 type ComputeCapacityReservationParameters struct {
 
 	// The availability domain of this compute capacity reservation.  Example: Uocm:PHX-AD-1
-	// +kubebuilder:validation:Required
-	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the capacity reservation.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -72,18 +133,58 @@ type ComputeCapacityReservationParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The capacity configurations for the capacity reservation.
-	// +kubebuilder:validation:Required
-	InstanceReservationConfigs []InstanceReservationConfigsParameters `json:"instanceReservationConfigs" tf:"instance_reservation_configs,omitempty"`
+	// +kubebuilder:validation:Optional
+	InstanceReservationConfigs []InstanceReservationConfigsParameters `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
 
 	// (Updatable) Whether this capacity reservation is the default. For more information, see Capacity Reservations.
 	// +kubebuilder:validation:Optional
 	IsDefaultReservation *bool `json:"isDefaultReservation,omitempty" tf:"is_default_reservation,omitempty"`
 }
 
+type InstanceReservationConfigsInitParameters struct {
+
+	// (Updatable) The HPC cluster configuration requested when launching instances in a compute capacity reservation.
+	ClusterConfig []ClusterConfigInitParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
+
+	// The OCID of the compute capacity reservation.
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
+	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
+	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`
+
+	// (Updatable) The shape requested when launching instances using reserved capacity. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance. You can list all available shapes by calling ListComputeCapacityReservationInstanceShapes.
+	InstanceShape *string `json:"instanceShape,omitempty" tf:"instance_shape,omitempty"`
+
+	// (Updatable) The shape configuration requested when launching instances in a compute capacity reservation.
+	InstanceShapeConfig []InstanceShapeConfigInitParameters `json:"instanceShapeConfig,omitempty" tf:"instance_shape_config,omitempty"`
+
+	// (Updatable) The total number of instances that can be launched from the capacity configuration.
+	ReservedCount *string `json:"reservedCount,omitempty" tf:"reserved_count,omitempty"`
+}
+
 type InstanceReservationConfigsObservation struct {
+
+	// (Updatable) The HPC cluster configuration requested when launching instances in a compute capacity reservation.
+	ClusterConfig []ClusterConfigObservation `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
+
+	// The OCID of the compute capacity reservation.
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
+	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
+	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`
+
+	// (Updatable) The shape requested when launching instances using reserved capacity. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance. You can list all available shapes by calling ListComputeCapacityReservationInstanceShapes.
+	InstanceShape *string `json:"instanceShape,omitempty" tf:"instance_shape,omitempty"`
+
+	// (Updatable) The shape configuration requested when launching instances in a compute capacity reservation.
+	InstanceShapeConfig []InstanceShapeConfigObservation `json:"instanceShapeConfig,omitempty" tf:"instance_shape_config,omitempty"`
+
+	// (Updatable) The total number of instances that can be launched from the capacity configuration.
+	ReservedCount *string `json:"reservedCount,omitempty" tf:"reserved_count,omitempty"`
 
 	// The amount of capacity in use out of the total capacity reserved in this capacity configuration.
 	UsedCount *string `json:"usedCount,omitempty" tf:"used_count,omitempty"`
@@ -95,12 +196,16 @@ type InstanceReservationConfigsParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterConfig []ClusterConfigParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
+	// The OCID of the compute capacity reservation.
+	// +kubebuilder:validation:Optional
+	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
+
 	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
 	// +kubebuilder:validation:Optional
 	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`
 
 	// (Updatable) The shape requested when launching instances using reserved capacity. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance. You can list all available shapes by calling ListComputeCapacityReservationInstanceShapes.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	InstanceShape *string `json:"instanceShape" tf:"instance_shape,omitempty"`
 
 	// (Updatable) The shape configuration requested when launching instances in a compute capacity reservation.
@@ -108,11 +213,26 @@ type InstanceReservationConfigsParameters struct {
 	InstanceShapeConfig []InstanceShapeConfigParameters `json:"instanceShapeConfig,omitempty" tf:"instance_shape_config,omitempty"`
 
 	// (Updatable) The total number of instances that can be launched from the capacity configuration.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ReservedCount *string `json:"reservedCount" tf:"reserved_count,omitempty"`
 }
 
+type InstanceShapeConfigInitParameters struct {
+
+	// (Updatable) The total amount of memory available to the instance, in gigabytes.
+	MemoryInGbs *float64 `json:"memoryInGbs,omitempty" tf:"memory_in_gbs,omitempty"`
+
+	// (Updatable) The total number of OCPUs available to the instance.
+	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
+}
+
 type InstanceShapeConfigObservation struct {
+
+	// (Updatable) The total amount of memory available to the instance, in gigabytes.
+	MemoryInGbs *float64 `json:"memoryInGbs,omitempty" tf:"memory_in_gbs,omitempty"`
+
+	// (Updatable) The total number of OCPUs available to the instance.
+	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
 }
 
 type InstanceShapeConfigParameters struct {
@@ -130,6 +250,17 @@ type InstanceShapeConfigParameters struct {
 type ComputeCapacityReservationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ComputeCapacityReservationParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ComputeCapacityReservationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ComputeCapacityReservationStatus defines the observed state of ComputeCapacityReservation.
@@ -139,19 +270,23 @@ type ComputeCapacityReservationStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ComputeCapacityReservation is the Schema for the ComputeCapacityReservations API. Provides the Compute Capacity Reservation resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ComputeCapacityReservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ComputeCapacityReservationSpec   `json:"spec"`
-	Status            ComputeCapacityReservationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.availabilityDomain) || (has(self.initProvider) && has(self.initProvider.availabilityDomain))",message="spec.forProvider.availabilityDomain is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceReservationConfigs) || (has(self.initProvider) && has(self.initProvider.instanceReservationConfigs))",message="spec.forProvider.instanceReservationConfigs is a required parameter"
+	Spec   ComputeCapacityReservationSpec   `json:"spec"`
+	Status ComputeCapacityReservationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

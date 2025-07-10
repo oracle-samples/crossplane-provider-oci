@@ -1,0 +1,21 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: PathRouteSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/pathrouteset
+  labels:
+    testing.upbound.io/example-name: test_path_route_set
+  name: test-path-route-set
+spec:
+  forProvider:
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    name: ${var.path_route_set_name}
+    pathRoutes:
+    - backendSetNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_backend_set
+      path: ${var.path_route_set_path_routes_path}
+      pathMatchType:
+      - matchType: ${var.path_route_set_path_routes_path_match_type_match_type}

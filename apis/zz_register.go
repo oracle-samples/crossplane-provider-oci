@@ -27,7 +27,6 @@ import (
 	v1alpha1network "github.com/oracle/provider-oci/apis/network/v1alpha1"
 	v1alpha1objectstorage "github.com/oracle/provider-oci/apis/objectstorage/v1alpha1"
 	v1alpha1ons "github.com/oracle/provider-oci/apis/ons/v1alpha1"
-	v1alpha1servicemesh "github.com/oracle/provider-oci/apis/servicemesh/v1alpha1"
 	v1alpha1streaming "github.com/oracle/provider-oci/apis/streaming/v1alpha1"
 	v1alpha1apis "github.com/oracle/provider-oci/apis/v1alpha1"
 	v1beta1 "github.com/oracle/provider-oci/apis/v1beta1"
@@ -54,7 +53,6 @@ func init() {
 		v1alpha1network.SchemeBuilder.AddToScheme,
 		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
 		v1alpha1ons.SchemeBuilder.AddToScheme,
-		v1alpha1servicemesh.SchemeBuilder.AddToScheme,
 		v1alpha1streaming.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

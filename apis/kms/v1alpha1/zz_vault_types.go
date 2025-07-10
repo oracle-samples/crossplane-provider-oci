@@ -13,10 +13,165 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ExternalKeyManagerMetadataInitParameters struct {
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl,omitempty" tf:"external_vault_endpoint_url,omitempty"`
+
+	OauthMetadata []OauthMetadataInitParameters `json:"oauthMetadata,omitempty" tf:"oauth_metadata,omitempty"`
+
+	// The OCID of the vault.
+	PrivateEndpointID *string `json:"privateEndpointId,omitempty" tf:"private_endpoint_id,omitempty"`
+}
+
+type ExternalKeyManagerMetadataObservation struct {
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl,omitempty" tf:"external_vault_endpoint_url,omitempty"`
+
+	OauthMetadata []OauthMetadataObservation `json:"oauthMetadata,omitempty" tf:"oauth_metadata,omitempty"`
+
+	// The OCID of the vault.
+	PrivateEndpointID *string `json:"privateEndpointId,omitempty" tf:"private_endpoint_id,omitempty"`
+}
+
+type ExternalKeyManagerMetadataParameters struct {
+
+	// +kubebuilder:validation:Optional
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl" tf:"external_vault_endpoint_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OauthMetadata []OauthMetadataParameters `json:"oauthMetadata" tf:"oauth_metadata,omitempty"`
+
+	// The OCID of the vault.
+	// +kubebuilder:validation:Optional
+	PrivateEndpointID *string `json:"privateEndpointId" tf:"private_endpoint_id,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryInitParameters struct {
+}
+
+type ExternalKeyManagerMetadataSummaryObservation struct {
+	ExternalVaultEndpointURL *string `json:"externalVaultEndpointUrl,omitempty" tf:"external_vault_endpoint_url,omitempty"`
+
+	OauthMetadataSummary []OauthMetadataSummaryObservation `json:"oauthMetadataSummary,omitempty" tf:"oauth_metadata_summary,omitempty"`
+
+	// The OCID of the vault.
+	PrivateEndpointID *string `json:"privateEndpointId,omitempty" tf:"private_endpoint_id,omitempty"`
+
+	Vendor *string `json:"vendor,omitempty" tf:"vendor,omitempty"`
+}
+
+type ExternalKeyManagerMetadataSummaryParameters struct {
+}
+
+type OauthMetadataInitParameters struct {
+
+	// The OCID of the vault.
+	ClientAppID *string `json:"clientAppId,omitempty" tf:"client_app_id,omitempty"`
+
+	ClientAppSecret *string `json:"clientAppSecret,omitempty" tf:"client_app_secret,omitempty"`
+
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl,omitempty" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataObservation struct {
+
+	// The OCID of the vault.
+	ClientAppID *string `json:"clientAppId,omitempty" tf:"client_app_id,omitempty"`
+
+	ClientAppSecret *string `json:"clientAppSecret,omitempty" tf:"client_app_secret,omitempty"`
+
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl,omitempty" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataParameters struct {
+
+	// The OCID of the vault.
+	// +kubebuilder:validation:Optional
+	ClientAppID *string `json:"clientAppId" tf:"client_app_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ClientAppSecret *string `json:"clientAppSecret" tf:"client_app_secret,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryInitParameters struct {
+}
+
+type OauthMetadataSummaryObservation struct {
+
+	// The OCID of the vault.
+	ClientAppID *string `json:"clientAppId,omitempty" tf:"client_app_id,omitempty"`
+
+	IdcsAccountNameURL *string `json:"idcsAccountNameUrl,omitempty" tf:"idcs_account_name_url,omitempty"`
+}
+
+type OauthMetadataSummaryParameters struct {
+}
+
+type VaultInitParameters struct {
+
+	// (Updatable) The OCID of the compartment where you want to create this vault.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	ExternalKeyManagerMetadata []ExternalKeyManagerMetadataInitParameters `json:"externalKeyManagerMetadata,omitempty" tf:"external_key_manager_metadata,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Details where vault was backed up.
+	RestoreFromFile []VaultRestoreFromFileInitParameters `json:"restoreFromFile,omitempty" tf:"restore_from_file,omitempty"`
+
+	// (Updatable) Details where vault was backed up
+	RestoreFromObjectStore []VaultRestoreFromObjectStoreInitParameters `json:"restoreFromObjectStore,omitempty" tf:"restore_from_object_store,omitempty"`
+
+	RestoreTrigger *bool `json:"restoreTrigger,omitempty" tf:"restore_trigger,omitempty"`
+
+	// (Updatable) An optional property for the deletion time of the vault, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
+
+	// The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
+	VaultType *string `json:"vaultType,omitempty" tf:"vault_type,omitempty"`
+}
+
 type VaultObservation struct {
+
+	// (Updatable) The OCID of the compartment where you want to create this vault.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The service endpoint to perform cryptographic operations against. Cryptographic operations include Encrypt, Decrypt, and GenerateDataEncryptionKey operations.
 	CryptoEndpoint *string `json:"cryptoEndpoint,omitempty" tf:"crypto_endpoint,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	ExternalKeyManagerMetadata []ExternalKeyManagerMetadataObservation `json:"externalKeyManagerMetadata,omitempty" tf:"external_key_manager_metadata,omitempty"`
+
+	ExternalKeyManagerMetadataSummary []ExternalKeyManagerMetadataSummaryObservation `json:"externalKeyManagerMetadataSummary,omitempty" tf:"external_key_manager_metadata_summary,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the vault.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -24,11 +179,21 @@ type VaultObservation struct {
 	// A boolean that will be true when vault is primary, and will be false when vault is a replica from a primary vault.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
+	IsVaultReplicable *bool `json:"isVaultReplicable,omitempty" tf:"is_vault_replicable,omitempty"`
+
 	// The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations.
 	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
 	// Vault replica details
 	ReplicaDetails []VaultReplicaDetailsObservation `json:"replicaDetails,omitempty" tf:"replica_details,omitempty"`
+
+	// (Updatable) Details where vault was backed up.
+	RestoreFromFile []VaultRestoreFromFileObservation `json:"restoreFromFile,omitempty" tf:"restore_from_file,omitempty"`
+
+	// (Updatable) Details where vault was backed up
+	RestoreFromObjectStore []VaultRestoreFromObjectStoreObservation `json:"restoreFromObjectStore,omitempty" tf:"restore_from_object_store,omitempty"`
+
+	RestoreTrigger *bool `json:"restoreTrigger,omitempty" tf:"restore_trigger,omitempty"`
 
 	// The OCID of the vault from which this vault was restored, if it was restored from a backup file.  If you restore a vault to the same region, the vault retains the same OCID that it had when you  backed up the vault.
 	RestoredFromVaultID *string `json:"restoredFromVaultId,omitempty" tf:"restored_from_vault_id,omitempty"`
@@ -38,6 +203,12 @@ type VaultObservation struct {
 
 	// The date and time this vault was created, expressed in RFC 3339 timestamp format.  Example: 2018-04-03T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// (Updatable) An optional property for the deletion time of the vault, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
+	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
+
+	// The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
+	VaultType *string `json:"vaultType,omitempty" tf:"vault_type,omitempty"`
 }
 
 type VaultParameters struct {
@@ -57,14 +228,19 @@ type VaultParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalKeyManagerMetadata []ExternalKeyManagerMetadataParameters `json:"externalKeyManagerMetadata,omitempty" tf:"external_key_manager_metadata,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Details where vault was backed up.
@@ -83,8 +259,11 @@ type VaultParameters struct {
 	TimeOfDeletion *string `json:"timeOfDeletion,omitempty" tf:"time_of_deletion,omitempty"`
 
 	// The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
-	// +kubebuilder:validation:Required
-	VaultType *string `json:"vaultType" tf:"vault_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	VaultType *string `json:"vaultType,omitempty" tf:"vault_type,omitempty"`
+}
+
+type VaultReplicaDetailsInitParameters struct {
 }
 
 type VaultReplicaDetailsObservation struct {
@@ -96,13 +275,34 @@ type VaultReplicaDetailsObservation struct {
 type VaultReplicaDetailsParameters struct {
 }
 
+type VaultRestoreFromFileInitParameters struct {
+
+	// content length of vault's backup binary file
+	ContentLength *string `json:"contentLength,omitempty" tf:"content_length,omitempty"`
+
+	// (Updatable) content md5 hashed value of vault's backup file
+	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
+
+	// Vault backup file content
+	RestoreVaultFromFileDetails *string `json:"restoreVaultFromFileDetails,omitempty" tf:"restore_vault_from_file_details,omitempty"`
+}
+
 type VaultRestoreFromFileObservation struct {
+
+	// content length of vault's backup binary file
+	ContentLength *string `json:"contentLength,omitempty" tf:"content_length,omitempty"`
+
+	// (Updatable) content md5 hashed value of vault's backup file
+	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
+
+	// Vault backup file content
+	RestoreVaultFromFileDetails *string `json:"restoreVaultFromFileDetails,omitempty" tf:"restore_vault_from_file_details,omitempty"`
 }
 
 type VaultRestoreFromFileParameters struct {
 
 	// content length of vault's backup binary file
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ContentLength *string `json:"contentLength" tf:"content_length,omitempty"`
 
 	// (Updatable) content md5 hashed value of vault's backup file
@@ -110,11 +310,44 @@ type VaultRestoreFromFileParameters struct {
 	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
 
 	// Vault backup file content
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	RestoreVaultFromFileDetails *string `json:"restoreVaultFromFileDetails" tf:"restore_vault_from_file_details,omitempty"`
 }
 
+type VaultRestoreFromObjectStoreInitParameters struct {
+
+	// (Updatable) Name of the bucket where vault was backed up
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// (Updatable) Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
+	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// (Updatable) Namespace of the bucket where vault was backed up
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) Object containing the backup
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// (Updatable) Pre-authenticated-request-uri of the backup* restore_trigger -  (Updatable) An optional property when flipped triggers restore from restore option provided in config file.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type VaultRestoreFromObjectStoreObservation struct {
+
+	// (Updatable) Name of the bucket where vault was backed up
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// (Updatable) Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
+	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// (Updatable) Namespace of the bucket where vault was backed up
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// (Updatable) Object containing the backup
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// (Updatable) Pre-authenticated-request-uri of the backup* restore_trigger -  (Updatable) An optional property when flipped triggers restore from restore option provided in config file.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type VaultRestoreFromObjectStoreParameters struct {
@@ -124,7 +357,7 @@ type VaultRestoreFromObjectStoreParameters struct {
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// (Updatable) Type of backup to restore from. Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are supported
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination" tf:"destination,omitempty"`
 
 	// (Updatable) Namespace of the bucket where vault was backed up
@@ -144,6 +377,17 @@ type VaultRestoreFromObjectStoreParameters struct {
 type VaultSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VaultParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider VaultInitParameters `json:"initProvider,omitempty"`
 }
 
 // VaultStatus defines the observed state of Vault.
@@ -153,19 +397,22 @@ type VaultStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Vault is the Schema for the Vaults API. Provides the Vault resource in Oracle Cloud Infrastructure Kms service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VaultSpec   `json:"spec"`
-	Status            VaultStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.vaultType) || (has(self.initProvider) && has(self.initProvider.vaultType))",message="spec.forProvider.vaultType is a required parameter"
+	Spec   VaultSpec   `json:"spec"`
+	Status VaultStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

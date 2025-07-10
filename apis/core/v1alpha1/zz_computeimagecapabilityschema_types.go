@@ -13,13 +13,64 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ComputeImageCapabilitySchemaInitParameters struct {
+
+	// (Updatable) The OCID of the compartment that contains the resource.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// The name of the compute global image capability schema version
+	ComputeGlobalImageCapabilitySchemaVersionName *string `json:"computeGlobalImageCapabilitySchemaVersionName,omitempty" tf:"compute_global_image_capability_schema_version_name,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The ocid of the image
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// (Updatable) The map of each capability name to its ImageCapabilitySchemaDescriptor.
+	// +mapType=granular
+	SchemaData map[string]*string `json:"schemaData,omitempty" tf:"schema_data,omitempty"`
+}
+
 type ComputeImageCapabilitySchemaObservation struct {
+
+	// (Updatable) The OCID of the compartment that contains the resource.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The ocid of the compute global image capability schema
 	ComputeGlobalImageCapabilitySchemaID *string `json:"computeGlobalImageCapabilitySchemaId,omitempty" tf:"compute_global_image_capability_schema_id,omitempty"`
 
+	// The name of the compute global image capability schema version
+	ComputeGlobalImageCapabilitySchemaVersionName *string `json:"computeGlobalImageCapabilitySchemaVersionName,omitempty" tf:"compute_global_image_capability_schema_version_name,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The compute image capability schema OCID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ocid of the image
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// (Updatable) The map of each capability name to its ImageCapabilitySchemaDescriptor.
+	// +mapType=granular
+	SchemaData map[string]*string `json:"schemaData,omitempty" tf:"schema_data,omitempty"`
 
 	// The date and time the compute image capability schema was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
@@ -28,15 +79,16 @@ type ComputeImageCapabilitySchemaObservation struct {
 type ComputeImageCapabilitySchemaParameters struct {
 
 	// (Updatable) The OCID of the compartment that contains the resource.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The name of the compute global image capability schema version
-	// +kubebuilder:validation:Required
-	ComputeGlobalImageCapabilitySchemaVersionName *string `json:"computeGlobalImageCapabilitySchemaVersionName" tf:"compute_global_image_capability_schema_version_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ComputeGlobalImageCapabilitySchemaVersionName *string `json:"computeGlobalImageCapabilitySchemaVersionName,omitempty" tf:"compute_global_image_capability_schema_version_name,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -45,21 +97,34 @@ type ComputeImageCapabilitySchemaParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The ocid of the image
-	// +kubebuilder:validation:Required
-	ImageID *string `json:"imageId" tf:"image_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
 	// (Updatable) The map of each capability name to its ImageCapabilitySchemaDescriptor.
-	// +kubebuilder:validation:Required
-	SchemaData map[string]*string `json:"schemaData" tf:"schema_data,omitempty"`
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	SchemaData map[string]*string `json:"schemaData,omitempty" tf:"schema_data,omitempty"`
 }
 
 // ComputeImageCapabilitySchemaSpec defines the desired state of ComputeImageCapabilitySchema
 type ComputeImageCapabilitySchemaSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ComputeImageCapabilitySchemaParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ComputeImageCapabilitySchemaInitParameters `json:"initProvider,omitempty"`
 }
 
 // ComputeImageCapabilitySchemaStatus defines the observed state of ComputeImageCapabilitySchema.
@@ -69,19 +134,24 @@ type ComputeImageCapabilitySchemaStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ComputeImageCapabilitySchema is the Schema for the ComputeImageCapabilitySchemas API. Provides the Compute Image Capability Schema resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type ComputeImageCapabilitySchema struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ComputeImageCapabilitySchemaSpec   `json:"spec"`
-	Status            ComputeImageCapabilitySchemaStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.computeGlobalImageCapabilitySchemaVersionName) || (has(self.initProvider) && has(self.initProvider.computeGlobalImageCapabilitySchemaVersionName))",message="spec.forProvider.computeGlobalImageCapabilitySchemaVersionName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.imageId) || (has(self.initProvider) && has(self.initProvider.imageId))",message="spec.forProvider.imageId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.schemaData) || (has(self.initProvider) && has(self.initProvider.schemaData))",message="spec.forProvider.schemaData is a required parameter"
+	Spec   ComputeImageCapabilitySchemaSpec   `json:"spec"`
+	Status ComputeImageCapabilitySchemaStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -13,14 +13,72 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InvokeFunctionInitParameters struct {
+
+	// Encodes the response returned, if any, in base64. The default value is false.
+	Base64EncodeContent *bool `json:"base64EncodeContent,omitempty" tf:"base64_encode_content,omitempty"`
+
+	// An optional intent header that indicates to the FDK the way the event should be interpreted. E.g. 'httprequest', 'cloudevent'.
+	FnIntent *string `json:"fnIntent,omitempty" tf:"fn_intent,omitempty"`
+
+	// Indicates whether Oracle Functions should execute the request and return the result ('sync') of the execution,  or whether Oracle Functions should return as soon as processing has begun ('detached') and leave result handling to the function.
+	FnInvokeType *string `json:"fnInvokeType,omitempty" tf:"fn_invoke_type,omitempty"`
+
+	// The OCID of this function.
+	// +crossplane:generate:reference:type=Function
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
+
+	// Reference to a Function to populate functionId.
+	// +kubebuilder:validation:Optional
+	FunctionIDRef *v1.Reference `json:"functionIdRef,omitempty" tf:"-"`
+
+	// Selector for a Function to populate functionId.
+	// +kubebuilder:validation:Optional
+	FunctionIDSelector *v1.Selector `json:"functionIdSelector,omitempty" tf:"-"`
+
+	// An absolute path to a file on the local system that contains the input to be provided to the function. Cannot be defined if invoke_function_body or invoke_function_body_base64_encoded is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
+	InputBodySourcePath *string `json:"inputBodySourcePath,omitempty" tf:"input_body_source_path,omitempty"`
+
+	// The body of the function invocation. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit. Cannot be defined if input_body_source_path or invoke_function_body_base64_encoded is defined.
+	InvokeFunctionBody *string `json:"invokeFunctionBody,omitempty" tf:"invoke_function_body,omitempty"`
+
+	// The Base64 encoded body of the function invocation. Cannot be defined if invoke_function_body or input_body_source_path is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
+	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
+
+	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
+}
+
 type InvokeFunctionObservation struct {
+
+	// Encodes the response returned, if any, in base64. The default value is false.
+	Base64EncodeContent *bool `json:"base64EncodeContent,omitempty" tf:"base64_encode_content,omitempty"`
 
 	// Content of the response string, if any. If base64_encode_content is set to true, then this content will be base64 encoded.
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
+	// An optional intent header that indicates to the FDK the way the event should be interpreted. E.g. 'httprequest', 'cloudevent'.
+	FnIntent *string `json:"fnIntent,omitempty" tf:"fn_intent,omitempty"`
+
+	// Indicates whether Oracle Functions should execute the request and return the result ('sync') of the execution,  or whether Oracle Functions should return as soon as processing has begun ('detached') and leave result handling to the function.
+	FnInvokeType *string `json:"fnInvokeType,omitempty" tf:"fn_invoke_type,omitempty"`
+
+	// The OCID of this function.
+	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// An absolute path to a file on the local system that contains the input to be provided to the function. Cannot be defined if invoke_function_body or invoke_function_body_base64_encoded is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
+	InputBodySourcePath *string `json:"inputBodySourcePath,omitempty" tf:"input_body_source_path,omitempty"`
+
 	InvokeEndpoint *string `json:"invokeEndpoint,omitempty" tf:"invoke_endpoint,omitempty"`
+
+	// The body of the function invocation. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit. Cannot be defined if input_body_source_path or invoke_function_body_base64_encoded is defined.
+	InvokeFunctionBody *string `json:"invokeFunctionBody,omitempty" tf:"invoke_function_body,omitempty"`
+
+	// The Base64 encoded body of the function invocation. Cannot be defined if invoke_function_body or input_body_source_path is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
+	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
+
+	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
 }
 
 type InvokeFunctionParameters struct {
@@ -61,12 +119,26 @@ type InvokeFunctionParameters struct {
 	// The Base64 encoded body of the function invocation. Cannot be defined if invoke_function_body or input_body_source_path is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
 	// +kubebuilder:validation:Optional
 	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
 }
 
 // InvokeFunctionSpec defines the desired state of InvokeFunction
 type InvokeFunctionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InvokeFunctionParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider InvokeFunctionInitParameters `json:"initProvider,omitempty"`
 }
 
 // InvokeFunctionStatus defines the observed state of InvokeFunction.
@@ -76,13 +148,14 @@ type InvokeFunctionStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InvokeFunction is the Schema for the InvokeFunctions API. Provides the Invoke Function resource in Oracle Cloud Infrastructure Functions service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type InvokeFunction struct {
 	metav1.TypeMeta   `json:",inline"`

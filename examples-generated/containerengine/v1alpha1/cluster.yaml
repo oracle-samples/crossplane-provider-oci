@@ -1,0 +1,60 @@
+apiVersion: containerengine.oci.upbound.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerengine/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: test_cluster
+  name: test-cluster
+spec:
+  forProvider:
+    clusterPodNetworkOptions:
+    - cniType: ${var.cluster_cluster_pod_network_options_cni_type}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    endpointConfig:
+    - isPublicIpEnabled: ${var.cluster_endpoint_config_is_public_ip_enabled}
+      nsgIdsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      subnetIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_subnet
+    freeformTags:
+      Department: Finance
+    imagePolicyConfig:
+    - isPolicyEnabled: ${var.cluster_image_policy_config_is_policy_enabled}
+      keyDetails:
+      - kmsKeyId: ${oci_kms_key.test_key.id}
+    kmsKeyId: ${oci_kms_key.test_key.id}
+    kubernetesVersion: ${var.cluster_kubernetes_version}
+    name: ${var.cluster_name}
+    options:
+    - addOns:
+      - isKubernetesDashboardEnabled: ${var.cluster_options_add_ons_is_kubernetes_dashboard_enabled}
+        isTillerEnabled: ${var.cluster_options_add_ons_is_tiller_enabled}
+      admissionControllerOptions:
+      - isPodSecurityPolicyEnabled: ${var.cluster_options_admission_controller_options_is_pod_security_policy_enabled}
+      kubernetesNetworkConfig:
+      - podsCidr: ${var.cluster_options_kubernetes_network_config_pods_cidr}
+        servicesCidr: ${var.cluster_options_kubernetes_network_config_services_cidr}
+      persistentVolumeConfig:
+      - definedTags:
+          Operations.CostCenter: "42"
+        freeformTags:
+          Department: Finance
+      serviceLbConfig:
+      - definedTags:
+          Operations.CostCenter: "42"
+        freeformTags:
+          Department: Finance
+      serviceLbSubnetIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    type: ${var.cluster_type}
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

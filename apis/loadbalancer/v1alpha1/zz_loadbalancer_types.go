@@ -13,6 +13,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type IPAddressDetailsInitParameters struct {
+}
+
 type IPAddressDetailsObservation struct {
 
 	// An IP address.  Example: 192.168.0.3
@@ -28,7 +31,89 @@ type IPAddressDetailsObservation struct {
 type IPAddressDetailsParameters struct {
 }
 
+type LoadBalancerInitParameters struct {
+
+	// (Updatable) The OCID of the compartment in which to create the load balancer.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: example_load_balancer
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
+	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
+
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+
+	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
+
+	// Whether the load balancer has a VCN-local (private) IP address.
+	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
+
+	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
+
+	// (Updatable) An array of NSG OCIDs associated with this load balancer.
+	// +listType=set
+	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
+
+	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
+
+	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+	ReservedIps []ReservedIpsInitParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
+
+	// +mapType=granular
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
+	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
+	// (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is Flexible.
+	ShapeDetails []ShapeDetailsInitParameters `json:"shapeDetails,omitempty" tf:"shape_details,omitempty"`
+
+	// An array of subnet OCIDs.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
+
+	// References to Subnet in core to populate subnetIds.
+	// +kubebuilder:validation:Optional
+	SubnetIdsRefs []v1.Reference `json:"subnetIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Subnet in core to populate subnetIds.
+	// +kubebuilder:validation:Optional
+	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
+}
+
 type LoadBalancerObservation struct {
+
+	// (Updatable) The OCID of the compartment in which to create the load balancer.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: example_load_balancer
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -39,10 +124,44 @@ type LoadBalancerObservation struct {
 	// An array of IP addresses. Deprecated: use ip_address_details instead
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
+	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
+
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+
+	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
+
+	// Whether the load balancer has a VCN-local (private) IP address.
+	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
+
+	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
+
+	// (Updatable) An array of NSG OCIDs associated with this load balancer.
+	// +listType=set
+	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
+
+	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
+
+	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+	ReservedIps []ReservedIpsObservation `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
+
+	// +mapType=granular
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
+	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
+
+	// (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is Flexible.
+	ShapeDetails []ShapeDetailsObservation `json:"shapeDetails,omitempty" tf:"shape_details,omitempty"`
+
 	// The current state of the load balancer.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// An array of subnet OCIDs.
+	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. System tags can be viewed by users, but can only be created by the system.  Example: {"orcl-cloud.free-tier-retained": "true"}
+	// +mapType=granular
 	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
 	// The date and time the load balancer was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -66,35 +185,54 @@ type LoadBalancerParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: example_load_balancer
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
 	// +kubebuilder:validation:Optional
 	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
+
 	// Whether the load balancer has a VCN-local (private) IP address.
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
+
 	// (Updatable) An array of NSG OCIDs associated with this load balancer.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
 
 	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	// +kubebuilder:validation:Optional
 	ReservedIps []ReservedIpsParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
+
 	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
-	// +kubebuilder:validation:Required
-	Shape *string `json:"shape" tf:"shape,omitempty"`
+	// +kubebuilder:validation:Optional
+	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is Flexible.
 	// +kubebuilder:validation:Optional
@@ -114,6 +252,9 @@ type LoadBalancerParameters struct {
 	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
 }
 
+type ReservedIPInitParameters struct {
+}
+
 type ReservedIPObservation struct {
 
 	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
@@ -123,7 +264,16 @@ type ReservedIPObservation struct {
 type ReservedIPParameters struct {
 }
 
+type ReservedIpsInitParameters struct {
+
+	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+}
+
 type ReservedIpsObservation struct {
+
+	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type ReservedIpsParameters struct {
@@ -133,17 +283,32 @@ type ReservedIpsParameters struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
+type ShapeDetailsInitParameters struct {
+
+	// (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
+	MaximumBandwidthInMbps *float64 `json:"maximumBandwidthInMbps,omitempty" tf:"maximum_bandwidth_in_mbps,omitempty"`
+
+	// (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 10 and the maximumBandwidthInMbps.  Example: 150
+	MinimumBandwidthInMbps *float64 `json:"minimumBandwidthInMbps,omitempty" tf:"minimum_bandwidth_in_mbps,omitempty"`
+}
+
 type ShapeDetailsObservation struct {
+
+	// (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
+	MaximumBandwidthInMbps *float64 `json:"maximumBandwidthInMbps,omitempty" tf:"maximum_bandwidth_in_mbps,omitempty"`
+
+	// (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 10 and the maximumBandwidthInMbps.  Example: 150
+	MinimumBandwidthInMbps *float64 `json:"minimumBandwidthInMbps,omitempty" tf:"minimum_bandwidth_in_mbps,omitempty"`
 }
 
 type ShapeDetailsParameters struct {
 
 	// (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	MaximumBandwidthInMbps *float64 `json:"maximumBandwidthInMbps" tf:"maximum_bandwidth_in_mbps,omitempty"`
 
 	// (Updatable) Bandwidth in Mbps that determines the total pre-provisioned bandwidth (ingress plus egress). The values must be between 10 and the maximumBandwidthInMbps.  Example: 150
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	MinimumBandwidthInMbps *float64 `json:"minimumBandwidthInMbps" tf:"minimum_bandwidth_in_mbps,omitempty"`
 }
 
@@ -151,6 +316,17 @@ type ShapeDetailsParameters struct {
 type LoadBalancerSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     LoadBalancerParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider LoadBalancerInitParameters `json:"initProvider,omitempty"`
 }
 
 // LoadBalancerStatus defines the observed state of LoadBalancer.
@@ -160,19 +336,22 @@ type LoadBalancerStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // LoadBalancer is the Schema for the LoadBalancers API. Provides the Load Balancer resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LoadBalancerSpec   `json:"spec"`
-	Status            LoadBalancerStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.shape) || (has(self.initProvider) && has(self.initProvider.shape))",message="spec.forProvider.shape is a required parameter"
+	Spec   LoadBalancerSpec   `json:"spec"`
+	Status LoadBalancerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

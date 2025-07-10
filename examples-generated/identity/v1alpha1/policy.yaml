@@ -1,0 +1,21 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identity/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: test_policy
+  name: test-policy
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.policy_description}
+    freeformTags:
+      Department: Finance
+    name: ${var.policy_name}
+    statements: ${var.policy_statements}
+    versionDate: ${var.policy_version_date}

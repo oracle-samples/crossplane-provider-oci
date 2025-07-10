@@ -99,5 +99,81 @@ func (mg *Rule) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Actions); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Actions[i3].Actions); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionIDRef,
+				Selector:     mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionIDSelector,
+				To: reference.To{
+					List:    &v1alpha1.FunctionList{},
+					Managed: &v1alpha1.Function{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionID")
+			}
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].FunctionIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Actions); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Actions[i3].Actions); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamIDRef,
+				Selector:     mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamIDSelector,
+				To: reference.To{
+					List:    &v1alpha11.StreamList{},
+					Managed: &v1alpha11.Stream{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamID")
+			}
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].StreamIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Actions); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Actions[i3].Actions); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicIDRef,
+				Selector:     mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicIDSelector,
+				To: reference.To{
+					List:    &v1alpha12.NotificationTopicList{},
+					Managed: &v1alpha12.NotificationTopic{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicID")
+			}
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Actions[i3].Actions[i4].TopicIDRef = rsp.ResolvedReference
+
+		}
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha13.CompartmentList{},
+			Managed: &v1alpha13.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }

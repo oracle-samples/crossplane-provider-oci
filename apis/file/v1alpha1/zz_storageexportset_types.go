@@ -13,6 +13,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type StorageExportSetInitParameters struct {
+
+	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: My export set
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Controls the maximum tbytes, fbytes, and abytes, values reported by NFS FSSTAT calls through any associated mount targets. This is an advanced feature. For most applications, use the default value. The tbytes value reported by FSSTAT will be maxFsStatBytes. The value of fbytes and abytes will be maxFsStatBytes minus the metered size of the file system. If the metered size is larger than maxFsStatBytes, then fbytes and abytes will both be '0'.
+	MaxFsStatBytes *string `json:"maxFsStatBytes,omitempty" tf:"max_fs_stat_bytes,omitempty"`
+
+	// (Updatable) Controls the maximum tfiles, ffiles, and afiles values reported by NFS FSSTAT calls through any associated mount targets. This is an advanced feature. For most applications, use the default value. The tfiles value reported by FSSTAT will be maxFsStatFiles. The value of ffiles and afiles will be maxFsStatFiles minus the metered size of the file system. If the metered size is larger than maxFsStatFiles, then ffiles and afiles will both be '0'.
+	MaxFsStatFiles *string `json:"maxFsStatFiles,omitempty" tf:"max_fs_stat_files,omitempty"`
+
+	// (Updatable) The OCID of the mount target that the export set is associated with
+	// +crossplane:generate:reference:type=StorageMountTarget
+	MountTargetID *string `json:"mountTargetId,omitempty" tf:"mount_target_id,omitempty"`
+
+	// Reference to a StorageMountTarget to populate mountTargetId.
+	// +kubebuilder:validation:Optional
+	MountTargetIDRef *v1.Reference `json:"mountTargetIdRef,omitempty" tf:"-"`
+
+	// Selector for a StorageMountTarget to populate mountTargetId.
+	// +kubebuilder:validation:Optional
+	MountTargetIDSelector *v1.Selector `json:"mountTargetIdSelector,omitempty" tf:"-"`
+}
+
 type StorageExportSetObservation struct {
 
 	// The availability domain the export set is in. May be unset as a blank or NULL value.  Example: Uocm:PHX-AD-1
@@ -21,8 +45,20 @@ type StorageExportSetObservation struct {
 	// The OCID of the compartment that contains the export set.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: My export set
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// The OCID of the export set.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) Controls the maximum tbytes, fbytes, and abytes, values reported by NFS FSSTAT calls through any associated mount targets. This is an advanced feature. For most applications, use the default value. The tbytes value reported by FSSTAT will be maxFsStatBytes. The value of fbytes and abytes will be maxFsStatBytes minus the metered size of the file system. If the metered size is larger than maxFsStatBytes, then fbytes and abytes will both be '0'.
+	MaxFsStatBytes *string `json:"maxFsStatBytes,omitempty" tf:"max_fs_stat_bytes,omitempty"`
+
+	// (Updatable) Controls the maximum tfiles, ffiles, and afiles values reported by NFS FSSTAT calls through any associated mount targets. This is an advanced feature. For most applications, use the default value. The tfiles value reported by FSSTAT will be maxFsStatFiles. The value of ffiles and afiles will be maxFsStatFiles minus the metered size of the file system. If the metered size is larger than maxFsStatFiles, then ffiles and afiles will both be '0'.
+	MaxFsStatFiles *string `json:"maxFsStatFiles,omitempty" tf:"max_fs_stat_files,omitempty"`
+
+	// (Updatable) The OCID of the mount target that the export set is associated with
+	MountTargetID *string `json:"mountTargetId,omitempty" tf:"mount_target_id,omitempty"`
 
 	// The current state of the export set.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -66,6 +102,17 @@ type StorageExportSetParameters struct {
 type StorageExportSetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     StorageExportSetParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider StorageExportSetInitParameters `json:"initProvider,omitempty"`
 }
 
 // StorageExportSetStatus defines the observed state of StorageExportSet.
@@ -75,13 +122,14 @@ type StorageExportSetStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // StorageExportSet is the Schema for the StorageExportSets API. Provides the Export Set resource in Oracle Cloud Infrastructure File Storage service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type StorageExportSet struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -53,5 +53,37 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KMSKeyIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.KMSKeyIDRef,
+		Selector:     mg.Spec.InitProvider.KMSKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyID")
+	}
+	mg.Spec.InitProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyIDRef = rsp.ResolvedReference
+
 	return nil
 }

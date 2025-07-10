@@ -1,0 +1,23 @@
+apiVersion: dns.oci.upbound.io/v1alpha1
+kind: Rrset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/rrset
+  labels:
+    testing.upbound.io/example-name: test_rrset
+  name: test-rrset
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    domain: ${var.rrset_domain}
+    items:
+    - domain: ${var.rrset_items_domain}
+      rdata: ${var.rrset_items_rdata}
+      rtype: ${var.rrset_items_rtype}
+      ttl: ${var.rrset_items_ttl}
+    rtype: ${var.rrset_rtype}
+    scope: ${var.rrset_scope}
+    viewId: ${oci_dns_view.test_view.id}
+    zoneNameOrId: ${oci_dns_zone.test_zone.id}

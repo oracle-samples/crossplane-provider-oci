@@ -53,6 +53,38 @@ func (mg *Backend) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BackendsetName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.BackendsetNameRef,
+		Selector:     mg.Spec.InitProvider.BackendsetNameSelector,
+		To: reference.To{
+			List:    &BackendSetList{},
+			Managed: &BackendSet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.BackendsetName")
+	}
+	mg.Spec.InitProvider.BackendsetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.BackendsetNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -78,6 +110,22 @@ func (mg *BackendSet) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -105,6 +153,22 @@ func (mg *Certificate) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -130,6 +194,22 @@ func (mg *LBHostname) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -238,6 +318,102 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.RuleSetNames = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.RuleSetNamesRefs = mrsp.ResolvedReferences
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultBackendSetName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.DefaultBackendSetNameRef,
+		Selector:     mg.Spec.InitProvider.DefaultBackendSetNameSelector,
+		To: reference.To{
+			List:    &BackendSetList{},
+			Managed: &BackendSet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DefaultBackendSetName")
+	}
+	mg.Spec.InitProvider.DefaultBackendSetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DefaultBackendSetNameRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.HostnameNames),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.HostnameNamesRefs,
+		Selector:      mg.Spec.InitProvider.HostnameNamesSelector,
+		To: reference.To{
+			List:    &LBHostnameList{},
+			Managed: &LBHostname{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.HostnameNames")
+	}
+	mg.Spec.InitProvider.HostnameNames = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.HostnameNamesRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathRouteSetName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.PathRouteSetNameRef,
+		Selector:     mg.Spec.InitProvider.PathRouteSetNameSelector,
+		To: reference.To{
+			List:    &PathRouteSetList{},
+			Managed: &PathRouteSet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PathRouteSetName")
+	}
+	mg.Spec.InitProvider.PathRouteSetName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PathRouteSetNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoutingPolicyName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.RoutingPolicyNameRef,
+		Selector:     mg.Spec.InitProvider.RoutingPolicyNameSelector,
+		To: reference.To{
+			List:    &RoutingPolicyList{},
+			Managed: &RoutingPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RoutingPolicyName")
+	}
+	mg.Spec.InitProvider.RoutingPolicyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RoutingPolicyNameRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.RuleSetNames),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.RuleSetNamesRefs,
+		Selector:      mg.Spec.InitProvider.RuleSetNamesSelector,
+		To: reference.To{
+			List:    &RuleSetList{},
+			Managed: &RuleSet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RuleSetNames")
+	}
+	mg.Spec.InitProvider.RuleSetNames = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.RuleSetNamesRefs = mrsp.ResolvedReferences
+
 	return nil
 }
 
@@ -281,6 +457,38 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.SubnetIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SubnetIdsRefs = mrsp.ResolvedReferences
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SubnetIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.SubnetIdsRefs,
+		Selector:      mg.Spec.InitProvider.SubnetIdsSelector,
+		To: reference.To{
+			List:    &v1alpha11.SubnetList{},
+			Managed: &v1alpha11.Subnet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubnetIds")
+	}
+	mg.Spec.InitProvider.SubnetIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.SubnetIdsRefs = mrsp.ResolvedReferences
+
 	return nil
 }
 
@@ -323,6 +531,40 @@ func (mg *PathRouteSet) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 		mg.Spec.ForProvider.PathRoutes[i3].BackendSetName = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PathRoutes[i3].BackendSetNameRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PathRoutes); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PathRoutes[i3].BackendSetName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PathRoutes[i3].BackendSetNameRef,
+			Selector:     mg.Spec.InitProvider.PathRoutes[i3].BackendSetNameSelector,
+			To: reference.To{
+				List:    &BackendSetList{},
+				Managed: &BackendSet{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PathRoutes[i3].BackendSetName")
+		}
+		mg.Spec.InitProvider.PathRoutes[i3].BackendSetName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PathRoutes[i3].BackendSetNameRef = rsp.ResolvedReference
 
 	}
 
@@ -372,6 +614,42 @@ func (mg *RoutingPolicy) ResolveReferences(ctx context.Context, c client.Reader)
 
 		}
 	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Rules); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Rules[i3].Actions); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetName),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetNameRef,
+				Selector:     mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetNameSelector,
+				To: reference.To{
+					List:    &BackendSetList{},
+					Managed: &BackendSet{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetName")
+			}
+			mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetName = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Rules[i3].Actions[i4].BackendSetNameRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }
@@ -399,6 +677,22 @@ func (mg *RuleSet) ResolveReferences(ctx context.Context, c client.Reader) error
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -424,6 +718,22 @@ func (mg *SSLCipherSuite) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.LoadBalancerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
+		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
+		To: reference.To{
+			List:    &LoadBalancerList{},
+			Managed: &LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.LoadBalancerID")
+	}
+	mg.Spec.InitProvider.LoadBalancerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.LoadBalancerIDRef = rsp.ResolvedReference
 
 	return nil
 }

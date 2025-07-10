@@ -13,6 +13,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AgentFeaturesInitParameters struct {
+}
+
 type AgentFeaturesObservation struct {
 
 	// This attribute is not used.
@@ -23,6 +26,31 @@ type AgentFeaturesObservation struct {
 }
 
 type AgentFeaturesParameters struct {
+}
+
+type ImageInitParameters struct {
+
+	// (Updatable) The OCID of the compartment you want the image to be created in.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	ImageSourceDetails []ImageSourceDetailsInitParameters `json:"imageSourceDetails,omitempty" tf:"image_source_details,omitempty"`
+
+	// The OCID of the instance you want to use as the basis for the image.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
+	LaunchMode *string `json:"launchMode,omitempty" tf:"launch_mode,omitempty"`
 }
 
 type ImageObservation struct {
@@ -36,11 +64,33 @@ type ImageObservation struct {
 	// The size of the internal storage for this image that is subject to billing (1 GB = 1,073,741,824 bytes).  Example: 100
 	BillableSizeInGbs *string `json:"billableSizeInGbs,omitempty" tf:"billable_size_in_gbs,omitempty"`
 
+	// (Updatable) The OCID of the compartment you want the image to be created in.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
 	// Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance.  Example: true
 	CreateImageAllowed *bool `json:"createImageAllowed,omitempty" tf:"create_image_allowed,omitempty"`
 
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The OCID of the image.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ImageSourceDetails []ImageSourceDetailsObservation `json:"imageSourceDetails,omitempty" tf:"image_source_details,omitempty"`
+
+	// The OCID of the instance you want to use as the basis for the image.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
+	LaunchMode *string `json:"launchMode,omitempty" tf:"launch_mode,omitempty"`
 
 	// Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions []LaunchOptionsObservation `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
@@ -67,11 +117,12 @@ type ImageObservation struct {
 type ImageParameters struct {
 
 	// (Updatable) The OCID of the compartment you want the image to be created in.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -80,6 +131,7 @@ type ImageParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -94,7 +146,58 @@ type ImageParameters struct {
 	LaunchMode *string `json:"launchMode,omitempty" tf:"launch_mode,omitempty"`
 }
 
+type ImageSourceDetailsInitParameters struct {
+
+	// The Object Storage bucket for the image.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// The Object Storage namespace for the image.
+	NamespaceName *string `json:"namespaceName,omitempty" tf:"namespace_name,omitempty"`
+
+	// The Object Storage name for the image.
+	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
+
+	// The image's operating system.  Example: Oracle Linux
+	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
+
+	// The image's operating system version.  Example: 7.2
+	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
+
+	// The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with the Oracle Cloud Infrastructure image format. Allowed values are:
+	SourceImageType *string `json:"sourceImageType,omitempty" tf:"source_image_type,omitempty"`
+
+	// The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use objectStorageUri when specifying the Object Storage URL.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+
+	// The Object Storage URL for the image.
+	SourceURI *string `json:"sourceUri,omitempty" tf:"source_uri,omitempty"`
+}
+
 type ImageSourceDetailsObservation struct {
+
+	// The Object Storage bucket for the image.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// The Object Storage namespace for the image.
+	NamespaceName *string `json:"namespaceName,omitempty" tf:"namespace_name,omitempty"`
+
+	// The Object Storage name for the image.
+	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
+
+	// The image's operating system.  Example: Oracle Linux
+	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
+
+	// The image's operating system version.  Example: 7.2
+	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
+
+	// The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with the Oracle Cloud Infrastructure image format. Allowed values are:
+	SourceImageType *string `json:"sourceImageType,omitempty" tf:"source_image_type,omitempty"`
+
+	// The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use objectStorageUri when specifying the Object Storage URL.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+
+	// The Object Storage URL for the image.
+	SourceURI *string `json:"sourceUri,omitempty" tf:"source_uri,omitempty"`
 }
 
 type ImageSourceDetailsParameters struct {
@@ -124,12 +227,15 @@ type ImageSourceDetailsParameters struct {
 	SourceImageType *string `json:"sourceImageType,omitempty" tf:"source_image_type,omitempty"`
 
 	// The source type for the image. Use objectStorageTuple when specifying the namespace, bucket name, and object name. Use objectStorageUri when specifying the Object Storage URL.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 
 	// The Object Storage URL for the image.
 	// +kubebuilder:validation:Optional
 	SourceURI *string `json:"sourceUri,omitempty" tf:"source_uri,omitempty"`
+}
+
+type LaunchOptionsInitParameters struct {
 }
 
 type LaunchOptionsObservation struct {
@@ -160,6 +266,17 @@ type LaunchOptionsParameters struct {
 type ImageSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ImageParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ImageInitParameters `json:"initProvider,omitempty"`
 }
 
 // ImageStatus defines the observed state of Image.
@@ -169,19 +286,21 @@ type ImageStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Image is the Schema for the Images API. Provides the Image resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ImageSpec   `json:"spec"`
-	Status            ImageStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	Spec   ImageSpec   `json:"spec"`
+	Status ImageStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -1,0 +1,34 @@
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/bucket
+  labels:
+    testing.upbound.io/example-name: test_bucket
+  name: test-bucket
+spec:
+  forProvider:
+    accessType: ${var.bucket_access_type}
+    autoTiering: ${var.bucket_auto_tiering}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    freeformTags:
+      Department: Finance
+    kmsKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_key
+    metadata: ${var.bucket_metadata}
+    name: ${var.bucket_name}
+    namespace: ${var.bucket_namespace}
+    objectEventsEnabled: ${var.bucket_object_events_enabled}
+    retentionRules:
+    - displayName: ${var.retention_rule_display_name}
+      duration:
+      - timeAmount: ${var.retention_rule_duration_time_amount}
+        timeUnit: ${var.retention_rule_duration_time_unit}
+      timeRuleLocked: ${var.retention_rule_time_rule_locked}
+    storageTier: ${var.bucket_storage_tier}
+    versioning: ${var.bucket_versioning}

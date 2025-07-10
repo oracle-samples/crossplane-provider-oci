@@ -17,17 +17,14 @@ func (mg *NotificationTopic) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this NotificationTopic.
+func (mg *NotificationTopic) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this NotificationTopic.
 func (mg *NotificationTopic) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this NotificationTopic.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *NotificationTopic) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this NotificationTopic.
@@ -50,17 +47,14 @@ func (mg *NotificationTopic) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this NotificationTopic.
+func (mg *NotificationTopic) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this NotificationTopic.
 func (mg *NotificationTopic) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this NotificationTopic.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *NotificationTopic) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this NotificationTopic.
@@ -83,17 +77,14 @@ func (mg *Subscription) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Subscription.
+func (mg *Subscription) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Subscription.
 func (mg *Subscription) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this Subscription.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Subscription) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
 }
 
 // GetPublishConnectionDetailsTo of this Subscription.
@@ -116,17 +107,14 @@ func (mg *Subscription) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Subscription.
+func (mg *Subscription) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Subscription.
 func (mg *Subscription) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this Subscription.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Subscription) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
 }
 
 // SetPublishConnectionDetailsTo of this Subscription.

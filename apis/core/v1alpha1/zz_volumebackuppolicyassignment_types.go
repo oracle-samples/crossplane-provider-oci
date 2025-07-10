@@ -13,13 +13,52 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type VolumeBackupPolicyAssignmentInitParameters struct {
+
+	// The OCID of the volume to assign the policy to.
+	// +crossplane:generate:reference:type=Volume
+	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
+
+	// Reference to a Volume to populate assetId.
+	// +kubebuilder:validation:Optional
+	AssetIDRef *v1.Reference `json:"assetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Volume to populate assetId.
+	// +kubebuilder:validation:Optional
+	AssetIDSelector *v1.Selector `json:"assetIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the volume backup policy to assign to the volume.
+	// +crossplane:generate:reference:type=VolumeBackupPolicy
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
+	// Reference to a VolumeBackupPolicy to populate policyId.
+	// +kubebuilder:validation:Optional
+	PolicyIDRef *v1.Reference `json:"policyIdRef,omitempty" tf:"-"`
+
+	// Selector for a VolumeBackupPolicy to populate policyId.
+	// +kubebuilder:validation:Optional
+	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the volume backup policy assignment.
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
+}
+
 type VolumeBackupPolicyAssignmentObservation struct {
+
+	// The OCID of the volume to assign the policy to.
+	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
 
 	// The OCID of the volume backup policy assignment.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The OCID of the volume backup policy to assign to the volume.
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
 	// The date and time the volume backup policy was assigned to the volume. The format is defined by RFC3339.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	// The OCID of the volume backup policy assignment.
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeBackupPolicyAssignmentParameters struct {
@@ -49,12 +88,27 @@ type VolumeBackupPolicyAssignmentParameters struct {
 	// Selector for a VolumeBackupPolicy to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the volume backup policy assignment.
+	// +kubebuilder:validation:Optional
+	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 // VolumeBackupPolicyAssignmentSpec defines the desired state of VolumeBackupPolicyAssignment
 type VolumeBackupPolicyAssignmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VolumeBackupPolicyAssignmentParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider VolumeBackupPolicyAssignmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // VolumeBackupPolicyAssignmentStatus defines the observed state of VolumeBackupPolicyAssignment.
@@ -64,13 +118,14 @@ type VolumeBackupPolicyAssignmentStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // VolumeBackupPolicyAssignment is the Schema for the VolumeBackupPolicyAssignments API. Provides the Volume Backup Policy Assignment resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type VolumeBackupPolicyAssignment struct {
 	metav1.TypeMeta   `json:",inline"`

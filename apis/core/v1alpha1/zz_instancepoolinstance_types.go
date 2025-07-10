@@ -13,13 +13,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstancePoolInstanceInitParameters struct {
+	AutoTerminateInstanceOnDelete *bool `json:"autoTerminateInstanceOnDelete,omitempty" tf:"auto_terminate_instance_on_delete,omitempty"`
+
+	DecrementSizeOnDelete *bool `json:"decrementSizeOnDelete,omitempty" tf:"decrement_size_on_delete,omitempty"`
+
+	// The OCID of the instance.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// The OCID of the instance pool.
+	InstancePoolID *string `json:"instancePoolId,omitempty" tf:"instance_pool_id,omitempty"`
+}
+
 type InstancePoolInstanceObservation struct {
+	AutoTerminateInstanceOnDelete *bool `json:"autoTerminateInstanceOnDelete,omitempty" tf:"auto_terminate_instance_on_delete,omitempty"`
 
 	// The availability domain the instance is running in.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// The OCID of the compartment that contains the instance.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	DecrementSizeOnDelete *bool `json:"decrementSizeOnDelete,omitempty" tf:"decrement_size_on_delete,omitempty"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -32,6 +47,12 @@ type InstancePoolInstanceObservation struct {
 
 	// The OCID of the instance configuration used to create the instance.
 	InstanceConfigurationID *string `json:"instanceConfigurationId,omitempty" tf:"instance_configuration_id,omitempty"`
+
+	// The OCID of the instance.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// The OCID of the instance pool.
+	InstancePoolID *string `json:"instancePoolId,omitempty" tf:"instance_pool_id,omitempty"`
 
 	// The load balancer backends that are configured for the instance pool instance.
 	LoadBalancerBackends []LoadBalancerBackendsObservation `json:"loadBalancerBackends,omitempty" tf:"load_balancer_backends,omitempty"`
@@ -58,12 +79,15 @@ type InstancePoolInstanceParameters struct {
 	DecrementSizeOnDelete *bool `json:"decrementSizeOnDelete,omitempty" tf:"decrement_size_on_delete,omitempty"`
 
 	// The OCID of the instance.
-	// +kubebuilder:validation:Required
-	InstanceID *string `json:"instanceId" tf:"instance_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// The OCID of the instance pool.
-	// +kubebuilder:validation:Required
-	InstancePoolID *string `json:"instancePoolId" tf:"instance_pool_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	InstancePoolID *string `json:"instancePoolId,omitempty" tf:"instance_pool_id,omitempty"`
+}
+
+type LoadBalancerBackendsInitParameters struct {
 }
 
 type LoadBalancerBackendsObservation struct {
@@ -91,6 +115,17 @@ type LoadBalancerBackendsParameters struct {
 type InstancePoolInstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstancePoolInstanceParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider InstancePoolInstanceInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstancePoolInstanceStatus defines the observed state of InstancePoolInstance.
@@ -100,19 +135,22 @@ type InstancePoolInstanceStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // InstancePoolInstance is the Schema for the InstancePoolInstances API. Provides the Instance Pool Instance resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type InstancePoolInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstancePoolInstanceSpec   `json:"spec"`
-	Status            InstancePoolInstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceId) || (has(self.initProvider) && has(self.initProvider.instanceId))",message="spec.forProvider.instanceId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instancePoolId) || (has(self.initProvider) && has(self.initProvider.instancePoolId))",message="spec.forProvider.instancePoolId is a required parameter"
+	Spec   InstancePoolInstanceSpec   `json:"spec"`
+	Status InstancePoolInstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

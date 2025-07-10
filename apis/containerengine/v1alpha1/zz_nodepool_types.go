@@ -13,6 +13,9 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ErrorInitParameters struct {
+}
+
 type ErrorObservation struct {
 
 	// A short error code that defines the upstream error, meant for programmatic parsing. See API Errors.
@@ -28,7 +31,22 @@ type ErrorObservation struct {
 type ErrorParameters struct {
 }
 
+type InitialNodeLabelsInitParameters struct {
+
+	// (Updatable) The key of the pair.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The value of the pair.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type InitialNodeLabelsObservation struct {
+
+	// (Updatable) The key of the pair.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Updatable) The value of the pair.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type InitialNodeLabelsParameters struct {
@@ -42,17 +60,85 @@ type InitialNodeLabelsParameters struct {
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
+type NodeConfigDetailsInitParameters struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
+	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
+
+	// (Updatable) The OCID of the Key Management Service key assigned to the boot volume.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// (Updatable) The CNI related configuration of pods in the node pool.
+	NodePoolPodNetworkOptionDetails []NodePoolPodNetworkOptionDetailsInitParameters `json:"nodePoolPodNetworkOptionDetails,omitempty" tf:"node_pool_pod_network_option_details,omitempty"`
+
+	// (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +listType=set
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// +kubebuilder:validation:Optional
+	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// +kubebuilder:validation:Optional
+	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
+
+	// (Updatable) The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
+	PlacementConfigs []PlacementConfigsInitParameters `json:"placementConfigs,omitempty" tf:"placement_configs,omitempty"`
+
+	// (Updatable) The number of nodes that should be in the node pool.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+}
+
 type NodeConfigDetailsObservation struct {
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
+	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
+
+	// (Updatable) The OCID of the Key Management Service key assigned to the boot volume.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// (Updatable) The CNI related configuration of pods in the node pool.
+	NodePoolPodNetworkOptionDetails []NodePoolPodNetworkOptionDetailsObservation `json:"nodePoolPodNetworkOptionDetails,omitempty" tf:"node_pool_pod_network_option_details,omitempty"`
+
+	// (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
+	// +listType=set
+	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
+
+	// (Updatable) The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
+	PlacementConfigs []PlacementConfigsObservation `json:"placementConfigs,omitempty" tf:"placement_configs,omitempty"`
+
+	// (Updatable) The number of nodes that should be in the node pool.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type NodeConfigDetailsParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
@@ -70,6 +156,7 @@ type NodeConfigDetailsParameters struct {
 	// (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
 	// References to NetworkSecurityGroup in core to populate nsgIds.
@@ -81,15 +168,34 @@ type NodeConfigDetailsParameters struct {
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// (Updatable) The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PlacementConfigs []PlacementConfigsParameters `json:"placementConfigs" tf:"placement_configs,omitempty"`
 
 	// (Updatable) The number of nodes that should be in the node pool.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size" tf:"size,omitempty"`
 }
 
+type NodeEvictionNodePoolSettingsInitParameters struct {
+
+	// (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
+	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
+
+	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
+
+	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
+	IsForceDeleteAfterGraceDuration *bool `json:"isForceDeleteAfterGraceDuration,omitempty" tf:"is_force_delete_after_grace_duration,omitempty"`
+}
+
 type NodeEvictionNodePoolSettingsObservation struct {
+
+	// (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
+	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
+
+	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
+
+	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
+	IsForceDeleteAfterGraceDuration *bool `json:"isForceDeleteAfterGraceDuration,omitempty" tf:"is_force_delete_after_grace_duration,omitempty"`
 }
 
 type NodeEvictionNodePoolSettingsParameters struct {
@@ -98,15 +204,44 @@ type NodeEvictionNodePoolSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
+
 	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
 	// +kubebuilder:validation:Optional
 	IsForceDeleteAfterGraceDuration *bool `json:"isForceDeleteAfterGraceDuration,omitempty" tf:"is_force_delete_after_grace_duration,omitempty"`
 }
 
+type NodePoolCyclingDetailsInitParameters struct {
+	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
+
+	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
+
+	// (Updatable) Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
+	MaximumSurge *string `json:"maximumSurge,omitempty" tf:"maximum_surge,omitempty"`
+
+	// (Updatable) Maximum active nodes that would be terminated from nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Nodepool size or 0% to 100%
+	MaximumUnavailable *string `json:"maximumUnavailable,omitempty" tf:"maximum_unavailable,omitempty"`
+}
+
 type NodePoolCyclingDetailsObservation struct {
+	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
+
+	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
+
+	// (Updatable) Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
+	MaximumSurge *string `json:"maximumSurge,omitempty" tf:"maximum_surge,omitempty"`
+
+	// (Updatable) Maximum active nodes that would be terminated from nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Nodepool size or 0% to 100%
+	MaximumUnavailable *string `json:"maximumUnavailable,omitempty" tf:"maximum_unavailable,omitempty"`
 }
 
 type NodePoolCyclingDetailsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
 
 	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
 	// +kubebuilder:validation:Optional
@@ -121,22 +256,165 @@ type NodePoolCyclingDetailsParameters struct {
 	MaximumUnavailable *string `json:"maximumUnavailable,omitempty" tf:"maximum_unavailable,omitempty"`
 }
 
+type NodePoolInitParameters struct {
+
+	// The OCID of the cluster to which this node pool is attached.
+	// +crossplane:generate:reference:type=Cluster
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// Reference to a Cluster to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDRef *v1.Reference `json:"clusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+
+	// The OCID of the compartment in which the node pool exists.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
+	InitialNodeLabels []InitialNodeLabelsInitParameters `json:"initialNodeLabels,omitempty" tf:"initial_node_labels,omitempty"`
+
+	// (Updatable) The version of Kubernetes to install on the nodes in the node pool.
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
+	// (Updatable) The name of the node pool. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
+	NodeConfigDetails []NodeConfigDetailsInitParameters `json:"nodeConfigDetails,omitempty" tf:"node_config_details,omitempty"`
+
+	// (Updatable) Node Eviction Details configuration
+	NodeEvictionNodePoolSettings []NodeEvictionNodePoolSettingsInitParameters `json:"nodeEvictionNodePoolSettings,omitempty" tf:"node_eviction_node_pool_settings,omitempty"`
+
+	// Deprecated. see nodeSource. The OCID of the image running on the nodes in the node pool.
+	NodeImageID *string `json:"nodeImageId,omitempty" tf:"node_image_id,omitempty"`
+
+	// Deprecated. Use nodeSourceDetails instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when node_image_id is specified.
+	NodeImageName *string `json:"nodeImageName,omitempty" tf:"node_image_name,omitempty"`
+
+	// (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
+	// +mapType=granular
+	NodeMetadata map[string]*string `json:"nodeMetadata,omitempty" tf:"node_metadata,omitempty"`
+
+	// (Updatable) Node Pool Cycling Details
+	NodePoolCyclingDetails []NodePoolCyclingDetailsInitParameters `json:"nodePoolCyclingDetails,omitempty" tf:"node_pool_cycling_details,omitempty"`
+
+	// (Updatable) The name of the node shape of the nodes in the node pool.
+	NodeShape *string `json:"nodeShape,omitempty" tf:"node_shape,omitempty"`
+
+	// (Updatable) Specify the configuration of the shape to launch nodes in the node pool.
+	NodeShapeConfig []NodeShapeConfigInitParameters `json:"nodeShapeConfig,omitempty" tf:"node_shape_config,omitempty"`
+
+	// (Updatable) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source.
+	NodeSourceDetails []NodeSourceDetailsInitParameters `json:"nodeSourceDetails,omitempty" tf:"node_source_details,omitempty"`
+
+	// (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead.
+	QuantityPerSubnet *float64 `json:"quantityPerSubnet,omitempty" tf:"quantity_per_subnet,omitempty"`
+
+	// (Updatable) The SSH public key on each node in the node pool on launch.
+	SSHPublicKey *string `json:"sshPublicKey,omitempty" tf:"ssh_public_key,omitempty"`
+
+	// (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
+	// +listType=set
+	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
+}
+
 type NodePoolObservation struct {
+
+	// The OCID of the cluster to which this node pool is attached.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// The OCID of the compartment in which the node pool exists.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the node pool.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
+	InitialNodeLabels []InitialNodeLabelsObservation `json:"initialNodeLabels,omitempty" tf:"initial_node_labels,omitempty"`
+
+	// (Updatable) The version of Kubernetes to install on the nodes in the node pool.
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
 	// Details about the state of the nodepool.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
+
+	// (Updatable) The name of the node pool. Avoid entering confidential information.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
+	NodeConfigDetails []NodeConfigDetailsObservation `json:"nodeConfigDetails,omitempty" tf:"node_config_details,omitempty"`
+
+	// (Updatable) Node Eviction Details configuration
+	NodeEvictionNodePoolSettings []NodeEvictionNodePoolSettingsObservation `json:"nodeEvictionNodePoolSettings,omitempty" tf:"node_eviction_node_pool_settings,omitempty"`
+
+	// Deprecated. see nodeSource. The OCID of the image running on the nodes in the node pool.
+	NodeImageID *string `json:"nodeImageId,omitempty" tf:"node_image_id,omitempty"`
+
+	// Deprecated. Use nodeSourceDetails instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when node_image_id is specified.
+	NodeImageName *string `json:"nodeImageName,omitempty" tf:"node_image_name,omitempty"`
+
+	// (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
+	// +mapType=granular
+	NodeMetadata map[string]*string `json:"nodeMetadata,omitempty" tf:"node_metadata,omitempty"`
+
+	// (Updatable) Node Pool Cycling Details
+	NodePoolCyclingDetails []NodePoolCyclingDetailsObservation `json:"nodePoolCyclingDetails,omitempty" tf:"node_pool_cycling_details,omitempty"`
+
+	// (Updatable) The name of the node shape of the nodes in the node pool.
+	NodeShape *string `json:"nodeShape,omitempty" tf:"node_shape,omitempty"`
+
+	// (Updatable) Specify the configuration of the shape to launch nodes in the node pool.
+	NodeShapeConfig []NodeShapeConfigObservation `json:"nodeShapeConfig,omitempty" tf:"node_shape_config,omitempty"`
 
 	// Deprecated. see nodeSourceDetails. Source running on the nodes in the node pool.
 	NodeSource []NodeSourceObservation `json:"nodeSource,omitempty" tf:"node_source,omitempty"`
 
+	// (Updatable) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source.
+	NodeSourceDetails []NodeSourceDetailsObservation `json:"nodeSourceDetails,omitempty" tf:"node_source_details,omitempty"`
+
 	// The nodes in the node pool.
 	Nodes []NodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
+	// (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead.
+	QuantityPerSubnet *float64 `json:"quantityPerSubnet,omitempty" tf:"quantity_per_subnet,omitempty"`
+
+	// (Updatable) The SSH public key on each node in the node pool on launch.
+	SSHPublicKey *string `json:"sshPublicKey,omitempty" tf:"ssh_public_key,omitempty"`
+
 	// The state of the node.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
+	// +listType=set
+	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 }
 
 type NodePoolParameters struct {
@@ -169,10 +447,12 @@ type NodePoolParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
@@ -184,8 +464,8 @@ type NodePoolParameters struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// (Updatable) The name of the node pool. Avoid entering confidential information.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
 	// +kubebuilder:validation:Optional
@@ -205,6 +485,7 @@ type NodePoolParameters struct {
 
 	// (Updatable) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool on launch.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	NodeMetadata map[string]*string `json:"nodeMetadata,omitempty" tf:"node_metadata,omitempty"`
 
 	// (Updatable) Node Pool Cycling Details
@@ -212,8 +493,8 @@ type NodePoolParameters struct {
 	NodePoolCyclingDetails []NodePoolCyclingDetailsParameters `json:"nodePoolCyclingDetails,omitempty" tf:"node_pool_cycling_details,omitempty"`
 
 	// (Updatable) The name of the node shape of the nodes in the node pool.
-	// +kubebuilder:validation:Required
-	NodeShape *string `json:"nodeShape" tf:"node_shape,omitempty"`
+	// +kubebuilder:validation:Optional
+	NodeShape *string `json:"nodeShape,omitempty" tf:"node_shape,omitempty"`
 
 	// (Updatable) Specify the configuration of the shape to launch nodes in the node pool.
 	// +kubebuilder:validation:Optional
@@ -233,16 +514,44 @@ type NodePoolParameters struct {
 
 	// (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 }
 
+type NodePoolPodNetworkOptionDetailsInitParameters struct {
+
+	// (Updatable) The CNI plugin used by this node pool
+	CniType *string `json:"cniType,omitempty" tf:"cni_type,omitempty"`
+
+	// (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
+	PodNsgIds []*string `json:"podNsgIds,omitempty" tf:"pod_nsg_ids,omitempty"`
+
+	// (Updatable) The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs
+	PodSubnetIds []*string `json:"podSubnetIds,omitempty" tf:"pod_subnet_ids,omitempty"`
+}
+
 type NodePoolPodNetworkOptionDetailsObservation struct {
+
+	// (Updatable) The CNI plugin used by this node pool
+	CniType *string `json:"cniType,omitempty" tf:"cni_type,omitempty"`
+
+	// (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see NetworkSecurityGroup.
+	PodNsgIds []*string `json:"podNsgIds,omitempty" tf:"pod_nsg_ids,omitempty"`
+
+	// (Updatable) The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs
+	PodSubnetIds []*string `json:"podSubnetIds,omitempty" tf:"pod_subnet_ids,omitempty"`
 }
 
 type NodePoolPodNetworkOptionDetailsParameters struct {
 
 	// (Updatable) The CNI plugin used by this node pool
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	CniType *string `json:"cniType" tf:"cni_type,omitempty"`
 
 	// (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape
@@ -258,7 +567,22 @@ type NodePoolPodNetworkOptionDetailsParameters struct {
 	PodSubnetIds []*string `json:"podSubnetIds,omitempty" tf:"pod_subnet_ids,omitempty"`
 }
 
+type NodeShapeConfigInitParameters struct {
+
+	// (Updatable) The total amount of memory available to each node, in gigabytes.
+	MemoryInGbs *float64 `json:"memoryInGbs,omitempty" tf:"memory_in_gbs,omitempty"`
+
+	// (Updatable) The total number of OCPUs available to each node in the node pool. See here for details.
+	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
+}
+
 type NodeShapeConfigObservation struct {
+
+	// (Updatable) The total amount of memory available to each node, in gigabytes.
+	MemoryInGbs *float64 `json:"memoryInGbs,omitempty" tf:"memory_in_gbs,omitempty"`
+
+	// (Updatable) The total number of OCPUs available to each node in the node pool. See here for details.
+	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
 }
 
 type NodeShapeConfigParameters struct {
@@ -272,7 +596,28 @@ type NodeShapeConfigParameters struct {
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
 }
 
+type NodeSourceDetailsInitParameters struct {
+
+	// (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See here for max custom boot volume sizing and OS-specific requirements.
+	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
+
+	// (Updatable) The OCID of the image used to boot the node.
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// (Updatable) The source type for the node. Use IMAGE when specifying an OCID of an image.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
+}
+
 type NodeSourceDetailsObservation struct {
+
+	// (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See here for max custom boot volume sizing and OS-specific requirements.
+	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
+
+	// (Updatable) The OCID of the image used to boot the node.
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// (Updatable) The source type for the node. Use IMAGE when specifying an OCID of an image.
+	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
 type NodeSourceDetailsParameters struct {
@@ -282,12 +627,15 @@ type NodeSourceDetailsParameters struct {
 	BootVolumeSizeInGbs *string `json:"bootVolumeSizeInGbs,omitempty" tf:"boot_volume_size_in_gbs,omitempty"`
 
 	// (Updatable) The OCID of the image used to boot the node.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId" tf:"image_id,omitempty"`
 
 	// (Updatable) The source type for the node. Use IMAGE when specifying an OCID of an image.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
+}
+
+type NodeSourceInitParameters struct {
 }
 
 type NodeSourceObservation struct {
@@ -305,12 +653,16 @@ type NodeSourceObservation struct {
 type NodeSourceParameters struct {
 }
 
+type NodesInitParameters struct {
+}
+
 type NodesObservation struct {
 
 	// (Updatable) The availability domain in which to place nodes. Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// An error that may be associated with the node.
@@ -320,6 +672,7 @@ type NodesObservation struct {
 	FaultDomain *string `json:"faultDomain,omitempty" tf:"fault_domain,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the node pool.
@@ -353,13 +706,55 @@ type NodesObservation struct {
 type NodesParameters struct {
 }
 
+type PlacementConfigsInitParameters struct {
+
+	// (Updatable) The availability domain in which to place nodes. Example: Uocm:PHX-AD-1
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
+	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
+
+	// (Updatable) A list of fault domains in which to place nodes.
+	FaultDomains []*string `json:"faultDomains,omitempty" tf:"fault_domains,omitempty"`
+
+	// (Updatable) Configuration options for preemptible nodes.
+	PreemptibleNodeConfig []PreemptibleNodeConfigInitParameters `json:"preemptibleNodeConfig,omitempty" tf:"preemptible_node_config,omitempty"`
+
+	// (Updatable) The OCID of the subnet in which to place nodes.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
+	// Reference to a Subnet in core to populate subnetId.
+	// +kubebuilder:validation:Optional
+	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Subnet in core to populate subnetId.
+	// +kubebuilder:validation:Optional
+	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
+}
+
 type PlacementConfigsObservation struct {
+
+	// (Updatable) The availability domain in which to place nodes. Example: Uocm:PHX-AD-1
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
+	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
+
+	// (Updatable) A list of fault domains in which to place nodes.
+	FaultDomains []*string `json:"faultDomains,omitempty" tf:"fault_domains,omitempty"`
+
+	// (Updatable) Configuration options for preemptible nodes.
+	PreemptibleNodeConfig []PreemptibleNodeConfigObservation `json:"preemptibleNodeConfig,omitempty" tf:"preemptible_node_config,omitempty"`
+
+	// (Updatable) The OCID of the subnet in which to place nodes.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 }
 
 type PlacementConfigsParameters struct {
 
 	// (Updatable) The availability domain in which to place nodes. Example: Uocm:PHX-AD-1
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	AvailabilityDomain *string `json:"availabilityDomain" tf:"availability_domain,omitempty"`
 
 	// (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
@@ -388,17 +783,41 @@ type PlacementConfigsParameters struct {
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
 
+type PreemptibleNodeConfigInitParameters struct {
+
+	// (Updatable) The action to run when the preemptible node is interrupted for eviction.
+	PreemptionAction []PreemptionActionInitParameters `json:"preemptionAction,omitempty" tf:"preemption_action,omitempty"`
+}
+
 type PreemptibleNodeConfigObservation struct {
+
+	// (Updatable) The action to run when the preemptible node is interrupted for eviction.
+	PreemptionAction []PreemptionActionObservation `json:"preemptionAction,omitempty" tf:"preemption_action,omitempty"`
 }
 
 type PreemptibleNodeConfigParameters struct {
 
 	// (Updatable) The action to run when the preemptible node is interrupted for eviction.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PreemptionAction []PreemptionActionParameters `json:"preemptionAction" tf:"preemption_action,omitempty"`
 }
 
+type PreemptionActionInitParameters struct {
+
+	// (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	IsPreserveBootVolume *bool `json:"isPreserveBootVolume,omitempty" tf:"is_preserve_boot_volume,omitempty"`
+
+	// (Updatable) The type of action to run when the instance is interrupted for eviction.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type PreemptionActionObservation struct {
+
+	// (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
+	IsPreserveBootVolume *bool `json:"isPreserveBootVolume,omitempty" tf:"is_preserve_boot_volume,omitempty"`
+
+	// (Updatable) The type of action to run when the instance is interrupted for eviction.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PreemptionActionParameters struct {
@@ -408,7 +827,7 @@ type PreemptionActionParameters struct {
 	IsPreserveBootVolume *bool `json:"isPreserveBootVolume,omitempty" tf:"is_preserve_boot_volume,omitempty"`
 
 	// (Updatable) The type of action to run when the instance is interrupted for eviction.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
@@ -416,6 +835,17 @@ type PreemptionActionParameters struct {
 type NodePoolSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NodePoolParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider NodePoolInitParameters `json:"initProvider,omitempty"`
 }
 
 // NodePoolStatus defines the observed state of NodePool.
@@ -425,19 +855,22 @@ type NodePoolStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // NodePool is the Schema for the NodePools API. Provides the Node Pool resource in Oracle Cloud Infrastructure Container Engine service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type NodePool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NodePoolSpec   `json:"spec"`
-	Status            NodePoolStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.nodeShape) || (has(self.initProvider) && has(self.initProvider.nodeShape))",message="spec.forProvider.nodeShape is a required parameter"
+	Spec   NodePoolSpec   `json:"spec"`
+	Status NodePoolStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

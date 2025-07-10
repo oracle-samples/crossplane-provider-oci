@@ -1,0 +1,22 @@
+apiVersion: streaming.oci.upbound.io/v1alpha1
+kind: Stream
+metadata:
+  annotations:
+    meta.upbound.io/example-id: streaming/v1alpha1/stream
+  labels:
+    testing.upbound.io/example-name: test_stream
+  name: test-stream
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags: ${var.stream_defined_tags}
+    freeformTags:
+      Department: Finance
+    name: ${var.stream_name}
+    partitions: ${var.stream_partitions}
+    retentionInHours: ${var.stream_retention_in_hours}
+    streamPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_stream_pool

@@ -13,7 +13,55 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CrossConnectGroupInitParameters struct {
+
+	// (Updatable) The OCID of the compartment to contain the cross-connect group.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses.
+	CustomerReferenceName *string `json:"customerReferenceName,omitempty" tf:"customer_reference_name,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// Properties used for MACsec (if capable).
+	MacsecProperties []CrossConnectGroupMacsecPropertiesInitParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
+}
+
+type CrossConnectGroupMacsecPropertiesInitParameters struct {
+
+	// Type of encryption cipher suite to use for the MACsec connection.
+	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
+
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
+	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	PrimaryKey []MacsecPropertiesPrimaryKeyInitParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+
+	// Indicates whether or not MACsec is enabled.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
 type CrossConnectGroupMacsecPropertiesObservation struct {
+
+	// Type of encryption cipher suite to use for the MACsec connection.
+	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
+
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
+	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	PrimaryKey []MacsecPropertiesPrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+
+	// Indicates whether or not MACsec is enabled.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type CrossConnectGroupMacsecPropertiesParameters struct {
@@ -22,19 +70,42 @@ type CrossConnectGroupMacsecPropertiesParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
+
 	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []MacsecPropertiesPrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
 	// Indicates whether or not MACsec is enabled.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	State *string `json:"state" tf:"state,omitempty"`
 }
 
 type CrossConnectGroupObservation struct {
 
+	// (Updatable) The OCID of the compartment to contain the cross-connect group.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses.
+	CustomerReferenceName *string `json:"customerReferenceName,omitempty" tf:"customer_reference_name,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
 	// The cross-connect group's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Properties used for MACsec (if capable).
+	MacsecProperties []CrossConnectGroupMacsecPropertiesObservation `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 
 	// The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection.
 	OciLogicalDeviceName *string `json:"ociLogicalDeviceName,omitempty" tf:"oci_logical_device_name,omitempty"`
@@ -52,8 +123,8 @@ type CrossConnectGroupObservation struct {
 type CrossConnectGroupParameters struct {
 
 	// (Updatable) The OCID of the compartment to contain the cross-connect group.
-	// +kubebuilder:validation:Required
-	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses.
 	// +kubebuilder:validation:Optional
@@ -61,6 +132,7 @@ type CrossConnectGroupParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -69,6 +141,7 @@ type CrossConnectGroupParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// Properties used for MACsec (if capable).
@@ -76,13 +149,40 @@ type CrossConnectGroupParameters struct {
 	MacsecProperties []CrossConnectGroupMacsecPropertiesParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 }
 
+type MacsecPropertiesPrimaryKeyInitParameters struct {
+
+	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId,omitempty" tf:"connectivity_association_key_secret_id,omitempty"`
+
+	// The secret version of the connectivityAssociationKey secret in Vault.
+	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
+
+	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId,omitempty" tf:"connectivity_association_name_secret_id,omitempty"`
+
+	// The secret version of the connectivity association name secret in Vault.
+	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
+}
+
 type MacsecPropertiesPrimaryKeyObservation struct {
+
+	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId,omitempty" tf:"connectivity_association_key_secret_id,omitempty"`
+
+	// The secret version of the connectivityAssociationKey secret in Vault.
+	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
+
+	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId,omitempty" tf:"connectivity_association_name_secret_id,omitempty"`
+
+	// The secret version of the connectivity association name secret in Vault.
+	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }
 
 type MacsecPropertiesPrimaryKeyParameters struct {
 
 	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId" tf:"connectivity_association_key_secret_id,omitempty"`
 
 	// The secret version of the connectivityAssociationKey secret in Vault.
@@ -90,7 +190,7 @@ type MacsecPropertiesPrimaryKeyParameters struct {
 	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
 
 	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId" tf:"connectivity_association_name_secret_id,omitempty"`
 
 	// The secret version of the connectivity association name secret in Vault.
@@ -102,6 +202,17 @@ type MacsecPropertiesPrimaryKeyParameters struct {
 type CrossConnectGroupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CrossConnectGroupParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider CrossConnectGroupInitParameters `json:"initProvider,omitempty"`
 }
 
 // CrossConnectGroupStatus defines the observed state of CrossConnectGroup.
@@ -111,19 +222,21 @@ type CrossConnectGroupStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // CrossConnectGroup is the Schema for the CrossConnectGroups API. Provides the Cross Connect Group resource in Oracle Cloud Infrastructure Core service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type CrossConnectGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CrossConnectGroupSpec   `json:"spec"`
-	Status            CrossConnectGroupStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.compartmentId) || (has(self.initProvider) && has(self.initProvider.compartmentId))",message="spec.forProvider.compartmentId is a required parameter"
+	Spec   CrossConnectGroupSpec   `json:"spec"`
+	Status CrossConnectGroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

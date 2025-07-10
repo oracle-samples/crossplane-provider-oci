@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/upbound/upjet/pkg/pipeline"
+	"github.com/crossplane/upjet/pkg/pipeline"
 
 	"github.com/oracle/provider-oci/config"
 )

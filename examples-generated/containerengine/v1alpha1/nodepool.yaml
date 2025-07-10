@@ -1,0 +1,72 @@
+apiVersion: containerengine.oci.upbound.io/v1alpha1
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: containerengine/v1alpha1/nodepool
+  labels:
+    testing.upbound.io/example-name: test_node_pool
+  name: test-node-pool
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_cluster
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    freeformTags:
+      Department: Finance
+    initialNodeLabels:
+    - key: ${var.node_pool_initial_node_labels_key}
+      value: ${var.node_pool_initial_node_labels_value}
+    kubernetesVersion: ${var.node_pool_kubernetes_version}
+    name: ${var.node_pool_name}
+    nodeConfigDetails:
+    - definedTags:
+        Operations.CostCenter: "42"
+      freeformTags:
+        Department: Finance
+      isPvEncryptionInTransitEnabled: ${var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled}
+      kmsKeyId: ${oci_kms_key.test_key.id}
+      nodePoolPodNetworkOptionDetails:
+      - cniType: ${var.node_pool_node_config_details_node_pool_pod_network_option_details_cni_type}
+        maxPodsPerNode: ${var.node_pool_node_config_details_node_pool_pod_network_option_details_max_pods_per_node}
+        podNsgIds: ${var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_nsg_ids}
+        podSubnetIds: ${var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_subnet_ids}
+      nsgIdsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      placementConfigs:
+      - availabilityDomain: ${var.node_pool_node_config_details_placement_configs_availability_domain}
+        capacityReservationId: ${oci_containerengine_capacity_reservation.test_capacity_reservation.id}
+        faultDomains: ${var.node_pool_node_config_details_placement_configs_fault_domains}
+        preemptibleNodeConfig:
+        - preemptionAction:
+          - isPreserveBootVolume: ${var.node_pool_node_config_details_placement_configs_preemptible_node_config_preemption_action_is_preserve_boot_volume}
+            type: ${var.node_pool_node_config_details_placement_configs_preemptible_node_config_preemption_action_type}
+        subnetIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_subnet
+      size: ${var.node_pool_node_config_details_size}
+    nodeEvictionNodePoolSettings:
+    - evictionGraceDuration: ${var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration}
+      isForceDeleteAfterGraceDuration: ${var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration}
+    nodeImageName: ${oci_core_image.test_image.name}
+    nodeMetadata: ${var.node_pool_node_metadata}
+    nodePoolCyclingDetails:
+    - isNodeCyclingEnabled: ${var.node_pool_node_pool_cycling_details_is_node_cycling_enabled}
+      maximumSurge: ${var.node_pool_node_pool_cycling_details_maximum_surge}
+      maximumUnavailable: ${var.node_pool_node_pool_cycling_details_maximum_unavailable}
+    nodeShape: ${var.node_pool_node_shape}
+    nodeShapeConfig:
+    - memoryInGbs: ${var.node_pool_node_shape_config_memory_in_gbs}
+      ocpus: ${var.node_pool_node_shape_config_ocpus}
+    nodeSourceDetails:
+    - bootVolumeSizeInGbs: ${var.node_pool_node_source_details_boot_volume_size_in_gbs}
+      imageId: ${oci_core_image.test_image.id}
+      sourceType: ${var.node_pool_node_source_details_source_type}
+    quantityPerSubnet: ${var.node_pool_quantity_per_subnet}
+    sshPublicKey: ${var.node_pool_ssh_public_key}
+    subnetIds: ${var.node_pool_subnet_ids}

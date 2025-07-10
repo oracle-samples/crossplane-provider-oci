@@ -38,6 +38,22 @@ func (mg *ConnectHarness) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -79,6 +95,38 @@ func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.ForProvider.StreamPoolID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.StreamPoolIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.StreamPoolID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.StreamPoolIDRef,
+		Selector:     mg.Spec.InitProvider.StreamPoolIDSelector,
+		To: reference.To{
+			List:    &StreamPoolList{},
+			Managed: &StreamPool{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.StreamPoolID")
+	}
+	mg.Spec.InitProvider.StreamPoolID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.StreamPoolIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -177,6 +225,94 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 		}
 		mg.Spec.ForProvider.PrivateEndpointSettings[i3].SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.PrivateEndpointSettings[i3].SubnetIDRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.CustomEncryptionKey); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyIDRef,
+			Selector:     mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyIDSelector,
+			To: reference.To{
+				List:    &v1alpha11.KeyList{},
+				Managed: &v1alpha11.Key{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyID")
+		}
+		mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CustomEncryptionKey[i3].KMSKeyIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIds),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIdsRefs,
+			Selector:      mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIdsSelector,
+			To: reference.To{
+				List:    &v1alpha12.NetworkSecurityGroupList{},
+				Managed: &v1alpha12.NetworkSecurityGroup{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIds")
+		}
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIds = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].NsgIdsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIP),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIPRef,
+			Selector:     mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIPSelector,
+			To: reference.To{
+				List:    &v1alpha12.PrivateIPList{},
+				Managed: &v1alpha12.PrivateIP{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIP")
+		}
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIP = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].PrivateEndpointIPRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetIDRef,
+			Selector:     mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetIDSelector,
+			To: reference.To{
+				List:    &v1alpha12.SubnetList{},
+				Managed: &v1alpha12.Subnet{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetID")
+		}
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.PrivateEndpointSettings[i3].SubnetIDRef = rsp.ResolvedReference
 
 	}
 

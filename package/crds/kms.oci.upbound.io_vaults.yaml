@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.8.0
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: vaults.kms.oci.upbound.io
 spec:
   group: kms.oci.upbound.io
@@ -20,11 +19,11 @@ spec:
   scope: Cluster
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .status.conditions[?(@.type=='Ready')].status
-      name: READY
-      type: string
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
       name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
       type: string
     - jsonPath: .metadata.annotations.crossplane\.io/external-name
       name: EXTERNAL-NAME
@@ -39,14 +38,19 @@ spec:
           in Oracle Cloud Infrastructure Kms service
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -55,9 +59,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -80,21 +89,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -108,8 +117,9 @@ spec:
                       compartmentId.
                     properties:
                       matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
                         type: boolean
                       matchLabels:
                         additionalProperties:
@@ -122,21 +132,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -150,11 +160,34 @@ spec:
                       key is predefined and scoped to a namespace. For more information,
                       see Resource Tags. Example: {"Operations.CostCenter": "42"}'
                     type: object
+                    x-kubernetes-map-type: granular
                   displayName:
                     description: (Updatable) A user-friendly name for the vault. It
                       does not have to be unique, and it is changeable. Avoid entering
                       confidential information.
                     type: string
+                  externalKeyManagerMetadata:
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          type: string
+                        oauthMetadata:
+                          items:
+                            properties:
+                              clientAppId:
+                                description: The OCID of the vault.
+                                type: string
+                              clientAppSecret:
+                                type: string
+                              idcsAccountNameUrl:
+                                type: string
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: The OCID of the vault.
+                          type: string
+                      type: object
+                    type: array
                   freeformTags:
                     additionalProperties:
                       type: string
@@ -163,6 +196,7 @@ spec:
                       or namespace. For more information, see Resource Tags. Example:
                       {"Department": "Finance"}'
                     type: object
+                    x-kubernetes-map-type: granular
                   restoreFromFile:
                     description: (Updatable) Details where vault was backed up.
                     items:
@@ -177,9 +211,6 @@ spec:
                         restoreVaultFromFileDetails:
                           description: Vault backup file content
                           type: string
-                      required:
-                      - contentLength
-                      - restoreVaultFromFileDetails
                       type: object
                     type: array
                   restoreFromObjectStore:
@@ -208,8 +239,6 @@ spec:
                             property when flipped triggers restore from restore option
                             provided in config file.
                           type: string
-                      required:
-                      - destination
                       type: object
                     type: array
                   restoreTrigger:
@@ -224,96 +253,27 @@ spec:
                       the key with different degrees of isolation and has different
                       options and pricing.
                     type: string
-                required:
-                - displayName
-                - vaultType
                 type: object
-              providerConfigRef:
-                default:
-                  name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
                 properties:
-                  name:
-                    description: Name of the referenced object.
+                  compartmentId:
+                    description: (Updatable) The OCID of the compartment where you
+                      want to create this vault.
                     type: string
-                  policy:
-                    description: Policies for referencing.
-                    properties:
-                      resolution:
-                        default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
-                        enum:
-                        - Required
-                        - Optional
-                        type: string
-                      resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
-                        enum:
-                        - Always
-                        - IfNotPresent
-                        type: string
-                    type: object
-                required:
-                - name
-                type: object
-              providerRef:
-                description: 'ProviderReference specifies the provider that will be
-                  used to create, observe, update, and delete this managed resource.
-                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
-                properties:
-                  name:
-                    description: Name of the referenced object.
-                    type: string
-                  policy:
-                    description: Policies for referencing.
-                    properties:
-                      resolution:
-                        default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
-                        enum:
-                        - Required
-                        - Optional
-                        type: string
-                      resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
-                        enum:
-                        - Always
-                        - IfNotPresent
-                        type: string
-                    type: object
-                required:
-                - name
-                type: object
-              publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
-                properties:
-                  configRef:
-                    default:
-                      name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                  compartmentIdRef:
+                    description: Reference to a Compartment in identity to populate
+                      compartmentId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -323,21 +283,275 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  compartmentIdSelector:
+                    description: Selector for a Compartment in identity to populate
+                      compartmentId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags. Example: {"Operations.CostCenter": "42"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  displayName:
+                    description: (Updatable) A user-friendly name for the vault. It
+                      does not have to be unique, and it is changeable. Avoid entering
+                      confidential information.
+                    type: string
+                  externalKeyManagerMetadata:
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          type: string
+                        oauthMetadata:
+                          items:
+                            properties:
+                              clientAppId:
+                                description: The OCID of the vault.
+                                type: string
+                              clientAppSecret:
+                                type: string
+                              idcsAccountNameUrl:
+                                type: string
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: The OCID of the vault.
+                          type: string
+                      type: object
+                    type: array
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags. Example:
+                      {"Department": "Finance"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  restoreFromFile:
+                    description: (Updatable) Details where vault was backed up.
+                    items:
+                      properties:
+                        contentLength:
+                          description: content length of vault's backup binary file
+                          type: string
+                        contentMd5:
+                          description: (Updatable) content md5 hashed value of vault's
+                            backup file
+                          type: string
+                        restoreVaultFromFileDetails:
+                          description: Vault backup file content
+                          type: string
+                      type: object
+                    type: array
+                  restoreFromObjectStore:
+                    description: (Updatable) Details where vault was backed up
+                    items:
+                      properties:
+                        bucket:
+                          description: (Updatable) Name of the bucket where vault
+                            was backed up
+                          type: string
+                        destination:
+                          description: (Updatable) Type of backup to restore from.
+                            Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are
+                            supported
+                          type: string
+                        namespace:
+                          description: (Updatable) Namespace of the bucket where vault
+                            was backed up
+                          type: string
+                        object:
+                          description: (Updatable) Object containing the backup
+                          type: string
+                        uri:
+                          description: (Updatable) Pre-authenticated-request-uri of
+                            the backup* restore_trigger -  (Updatable) An optional
+                            property when flipped triggers restore from restore option
+                            provided in config file.
+                          type: string
+                      type: object
+                    type: array
+                  restoreTrigger:
+                    type: boolean
+                  timeOfDeletion:
+                    description: '(Updatable) An optional property for the deletion
+                      time of the vault, expressed in RFC 3339 timestamp format. Example:
+                      2019-04-03T21:10:29.600Z'
+                    type: string
+                  vaultType:
+                    description: The type of vault to create. Each type of vault stores
+                      the key with different degrees of isolation and has different
+                      options and pricing.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -352,21 +566,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -377,14 +592,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -399,22 +615,103 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+            - message: spec.forProvider.vaultType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.vaultType)
+                || (has(self.initProvider) && has(self.initProvider.vaultType))'
           status:
             description: VaultStatus defines the observed state of Vault.
             properties:
               atProvider:
                 properties:
+                  compartmentId:
+                    description: (Updatable) The OCID of the compartment where you
+                      want to create this vault.
+                    type: string
                   cryptoEndpoint:
                     description: The service endpoint to perform cryptographic operations
                       against. Cryptographic operations include Encrypt, Decrypt,
                       and GenerateDataEncryptionKey operations.
                     type: string
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags. Example: {"Operations.CostCenter": "42"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  displayName:
+                    description: (Updatable) A user-friendly name for the vault. It
+                      does not have to be unique, and it is changeable. Avoid entering
+                      confidential information.
+                    type: string
+                  externalKeyManagerMetadata:
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          type: string
+                        oauthMetadata:
+                          items:
+                            properties:
+                              clientAppId:
+                                description: The OCID of the vault.
+                                type: string
+                              clientAppSecret:
+                                type: string
+                              idcsAccountNameUrl:
+                                type: string
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: The OCID of the vault.
+                          type: string
+                      type: object
+                    type: array
+                  externalKeyManagerMetadataSummary:
+                    items:
+                      properties:
+                        externalVaultEndpointUrl:
+                          type: string
+                        oauthMetadataSummary:
+                          items:
+                            properties:
+                              clientAppId:
+                                description: The OCID of the vault.
+                                type: string
+                              idcsAccountNameUrl:
+                                type: string
+                            type: object
+                          type: array
+                        privateEndpointId:
+                          description: The OCID of the vault.
+                          type: string
+                        vendor:
+                          type: string
+                      type: object
+                    type: array
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags. Example:
+                      {"Department": "Finance"}'
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: The OCID of the vault.
                     type: string
                   isPrimary:
                     description: A boolean that will be true when vault is primary,
                       and will be false when vault is a replica from a primary vault.
+                    type: boolean
+                  isVaultReplicable:
                     type: boolean
                   managementEndpoint:
                     description: The service endpoint to perform management operations
@@ -430,6 +727,52 @@ spec:
                           type: string
                       type: object
                     type: array
+                  restoreFromFile:
+                    description: (Updatable) Details where vault was backed up.
+                    items:
+                      properties:
+                        contentLength:
+                          description: content length of vault's backup binary file
+                          type: string
+                        contentMd5:
+                          description: (Updatable) content md5 hashed value of vault's
+                            backup file
+                          type: string
+                        restoreVaultFromFileDetails:
+                          description: Vault backup file content
+                          type: string
+                      type: object
+                    type: array
+                  restoreFromObjectStore:
+                    description: (Updatable) Details where vault was backed up
+                    items:
+                      properties:
+                        bucket:
+                          description: (Updatable) Name of the bucket where vault
+                            was backed up
+                          type: string
+                        destination:
+                          description: (Updatable) Type of backup to restore from.
+                            Values of "BUCKET", "PRE_AUTHENTICATED_REQUEST_URI" are
+                            supported
+                          type: string
+                        namespace:
+                          description: (Updatable) Namespace of the bucket where vault
+                            was backed up
+                          type: string
+                        object:
+                          description: (Updatable) Object containing the backup
+                          type: string
+                        uri:
+                          description: (Updatable) Pre-authenticated-request-uri of
+                            the backup* restore_trigger -  (Updatable) An optional
+                            property when flipped triggers restore from restore option
+                            provided in config file.
+                          type: string
+                      type: object
+                    type: array
+                  restoreTrigger:
+                    type: boolean
                   restoredFromVaultId:
                     description: The OCID of the vault from which this vault was restored,
                       if it was restored from a backup file.  If you restore a vault
@@ -444,6 +787,16 @@ spec:
                     description: 'The date and time this vault was created, expressed
                       in RFC 3339 timestamp format.  Example: 2018-04-03T21:10:29.600Z'
                     type: string
+                  timeOfDeletion:
+                    description: '(Updatable) An optional property for the deletion
+                      time of the vault, expressed in RFC 3339 timestamp format. Example:
+                      2019-04-03T21:10:29.600Z'
+                    type: string
+                  vaultType:
+                    description: The type of vault to create. Each type of vault stores
+                      the key with different degrees of isolation and has different
+                      options and pricing.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -451,14 +804,23 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
                     reason:
                       description: A Reason for this condition's last transition from
                         one status to another.
@@ -468,8 +830,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
@@ -478,6 +841,16 @@ spec:
                   - type
                   type: object
                 type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
             type: object
         required:
         - spec
@@ -486,9 +859,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

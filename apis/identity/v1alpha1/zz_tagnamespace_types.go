@@ -13,10 +13,62 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TagNamespaceInitParameters struct {
+
+	// (Updatable) The OCID of the tenancy containing the tag namespace.
+	// +crossplane:generate:reference:type=Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the tag namespace during creation.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// (Updatable) Whether the tag namespace is retired. For more information, see Retiring Key Definitions and Namespace Definitions.
+	IsRetired *bool `json:"isRetired,omitempty" tf:"is_retired,omitempty"`
+
+	// The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type TagNamespaceObservation struct {
+
+	// (Updatable) The OCID of the tenancy containing the tag namespace.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// (Updatable) The description you assign to the tag namespace during creation.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the tag namespace.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Updatable) Whether the tag namespace is retired. For more information, see Retiring Key Definitions and Namespace Definitions.
+	IsRetired *bool `json:"isRetired,omitempty" tf:"is_retired,omitempty"`
+
+	// The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The tagnamespace's current state. After creating a tagnamespace, make sure its lifecycleState is ACTIVE before using it. After retiring a tagnamespace, make sure its lifecycleState is INACTIVE before using it.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -42,14 +94,16 @@ type TagNamespaceParameters struct {
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) The description you assign to the tag namespace during creation.
-	// +kubebuilder:validation:Required
-	Description *string `json:"description" tf:"description,omitempty"`
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) Whether the tag namespace is retired. For more information, see Retiring Key Definitions and Namespace Definitions.
@@ -57,14 +111,25 @@ type TagNamespaceParameters struct {
 	IsRetired *bool `json:"isRetired,omitempty" tf:"is_retired,omitempty"`
 
 	// The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // TagNamespaceSpec defines the desired state of TagNamespace
 type TagNamespaceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TagNamespaceParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider TagNamespaceInitParameters `json:"initProvider,omitempty"`
 }
 
 // TagNamespaceStatus defines the observed state of TagNamespace.
@@ -74,19 +139,22 @@ type TagNamespaceStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // TagNamespace is the Schema for the TagNamespaces API. Provides the Tag Namespace resource in Oracle Cloud Infrastructure Identity service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type TagNamespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TagNamespaceSpec   `json:"spec"`
-	Status            TagNamespaceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.description) || (has(self.initProvider) && has(self.initProvider.description))",message="spec.forProvider.description is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   TagNamespaceSpec   `json:"spec"`
+	Status TagNamespaceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

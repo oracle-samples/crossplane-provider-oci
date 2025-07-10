@@ -13,16 +13,43 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SSLCipherSuiteInitParameters struct {
+	Ciphers []*string `json:"ciphers,omitempty" tf:"ciphers,omitempty"`
+
+	// The OCID of the associated load balancer.
+	// +crossplane:generate:reference:type=LoadBalancer
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+
+	// A friendly name for the SSL cipher suite. It must be unique and it cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type SSLCipherSuiteObservation struct {
+	Ciphers []*string `json:"ciphers,omitempty" tf:"ciphers,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the associated load balancer.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// A friendly name for the SSL cipher suite. It must be unique and it cannot be changed.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type SSLCipherSuiteParameters struct {
 
-	// +kubebuilder:validation:Required
-	Ciphers []*string `json:"ciphers" tf:"ciphers,omitempty"`
+	// +kubebuilder:validation:Optional
+	Ciphers []*string `json:"ciphers,omitempty" tf:"ciphers,omitempty"`
 
 	// The OCID of the associated load balancer.
 	// +crossplane:generate:reference:type=LoadBalancer
@@ -38,14 +65,25 @@ type SSLCipherSuiteParameters struct {
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// A friendly name for the SSL cipher suite. It must be unique and it cannot be changed.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // SSLCipherSuiteSpec defines the desired state of SSLCipherSuite
 type SSLCipherSuiteSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SSLCipherSuiteParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider SSLCipherSuiteInitParameters `json:"initProvider,omitempty"`
 }
 
 // SSLCipherSuiteStatus defines the observed state of SSLCipherSuite.
@@ -55,19 +93,22 @@ type SSLCipherSuiteStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // SSLCipherSuite is the Schema for the SSLCipherSuites API. Provides the Ssl Cipher Suite resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type SSLCipherSuite struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SSLCipherSuiteSpec   `json:"spec"`
-	Status            SSLCipherSuiteStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ciphers) || (has(self.initProvider) && has(self.initProvider.ciphers))",message="spec.forProvider.ciphers is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   SSLCipherSuiteSpec   `json:"spec"`
+	Status SSLCipherSuiteStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -13,13 +13,58 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ExternalMastersObservation struct {
+type DNSSECConfigInitParameters struct {
 }
 
-type ExternalMastersParameters struct {
+type DNSSECConfigObservation struct {
+	KskDNSSECKeyVersions []KskDNSSECKeyVersionsObservation `json:"kskDnssecKeyVersions,omitempty" tf:"ksk_dnssec_key_versions,omitempty"`
+
+	ZskDNSSECKeyVersions []ZskDNSSECKeyVersionsObservation `json:"zskDnssecKeyVersions,omitempty" tf:"zsk_dnssec_key_versions,omitempty"`
+}
+
+type DNSSECConfigParameters struct {
+}
+
+type DsDataInitParameters struct {
+}
+
+type DsDataObservation struct {
+	DigestType *string `json:"digestType,omitempty" tf:"digest_type,omitempty"`
+
+	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
+}
+
+type DsDataParameters struct {
+}
+
+type ExternalDownstreamsInitParameters struct {
 
 	// (Updatable) The server's IP address (IPv4 or IPv6).
-	// +kubebuilder:validation:Required
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
+type ExternalDownstreamsObservation struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
+type ExternalDownstreamsParameters struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	// +kubebuilder:validation:Optional
 	Address *string `json:"address" tf:"address,omitempty"`
 
 	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
@@ -31,6 +76,88 @@ type ExternalMastersParameters struct {
 	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
 }
 
+type ExternalMastersInitParameters struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
+type ExternalMastersObservation struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
+type ExternalMastersParameters struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	// +kubebuilder:validation:Optional
+	Address *string `json:"address" tf:"address,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// (Updatable) The OCID of the TSIG key.
+	// +kubebuilder:validation:Optional
+	TsigKeyID *string `json:"tsigKeyId,omitempty" tf:"tsig_key_id,omitempty"`
+}
+
+type KskDNSSECKeyVersionsInitParameters struct {
+}
+
+type KskDNSSECKeyVersionsObservation struct {
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	DsData []DsDataObservation `json:"dsData,omitempty" tf:"ds_data,omitempty"`
+
+	KeyTag *float64 `json:"keyTag,omitempty" tf:"key_tag,omitempty"`
+
+	LengthInBytes *float64 `json:"lengthInBytes,omitempty" tf:"length_in_bytes,omitempty"`
+
+	// The OCID of the zone.
+	PredecessorDNSSECKeyVersionUUID *string `json:"predecessorDnssecKeyVersionUuid,omitempty" tf:"predecessor_dnssec_key_version_uuid,omitempty"`
+
+	// The OCID of the zone.
+	SuccessorDNSSECKeyVersionUUID *string `json:"successorDnssecKeyVersionUuid,omitempty" tf:"successor_dnssec_key_version_uuid,omitempty"`
+
+	TimeActivated *string `json:"timeActivated,omitempty" tf:"time_activated,omitempty"`
+
+	// The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	TimeExpired *string `json:"timeExpired,omitempty" tf:"time_expired,omitempty"`
+
+	TimeInactivated *string `json:"timeInactivated,omitempty" tf:"time_inactivated,omitempty"`
+
+	TimePromoted *string `json:"timePromoted,omitempty" tf:"time_promoted,omitempty"`
+
+	TimePublished *string `json:"timePublished,omitempty" tf:"time_published,omitempty"`
+
+	TimeUnpublished *string `json:"timeUnpublished,omitempty" tf:"time_unpublished,omitempty"`
+
+	// The OCID of the zone.
+	UUID *string `json:"uuid,omitempty" tf:"uuid,omitempty"`
+}
+
+type KskDNSSECKeyVersionsParameters struct {
+}
+
+type NameserversInitParameters struct {
+}
+
 type NameserversObservation struct {
 
 	// The hostname of the nameserver.
@@ -40,7 +167,81 @@ type NameserversObservation struct {
 type NameserversParameters struct {
 }
 
+type ZoneInitParameters struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to.
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	// Reference to a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+
+	// Selector for a Compartment in identity to populate compartmentId.
+	// +kubebuilder:validation:Optional
+	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+
+	// The current state of the zone resource.
+	DNSSECState *string `json:"dnssecState,omitempty" tf:"dnssec_state,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	ExternalDownstreams []ExternalDownstreamsInitParameters `json:"externalDownstreams,omitempty" tf:"external_downstreams,omitempty"`
+
+	// (Updatable) External master servers for the zone. externalMasters becomes a required parameter when the zoneType value is SECONDARY.
+	ExternalMasters []ExternalMastersInitParameters `json:"externalMasters,omitempty" tf:"external_masters,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
+
+	// The name of the zone.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Specifies to operate only on resources that have a matching DNS scope.
+	// This value will be null for zones in the global DNS and PRIVATE when creating a private zone.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
+	// +crossplane:generate:reference:type=View
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
+
+	// Reference to a View to populate viewId.
+	// +kubebuilder:validation:Optional
+	ViewIDRef *v1.Reference `json:"viewIdRef,omitempty" tf:"-"`
+
+	// Selector for a View to populate viewId.
+	// +kubebuilder:validation:Optional
+	ViewIDSelector *v1.Selector `json:"viewIdSelector,omitempty" tf:"-"`
+
+	// The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
+	ZoneType *string `json:"zoneType,omitempty" tf:"zone_type,omitempty"`
+}
+
 type ZoneObservation struct {
+
+	// (Updatable) The OCID of the compartment the resource belongs to.
+	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
+
+	DNSSECConfig []DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
+
+	// The current state of the zone resource.
+	DNSSECState *string `json:"dnssecState,omitempty" tf:"dnssec_state,omitempty"`
+
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	ExternalDownstreams []ExternalDownstreamsObservation `json:"externalDownstreams,omitempty" tf:"external_downstreams,omitempty"`
+
+	// (Updatable) External master servers for the zone. externalMasters becomes a required parameter when the zoneType value is SECONDARY.
+	ExternalMasters []ExternalMastersObservation `json:"externalMasters,omitempty" tf:"external_masters,omitempty"`
+
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
+	// +mapType=granular
+	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The OCID of the zone.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -48,8 +249,15 @@ type ZoneObservation struct {
 	// A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
 	IsProtected *bool `json:"isProtected,omitempty" tf:"is_protected,omitempty"`
 
+	// The name of the zone.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// The authoritative nameservers for the zone.
 	Nameservers []NameserversObservation `json:"nameservers,omitempty" tf:"nameservers,omitempty"`
+
+	// Specifies to operate only on resources that have a matching DNS scope.
+	// This value will be null for zones in the global DNS and PRIVATE when creating a private zone.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The canonical absolute URL of the resource.
 	Self *string `json:"self,omitempty" tf:"self,omitempty"`
@@ -65,6 +273,14 @@ type ZoneObservation struct {
 
 	// Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	// The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
+	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
+
+	ZoneTransferServers []ZoneTransferServersObservation `json:"zoneTransferServers,omitempty" tf:"zone_transfer_servers,omitempty"`
+
+	// The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
+	ZoneType *string `json:"zoneType,omitempty" tf:"zone_type,omitempty"`
 }
 
 type ZoneParameters struct {
@@ -82,9 +298,17 @@ type ZoneParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
+	// The current state of the zone resource.
+	// +kubebuilder:validation:Optional
+	DNSSECState *string `json:"dnssecState,omitempty" tf:"dnssec_state,omitempty"`
+
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExternalDownstreams []ExternalDownstreamsParameters `json:"externalDownstreams,omitempty" tf:"external_downstreams,omitempty"`
 
 	// (Updatable) External master servers for the zone. externalMasters becomes a required parameter when the zoneType value is SECONDARY.
 	// +kubebuilder:validation:Optional
@@ -92,11 +316,12 @@ type ZoneParameters struct {
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
+	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// The name of the zone.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.
 	// This value will be null for zones in the global DNS and PRIVATE when creating a private zone.
@@ -117,14 +342,82 @@ type ZoneParameters struct {
 	ViewIDSelector *v1.Selector `json:"viewIdSelector,omitempty" tf:"-"`
 
 	// The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
-	// +kubebuilder:validation:Required
-	ZoneType *string `json:"zoneType" tf:"zone_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	ZoneType *string `json:"zoneType,omitempty" tf:"zone_type,omitempty"`
+}
+
+type ZoneTransferServersInitParameters struct {
+}
+
+type ZoneTransferServersObservation struct {
+
+	// (Updatable) The server's IP address (IPv4 or IPv6).
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	IsTransferDestination *bool `json:"isTransferDestination,omitempty" tf:"is_transfer_destination,omitempty"`
+
+	IsTransferSource *bool `json:"isTransferSource,omitempty" tf:"is_transfer_source,omitempty"`
+
+	// (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ZoneTransferServersParameters struct {
+}
+
+type ZskDNSSECKeyVersionsInitParameters struct {
+}
+
+type ZskDNSSECKeyVersionsObservation struct {
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	KeyTag *float64 `json:"keyTag,omitempty" tf:"key_tag,omitempty"`
+
+	LengthInBytes *float64 `json:"lengthInBytes,omitempty" tf:"length_in_bytes,omitempty"`
+
+	// The OCID of the zone.
+	PredecessorDNSSECKeyVersionUUID *string `json:"predecessorDnssecKeyVersionUuid,omitempty" tf:"predecessor_dnssec_key_version_uuid,omitempty"`
+
+	// The OCID of the zone.
+	SuccessorDNSSECKeyVersionUUID *string `json:"successorDnssecKeyVersionUuid,omitempty" tf:"successor_dnssec_key_version_uuid,omitempty"`
+
+	TimeActivated *string `json:"timeActivated,omitempty" tf:"time_activated,omitempty"`
+
+	// The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
+	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
+
+	TimeExpired *string `json:"timeExpired,omitempty" tf:"time_expired,omitempty"`
+
+	TimeInactivated *string `json:"timeInactivated,omitempty" tf:"time_inactivated,omitempty"`
+
+	TimePromoted *string `json:"timePromoted,omitempty" tf:"time_promoted,omitempty"`
+
+	TimePublished *string `json:"timePublished,omitempty" tf:"time_published,omitempty"`
+
+	TimeUnpublished *string `json:"timeUnpublished,omitempty" tf:"time_unpublished,omitempty"`
+
+	// The OCID of the zone.
+	UUID *string `json:"uuid,omitempty" tf:"uuid,omitempty"`
+}
+
+type ZskDNSSECKeyVersionsParameters struct {
 }
 
 // ZoneSpec defines the desired state of Zone
 type ZoneSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ZoneParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider ZoneInitParameters `json:"initProvider,omitempty"`
 }
 
 // ZoneStatus defines the observed state of Zone.
@@ -134,19 +427,22 @@ type ZoneStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Zone is the Schema for the Zones API. Provides the Zone resource in Oracle Cloud Infrastructure DNS service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Zone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ZoneSpec   `json:"spec"`
-	Status            ZoneStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.zoneType) || (has(self.initProvider) && has(self.initProvider.zoneType))",message="spec.forProvider.zoneType is a required parameter"
+	Spec   ZoneSpec   `json:"spec"`
+	Status ZoneStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

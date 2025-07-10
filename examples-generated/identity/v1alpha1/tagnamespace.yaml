@@ -1,0 +1,20 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: TagNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: identity/v1alpha1/tagnamespace
+  labels:
+    testing.upbound.io/example-name: test_tag_namespace
+  name: test-tag-namespace
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.tag_namespace_description}
+    freeformTags:
+      Department: Finance
+    isRetired: false
+    name: ${var.tag_namespace_name}

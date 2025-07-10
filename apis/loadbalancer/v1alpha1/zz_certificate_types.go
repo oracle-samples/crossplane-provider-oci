@@ -13,8 +13,51 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CertificateInitParameters struct {
+
+	// The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: example_certificate_bundle
+	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
+
+	// The OCID of the load balancer on which to add the certificate bundle.
+	// +crossplane:generate:reference:type=LoadBalancer
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// Reference to a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+
+	// Selector for a LoadBalancer to populate loadBalancerId.
+	// +kubebuilder:validation:Optional
+	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+
+	// A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase.
+	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
+
+	// The SSL private key for your certificate, in PEM format.
+	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+
+	// The public certificate, in PEM format, that you received from your SSL certificate provider.
+	PublicCertificate *string `json:"publicCertificate,omitempty" tf:"public_certificate,omitempty"`
+}
+
 type CertificateObservation struct {
+
+	// The Certificate Authority certificate, or any interim certificate, that you received from your SSL certificate provider.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: example_certificate_bundle
+	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The OCID of the load balancer on which to add the certificate bundle.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+
+	// The public certificate, in PEM format, that you received from your SSL certificate provider.
+	PublicCertificate *string `json:"publicCertificate,omitempty" tf:"public_certificate,omitempty"`
 
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -26,8 +69,8 @@ type CertificateParameters struct {
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
 	// A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: example_certificate_bundle
-	// +kubebuilder:validation:Required
-	CertificateName *string `json:"certificateName" tf:"certificate_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
 
 	// The OCID of the load balancer on which to add the certificate bundle.
 	// +crossplane:generate:reference:type=LoadBalancer
@@ -59,6 +102,17 @@ type CertificateParameters struct {
 type CertificateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CertificateParameters `json:"forProvider"`
+	// THIS IS A BETA FIELD. It will be honored
+	// unless the Management Policies feature flag is disabled.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider CertificateInitParameters `json:"initProvider,omitempty"`
 }
 
 // CertificateStatus defines the observed state of Certificate.
@@ -68,19 +122,21 @@ type CertificateStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Certificate is the Schema for the Certificates API. Provides the Certificate resource in Oracle Cloud Infrastructure Load Balancer service
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
 type Certificate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CertificateSpec   `json:"spec"`
-	Status            CertificateStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificateName) || (has(self.initProvider) && has(self.initProvider.certificateName))",message="spec.forProvider.certificateName is a required parameter"
+	Spec   CertificateSpec   `json:"spec"`
+	Status CertificateStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

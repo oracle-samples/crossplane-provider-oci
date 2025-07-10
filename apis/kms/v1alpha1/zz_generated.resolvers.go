@@ -36,6 +36,22 @@ func (mg *Key) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -62,6 +78,22 @@ func (mg *KeyVersion) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.KeyID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KeyIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.KeyIDRef,
+		Selector:     mg.Spec.InitProvider.KeyIDSelector,
+		To: reference.To{
+			List:    &KeyList{},
+			Managed: &Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KeyID")
+	}
+	mg.Spec.InitProvider.KeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KeyIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -87,6 +119,22 @@ func (mg *Vault) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
 
 	return nil
 }

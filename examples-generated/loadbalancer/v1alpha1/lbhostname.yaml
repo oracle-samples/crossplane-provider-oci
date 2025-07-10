@@ -1,0 +1,15 @@
+apiVersion: loadbalancer.oci.upbound.io/v1alpha1
+kind: LBHostname
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/lbhostname
+  labels:
+    testing.upbound.io/example-name: test_hostname
+  name: test-hostname
+spec:
+  forProvider:
+    hostname: ${var.hostname_hostname}
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_load_balancer
+    name: ${var.hostname_name}

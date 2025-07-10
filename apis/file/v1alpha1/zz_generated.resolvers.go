@@ -53,6 +53,38 @@ func (mg *StorageExport) ResolveReferences(ctx context.Context, c client.Reader)
 	mg.Spec.ForProvider.FileSystemID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FileSystemIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ExportSetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ExportSetIDRef,
+		Selector:     mg.Spec.InitProvider.ExportSetIDSelector,
+		To: reference.To{
+			List:    &StorageExportSetList{},
+			Managed: &StorageExportSet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ExportSetID")
+	}
+	mg.Spec.InitProvider.ExportSetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ExportSetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FileSystemID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.FileSystemIDRef,
+		Selector:     mg.Spec.InitProvider.FileSystemIDSelector,
+		To: reference.To{
+			List:    &StorageFileSystemList{},
+			Managed: &StorageFileSystem{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.FileSystemID")
+	}
+	mg.Spec.InitProvider.FileSystemID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FileSystemIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -79,6 +111,22 @@ func (mg *StorageExportSet) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.MountTargetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.MountTargetIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MountTargetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.MountTargetIDRef,
+		Selector:     mg.Spec.InitProvider.MountTargetIDSelector,
+		To: reference.To{
+			List:    &StorageMountTargetList{},
+			Managed: &StorageMountTarget{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.MountTargetID")
+	}
+	mg.Spec.InitProvider.MountTargetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.MountTargetIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -104,6 +152,22 @@ func (mg *StorageFileSystem) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -146,6 +210,38 @@ func (mg *StorageMountTarget) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubnetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SubnetIDRef,
+		Selector:     mg.Spec.InitProvider.SubnetIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.SubnetList{},
+			Managed: &v1alpha11.Subnet{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubnetID")
+	}
+	mg.Spec.InitProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SubnetIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -205,6 +301,54 @@ func (mg *StorageReplication) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.TargetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TargetIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+		Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CompartmentList{},
+			Managed: &v1alpha1.Compartment{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SourceID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SourceIDRef,
+		Selector:     mg.Spec.InitProvider.SourceIDSelector,
+		To: reference.To{
+			List:    &StorageFileSystemList{},
+			Managed: &StorageFileSystem{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SourceID")
+	}
+	mg.Spec.InitProvider.SourceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SourceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TargetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.TargetIDRef,
+		Selector:     mg.Spec.InitProvider.TargetIDSelector,
+		To: reference.To{
+			List:    &StorageFileSystemList{},
+			Managed: &StorageFileSystem{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TargetID")
+	}
+	mg.Spec.InitProvider.TargetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TargetIDRef = rsp.ResolvedReference
+
 	return nil
 }
 
@@ -230,6 +374,22 @@ func (mg *StorageSnapshot) ResolveReferences(ctx context.Context, c client.Reade
 	}
 	mg.Spec.ForProvider.FileSystemID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FileSystemIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FileSystemID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.FileSystemIDRef,
+		Selector:     mg.Spec.InitProvider.FileSystemIDSelector,
+		To: reference.To{
+			List:    &StorageFileSystemList{},
+			Managed: &StorageFileSystem{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.FileSystemID")
+	}
+	mg.Spec.InitProvider.FileSystemID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.FileSystemIDRef = rsp.ResolvedReference
 
 	return nil
 }
