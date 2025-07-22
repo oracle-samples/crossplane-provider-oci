@@ -64,12 +64,14 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		// Set credentials in Terraform provider configuration.
 		ps.Configuration = map[string]interface{}{
-			"tenancy_ocid":     ociCreds["tenancy_ocid"],
-			"user_ocid":        ociCreds["user_ocid"],
-			"private_key":      ociCreds["private_key"],
-			"private_key_path": ociCreds["private_key_path"],
-			"fingerprint":      ociCreds["fingerprint"],
-			"region":           ociCreds["region"],
+			"tenancy_ocid":        ociCreds["tenancy_ocid"],
+			"user_ocid":           ociCreds["user_ocid"],
+			"private_key":         ociCreds["private_key"],
+			"private_key_path":    ociCreds["private_key_path"],
+			"fingerprint":         ociCreds["fingerprint"],
+			"region":              ociCreds["region"],
+			"auth":                ociCreds["auth"],
+			"config_file_profile": ociCreds["config_file_profile"],
 		}
 		return ps, nil
 	}
