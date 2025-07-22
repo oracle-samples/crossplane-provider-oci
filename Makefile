@@ -10,8 +10,8 @@ export TERRAFORM_PROVIDER_SOURCE := oracle/oci
 export TERRAFORM_PROVIDER_REPO := https://github.com/oracle/terraform-provider-oci
 export TERRAFORM_PROVIDER_VERSION := 7.7.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-oci
-export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v7.7.0
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/7.7.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH := website/docs/r
 
 export CROSSPLANE_PROVIDER_VERSION := 1.0
@@ -58,7 +58,7 @@ GO_SUBDIRS += cmd internal apis
 # Setup Kubernetes tools
 
 KIND_VERSION = v0.15.0
-UP_VERSION = v0.14.0
+UP_VERSION = v0.39.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.2.1
 -include build/makelib/k8s_tools.mk
