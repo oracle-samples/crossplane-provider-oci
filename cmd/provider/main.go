@@ -6,6 +6,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"os"
 	"path/filepath"
 	"time"
@@ -49,13 +50,17 @@ func main() {
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
-	zl := zap.New(zap.UseDevMode(*debug))
+	debugValue := *debug
+	zl := zap.New(zap.UseDevMode(debugValue))
 	log := logging.NewLogrLogger(zl.WithName("provider-oci"))
-	if *debug {
+	if debugValue {
 		// The controller-runtime runs with a no-op logger by default. It is
 		// *very* verbose even at info level, so we only provide it a real
 		// logger when we're running in debug mode.
 		ctrl.SetLogger(zl)
+	} else {
+		// explicitly provide a no-op logger by default, otherwise controller-runtime gives a warning
+		ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 	}
 
 	log.Debug("Starting", "sync-period", syncPeriod.String())
