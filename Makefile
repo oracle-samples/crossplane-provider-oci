@@ -8,7 +8,7 @@ export TERRAFORM_VERSION := 1.4.6
 
 export TERRAFORM_PROVIDER_SOURCE := oracle/oci
 export TERRAFORM_PROVIDER_REPO := https://github.com/oracle/terraform-provider-oci
-export TERRAFORM_PROVIDER_VERSION := 7.7.0
+export TERRAFORM_PROVIDER_VERSION := 7.12.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-oci
 export TERRAFORM_NATIVE_PROVIDER_BINARY := terraform-provider-oci_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-oci/$(TERRAFORM_PROVIDER_VERSION)
@@ -55,9 +55,30 @@ GO_SUBDIRS += cmd internal apis
 -include build/makelib/golang.mk
 
 # ====================================================================================
+# Setup Sub-packages
+# SUBPACKAGES can be:
+# - "monolith" (default): builds the traditional single provider binary
+# - comma-separated service names: builds only specified service sub-packages
+#   e.g., "config,compute,networking"
+SUBPACKAGES ?= monolith
+
+# Helper variable for comma
+comma := ,
+
+# Configure GO_STATIC_PACKAGES based on SUBPACKAGES value
+ifeq ($(SUBPACKAGES),monolith)
+# Monolith build - traditional behavior
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
+else
+# Sub-package build - parse comma-separated list and build service-specific binaries
+SUBPACKAGE_LIST := $(subst $(comma), ,$(SUBPACKAGES))
+GO_STATIC_PACKAGES = $(foreach pkg,$(SUBPACKAGE_LIST),$(GO_PROJECT)/cmd/provider/$(pkg))
+endif
+
+# ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.15.0
+KIND_VERSION = v0.29.0
 UP_VERSION = v0.39.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.2.1
@@ -87,6 +108,29 @@ xpkg.build.provider-oci: do.build.images
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
 build.init: $(UP)
+
+# Override build behavior when SUBPACKAGES is set to non-monolith
+ifneq ($(SUBPACKAGES),monolith)
+# When building sub-packages, override the build target
+build:
+	@$(INFO) Building sub-packages: $(SUBPACKAGE_LIST)
+	@for pkg in $(SUBPACKAGE_LIST); do \
+		if [ -d "cmd/provider/$$pkg" ]; then \
+			echo "Building $$pkg..."; \
+			if [ "$$pkg" = "config" ]; then \
+				output_name="provider-family-oci"; \
+			else \
+				output_name="provider-oci-$$pkg"; \
+			fi; \
+			CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -ldflags '$(GO_LDFLAGS)' \
+				-o $(GO_OUT_DIR)/$$output_name $(GO_PROJECT)/cmd/provider/$$pkg/ || exit 1; \
+		else \
+			echo "Warning: Sub-package directory cmd/provider/$$pkg does not exist."; \
+			echo "Note: Sub-package directories will be created by the code generator in Phase 2."; \
+		fi; \
+	done
+	@$(OK) Built sub-packages: $(SUBPACKAGE_LIST)
+endif
 
 # ====================================================================================
 # Fallthrough
@@ -194,6 +238,97 @@ e2e: local-deploy uptest
 .PHONY: cobertura submodules fallthrough run crds.clean
 
 # ====================================================================================
+# Sub-package Targets
+# These targets support building and packaging individual service sub-packages
+
+# Build a specific sub-package
+# Usage: make build.subpackage.compute
+build.subpackage.%:
+	@if [ "$*" = "config" ]; then \
+		$(INFO) Building sub-package provider-family-oci binary; \
+		output_name="provider-family-oci"; \
+	else \
+		$(INFO) Building sub-package provider-oci-$* binary; \
+		output_name="provider-oci-$*"; \
+	fi
+	@if [ ! -d "cmd/provider/$*" ]; then \
+		echo "Error: Sub-package directory cmd/provider/$* does not exist."; \
+		echo "Note: Sub-package directories will be created by the code generator in Phase 2."; \
+		echo "For now, this is expected behavior as we're implementing the build system first."; \
+		exit 1; \
+	fi
+	@if [ "$*" = "config" ]; then \
+		output_name="provider-family-oci"; \
+	else \
+		output_name="provider-oci-$*"; \
+	fi; \
+	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -ldflags '$(GO_LDFLAGS)' -o $(GO_OUT_DIR)/$$output_name $(GO_PROJECT)/cmd/provider/$*/
+	@if [ "$*" = "config" ]; then \
+		$(OK) Built sub-package provider-family-oci binary; \
+	else \
+		$(OK) Built sub-package provider-oci-$* binary; \
+	fi
+
+# Package a specific sub-package as a container
+# Usage: make package.subpackage.compute
+package.subpackage.%: build.subpackage.%
+	@if [ "$*" = "config" ]; then \
+		$(INFO) Packaging sub-package provider-family-oci container; \
+		binary_name="provider-family-oci"; \
+		package_name="provider-family-oci"; \
+	else \
+		$(INFO) Packaging sub-package provider-oci-$* container; \
+		binary_name="provider-oci-$*"; \
+		package_name="provider-oci-$*"; \
+	fi; \
+	docker build -t $(REGISTRY_ORGS)/$$package_name:$(VERSION) \
+		--build-arg BINARY=$$binary_name \
+		--build-arg PACKAGE_NAME=$$package_name \
+		-f package/Dockerfile $(GO_OUT_DIR)
+	@if [ "$*" = "config" ]; then \
+		$(OK) Packaged sub-package provider-family-oci container; \
+	else \
+		$(OK) Packaged sub-package provider-oci-$* container; \
+	fi
+
+# Test a specific sub-package
+# Usage: make test.subpackage.compute
+test.subpackage.%:
+	@$(INFO) Testing sub-package $*
+	@if [ ! -d "cmd/provider/$*" ] && [ ! -d "internal/controller/$*" ]; then \
+		echo "Error: Sub-package directories for '$*' do not exist."; \
+		echo "Note: Sub-package directories will be created by the code generator in Phase 2."; \
+		echo "For now, this is expected behavior as we're implementing the build system first."; \
+		exit 1; \
+	fi
+	@if [ -d "cmd/provider/$*" ]; then \
+		$(GO) test -v $(GO_PROJECT)/cmd/provider/$*/...; \
+	fi
+	@if [ -d "internal/controller/$*" ]; then \
+		$(GO) test -v $(GO_PROJECT)/internal/controller/$*/...; \
+	fi
+	@$(OK) Testing sub-package $*
+
+# Generate CRDs for specific sub-packages
+# Usage: make generate.subpackage.crds SUBPACKAGES="compute,networking"
+generate.subpackage.crds:
+	@$(INFO) Generating CRDs for sub-packages: $(SUBPACKAGES)
+	@if [ "$(SUBPACKAGES)" = "monolith" ]; then \
+		echo "Error: SUBPACKAGES must specify service names, not 'monolith'"; \
+		exit 1; \
+	fi
+	@# This target will be implemented when the generator supports sub-package CRD generation
+	@$(OK) Generating CRDs for sub-packages: $(SUBPACKAGES)
+
+# Debug target to verify SUBPACKAGES configuration
+debug-subpackages:
+	@echo "SUBPACKAGES: $(SUBPACKAGES)"
+	@echo "SUBPACKAGE_LIST: $(SUBPACKAGE_LIST)"
+	@echo "GO_STATIC_PACKAGES: $(GO_STATIC_PACKAGES)"
+
+.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages
+
+# ====================================================================================
 # Special Targets
 
 define CROSSPLANE_MAKE_HELP
@@ -201,6 +336,29 @@ Crossplane Targets:
     cobertura             Generate a coverage report for cobertura applying exclusions on generated files.
     submodules            Update the submodules, such as the common build scripts.
     run                   Run crossplane locally, out-of-cluster. Useful for development.
+
+Sub-package Build Support:
+    SUBPACKAGES           Variable to control build behavior (default: "monolith")
+                          Examples:
+                            make build                                # builds monolithic provider (default)
+                            make build SUBPACKAGES=config             # builds only config sub-package
+                            make build SUBPACKAGES=config,compute     # builds multiple sub-packages
+
+Sub-package Targets:
+    build.subpackage.%    Build a specific sub-package binary
+                          Example: make build.subpackage.compute
+    package.subpackage.%  Package a specific sub-package as container
+                          Example: make package.subpackage.networking
+    test.subpackage.%     Run tests for a specific sub-package
+                          Example: make test.subpackage.blockstorage
+    generate.subpackage.crds  Generate CRDs for specified sub-packages
+                          Example: make generate.subpackage.crds SUBPACKAGES="compute,networking"
+
+Available sub-packages:
+    config, compute, networking, blockstorage, networkconnectivity, containerengine,
+    identity, objectstorage, loadbalancer, networkloadbalancer, dns, kms, functions,
+    logging, monitoring, events, streaming, filestorage, artifacts, vault, ons,
+    certificatesmanagement, networkfirewall, servicemesh, healthchecks
 
 endef
 # The reason CROSSPLANE_MAKE_HELP is used instead of CROSSPLANE_HELP is because the crossplane
