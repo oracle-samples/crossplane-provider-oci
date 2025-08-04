@@ -14,6 +14,8 @@ import (
 )
 
 type ConnectionConfigurationInitParameters struct {
+
+	// (Updatable) An array that represents the PPV2 Options that can be enabled on TCP Listeners. Example: ["PP2_TYPE_AUTHORITY"]
 	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
 
 	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
@@ -24,6 +26,8 @@ type ConnectionConfigurationInitParameters struct {
 }
 
 type ConnectionConfigurationObservation struct {
+
+	// (Updatable) An array that represents the PPV2 Options that can be enabled on TCP Listeners. Example: ["PP2_TYPE_AUTHORITY"]
 	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
 
 	// (Updatable) The backend TCP Proxy Protocol version.  Example: 1
@@ -35,6 +39,7 @@ type ConnectionConfigurationObservation struct {
 
 type ConnectionConfigurationParameters struct {
 
+	// (Updatable) An array that represents the PPV2 Options that can be enabled on TCP Listeners. Example: ["PP2_TYPE_AUTHORITY"]
 	// +kubebuilder:validation:Optional
 	BackendTCPProxyProtocolOptions []*string `json:"backendTcpProxyProtocolOptions,omitempty" tf:"backend_tcp_proxy_protocol_options,omitempty"`
 
@@ -289,6 +294,7 @@ type ListenerSSLConfigurationInitParameters struct {
 	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
 
+	// (Updatable) Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again. If "true", the service resumes the previous TLS encrypted session. If "false", the service starts a new TLS encrypted session. Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.  Example: true
 	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
 
 	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
@@ -318,6 +324,7 @@ type ListenerSSLConfigurationObservation struct {
 	// (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
 
+	// (Updatable) Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again. If "true", the service resumes the previous TLS encrypted session. If "false", the service starts a new TLS encrypted session. Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.  Example: true
 	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
 
 	// (Updatable) A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
@@ -350,6 +357,7 @@ type ListenerSSLConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	CipherSuiteName *string `json:"cipherSuiteName,omitempty" tf:"cipher_suite_name,omitempty"`
 
+	// (Updatable) Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again. If "true", the service resumes the previous TLS encrypted session. If "false", the service starts a new TLS encrypted session. Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.  Example: true
 	// +kubebuilder:validation:Optional
 	HasSessionResumption *bool `json:"hasSessionResumption,omitempty" tf:"has_session_resumption,omitempty"`
 

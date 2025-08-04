@@ -569,6 +569,8 @@ spec:
                             PT30M'
                           type: string
                         isForceActionAfterGraceDuration:
+                          description: (Updatable) If the node action should be performed
+                            if not all the pods can be evicted in the grace period
                           type: boolean
                         isForceDeleteAfterGraceDuration:
                           description: (Updatable) If the underlying compute instance
@@ -600,12 +602,14 @@ spec:
                     items:
                       properties:
                         cycleModes:
+                          description: (Updatable) An ordered list of cycle modes
+                            that should be performed on the OKE nodes.
                           items:
                             type: string
                           type: array
                         isNodeCyclingEnabled:
-                          description: (Updatable) If nodes in the nodepool will be
-                            cycled to have new changes.
+                          description: (Updatable) If cycling operation should be
+                            performed on the nodes in the node pool.
                           type: boolean
                         maximumSurge:
                           description: (Updatable) Maximum additional new compute
@@ -1192,6 +1196,8 @@ spec:
                             PT30M'
                           type: string
                         isForceActionAfterGraceDuration:
+                          description: (Updatable) If the node action should be performed
+                            if not all the pods can be evicted in the grace period
                           type: boolean
                         isForceDeleteAfterGraceDuration:
                           description: (Updatable) If the underlying compute instance
@@ -1223,12 +1229,14 @@ spec:
                     items:
                       properties:
                         cycleModes:
+                          description: (Updatable) An ordered list of cycle modes
+                            that should be performed on the OKE nodes.
                           items:
                             type: string
                           type: array
                         isNodeCyclingEnabled:
-                          description: (Updatable) If nodes in the nodepool will be
-                            cycled to have new changes.
+                          description: (Updatable) If cycling operation should be
+                            performed on the nodes in the node pool.
                           type: boolean
                         maximumSurge:
                           description: (Updatable) Maximum additional new compute
@@ -1684,6 +1692,8 @@ spec:
                             PT30M'
                           type: string
                         isForceActionAfterGraceDuration:
+                          description: (Updatable) If the node action should be performed
+                            if not all the pods can be evicted in the grace period
                           type: boolean
                         isForceDeleteAfterGraceDuration:
                           description: (Updatable) If the underlying compute instance
@@ -1715,12 +1725,14 @@ spec:
                     items:
                       properties:
                         cycleModes:
+                          description: (Updatable) An ordered list of cycle modes
+                            that should be performed on the OKE nodes.
                           items:
                             type: string
                           type: array
                         isNodeCyclingEnabled:
-                          description: (Updatable) If nodes in the nodepool will be
-                            cycled to have new changes.
+                          description: (Updatable) If cycling operation should be
+                            performed on the nodes in the node pool.
                           type: boolean
                         maximumSurge:
                           description: (Updatable) Maximum additional new compute

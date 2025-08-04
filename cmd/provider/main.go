@@ -110,6 +110,6 @@ func main() {
 		})), "cannot create default store config")
 	}
 
-	kingpin.FatalIfError(controller.Setup(mgr, o), "Cannot setup Oci controllers")
+	kingpin.FatalIfError(controller.Setup_monolith(mgr, o), "Cannot setup Oci controllers")
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
 }

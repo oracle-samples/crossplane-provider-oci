@@ -1,0 +1,24 @@
+apiVersion: filestorage.oci.upbound.io/v1alpha1
+kind: Snapshot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: filestorage/v1alpha1/snapshot
+  labels:
+    testing.upbound.io/example-name: test_snapshot
+  name: test-snapshot
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    expirationTime: ${var.snapshot_expiration_time}
+    fileSystemIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_file_system
+    freeformTags:
+      Department: Finance
+    locks:
+    - message: ${var.snapshot_locks_message}
+      relatedResourceId: ${oci_cloud_guard_resource.test_resource.id}
+      timeCreated: ${var.snapshot_locks_time_created}
+      type: ${var.snapshot_locks_type}
+    name: ${var.snapshot_name}

@@ -1,0 +1,19 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: DrgRouteDistribution
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/drgroutedistribution
+  labels:
+    testing.upbound.io/example-name: test_drg_route_distribution
+  name: test-drg-route-distribution
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.drg_route_distribution_display_name}
+    distributionType: ${var.drg_route_distribution_distribution_type}
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    freeformTags:
+      Department: Finance

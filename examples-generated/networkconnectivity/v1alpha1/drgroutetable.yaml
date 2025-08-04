@@ -1,0 +1,22 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: DrgRouteTable
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/drgroutetable
+  labels:
+    testing.upbound.io/example-name: test_drg_route_table
+  name: test-drg-route-table
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.drg_route_table_display_name}
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    freeformTags:
+      Department: Finance
+    importDrgRouteDistributionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg_route_distribution
+    isEcmpEnabled: ${var.drg_route_table_is_ecmp_enabled}

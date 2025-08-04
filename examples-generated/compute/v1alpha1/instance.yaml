@@ -1,0 +1,140 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: test_instance
+  name: test-instance
+spec:
+  forProvider:
+    agentConfig:
+    - areAllPluginsDisabled: ${var.instance_agent_config_are_all_plugins_disabled}
+      isManagementDisabled: ${var.instance_agent_config_is_management_disabled}
+      isMonitoringDisabled: ${var.instance_agent_config_is_monitoring_disabled}
+      pluginsConfig:
+      - desiredState: ${var.instance_agent_config_plugins_config_desired_state}
+        name: ${var.instance_agent_config_plugins_config_name}
+    availabilityConfig:
+    - isLiveMigrationPreferred: ${var.instance_availability_config_is_live_migration_preferred}
+      recoveryAction: ${var.instance_availability_config_recovery_action}
+    availabilityDomain: ${var.instance_availability_domain}
+    clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    compute_host_group_id: ${oci_core_compute_host_group.test_compute_host_group.id}
+    computeClusterId: ${oci_core_compute_cluster.test_compute_cluster.id}
+    createVnicDetails:
+    - assignIpv6Ip: ${var.instance_create_vnic_details_assign_ipv6ip}
+      assignPrivateDnsRecord: ${var.instance_create_vnic_details_assign_private_dns_record}
+      assignPublicIp: ${var.instance_create_vnic_details_assign_public_ip}
+      definedTags:
+        Operations.CostCenter: "42"
+      displayName: ${var.instance_create_vnic_details_display_name}
+      freeformTags:
+        Department: Finance
+      hostnameLabel: ${var.instance_create_vnic_details_hostname_label}
+      ipv6addressIpv6SubnetCidrPairDetails: ${var.instance_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details}
+      nsgIdsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      privateIp: ${var.instance_create_vnic_details_private_ip}
+      securityAttributes: ${var.instance_create_vnic_details_security_attributes}
+      skipSourceDestCheck: ${var.instance_create_vnic_details_skip_source_dest_check}
+      subnetIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_subnet
+      vlanIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_vlan
+    dedicatedVmHostIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_dedicated_vm_host
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.instance_display_name}
+    extendedMetadata:
+      nested_object: '{"some_string": "stringB", "object": {"some_string": "stringC"}}'
+      some_string: stringA
+    faultDomain: ${var.instance_fault_domain}
+    freeformTags:
+      Department: Finance
+    hostnameLabel: ${var.instance_hostname_label}
+    instanceConfigurationId: ${oci_core_instance_configuration.test_instance_configuration.id}
+    instanceOptions:
+    - areLegacyImdsEndpointsDisabled: ${var.instance_instance_options_are_legacy_imds_endpoints_disabled}
+    ipxeScript: ${var.instance_ipxe_script}
+    isPvEncryptionInTransitEnabled: ${var.instance_is_pv_encryption_in_transit_enabled}
+    launchOptions:
+    - bootVolumeType: ${var.instance_launch_options_boot_volume_type}
+      firmware: ${var.instance_launch_options_firmware}
+      isConsistentVolumeNamingEnabled: ${var.instance_launch_options_is_consistent_volume_naming_enabled}
+      isPvEncryptionInTransitEnabled: ${var.instance_launch_options_is_pv_encryption_in_transit_enabled}
+      networkType: ${var.instance_launch_options_network_type}
+      remoteDataVolumeType: ${var.instance_launch_options_remote_data_volume_type}
+    launchVolumeAttachments:
+    - device: ${var.instance_launch_volume_attachments_device}
+      displayName: ${var.instance_launch_volume_attachments_display_name}
+      encryptionInTransitType: ${var.instance_launch_volume_attachments_encryption_in_transit_type}
+      isAgentAutoIscsiLoginEnabled: ${var.instance_launch_volume_attachments_is_agent_auto_iscsi_login_enabled}
+      isPvEncryptionInTransitEnabled: ${var.instance_launch_volume_attachments_is_pv_encryption_in_transit_enabled}
+      isReadOnly: ${var.instance_launch_volume_attachments_is_read_only}
+      isShareable: ${var.instance_launch_volume_attachments_is_shareable}
+      launchCreateVolumeDetails:
+      - compartmentId: ${var.compartment_id}
+        displayName: ${var.instance_launch_volume_attachments_launch_create_volume_details_display_name}
+        kmsKeyId: ${oci_kms_key.test_key.id}
+        sizeInGbs: ${var.instance_launch_volume_attachments_launch_create_volume_details_size_in_gbs}
+        volumeCreationType: ${var.instance_launch_volume_attachments_launch_create_volume_details_volume_creation_type}
+        vpusPerGb: ${var.instance_launch_volume_attachments_launch_create_volume_details_vpus_per_gb}
+      type: ${var.instance_launch_volume_attachments_type}
+      useChap: ${var.instance_launch_volume_attachments_use_chap}
+      volumeId: ${oci_core_volume.test_volume.id}
+    licensingConfigs:
+    - licenseType: ${var.instance_licensing_configs_license_type}
+      type: ${var.instance_licensing_configs_type}
+    metadata: ${var.instance_metadata}
+    placementConstraintDetails:
+    - computeBareMetalHostId: ${oci_core_compute_bare_metal_host.test_compute_bare_metal_host.id}
+      computeHostGroupId: ${oci_identity_group.test_group.id}
+      type: ${var.instance_placement_constraint_details_type}
+    platformConfig:
+    - areVirtualInstructionsEnabled: ${var.instance_platform_config_are_virtual_instructions_enabled}
+      configMap: ${var.instance_platform_config_config_map}
+      isAccessControlServiceEnabled: ${var.instance_platform_config_is_access_control_service_enabled}
+      isInputOutputMemoryManagementUnitEnabled: ${var.instance_platform_config_is_input_output_memory_management_unit_enabled}
+      isMeasuredBootEnabled: ${var.instance_platform_config_is_measured_boot_enabled}
+      isMemoryEncryptionEnabled: ${var.instance_platform_config_is_memory_encryption_enabled}
+      isSecureBootEnabled: ${var.instance_platform_config_is_secure_boot_enabled}
+      isSymmetricMultiThreadingEnabled: ${var.instance_platform_config_is_symmetric_multi_threading_enabled}
+      isTrustedPlatformModuleEnabled: ${var.instance_platform_config_is_trusted_platform_module_enabled}
+      numaNodesPerSocket: ${var.instance_platform_config_numa_nodes_per_socket}
+      percentageOfCoresEnabled: ${var.instance_platform_config_percentage_of_cores_enabled}
+      type: ${var.instance_platform_config_type}
+    preemptibleInstanceConfig:
+    - preemptionAction:
+      - preserveBootVolume: ${var.instance_preemptible_instance_config_preemption_action_preserve_boot_volume}
+        type: ${var.instance_preemptible_instance_config_preemption_action_type}
+    preserveBootVolume: false
+    securityAttributes: ${var.instance_security_attributes}
+    shape: ${var.instance_shape}
+    shapeConfig:
+    - baselineOcpuUtilization: ${var.instance_shape_config_baseline_ocpu_utilization}
+      memoryInGbs: ${var.instance_shape_config_memory_in_gbs}
+      nvmes: ${var.instance_shape_config_nvmes}
+      ocpus: ${var.instance_shape_config_ocpus}
+      vcpus: ${var.instance_shape_config_vcpus}
+    sourceDetails:
+    - bootVolumeSizeInGbs: ${var.instance_source_details_boot_volume_size_in_gbs}
+      bootVolumeVpusPerGb: ${var.instance_source_details_boot_volume_vpus_per_gb}
+      instanceSourceImageFilterDetails:
+      - compartmentId: ${var.compartment_id}
+        definedTagsFilter: ${var.instance_source_details_instance_source_image_filter_details_defined_tags_filter}
+        operatingSystem: ${var.instance_source_details_instance_source_image_filter_details_operating_system}
+        operatingSystemVersion: ${var.instance_source_details_instance_source_image_filter_details_operating_system_version}
+      kmsKeyId: ${oci_kms_key.test_key.id}
+      sourceIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_image
+      sourceType: image

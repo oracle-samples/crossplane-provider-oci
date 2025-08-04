@@ -1,0 +1,27 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: Ipsec
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/ipsec
+  labels:
+    testing.upbound.io/example-name: test_ip_sec_connection
+  name: test-ip-sec-connection
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    cpeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_cpe
+    cpeLocalIdentifier: ${var.ip_sec_connection_cpe_local_identifier}
+    cpeLocalIdentifierType: ${var.ip_sec_connection_cpe_local_identifier_type}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.ip_sec_connection_display_name}
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    freeformTags:
+      Department: Finance
+    staticRoutes: ${var.ip_sec_connection_static_routes}

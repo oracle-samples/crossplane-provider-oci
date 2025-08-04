@@ -1,0 +1,16 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: InstanceConsoleConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/instanceconsoleconnection
+  labels:
+    testing.upbound.io/example-name: test_instance_console_connection
+  name: test-instance-console-connection
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    freeformTags:
+      Department: Finance
+    instanceId: ${oci_core_instance.test_instance.id}
+    publicKey: ${var.instance_console_connection_public_key}

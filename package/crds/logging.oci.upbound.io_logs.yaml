@@ -91,6 +91,8 @@ spec:
                               parameters:
                                 additionalProperties:
                                   type: string
+                                description: (Applicable when source_type=OCISERVICE)
+                                  (Updatable) Log category parameters are stored here.
                                 type: object
                                 x-kubernetes-map-type: granular
                               resource:
@@ -216,7 +218,7 @@ spec:
                     type: string
                   retentionDuration:
                     description: (Updatable) Log retention duration in 30-day increments
-                      (30, 60, 90 and so on).
+                      (30, 60, 90 and so on until 180).
                     type: number
                 type: object
               initProvider:
@@ -250,6 +252,8 @@ spec:
                               parameters:
                                 additionalProperties:
                                   type: string
+                                description: (Applicable when source_type=OCISERVICE)
+                                  (Updatable) Log category parameters are stored here.
                                 type: object
                                 x-kubernetes-map-type: granular
                               resource:
@@ -375,7 +379,7 @@ spec:
                     type: string
                   retentionDuration:
                     description: (Updatable) Log retention duration in 30-day increments
-                      (30, 60, 90 and so on).
+                      (30, 60, 90 and so on until 180).
                     type: number
                 type: object
               managementPolicies:
@@ -581,6 +585,8 @@ spec:
                               parameters:
                                 additionalProperties:
                                   type: string
+                                description: (Applicable when source_type=OCISERVICE)
+                                  (Updatable) Log category parameters are stored here.
                                 type: object
                                 x-kubernetes-map-type: granular
                               resource:
@@ -635,7 +641,7 @@ spec:
                     type: string
                   retentionDuration:
                     description: (Updatable) Log retention duration in 30-day increments
-                      (30, 60, 90 and so on).
+                      (30, 60, 90 and so on until 180).
                     type: number
                   state:
                     description: The pipeline state.

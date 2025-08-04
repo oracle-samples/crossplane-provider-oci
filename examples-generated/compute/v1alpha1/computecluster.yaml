@@ -1,0 +1,17 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: ComputeCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/computecluster
+  labels:
+    testing.upbound.io/example-name: test_compute_cluster
+  name: test-compute-cluster
+spec:
+  forProvider:
+    availabilityDomain: ${var.compute_cluster_availability_domain}
+    compartmentId: ${var.compartment_id}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.compute_cluster_display_name}
+    freeformTags:
+      Department: Finance

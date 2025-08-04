@@ -1,0 +1,28 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: Vcn
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/vcn
+  labels:
+    testing.upbound.io/example-name: test_vcn
+  name: test-vcn
+spec:
+  forProvider:
+    byoipv6cidrDetails:
+    - byoipv6rangeId: ${oci_core_byoipv6range.test_byoipv6range.id}
+      ipv6cidrBlock: ${var.vcn_byoipv6cidr_details_ipv6cidr_block}
+    cidrBlock: ${var.vcn_cidr_block}
+    cidrBlocks: ${var.vcn_cidr_blocks}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.vcn_display_name}
+    dnsLabel: ${var.vcn_dns_label}
+    freeformTags:
+      Department: Finance
+    ipv6privateCidrBlocks: ${var.vcn_ipv6private_cidr_blocks}
+    isIpv6Enabled: ${var.vcn_is_ipv6enabled}
+    isOracleGuaAllocationEnabled: ${var.vcn_is_oracle_gua_allocation_enabled}
+    securityAttributes: ${var.vcn_security_attributes}

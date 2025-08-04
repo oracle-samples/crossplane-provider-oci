@@ -157,6 +157,9 @@ spec:
                   definedTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
                     type: object
                     x-kubernetes-map-type: granular
                   displayName:
@@ -165,6 +168,10 @@ spec:
                   freeformTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
                     type: object
                     x-kubernetes-map-type: granular
                   isImmutable:
@@ -286,6 +293,9 @@ spec:
                   definedTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
                     type: object
                     x-kubernetes-map-type: granular
                   displayName:
@@ -294,6 +304,10 @@ spec:
                   freeformTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
                     type: object
                     x-kubernetes-map-type: granular
                   isImmutable:
@@ -510,6 +524,9 @@ spec:
                   definedTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
                     type: object
                     x-kubernetes-map-type: granular
                   displayName:
@@ -518,6 +535,10 @@ spec:
                   freeformTags:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
                     type: object
                     x-kubernetes-map-type: granular
                   id:
@@ -542,6 +563,8 @@ spec:
                     description: Total storage in bytes consumed by layers.
                     type: string
                   namespace:
+                    description: The tenancy namespace used in the container repository
+                      path.
                     type: string
                   readme:
                     description: (Updatable) Container repository readme.
@@ -563,6 +586,9 @@ spec:
                   systemTags:
                     additionalProperties:
                       type: string
+                    description: 'The system tags for this resource. Each key is predefined
+                      and scoped to a namespace. Example: {"orcl-cloud.free-tier-retained":
+                      "true"}'
                     type: object
                     x-kubernetes-map-type: granular
                   timeCreated:

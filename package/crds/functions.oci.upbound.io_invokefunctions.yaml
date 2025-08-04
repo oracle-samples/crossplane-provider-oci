@@ -188,6 +188,8 @@ spec:
                       requests that are bigger than this limit.'
                     type: string
                   isDryRun:
+                    description: Indicates that the request is a dry run, if set to
+                      "true". A dry run request does not execute the function.
                     type: boolean
                 type: object
               initProvider:
@@ -318,6 +320,8 @@ spec:
                       requests that are bigger than this limit.'
                     type: string
                   isDryRun:
+                    description: Indicates that the request is a dry run, if set to
+                      "true". A dry run request does not execute the function.
                     type: boolean
                 type: object
               managementPolicies:
@@ -541,6 +545,8 @@ spec:
                       requests that are bigger than this limit.'
                     type: string
                   isDryRun:
+                    description: Indicates that the request is a dry run, if set to
+                      "true". A dry run request does not execute the function.
                     type: boolean
                 type: object
               conditions:

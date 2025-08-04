@@ -74,8 +74,8 @@ spec:
               forProvider:
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
-                      belongs to.
+                    description: (Updatable) The OCID of the compartment containing
+                      the zone.
                     type: string
                   compartmentIdRef:
                     description: Reference to a Compartment in identity to populate
@@ -162,9 +162,12 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   dnssecState:
-                    description: The current state of the zone resource.
+                    description: (Updatable) The state of DNSSEC on the zone.
                     type: string
                   externalDownstreams:
+                    description: (Updatable) External secondary servers for the zone.
+                      This field is currently not supported when zoneType is SECONDARY
+                      or scope is PRIVATE.
                     items:
                       properties:
                         address:
@@ -176,7 +179,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -195,7 +201,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -313,8 +322,8 @@ spec:
                   autoscaler.
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
-                      belongs to.
+                    description: (Updatable) The OCID of the compartment containing
+                      the zone.
                     type: string
                   compartmentIdRef:
                     description: Reference to a Compartment in identity to populate
@@ -401,9 +410,12 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   dnssecState:
-                    description: The current state of the zone resource.
+                    description: (Updatable) The state of DNSSEC on the zone.
                     type: string
                   externalDownstreams:
+                    description: (Updatable) External secondary servers for the zone.
+                      This field is currently not supported when zoneType is SECONDARY
+                      or scope is PRIVATE.
                     items:
                       properties:
                         address:
@@ -415,7 +427,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -434,7 +449,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -720,8 +738,8 @@ spec:
               atProvider:
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
-                      belongs to.
+                    description: (Updatable) The OCID of the compartment containing
+                      the zone.
                     type: string
                   definedTags:
                     additionalProperties:
@@ -732,97 +750,206 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   dnssecConfig:
+                    description: DNSSEC configuration data.
                     items:
                       properties:
                         kskDnssecKeyVersions:
+                          description: A read-only array of key signing key (KSK)
+                            versions.
                           items:
                             properties:
                               algorithm:
+                                description: The signing algorithm used for the key.
                                 type: string
                               dsData:
+                                description: An array of data for DS records corresponding
+                                  with this key version. An entry will exist for each
+                                  supported DS digest algorithm.
                                 items:
                                   properties:
                                     digestType:
+                                      description: The type of the digest associated
+                                        with the rdata.
                                       type: string
                                     rdata:
+                                      description: Presentation-format DS record data
+                                        that must be added to the parent zone. For
+                                        more information about RDATA, see Supported
+                                        DNS Resource Record Types
                                       type: string
                                   type: object
                                 type: array
                               keyTag:
+                                description: The key tag associated with the DnssecKeyVersion.
+                                  This key tag will be present in the RRSIG and DS
+                                  records associated with the key material for this
+                                  DnssecKeyVersion. For more information about key
+                                  tags, see RFC 4034.
                                 type: number
                               lengthInBytes:
+                                description: The length of the corresponding private
+                                  key in bytes, expressed as an integer.
                                 type: number
                               predecessorDnssecKeyVersionUuid:
-                                description: The OCID of the zone.
+                                description: When populated, this is the UUID of the
+                                  DnssecKeyVersion that this DnssecKeyVersion will
+                                  replace or has replaced.
                                 type: string
                               successorDnssecKeyVersionUuid:
-                                description: The OCID of the zone.
+                                description: When populated, this is the UUID of the
+                                  DnssecKeyVersion that will replace, or has replaced,
+                                  this DnssecKeyVersion.
                                 type: string
                               timeActivated:
+                                description: The date and time the key version went,
+                                  or will go, active, expressed in RFC 3339 timestamp
+                                  format. This is when the key material will be used
+                                  to generate RRSIGs.
                                 type: string
                               timeCreated:
-                                description: The date and time the resource was created
-                                  in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset,
-                                  as defined by RFC 3339.
+                                description: The date and time the key version was
+                                  created, expressed in RFC 3339 timestamp format.
                                 type: string
                               timeExpired:
+                                description: The date and time at which the recommended
+                                  key version publication/activation lifetime ends,
+                                  expressed in RFC 3339 timestamp format. This is
+                                  when the corresponding DNSKEY should no longer exist
+                                  in zone contents and no longer be used to generate
+                                  RRSIGs. For a key sigining key (KSK), if PromoteZoneDnssecKeyVersion
+                                  has not been called on this DnssecKeyVersion's successor
+                                  then it will remain active for arbitrarily long
+                                  past its recommended lifetime. This prevents service
+                                  disruption at the potential increased risk of key
+                                  compromise.
                                 type: string
                               timeInactivated:
+                                description: The date and time the key version went,
+                                  or will go, inactive, expressed in RFC 3339 timestamp
+                                  format. This is when the key material will no longer
+                                  be used to generate RRSIGs. For a key signing key
+                                  (KSK) DnssecKeyVersion, this is populated after
+                                  PromoteZoneDnssecKeyVersion has been called on its
+                                  successor DnssecKeyVersion.
                                 type: string
                               timePromoted:
+                                description: The date and time the key version was
+                                  promoted expressed in RFC 3339 timestamp format.
                                 type: string
                               timePublished:
+                                description: The date and time the key version was,
+                                  or will be, published, expressed in RFC 3339 timestamp
+                                  format. This is when the zone contents will include
+                                  a DNSKEY record corresponding to the key material.
                                 type: string
                               timeUnpublished:
+                                description: The date and time the key version was,
+                                  or will be, unpublished, expressed in RFC 3339 timestamp
+                                  format. This is when the corresponding DNSKEY will
+                                  be removed from zone contents. For a key signing
+                                  key (KSK) DnssecKeyVersion, this is populated after
+                                  PromoteZoneDnssecKeyVersion has been called on its
+                                  successor DnssecKeyVersion.
                                 type: string
                               uuid:
-                                description: The OCID of the zone.
+                                description: The UUID of the DnssecKeyVersion.
                                 type: string
                             type: object
                           type: array
                         zskDnssecKeyVersions:
+                          description: A read-only array of zone signing key (ZSK)
+                            versions.
                           items:
                             properties:
                               algorithm:
+                                description: The signing algorithm used for the key.
                                 type: string
                               keyTag:
+                                description: The key tag associated with the DnssecKeyVersion.
+                                  This key tag will be present in the RRSIG and DS
+                                  records associated with the key material for this
+                                  DnssecKeyVersion. For more information about key
+                                  tags, see RFC 4034.
                                 type: number
                               lengthInBytes:
+                                description: The length of the corresponding private
+                                  key in bytes, expressed as an integer.
                                 type: number
                               predecessorDnssecKeyVersionUuid:
-                                description: The OCID of the zone.
+                                description: When populated, this is the UUID of the
+                                  DnssecKeyVersion that this DnssecKeyVersion will
+                                  replace or has replaced.
                                 type: string
                               successorDnssecKeyVersionUuid:
-                                description: The OCID of the zone.
+                                description: When populated, this is the UUID of the
+                                  DnssecKeyVersion that will replace, or has replaced,
+                                  this DnssecKeyVersion.
                                 type: string
                               timeActivated:
+                                description: The date and time the key version went,
+                                  or will go, active, expressed in RFC 3339 timestamp
+                                  format. This is when the key material will be used
+                                  to generate RRSIGs.
                                 type: string
                               timeCreated:
-                                description: The date and time the resource was created
-                                  in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset,
-                                  as defined by RFC 3339.
+                                description: The date and time the key version was
+                                  created, expressed in RFC 3339 timestamp format.
                                 type: string
                               timeExpired:
+                                description: The date and time at which the recommended
+                                  key version publication/activation lifetime ends,
+                                  expressed in RFC 3339 timestamp format. This is
+                                  when the corresponding DNSKEY should no longer exist
+                                  in zone contents and no longer be used to generate
+                                  RRSIGs. For a key sigining key (KSK), if PromoteZoneDnssecKeyVersion
+                                  has not been called on this DnssecKeyVersion's successor
+                                  then it will remain active for arbitrarily long
+                                  past its recommended lifetime. This prevents service
+                                  disruption at the potential increased risk of key
+                                  compromise.
                                 type: string
                               timeInactivated:
+                                description: The date and time the key version went,
+                                  or will go, inactive, expressed in RFC 3339 timestamp
+                                  format. This is when the key material will no longer
+                                  be used to generate RRSIGs. For a key signing key
+                                  (KSK) DnssecKeyVersion, this is populated after
+                                  PromoteZoneDnssecKeyVersion has been called on its
+                                  successor DnssecKeyVersion.
                                 type: string
                               timePromoted:
+                                description: The date and time the key version was
+                                  promoted expressed in RFC 3339 timestamp format.
                                 type: string
                               timePublished:
+                                description: The date and time the key version was,
+                                  or will be, published, expressed in RFC 3339 timestamp
+                                  format. This is when the zone contents will include
+                                  a DNSKEY record corresponding to the key material.
                                 type: string
                               timeUnpublished:
+                                description: The date and time the key version was,
+                                  or will be, unpublished, expressed in RFC 3339 timestamp
+                                  format. This is when the corresponding DNSKEY will
+                                  be removed from zone contents. For a key signing
+                                  key (KSK) DnssecKeyVersion, this is populated after
+                                  PromoteZoneDnssecKeyVersion has been called on its
+                                  successor DnssecKeyVersion.
                                 type: string
                               uuid:
-                                description: The OCID of the zone.
+                                description: The UUID of the DnssecKeyVersion.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   dnssecState:
-                    description: The current state of the zone resource.
+                    description: (Updatable) The state of DNSSEC on the zone.
                     type: string
                   externalDownstreams:
+                    description: (Updatable) External secondary servers for the zone.
+                      This field is currently not supported when zoneType is SECONDARY
+                      or scope is PRIVATE.
                     items:
                       properties:
                         address:
@@ -834,7 +961,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -853,7 +983,10 @@ spec:
                             be a value of 53, otherwise omit the port value.
                           type: number
                         tsigKeyId:
-                          description: (Updatable) The OCID of the TSIG key.
+                          description: (Updatable) The OCID of the TSIG key. A TSIG
+                            key is used to secure DNS messages (in this case, zone
+                            transfers) between two systems that both have the (shared)
+                            secret.
                           type: string
                       type: object
                     type: array
@@ -900,8 +1033,8 @@ spec:
                     description: The current state of the zone resource.
                     type: string
                   timeCreated:
-                    description: The date and time the resource was created in "YYYY-MM-ddThh:mm:ssZ"
-                      format with a Z offset, as defined by RFC 3339.
+                    description: The date and time the key version was created, expressed
+                      in RFC 3339 timestamp format.
                     type: string
                   version:
                     description: Version is the never-repeating, totally-orderable,
@@ -914,6 +1047,8 @@ spec:
                       publicly resolvable and not part of a private view.
                     type: string
                   zoneTransferServers:
+                    description: The Oracle Cloud Infrastructure nameservers that
+                      transfer the zone data with external nameservers.
                     items:
                       properties:
                         address:
@@ -921,8 +1056,12 @@ spec:
                             IPv6).
                           type: string
                         isTransferDestination:
+                          description: A Boolean flag indicating whether or not the
+                            server is a zone data transfer destination.
                           type: boolean
                         isTransferSource:
+                          description: A Boolean flag indicating whether or not the
+                            server is a zone data transfer source.
                           type: boolean
                         port:
                           description: (Updatable) The server's port. Port value must

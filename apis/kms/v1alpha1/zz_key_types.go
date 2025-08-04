@@ -14,50 +14,70 @@ import (
 )
 
 type AutoKeyRotationDetailsInitParameters struct {
+
+	// (Updatable) The last execution status message of auto key rotation.
 	LastRotationMessage *string `json:"lastRotationMessage,omitempty" tf:"last_rotation_message,omitempty"`
 
+	// (Updatable) The status of last execution of auto key rotation.
 	LastRotationStatus *string `json:"lastRotationStatus,omitempty" tf:"last_rotation_status,omitempty"`
 
+	// (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 60 day and 365 days (1 year). Note: User must specify this parameter when creating a new schedule.
 	RotationIntervalInDays *float64 `json:"rotationIntervalInDays,omitempty" tf:"rotation_interval_in_days,omitempty"`
 
+	// (Updatable) A property indicating Last rotation Date. Example: 2023-04-04T00:00:00Z.
 	TimeOfLastRotation *string `json:"timeOfLastRotation,omitempty" tf:"time_of_last_rotation,omitempty"`
 
+	// (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.
 	TimeOfNextRotation *string `json:"timeOfNextRotation,omitempty" tf:"time_of_next_rotation,omitempty"`
 
+	// (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z . Note : Today’s date will be used if not specified by customer.
 	TimeOfScheduleStart *string `json:"timeOfScheduleStart,omitempty" tf:"time_of_schedule_start,omitempty"`
 }
 
 type AutoKeyRotationDetailsObservation struct {
+
+	// (Updatable) The last execution status message of auto key rotation.
 	LastRotationMessage *string `json:"lastRotationMessage,omitempty" tf:"last_rotation_message,omitempty"`
 
+	// (Updatable) The status of last execution of auto key rotation.
 	LastRotationStatus *string `json:"lastRotationStatus,omitempty" tf:"last_rotation_status,omitempty"`
 
+	// (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 60 day and 365 days (1 year). Note: User must specify this parameter when creating a new schedule.
 	RotationIntervalInDays *float64 `json:"rotationIntervalInDays,omitempty" tf:"rotation_interval_in_days,omitempty"`
 
+	// (Updatable) A property indicating Last rotation Date. Example: 2023-04-04T00:00:00Z.
 	TimeOfLastRotation *string `json:"timeOfLastRotation,omitempty" tf:"time_of_last_rotation,omitempty"`
 
+	// (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.
 	TimeOfNextRotation *string `json:"timeOfNextRotation,omitempty" tf:"time_of_next_rotation,omitempty"`
 
+	// (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z . Note : Today’s date will be used if not specified by customer.
 	TimeOfScheduleStart *string `json:"timeOfScheduleStart,omitempty" tf:"time_of_schedule_start,omitempty"`
 }
 
 type AutoKeyRotationDetailsParameters struct {
 
+	// (Updatable) The last execution status message of auto key rotation.
 	// +kubebuilder:validation:Optional
 	LastRotationMessage *string `json:"lastRotationMessage,omitempty" tf:"last_rotation_message,omitempty"`
 
+	// (Updatable) The status of last execution of auto key rotation.
 	// +kubebuilder:validation:Optional
 	LastRotationStatus *string `json:"lastRotationStatus,omitempty" tf:"last_rotation_status,omitempty"`
 
+	// (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 60 day and 365 days (1 year). Note: User must specify this parameter when creating a new schedule.
 	// +kubebuilder:validation:Optional
 	RotationIntervalInDays *float64 `json:"rotationIntervalInDays,omitempty" tf:"rotation_interval_in_days,omitempty"`
 
+	// (Updatable) A property indicating Last rotation Date. Example: 2023-04-04T00:00:00Z.
 	// +kubebuilder:validation:Optional
 	TimeOfLastRotation *string `json:"timeOfLastRotation,omitempty" tf:"time_of_last_rotation,omitempty"`
 
+	// (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.
 	// +kubebuilder:validation:Optional
 	TimeOfNextRotation *string `json:"timeOfNextRotation,omitempty" tf:"time_of_next_rotation,omitempty"`
 
+	// (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z . Note : Today’s date will be used if not specified by customer.
 	// +kubebuilder:validation:Optional
 	TimeOfScheduleStart *string `json:"timeOfScheduleStart,omitempty" tf:"time_of_schedule_start,omitempty"`
 }
@@ -67,10 +87,10 @@ type ExternalKeyReferenceDetailsInitParameters struct {
 
 type ExternalKeyReferenceDetailsObservation struct {
 
-	// The OCID of the key.
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
 	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
 
-	// The OCID of the key.
+	// Key version ID associated with the external key.
 	ExternalKeyVersionID *string `json:"externalKeyVersionId,omitempty" tf:"external_key_version_id,omitempty"`
 }
 
@@ -79,24 +99,26 @@ type ExternalKeyReferenceDetailsParameters struct {
 
 type ExternalKeyReferenceInitParameters struct {
 
-	// The OCID of the key.
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
 	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
 }
 
 type ExternalKeyReferenceObservation struct {
 
-	// The OCID of the key.
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
 	ExternalKeyID *string `json:"externalKeyId,omitempty" tf:"external_key_id,omitempty"`
 }
 
 type ExternalKeyReferenceParameters struct {
 
-	// The OCID of the key.
+	// ExternalKeyId refers to the globally unique key Id associated with the key created in external vault in CTM
 	// +kubebuilder:validation:Optional
 	ExternalKeyID *string `json:"externalKeyId" tf:"external_key_id,omitempty"`
 }
 
 type KeyInitParameters struct {
+
+	// (Updatable) The details of auto rotation schedule for the Key being create updated or imported.
 	AutoKeyRotationDetails []AutoKeyRotationDetailsInitParameters `json:"autoKeyRotationDetails,omitempty" tf:"auto_key_rotation_details,omitempty"`
 
 	// (Updatable) The OCID of the compartment where you want to create the master encryption key.
@@ -121,12 +143,14 @@ type KeyInitParameters struct {
 	// (Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A reference to the key on external key manager.
 	ExternalKeyReference []ExternalKeyReferenceInitParameters `json:"externalKeyReference,omitempty" tf:"external_key_reference,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// (Updatable) A parameter specifying whether the auto key rotation is enabled or not.
 	IsAutoRotationEnabled *bool `json:"isAutoRotationEnabled,omitempty" tf:"is_auto_rotation_enabled,omitempty"`
 
 	// The cryptographic properties of a key.
@@ -135,7 +159,7 @@ type KeyInitParameters struct {
 	// The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
-	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default,  a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported.
+	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default, a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported. A protection mode of EXTERNAL mean that the key persists on the customer's external key manager which is hosted externally outside of oracle. Oracle only hold a reference to that key. All cryptographic operations that use a key with a protection mode of EXTERNAL are performed by external key manager.
 	ProtectionMode *string `json:"protectionMode,omitempty" tf:"protection_mode,omitempty"`
 
 	// (Updatable) Details where key was backed up.
@@ -152,6 +176,8 @@ type KeyInitParameters struct {
 }
 
 type KeyObservation struct {
+
+	// (Updatable) The details of auto rotation schedule for the Key being create updated or imported.
 	AutoKeyRotationDetails []AutoKeyRotationDetailsObservation `json:"autoKeyRotationDetails,omitempty" tf:"auto_key_rotation_details,omitempty"`
 
 	// (Updatable) The OCID of the compartment where you want to create the master encryption key.
@@ -170,8 +196,10 @@ type KeyObservation struct {
 	// (Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A reference to the key on external key manager.
 	ExternalKeyReference []ExternalKeyReferenceObservation `json:"externalKeyReference,omitempty" tf:"external_key_reference,omitempty"`
 
+	// Key reference data to be returned to the customer as a response.
 	ExternalKeyReferenceDetails []ExternalKeyReferenceDetailsObservation `json:"externalKeyReferenceDetails,omitempty" tf:"external_key_reference_details,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
@@ -181,9 +209,10 @@ type KeyObservation struct {
 	// The OCID of the key.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Updatable) A parameter specifying whether the auto key rotation is enabled or not.
 	IsAutoRotationEnabled *bool `json:"isAutoRotationEnabled,omitempty" tf:"is_auto_rotation_enabled,omitempty"`
 
-	// A boolean that will be true when key is primary, and will be false when key is a replica from a primary key.
+	// A Boolean value that indicates whether the Key belongs to primary Vault or replica vault.
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
 	// The cryptographic properties of a key.
@@ -192,7 +221,7 @@ type KeyObservation struct {
 	// The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
-	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default,  a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported.
+	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default, a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported. A protection mode of EXTERNAL mean that the key persists on the customer's external key manager which is hosted externally outside of oracle. Oracle only hold a reference to that key. All cryptographic operations that use a key with a protection mode of EXTERNAL are performed by external key manager.
 	ProtectionMode *string `json:"protectionMode,omitempty" tf:"protection_mode,omitempty"`
 
 	// Key replica details
@@ -225,6 +254,7 @@ type KeyObservation struct {
 
 type KeyParameters struct {
 
+	// (Updatable) The details of auto rotation schedule for the Key being create updated or imported.
 	// +kubebuilder:validation:Optional
 	AutoKeyRotationDetails []AutoKeyRotationDetailsParameters `json:"autoKeyRotationDetails,omitempty" tf:"auto_key_rotation_details,omitempty"`
 
@@ -254,6 +284,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A reference to the key on external key manager.
 	// +kubebuilder:validation:Optional
 	ExternalKeyReference []ExternalKeyReferenceParameters `json:"externalKeyReference,omitempty" tf:"external_key_reference,omitempty"`
 
@@ -262,6 +293,7 @@ type KeyParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// (Updatable) A parameter specifying whether the auto key rotation is enabled or not.
 	// +kubebuilder:validation:Optional
 	IsAutoRotationEnabled *bool `json:"isAutoRotationEnabled,omitempty" tf:"is_auto_rotation_enabled,omitempty"`
 
@@ -273,7 +305,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	ManagementEndpoint *string `json:"managementEndpoint,omitempty" tf:"management_endpoint,omitempty"`
 
-	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists  on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default,  a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported.
+	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed. A protection mode of HSM means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside the HSM. A protection mode of SOFTWARE means that the key persists on the server, protected by the vault's RSA wrapping key which persists on the HSM. All cryptographic operations that use a key with a protection mode of SOFTWARE are performed on the server. By default, a key's protection mode is set to HSM. You can't change a key's protection mode after the key is created or imported. A protection mode of EXTERNAL mean that the key persists on the customer's external key manager which is hosted externally outside of oracle. Oracle only hold a reference to that key. All cryptographic operations that use a key with a protection mode of EXTERNAL are performed by external key manager.
 	// +kubebuilder:validation:Optional
 	ProtectionMode *string `json:"protectionMode,omitempty" tf:"protection_mode,omitempty"`
 
@@ -296,7 +328,7 @@ type KeyParameters struct {
 
 type KeyShapeInitParameters struct {
 
-	// The algorithm used by a key's key versions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for External keys.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// Supported curve IDs for ECDSA keys.
@@ -308,7 +340,7 @@ type KeyShapeInitParameters struct {
 
 type KeyShapeObservation struct {
 
-	// The algorithm used by a key's key versions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for External keys.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// Supported curve IDs for ECDSA keys.
@@ -320,7 +352,7 @@ type KeyShapeObservation struct {
 
 type KeyShapeParameters struct {
 
-	// The algorithm used by a key's key versions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for External keys.
 	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm" tf:"algorithm,omitempty"`
 

@@ -1,0 +1,30 @@
+apiVersion: filestorage.oci.upbound.io/v1alpha1
+kind: Replication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: filestorage/v1alpha1/replication
+  labels:
+    testing.upbound.io/example-name: test_replication
+  name: test-replication
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.replication_display_name}
+    freeformTags:
+      Department: Finance
+    locks:
+    - message: ${var.replication_locks_message}
+      relatedResourceId: ${oci_cloud_guard_resource.test_resource.id}
+      timeCreated: ${var.replication_locks_time_created}
+      type: ${var.replication_locks_type}
+    replicationInterval: ${var.replication_replication_interval}
+    sourceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_source
+    targetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_target

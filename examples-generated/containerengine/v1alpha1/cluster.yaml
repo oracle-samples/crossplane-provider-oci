@@ -38,9 +38,26 @@ spec:
         isTillerEnabled: ${var.cluster_options_add_ons_is_tiller_enabled}
       admissionControllerOptions:
       - isPodSecurityPolicyEnabled: ${var.cluster_options_admission_controller_options_is_pod_security_policy_enabled}
+      ipFamilies: ${var.cluster_options_ip_families}
       kubernetesNetworkConfig:
       - podsCidr: ${var.cluster_options_kubernetes_network_config_pods_cidr}
         servicesCidr: ${var.cluster_options_kubernetes_network_config_services_cidr}
+      openIdConnectDiscovery:
+      - isOpenIdConnectDiscoveryEnabled: ${var.cluster_options_open_id_connect_discovery_is_open_id_connect_discovery_enabled}
+      openIdConnectTokenAuthenticationConfig:
+      - caCertificate: ${var.cluster_options_open_id_connect_token_authentication_config_ca_certificate}
+        clientId: ${oci_containerengine_client.test_client.id}
+        configurationFile: ${var.cluster_options_open_id_connect_token_authentication_config_configuration_file}
+        groupsClaim: ${var.cluster_options_open_id_connect_token_authentication_config_groups_claim}
+        groupsPrefix: ${var.cluster_options_open_id_connect_token_authentication_config_groups_prefix}
+        isOpenIdConnectAuthEnabled: ${var.cluster_options_open_id_connect_token_authentication_config_is_open_id_connect_auth_enabled}
+        issuerUrl: ${var.cluster_options_open_id_connect_token_authentication_config_issuer_url}
+        requiredClaims:
+        - key: ${var.cluster_options_open_id_connect_token_authentication_config_required_claims_key}
+          value: ${var.cluster_options_open_id_connect_token_authentication_config_required_claims_value}
+        signingAlgorithms: ${var.cluster_options_open_id_connect_token_authentication_config_signing_algorithms}
+        usernameClaim: ${var.cluster_options_open_id_connect_token_authentication_config_username_claim}
+        usernamePrefix: ${var.cluster_options_open_id_connect_token_authentication_config_username_prefix}
       persistentVolumeConfig:
       - definedTags:
           Operations.CostCenter: "42"

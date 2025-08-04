@@ -21,13 +21,93 @@ spec:
     - groupList: ${var.unified_agent_configuration_group_association_group_list}
     isEnabled: ${var.unified_agent_configuration_is_enabled}
     serviceConfiguration:
-    - configurationType: ${var.unified_agent_configuration_service_configuration_configuration_type}
+    - applicationConfigurations:
+      - destination:
+        - compartmentId: ${var.compartment_id}
+          metricsNamespace: ${var.unified_agent_configuration_service_configuration_application_configurations_destination_metrics_namespace}
+        source:
+        - name: ${var.unified_agent_configuration_service_configuration_application_configurations_source_name}
+          scrapeTargets:
+          - k8sNamespace: ${var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_k8s_namespace}
+            name: ${var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_name}
+            resourceGroup: ${var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_resource_group}
+            resourceType: ${var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_resource_type}
+            serviceName: ${oci_core_service.test_service.name}
+            url: ${var.unified_agent_configuration_service_configuration_application_configurations_source_scrape_targets_url}
+        sourceType: ${var.unified_agent_configuration_service_configuration_application_configurations_source_type}
+        sources:
+        - advancedOptions:
+          - isReadFromHead: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_advanced_options_is_read_from_head}
+          name: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_name}
+          parser:
+          - delimiter: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_delimiter}
+            expression: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_expression}
+            fieldTimeKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_field_time_key}
+            format: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_format}
+            formatFirstline: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_format_firstline}
+            grokFailureKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_grok_failure_key}
+            grokNameKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_grok_name_key}
+            isEstimateCurrentEvent: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_estimate_current_event}
+            isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_keep_time_key}
+            isMergeCriFields: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_merge_cri_fields}
+            isNullEmptyString: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_null_empty_string}
+            isSupportColonlessIdent: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_support_colonless_ident}
+            isWithPriority: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_is_with_priority}
+            keys: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_keys}
+            messageFormat: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_message_format}
+            messageKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_message_key}
+            multiLineStartRegexp: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_multi_line_start_regexp}
+            nestedParser:
+            - parseNested: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_parse_nested}
+              separator: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_separator}
+              timeFormat: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_time_format}
+              timeType: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_nested_parser_time_type}
+            nullValuePattern: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_null_value_pattern}
+            parseNested: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_parse_nested}
+            parserType: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_parser_type}
+            patterns:
+            - fieldTimeFormat: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_format}
+              fieldTimeKey: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_key}
+              fieldTimeZone: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_field_time_zone}
+              name: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_name}
+              pattern: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_patterns_pattern}
+            recordInput:
+            - dimensions: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_dimensions}
+              namespace: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_namespace}
+              resourceGroup: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_record_input_resource_group}
+            rfc5424timeFormat: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_rfc5424time_format}
+            separator: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_separator}
+            syslogParserType: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_syslog_parser_type}
+            timeFormat: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_time_format}
+            timeType: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_time_type}
+            timeoutInMilliseconds: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_timeout_in_milliseconds}
+            types: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_parser_types}
+          paths: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_paths}
+          sourceType: ${var.unified_agent_configuration_service_configuration_application_configurations_sources_source_type}
+        unifiedAgentConfigurationFilter:
+        - allowList: ${var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_allow_list}
+          denyList: ${var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_deny_list}
+          filterType: ${var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_filter_type}
+          name: ${var.unified_agent_configuration_service_configuration_application_configurations_unified_agent_configuration_filter_name}
+      configurationType: ${var.unified_agent_configuration_service_configuration_configuration_type}
       destination:
       - logObjectIdSelector:
           matchLabels:
             testing.upbound.io/example-name: test_object
+        operationalMetricsConfiguration:
+        - destination:
+          - compartmentId: ${var.compartment_id}
+          source:
+          - metrics: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_metrics}
+            recordInput:
+            - namespace: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_namespace}
+              resourceGroup: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_record_input_resource_group}
+            type: ${var.unified_agent_configuration_service_configuration_destination_operational_metrics_configuration_source_type}
       sources:
-      - channels: ${var.unified_agent_configuration_service_configuration_sources_channels}
+      - advancedOptions:
+        - isReadFromHead: ${var.unified_agent_configuration_service_configuration_sources_advanced_options_is_read_from_head}
+        channels: ${var.unified_agent_configuration_service_configuration_sources_channels}
+        customPlugin: ${var.unified_agent_configuration_service_configuration_sources_custom_plugin}
         name: ${var.unified_agent_configuration_service_configuration_sources_name}
         parser:
         - delimiter: ${var.unified_agent_configuration_service_configuration_sources_parser_delimiter}
@@ -39,6 +119,7 @@ spec:
           grokNameKey: ${var.unified_agent_configuration_service_configuration_sources_parser_grok_name_key}
           isEstimateCurrentEvent: ${var.unified_agent_configuration_service_configuration_sources_parser_is_estimate_current_event}
           isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_is_keep_time_key}
+          isMergeCriFields: ${var.unified_agent_configuration_service_configuration_sources_parser_is_merge_cri_fields}
           isNullEmptyString: ${var.unified_agent_configuration_service_configuration_sources_parser_is_null_empty_string}
           isSupportColonlessIdent: ${var.unified_agent_configuration_service_configuration_sources_parser_is_support_colonless_ident}
           isWithPriority: ${var.unified_agent_configuration_service_configuration_sources_parser_is_with_priority}
@@ -46,7 +127,14 @@ spec:
           messageFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_message_format}
           messageKey: ${var.unified_agent_configuration_service_configuration_sources_parser_message_key}
           multiLineStartRegexp: ${var.unified_agent_configuration_service_configuration_sources_parser_multi_line_start_regexp}
+          nestedParser:
+          - fieldTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_field_time_key}
+            isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_is_keep_time_key}
+            parseNested: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_parse_nested}
+            separator: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_separator}
+            timeFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_nested_parser_time_format}
           nullValuePattern: ${var.unified_agent_configuration_service_configuration_sources_parser_null_value_pattern}
+          parseNested: ${var.unified_agent_configuration_service_configuration_sources_parser_parse_nested}
           parserType: ${var.unified_agent_configuration_service_configuration_sources_parser_parser_type}
           patterns:
           - fieldTimeFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_patterns_field_time_format}
@@ -54,7 +142,12 @@ spec:
             fieldTimeZone: ${var.unified_agent_configuration_service_configuration_sources_parser_patterns_field_time_zone}
             name: ${var.unified_agent_configuration_service_configuration_sources_parser_patterns_name}
             pattern: ${var.unified_agent_configuration_service_configuration_sources_parser_patterns_pattern}
+          recordInput:
+          - dimensions: ${var.unified_agent_configuration_service_configuration_sources_parser_record_input_dimensions}
+            namespace: ${var.unified_agent_configuration_service_configuration_sources_parser_record_input_namespace}
+            resourceGroup: ${var.unified_agent_configuration_service_configuration_sources_parser_record_input_resource_group}
           rfc5424timeFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_rfc5424time_format}
+          separator: ${var.unified_agent_configuration_service_configuration_sources_parser_separator}
           syslogParserType: ${var.unified_agent_configuration_service_configuration_sources_parser_syslog_parser_type}
           timeFormat: ${var.unified_agent_configuration_service_configuration_sources_parser_time_format}
           timeType: ${var.unified_agent_configuration_service_configuration_sources_parser_time_type}
@@ -62,3 +155,77 @@ spec:
           types: ${var.unified_agent_configuration_service_configuration_sources_parser_types}
         paths: ${var.unified_agent_configuration_service_configuration_sources_paths}
         sourceType: ${var.unified_agent_configuration_service_configuration_sources_source_type}
+      unifiedAgentConfigurationFilter:
+      - allowList:
+        - key: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_allow_list_key}
+          pattern: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_allow_list_pattern}
+        customFilterType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_filter_type}
+        customSections:
+        - name: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_sections_name}
+          params: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_custom_sections_params}
+        denyList:
+        - key: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_deny_list_key}
+          pattern: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_deny_list_pattern}
+        emitInvalidRecordToError: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_emit_invalid_record_to_error}
+        filterType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_filter_type}
+        hashValueField: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_hash_value_field}
+        injectKeyPrefix: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_inject_key_prefix}
+        isAutoTypecastEnabled: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_auto_typecast_enabled}
+        isRenewRecordEnabled: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_renew_record_enabled}
+        isRubyEnabled: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_is_ruby_enabled}
+        keepKeys: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_keep_keys}
+        keyName: ${oci_kms_key.test_key.name}
+        name: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_name}
+        params: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_params}
+        parser:
+        - delimiter: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_delimiter}
+          expression: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_expression}
+          fieldTimeKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_field_time_key}
+          format: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_format}
+          formatFirstline: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_format_firstline}
+          grokFailureKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_grok_failure_key}
+          grokNameKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_grok_name_key}
+          isEstimateCurrentEvent: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_estimate_current_event}
+          isKeepTimeKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_keep_time_key}
+          isMergeCriFields: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_merge_cri_fields}
+          isNullEmptyString: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_null_empty_string}
+          isSupportColonlessIdent: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_support_colonless_ident}
+          isWithPriority: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_is_with_priority}
+          keys: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_keys}
+          messageFormat: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_message_format}
+          messageKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_message_key}
+          multiLineStartRegexp: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_multi_line_start_regexp}
+          nestedParser:
+          - parseNested: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_parse_nested}
+            separator: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_separator}
+            timeFormat: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_time_format}
+            timeType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_nested_parser_time_type}
+          nullValuePattern: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_null_value_pattern}
+          parseNested: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_parse_nested}
+          parserType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_parser_type}
+          patterns:
+          - fieldTimeFormat: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_format}
+            fieldTimeKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_key}
+            fieldTimeZone: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_field_time_zone}
+            name: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_name}
+            pattern: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_patterns_pattern}
+          recordInput:
+          - dimensions: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_dimensions}
+            namespace: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_namespace}
+            resourceGroup: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_record_input_resource_group}
+          rfc5424timeFormat: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_rfc5424time_format}
+          separator: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_separator}
+          syslogParserType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_syslog_parser_type}
+          timeFormat: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_time_format}
+          timeType: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_time_type}
+          timeoutInMilliseconds: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_timeout_in_milliseconds}
+          types: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_parser_types}
+        recordList:
+        - key: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_record_list_key}
+          value: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_record_list_value}
+        removeKeyNameField: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_remove_key_name_field}
+        removeKeys: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_remove_keys}
+        renewTimeKey: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_renew_time_key}
+        replaceInvalidSequence: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_replace_invalid_sequence}
+        reserveData: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_reserve_data}
+        reserveTime: ${var.unified_agent_configuration_service_configuration_unified_agent_configuration_filter_reserve_time}

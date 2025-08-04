@@ -1,0 +1,30 @@
+apiVersion: monitoring.oci.upbound.io/v1alpha1
+kind: Vtap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1alpha1/vtap
+  labels:
+    testing.upbound.io/example-name: test_vtap
+  name: test-vtap
+spec:
+  forProvider:
+    captureFilterId: ${oci_core_capture_filter.test_capture_filter.id}
+    compartmentId: ${var.compartment_id}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.vtap_display_name}
+    encapsulationProtocol: ${var.vtap_encapsulation_protocol}
+    freeformTags:
+      Department: Finance
+    isVtapEnabled: ${var.vtap_is_vtap_enabled}
+    maxPacketSize: ${var.vtap_max_packet_size}
+    sourceId: ${oci_core_source.test_source.id}
+    sourcePrivateEndpointIp: ${var.vtap_source_private_endpoint_ip}
+    sourcePrivateEndpointSubnetId: ${oci_core_subnet.test_subnet.id}
+    sourceType: ${var.vtap_source_type}
+    targetId: ${oci_cloud_guard_target.test_target.id}
+    targetIp: ${var.vtap_target_ip}
+    targetType: ${var.vtap_target_type}
+    trafficMode: ${var.vtap_traffic_mode}
+    vcnId: ${oci_core_vcn.test_vcn.id}
+    vxlanNetworkIdentifier: ${var.vtap_vxlan_network_identifier}

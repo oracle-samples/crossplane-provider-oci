@@ -45,6 +45,7 @@ type InvokeFunctionInitParameters struct {
 	// The Base64 encoded body of the function invocation. Cannot be defined if invoke_function_body or input_body_source_path is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
 	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not execute the function.
 	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
 }
 
@@ -78,6 +79,7 @@ type InvokeFunctionObservation struct {
 	// The Base64 encoded body of the function invocation. Cannot be defined if invoke_function_body or input_body_source_path is defined. Note: The maximum size of the request is limited. This limit is currently 6MB and the endpoint will not accept requests that are bigger than this limit.
 	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not execute the function.
 	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
 }
 
@@ -120,6 +122,7 @@ type InvokeFunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	InvokeFunctionBodyBase64Encoded *string `json:"invokeFunctionBodyBase64Encoded,omitempty" tf:"invoke_function_body_base64_encoded,omitempty"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not execute the function.
 	// +kubebuilder:validation:Optional
 	IsDryRun *bool `json:"isDryRun,omitempty" tf:"is_dry_run,omitempty"`
 }

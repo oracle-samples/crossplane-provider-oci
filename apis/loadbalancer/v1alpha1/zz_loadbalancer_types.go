@@ -24,7 +24,6 @@ type IPAddressDetailsObservation struct {
 	// Whether the IP address is public or private.
 	IsPublic *bool `json:"isPublic,omitempty" tf:"is_public,omitempty"`
 
-	// Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	ReservedIP []ReservedIPObservation `json:"reservedIp,omitempty" tf:"reserved_ip,omitempty"`
 }
 
@@ -59,28 +58,33 @@ type LoadBalancerInitParameters struct {
 	// IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
 	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
 
+	// Applies to IPV6 LB creation only.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has delete protection enabled.
 	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
 
 	// Whether the load balancer has a VCN-local (private) IP address.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
 	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
 
 	// (Updatable) An array of NSG OCIDs associated with this load balancer.
 	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
+	// (Updatable) If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
 	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
 
 	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	ReservedIps []ReservedIpsInitParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
-	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
+	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is Flexible.
@@ -115,7 +119,7 @@ type LoadBalancerObservation struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	// Ocid of the Reserved IP/Public Ip created with VCN.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// An array of IP addresses.
@@ -127,28 +131,33 @@ type LoadBalancerObservation struct {
 	// IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
 	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
 
+	// Applies to IPV6 LB creation only.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has delete protection enabled.
 	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
 
 	// Whether the load balancer has a VCN-local (private) IP address.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
 	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
 
 	// (Updatable) An array of NSG OCIDs associated with this load balancer.
 	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
+	// (Updatable) If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
 	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
 
 	// An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	ReservedIps []ReservedIpsObservation `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
-	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
+	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is Flexible.
@@ -201,9 +210,11 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	IPMode *string `json:"ipMode,omitempty" tf:"ip_mode,omitempty"`
 
+	// Applies to IPV6 LB creation only.
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has delete protection enabled.
 	// +kubebuilder:validation:Optional
 	IsDeleteProtectionEnabled *bool `json:"isDeleteProtectionEnabled,omitempty" tf:"is_delete_protection_enabled,omitempty"`
 
@@ -211,6 +222,7 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
 	// +kubebuilder:validation:Optional
 	IsRequestIDEnabled *bool `json:"isRequestIdEnabled,omitempty" tf:"is_request_id_enabled,omitempty"`
 
@@ -219,6 +231,7 @@ type LoadBalancerParameters struct {
 	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
+	// (Updatable) If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
 	// +kubebuilder:validation:Optional
 	RequestIDHeader *string `json:"requestIdHeader,omitempty" tf:"request_id_header,omitempty"`
 
@@ -226,11 +239,12 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservedIps []ReservedIpsParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
-	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
+	// (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the ListShapes operation.  Example: flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be Flexible *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also 10Mbps-Micro shape cannot be updated to any other shape nor can any other shape be updated to 10Mbps-Micro.
 	// +kubebuilder:validation:Optional
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
@@ -257,7 +271,7 @@ type ReservedIPInitParameters struct {
 
 type ReservedIPObservation struct {
 
-	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	// Ocid of the Reserved IP/Public Ip created with VCN.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -266,19 +280,19 @@ type ReservedIPParameters struct {
 
 type ReservedIpsInitParameters struct {
 
-	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	// Ocid of the Reserved IP/Public Ip created with VCN.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type ReservedIpsObservation struct {
 
-	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	// Ocid of the Reserved IP/Public Ip created with VCN.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type ReservedIpsParameters struct {
 
-	// Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP.
+	// Ocid of the Reserved IP/Public Ip created with VCN.
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }

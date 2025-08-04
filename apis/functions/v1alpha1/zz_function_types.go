@@ -105,6 +105,7 @@ type FunctionObservation struct {
 	// (Updatable) Define the strategy for provisioned concurrency for the function.
 	ProvisionedConcurrencyConfig []ProvisionedConcurrencyConfigObservation `json:"provisionedConcurrencyConfig,omitempty" tf:"provisioned_concurrency_config,omitempty"`
 
+	// The processor shape (GENERIC_X86/GENERIC_ARM) on which to run functions in the application, extracted from the image manifest.
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// The source details for the Function. The function can be created from various sources.
@@ -210,7 +211,7 @@ type FunctionTraceConfigParameters struct {
 
 type ProvisionedConcurrencyConfigInitParameters struct {
 
-	// (Updatable)
+	// (Updatable) Configuration specifying a constant amount of provisioned concurrency.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// (Updatable) The strategy for provisioned concurrency to be used.
@@ -219,7 +220,7 @@ type ProvisionedConcurrencyConfigInitParameters struct {
 
 type ProvisionedConcurrencyConfigObservation struct {
 
-	// (Updatable)
+	// (Updatable) Configuration specifying a constant amount of provisioned concurrency.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
 	// (Updatable) The strategy for provisioned concurrency to be used.
@@ -228,7 +229,7 @@ type ProvisionedConcurrencyConfigObservation struct {
 
 type ProvisionedConcurrencyConfigParameters struct {
 
-	// (Updatable)
+	// (Updatable) Configuration specifying a constant amount of provisioned concurrency.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
