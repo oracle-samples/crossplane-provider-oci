@@ -74,8 +74,8 @@ spec:
               forProvider:
                 properties:
                   compartmentId:
-                    description: (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-                      of the compartment to contain the service gateway.
+                    description: (Updatable) The OCID of the compartment to contain
+                      the service gateway.
                     type: string
                   compartmentIdRef:
                     description: Reference to a Compartment in identity to populate
@@ -284,8 +284,8 @@ spec:
                   autoscaler.
                 properties:
                   compartmentId:
-                    description: (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-                      of the compartment to contain the service gateway.
+                    description: (Updatable) The OCID of the compartment to contain
+                      the service gateway.
                     type: string
                   compartmentIdRef:
                     description: Reference to a Compartment in identity to populate
@@ -664,8 +664,8 @@ spec:
                       true'
                     type: boolean
                   compartmentId:
-                    description: (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
-                      of the compartment to contain the service gateway.
+                    description: (Updatable) The OCID of the compartment to contain
+                      the service gateway.
                     type: string
                   definedTags:
                     additionalProperties:

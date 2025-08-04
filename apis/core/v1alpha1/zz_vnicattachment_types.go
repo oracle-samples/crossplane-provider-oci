@@ -14,9 +14,11 @@ import (
 )
 
 type VnicAttachmentCreateVnicDetailsInitParameters struct {
+
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
 	// Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where prohibitPublicIpOnVnic = true in the Subnet), then no public IP address is assigned. If not set and the subnet is public (prohibitPublicIpOnVnic = false), then a public IP address is assigned. If set to true and prohibitPublicIpOnVnic = true, an error is returned.
@@ -36,6 +38,7 @@ type VnicAttachmentCreateVnicDetailsInitParameters struct {
 	// (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
@@ -48,6 +51,7 @@ type VnicAttachmentCreateVnicDetailsInitParameters struct {
 	// The OCID of the VNIC attachment.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -83,9 +87,11 @@ type VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParamete
 }
 
 type VnicAttachmentCreateVnicDetailsObservation struct {
+
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
 	// Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where prohibitPublicIpOnVnic = true in the Subnet), then no public IP address is assigned. If not set and the subnet is public (prohibitPublicIpOnVnic = false), then a public IP address is assigned. If set to true and prohibitPublicIpOnVnic = true, an error is returned.
@@ -105,6 +111,7 @@ type VnicAttachmentCreateVnicDetailsObservation struct {
 	// (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
@@ -117,6 +124,7 @@ type VnicAttachmentCreateVnicDetailsObservation struct {
 	// The OCID of the VNIC attachment.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -132,10 +140,11 @@ type VnicAttachmentCreateVnicDetailsObservation struct {
 
 type VnicAttachmentCreateVnicDetailsParameters struct {
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	// +kubebuilder:validation:Optional
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
 	// +kubebuilder:validation:Optional
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
@@ -161,6 +170,7 @@ type VnicAttachmentCreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	// +kubebuilder:validation:Optional
 	Ipv6AddressIpv6SubnetCidrPairDetails []VnicAttachmentCreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
@@ -177,6 +187,7 @@ type VnicAttachmentCreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`

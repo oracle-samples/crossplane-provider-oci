@@ -64,7 +64,7 @@ type AgentConfigParameters struct {
 
 type AvailabilityConfigInitParameters struct {
 
-	// (Updatable) Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances.
+	// (Updatable) Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events.
 	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
 
 	// (Updatable) The lifecycle state for an instance when it is recovered after infrastructure maintenance.
@@ -73,7 +73,7 @@ type AvailabilityConfigInitParameters struct {
 
 type AvailabilityConfigObservation struct {
 
-	// (Updatable) Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances.
+	// (Updatable) Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events.
 	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
 
 	// (Updatable) The lifecycle state for an instance when it is recovered after infrastructure maintenance.
@@ -82,7 +82,7 @@ type AvailabilityConfigObservation struct {
 
 type AvailabilityConfigParameters struct {
 
-	// (Updatable) Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances.
+	// (Updatable) Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events.
 	// +kubebuilder:validation:Optional
 	IsLiveMigrationPreferred *bool `json:"isLiveMigrationPreferred,omitempty" tf:"is_live_migration_preferred,omitempty"`
 
@@ -92,9 +92,12 @@ type AvailabilityConfigParameters struct {
 }
 
 type CreateVnicDetailsInitParameters struct {
+
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
+	// If you specify a hostnameLabel, the assignPrivateDnsRecord is require to be set to true.
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
 	// (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where prohibitPublicIpOnVnic = true in the Subnet), then no public IP address is assigned. If not set and the subnet is public (prohibitPublicIpOnVnic = false), then a public IP address is assigned. If set to true and prohibitPublicIpOnVnic = true, an error is returned.
@@ -114,6 +117,7 @@ type CreateVnicDetailsInitParameters struct {
 	// (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
@@ -132,6 +136,7 @@ type CreateVnicDetailsInitParameters struct {
 	// A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's primary private IP address. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -185,9 +190,12 @@ type CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
 }
 
 type CreateVnicDetailsObservation struct {
+
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
+	// If you specify a hostnameLabel, the assignPrivateDnsRecord is require to be set to true.
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
 	// (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where prohibitPublicIpOnVnic = true in the Subnet), then no public IP address is assigned. If not set and the subnet is public (prohibitPublicIpOnVnic = false), then a public IP address is assigned. If set to true and prohibitPublicIpOnVnic = true, an error is returned.
@@ -207,6 +215,7 @@ type CreateVnicDetailsObservation struct {
 	// (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, bminstance1 in FQDN bminstance1.subnet123.vcn1.oraclevcn.com). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
@@ -216,6 +225,7 @@ type CreateVnicDetailsObservation struct {
 	// A private IP address of your choice to assign to the VNIC. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This is the VNIC's primary private IP address. The value appears in the Vnic object and also the PrivateIp object returned by ListPrivateIps and GetPrivateIp.
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -231,10 +241,12 @@ type CreateVnicDetailsObservation struct {
 
 type CreateVnicDetailsParameters struct {
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	// +kubebuilder:validation:Optional
 	AssignIpv6Ip *bool `json:"assignIpv6Ip,omitempty" tf:"assign_ipv6ip,omitempty"`
 
-	// Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: true
+	// Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
+	// If you specify a hostnameLabel, the assignPrivateDnsRecord is require to be set to true.
 	// +kubebuilder:validation:Optional
 	AssignPrivateDNSRecord *bool `json:"assignPrivateDnsRecord,omitempty" tf:"assign_private_dns_record,omitempty"`
 
@@ -260,6 +272,7 @@ type CreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	HostnameLabel *string `json:"hostnameLabel,omitempty" tf:"hostname_label,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	// +kubebuilder:validation:Optional
 	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
@@ -281,6 +294,7 @@ type CreateVnicDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
@@ -324,7 +338,7 @@ type InstanceInitParameters struct {
 	// The default value is false.
 	Async *bool `json:"async,omitempty" tf:"async,omitempty"`
 
-	// (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.  This also includes live migration preference for infrastructure maintenance.
+	// (Updatable) Options for VM migration during infrastructure maintenance events and for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig []AvailabilityConfigInitParameters `json:"availabilityConfig,omitempty" tf:"availability_config,omitempty"`
 
 	// The availability domain of the instance.  Example: Uocm:PHX-AD-1
@@ -333,7 +347,7 @@ type InstanceInitParameters struct {
 	// (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see Capacity Reservations.
 	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the cluster placement group of the instance.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment.
@@ -354,7 +368,7 @@ type InstanceInitParameters struct {
 	// (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see Virtual Network Interface Cards (VNICs).
 	CreateVnicDetails []CreateVnicDetailsInitParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
-	// The OCID of the dedicated virtual machine host to place the instance on.
+	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
 	// +crossplane:generate:reference:type=DedicatedVMHost
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
 
@@ -390,7 +404,7 @@ type InstanceInitParameters struct {
 	// Deprecated. Use sourceDetails with InstanceSourceViaImageDetails source type instead. If you specify values for both, the values must match.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationID *string `json:"instanceConfigurationId,omitempty" tf:"instance_configuration_id,omitempty"`
 
 	// (Updatable) Optional mutable instance options
@@ -405,17 +419,20 @@ type InstanceInitParameters struct {
 	// (Updatable) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions []InstanceLaunchOptionsInitParameters `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
 
+	// Volume attachments to create as part of the launch instance operation.
 	LaunchVolumeAttachments []LaunchVolumeAttachmentsInitParameters `json:"launchVolumeAttachments,omitempty" tf:"launch_volume_attachments,omitempty"`
 
+	// (Updatable) List of licensing configurations associated with target launch values.
 	LicensingConfigs []LicensingConfigsInitParameters `json:"licensingConfigs,omitempty" tf:"licensing_configs,omitempty"`
 
 	// fields in that these can be nested JSON objects (whereas metadata fields are string/string maps only).
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	PlacementConstraintDetails []InstancePlacementConstraintDetailsInitParameters `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 
-	// The platform configuration requested for the instance.
+	// (Updatable) The platform configuration requested for the instance.
 	PlatformConfig []PlatformConfigInitParameters `json:"platformConfig,omitempty" tf:"platform_config,omitempty"`
 
 	// Configuration options for preemptible instances.
@@ -426,6 +443,7 @@ type InstanceInitParameters struct {
 
 	PreserveDataVolumesCreatedAtLaunch *bool `json:"preserveDataVolumesCreatedAtLaunch,omitempty" tf:"preserve_data_volumes_created_at_launch,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -524,7 +542,7 @@ type InstanceObservation struct {
 	// The default value is false.
 	Async *bool `json:"async,omitempty" tf:"async,omitempty"`
 
-	// (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.  This also includes live migration preference for infrastructure maintenance.
+	// (Updatable) Options for VM migration during infrastructure maintenance events and for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	AvailabilityConfig []AvailabilityConfigObservation `json:"availabilityConfig,omitempty" tf:"availability_config,omitempty"`
 
 	// The availability domain of the instance.  Example: Uocm:PHX-AD-1
@@ -536,7 +554,7 @@ type InstanceObservation struct {
 	// (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see Capacity Reservations.
 	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the cluster placement group of the instance.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment.
@@ -548,7 +566,7 @@ type InstanceObservation struct {
 	// (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see Virtual Network Interface Cards (VNICs).
 	CreateVnicDetails []CreateVnicDetailsObservation `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
-	// The OCID of the dedicated virtual machine host to place the instance on.
+	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -578,7 +596,7 @@ type InstanceObservation struct {
 	// Deprecated. Use sourceDetails with InstanceSourceViaImageDetails source type instead. If you specify values for both, the values must match.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationID *string `json:"instanceConfigurationId,omitempty" tf:"instance_configuration_id,omitempty"`
 
 	// (Updatable) Optional mutable instance options
@@ -599,17 +617,20 @@ type InstanceObservation struct {
 	// (Updatable) Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values.
 	LaunchOptions []InstanceLaunchOptionsObservation `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
 
+	// Volume attachments to create as part of the launch instance operation.
 	LaunchVolumeAttachments []LaunchVolumeAttachmentsObservation `json:"launchVolumeAttachments,omitempty" tf:"launch_volume_attachments,omitempty"`
 
+	// (Updatable) List of licensing configurations associated with target launch values.
 	LicensingConfigs []LicensingConfigsObservation `json:"licensingConfigs,omitempty" tf:"licensing_configs,omitempty"`
 
 	// fields in that these can be nested JSON objects (whereas metadata fields are string/string maps only).
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	PlacementConstraintDetails []InstancePlacementConstraintDetailsObservation `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 
-	// The platform configuration requested for the instance.
+	// (Updatable) The platform configuration requested for the instance.
 	PlatformConfig []PlatformConfigObservation `json:"platformConfig,omitempty" tf:"platform_config,omitempty"`
 
 	// Configuration options for preemptible instances.
@@ -629,10 +650,11 @@ type InstanceObservation struct {
 	// The region that contains the availability domain the instance is running in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
-	// (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
+	// The lifecycle state of the securityAttributes
 	SecurityAttributesState *string `json:"securityAttributesState,omitempty" tf:"security_attributes_state,omitempty"`
 
 	// that you specify. If you don't provide the parameter, the default values for the shape are used.
@@ -692,7 +714,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Async *bool `json:"async,omitempty" tf:"async,omitempty"`
 
-	// (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.  This also includes live migration preference for infrastructure maintenance.
+	// (Updatable) Options for VM migration during infrastructure maintenance events and for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.
 	// +kubebuilder:validation:Optional
 	AvailabilityConfig []AvailabilityConfigParameters `json:"availabilityConfig,omitempty" tf:"availability_config,omitempty"`
 
@@ -704,7 +726,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	CapacityReservationID *string `json:"capacityReservationId,omitempty" tf:"capacity_reservation_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the cluster placement group of the instance.
 	// +kubebuilder:validation:Optional
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
@@ -729,7 +751,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	CreateVnicDetails []CreateVnicDetailsParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
-	// The OCID of the dedicated virtual machine host to place the instance on.
+	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
 	// +crossplane:generate:reference:type=DedicatedVMHost
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
@@ -773,7 +795,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	// +kubebuilder:validation:Optional
 	InstanceConfigurationID *string `json:"instanceConfigurationId,omitempty" tf:"instance_configuration_id,omitempty"`
 
@@ -793,9 +815,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	LaunchOptions []InstanceLaunchOptionsParameters `json:"launchOptions,omitempty" tf:"launch_options,omitempty"`
 
+	// Volume attachments to create as part of the launch instance operation.
 	// +kubebuilder:validation:Optional
 	LaunchVolumeAttachments []LaunchVolumeAttachmentsParameters `json:"launchVolumeAttachments,omitempty" tf:"launch_volume_attachments,omitempty"`
 
+	// (Updatable) List of licensing configurations associated with target launch values.
 	// +kubebuilder:validation:Optional
 	LicensingConfigs []LicensingConfigsParameters `json:"licensingConfigs,omitempty" tf:"licensing_configs,omitempty"`
 
@@ -804,10 +828,11 @@ type InstanceParameters struct {
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	// +kubebuilder:validation:Optional
 	PlacementConstraintDetails []InstancePlacementConstraintDetailsParameters `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 
-	// The platform configuration requested for the instance.
+	// (Updatable) The platform configuration requested for the instance.
 	// +kubebuilder:validation:Optional
 	PlatformConfig []PlatformConfigParameters `json:"platformConfig,omitempty" tf:"platform_config,omitempty"`
 
@@ -822,6 +847,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	PreserveDataVolumesCreatedAtLaunch *bool `json:"preserveDataVolumesCreatedAtLaunch,omitempty" tf:"preserve_data_volumes_created_at_launch,omitempty"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
@@ -852,39 +878,39 @@ type InstanceParameters struct {
 
 type InstancePlacementConstraintDetailsInitParameters struct {
 
-	// The OCID of the instance.
+	// The OCID of the compute bare metal host.
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the compute host group attached to the host where the bare metal instance will be launched.
 	ComputeHostGroupID *string `json:"computeHostGroupId,omitempty" tf:"compute_host_group_id,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InstancePlacementConstraintDetailsObservation struct {
 
-	// The OCID of the instance.
+	// The OCID of the compute bare metal host.
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the compute host group attached to the host where the bare metal instance will be launched.
 	ComputeHostGroupID *string `json:"computeHostGroupId,omitempty" tf:"compute_host_group_id,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InstancePlacementConstraintDetailsParameters struct {
 
-	// The OCID of the instance.
+	// The OCID of the compute bare metal host.
 	// +kubebuilder:validation:Optional
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the compute host group attached to the host where the bare metal instance will be launched.
 	// +kubebuilder:validation:Optional
 	ComputeHostGroupID *string `json:"computeHostGroupId,omitempty" tf:"compute_host_group_id,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -897,14 +923,16 @@ type InstanceSourceDetailsInitParameters struct {
 	// (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
 
+	// (Applicable when source_type=image) These are the criteria for selecting an image. This is required if imageId is not specified.
 	InstanceSourceImageFilterDetails []InstanceSourceImageFilterDetailsInitParameters `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
 
+	// (Updatable) Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	IsPreserveBootVolumeEnabled *bool `json:"isPreserveBootVolumeEnabled,omitempty" tf:"is_preserve_boot_volume_enabled,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
-	// The OCID of an image or a boot volume to use, depending on the value of source_type.
+	// (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
 	// +crossplane:generate:reference:type=Image
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
@@ -916,7 +944,7 @@ type InstanceSourceDetailsInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 
-	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
+	// (Updatable) The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
 	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
@@ -928,17 +956,19 @@ type InstanceSourceDetailsObservation struct {
 	// (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
 
+	// (Applicable when source_type=image) These are the criteria for selecting an image. This is required if imageId is not specified.
 	InstanceSourceImageFilterDetails []InstanceSourceImageFilterDetailsObservation `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
 
+	// (Updatable) Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	IsPreserveBootVolumeEnabled *bool `json:"isPreserveBootVolumeEnabled,omitempty" tf:"is_preserve_boot_volume_enabled,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
-	// The OCID of an image or a boot volume to use, depending on the value of source_type.
+	// (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
-	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
+	// (Updatable) The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
 	SourceType *string `json:"sourceType,omitempty" tf:"source_type,omitempty"`
 }
 
@@ -952,17 +982,19 @@ type InstanceSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	BootVolumeVpusPerGb *string `json:"bootVolumeVpusPerGb,omitempty" tf:"boot_volume_vpus_per_gb,omitempty"`
 
+	// (Applicable when source_type=image) These are the criteria for selecting an image. This is required if imageId is not specified.
 	// +kubebuilder:validation:Optional
 	InstanceSourceImageFilterDetails []InstanceSourceImageFilterDetailsParameters `json:"instanceSourceImageFilterDetails,omitempty" tf:"instance_source_image_filter_details,omitempty"`
 
+	// (Updatable) Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 	// +kubebuilder:validation:Optional
 	IsPreserveBootVolumeEnabled *bool `json:"isPreserveBootVolumeEnabled,omitempty" tf:"is_preserve_boot_volume_enabled,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
-	// The OCID of an image or a boot volume to use, depending on the value of source_type.
+	// (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
 	// +crossplane:generate:reference:type=Image
 	// +kubebuilder:validation:Optional
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
@@ -975,7 +1007,7 @@ type InstanceSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 
-	// The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
+	// (Updatable) The source type for the instance. Use image when specifying the image OCID. Use bootVolume when specifying the boot volume OCID.
 	// +kubebuilder:validation:Optional
 	SourceType *string `json:"sourceType" tf:"source_type,omitempty"`
 }
@@ -985,11 +1017,14 @@ type InstanceSourceImageFilterDetailsInitParameters struct {
 	// (Updatable) The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Applicable when source_type=image) Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +mapType=granular
 	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system.  Example: Oracle Linux
 	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system version.  Example: 7.2
 	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
 }
 
@@ -998,11 +1033,14 @@ type InstanceSourceImageFilterDetailsObservation struct {
 	// (Updatable) The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
+	// (Applicable when source_type=image) Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +mapType=granular
 	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system.  Example: Oracle Linux
 	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system version.  Example: 7.2
 	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
 }
 
@@ -1012,13 +1050,16 @@ type InstanceSourceImageFilterDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId" tf:"compartment_id,omitempty"`
 
+	// (Applicable when source_type=image) Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	DefinedTagsFilter map[string]*string `json:"definedTagsFilter,omitempty" tf:"defined_tags_filter,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system.  Example: Oracle Linux
 	// +kubebuilder:validation:Optional
 	OperatingSystem *string `json:"operatingSystem,omitempty" tf:"operating_system,omitempty"`
 
+	// (Applicable when source_type=image) The image's operating system version.  Example: 7.2
 	// +kubebuilder:validation:Optional
 	OperatingSystemVersion *string `json:"operatingSystemVersion,omitempty" tf:"operating_system_version,omitempty"`
 }
@@ -1031,14 +1072,16 @@ type LaunchCreateVolumeDetailsInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
+	// The size of the volume in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
-	// The type of platform being configured.
+	// Specifies the method for volume creation.
 	VolumeCreationType *string `json:"volumeCreationType,omitempty" tf:"volume_creation_type,omitempty"`
 
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 }
 
@@ -1050,14 +1093,16 @@ type LaunchCreateVolumeDetailsObservation struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
+	// The size of the volume in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
-	// The type of platform being configured.
+	// Specifies the method for volume creation.
 	VolumeCreationType *string `json:"volumeCreationType,omitempty" tf:"volume_creation_type,omitempty"`
 
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 }
 
@@ -1071,81 +1116,98 @@ type LaunchCreateVolumeDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the volume.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
+	// The size of the volume in GBs.
 	// +kubebuilder:validation:Optional
 	SizeInGbs *string `json:"sizeInGbs" tf:"size_in_gbs,omitempty"`
 
-	// The type of platform being configured.
+	// Specifies the method for volume creation.
 	// +kubebuilder:validation:Optional
 	VolumeCreationType *string `json:"volumeCreationType" tf:"volume_creation_type,omitempty"`
 
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 }
 
 type LaunchVolumeAttachmentsInitParameters struct {
+
+	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	Device *string `json:"device,omitempty" tf:"device,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// The type of platform being configured.
+	// (Applicable when type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 	EncryptionInTransitType *string `json:"encryptionInTransitType,omitempty" tf:"encryption_in_transit_type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
 	IsAgentAutoISCSILoginEnabled *bool `json:"isAgentAutoIscsiLoginEnabled,omitempty" tf:"is_agent_auto_iscsi_login_enabled,omitempty"`
 
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Use this field only during create. To update use is_pv_encryption_in_transit_enabled under launch_options instead.
 	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
 
+	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `json:"isReadOnly,omitempty" tf:"is_read_only,omitempty"`
 
+	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `json:"isShareable,omitempty" tf:"is_shareable,omitempty"`
 
+	// Define a volume that will be created and attached or attached to an instance on creation.
 	LaunchCreateVolumeDetails []LaunchCreateVolumeDetailsInitParameters `json:"launchCreateVolumeDetails,omitempty" tf:"launch_create_volume_details,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 }
 
 type LaunchVolumeAttachmentsObservation struct {
+
+	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	Device *string `json:"device,omitempty" tf:"device,omitempty"`
 
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// The type of platform being configured.
+	// (Applicable when type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 	EncryptionInTransitType *string `json:"encryptionInTransitType,omitempty" tf:"encryption_in_transit_type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
 	IsAgentAutoISCSILoginEnabled *bool `json:"isAgentAutoIscsiLoginEnabled,omitempty" tf:"is_agent_auto_iscsi_login_enabled,omitempty"`
 
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false. Use this field only during create. To update use is_pv_encryption_in_transit_enabled under launch_options instead.
 	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
 
+	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `json:"isReadOnly,omitempty" tf:"is_read_only,omitempty"`
 
+	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `json:"isShareable,omitempty" tf:"is_shareable,omitempty"`
 
+	// Define a volume that will be created and attached or attached to an instance on creation.
 	LaunchCreateVolumeDetails []LaunchCreateVolumeDetailsObservation `json:"launchCreateVolumeDetails,omitempty" tf:"launch_create_volume_details,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 }
 
 type LaunchVolumeAttachmentsParameters struct {
 
+	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	// +kubebuilder:validation:Optional
 	Device *string `json:"device,omitempty" tf:"device,omitempty"`
 
@@ -1153,10 +1215,11 @@ type LaunchVolumeAttachmentsParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// The type of platform being configured.
+	// (Applicable when type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE.
 	// +kubebuilder:validation:Optional
 	EncryptionInTransitType *string `json:"encryptionInTransitType,omitempty" tf:"encryption_in_transit_type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments.
 	// +kubebuilder:validation:Optional
 	IsAgentAutoISCSILoginEnabled *bool `json:"isAgentAutoIscsiLoginEnabled,omitempty" tf:"is_agent_auto_iscsi_login_enabled,omitempty"`
 
@@ -1164,70 +1227,76 @@ type LaunchVolumeAttachmentsParameters struct {
 	// +kubebuilder:validation:Optional
 	IsPvEncryptionInTransitEnabled *bool `json:"isPvEncryptionInTransitEnabled,omitempty" tf:"is_pv_encryption_in_transit_enabled,omitempty"`
 
+	// Whether the attachment was created in read-only mode.
 	// +kubebuilder:validation:Optional
 	IsReadOnly *bool `json:"isReadOnly,omitempty" tf:"is_read_only,omitempty"`
 
+	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 	// +kubebuilder:validation:Optional
 	IsShareable *bool `json:"isShareable,omitempty" tf:"is_shareable,omitempty"`
 
+	// Define a volume that will be created and attached or attached to an instance on creation.
 	// +kubebuilder:validation:Optional
 	LaunchCreateVolumeDetails []LaunchCreateVolumeDetailsParameters `json:"launchCreateVolumeDetails,omitempty" tf:"launch_create_volume_details,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 
+	// (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	// +kubebuilder:validation:Optional
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 
-	// The OCID of the instance.
+	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
 	// +kubebuilder:validation:Optional
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 }
 
 type LicensingConfigsInitParameters struct {
 
-	// The type of platform being configured.
+	// (Updatable) License Type for the OS license.
 	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LicensingConfigsObservation struct {
 
-	// The type of platform being configured.
+	// (Updatable) License Type for the OS license.
 	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
 
+	// The Operating System version of the license config.
 	OsVersion *string `json:"osVersion,omitempty" tf:"os_version,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LicensingConfigsParameters struct {
 
-	// The type of platform being configured.
+	// (Updatable) License Type for the OS license.
 	// +kubebuilder:validation:Optional
 	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type PlatformConfigInitParameters struct {
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
 	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
 
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input.
 	// +mapType=granular
 	ConfigMap map[string]*string `json:"configMap,omitempty" tf:"config_map,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	IsAccessControlServiceEnabled *bool `json:"isAccessControlServiceEnabled,omitempty" tf:"is_access_control_service_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled.
 	IsInputOutputMemoryManagementUnitEnabled *bool `json:"isInputOutputMemoryManagementUnitEnabled,omitempty" tf:"is_input_output_memory_management_unit_enabled,omitempty"`
 
 	// Whether the Measured Boot feature is enabled on the instance.
@@ -1239,34 +1308,35 @@ type PlatformConfigInitParameters struct {
 	// Whether Secure Boot is enabled on the instance.
 	IsSecureBootEnabled *bool `json:"isSecureBootEnabled,omitempty" tf:"is_secure_boot_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | AMD_VM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM | INTEL_VM) (Updatable only for INTEL_VM and AMD_VM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 	IsSymmetricMultiThreadingEnabled *bool `json:"isSymmetricMultiThreadingEnabled,omitempty" tf:"is_symmetric_multi_threading_enabled,omitempty"`
 
 	// Whether the Trusted Platform Module (TPM) is enabled on the instance.
 	IsTrustedPlatformModuleEnabled *bool `json:"isTrustedPlatformModuleEnabled,omitempty" tf:"is_trusted_platform_module_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS).
 	NumaNodesPerSocket *string `json:"numaNodesPerSocket,omitempty" tf:"numa_nodes_per_socket,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
 	PercentageOfCoresEnabled *float64 `json:"percentageOfCoresEnabled,omitempty" tf:"percentage_of_cores_enabled,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PlatformConfigObservation struct {
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
 	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
 
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input.
 	// +mapType=granular
 	ConfigMap map[string]*string `json:"configMap,omitempty" tf:"config_map,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	IsAccessControlServiceEnabled *bool `json:"isAccessControlServiceEnabled,omitempty" tf:"is_access_control_service_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled.
 	IsInputOutputMemoryManagementUnitEnabled *bool `json:"isInputOutputMemoryManagementUnitEnabled,omitempty" tf:"is_input_output_memory_management_unit_enabled,omitempty"`
 
 	// Whether the Measured Boot feature is enabled on the instance.
@@ -1278,37 +1348,38 @@ type PlatformConfigObservation struct {
 	// Whether Secure Boot is enabled on the instance.
 	IsSecureBootEnabled *bool `json:"isSecureBootEnabled,omitempty" tf:"is_secure_boot_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | AMD_VM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM | INTEL_VM) (Updatable only for INTEL_VM and AMD_VM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 	IsSymmetricMultiThreadingEnabled *bool `json:"isSymmetricMultiThreadingEnabled,omitempty" tf:"is_symmetric_multi_threading_enabled,omitempty"`
 
 	// Whether the Trusted Platform Module (TPM) is enabled on the instance.
 	IsTrustedPlatformModuleEnabled *bool `json:"isTrustedPlatformModuleEnabled,omitempty" tf:"is_trusted_platform_module_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS).
 	NumaNodesPerSocket *string `json:"numaNodesPerSocket,omitempty" tf:"numa_nodes_per_socket,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
 	PercentageOfCoresEnabled *float64 `json:"percentageOfCoresEnabled,omitempty" tf:"percentage_of_cores_enabled,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PlatformConfigParameters struct {
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes.
 	// +kubebuilder:validation:Optional
 	AreVirtualInstructionsEnabled *bool `json:"areVirtualInstructionsEnabled,omitempty" tf:"are_virtual_instructions_enabled,omitempty"`
 
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ConfigMap map[string]*string `json:"configMap,omitempty" tf:"config_map,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through.
 	// +kubebuilder:validation:Optional
 	IsAccessControlServiceEnabled *bool `json:"isAccessControlServiceEnabled,omitempty" tf:"is_access_control_service_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether the input-output memory management unit is enabled.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled.
 	// +kubebuilder:validation:Optional
 	IsInputOutputMemoryManagementUnitEnabled *bool `json:"isInputOutputMemoryManagementUnitEnabled,omitempty" tf:"is_input_output_memory_management_unit_enabled,omitempty"`
 
@@ -1324,7 +1395,7 @@ type PlatformConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IsSecureBootEnabled *bool `json:"isSecureBootEnabled,omitempty" tf:"is_secure_boot_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | AMD_VM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM | INTEL_VM) (Updatable only for INTEL_VM and AMD_VM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
 	// +kubebuilder:validation:Optional
 	IsSymmetricMultiThreadingEnabled *bool `json:"isSymmetricMultiThreadingEnabled,omitempty" tf:"is_symmetric_multi_threading_enabled,omitempty"`
 
@@ -1332,15 +1403,15 @@ type PlatformConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IsTrustedPlatformModuleEnabled *bool `json:"isTrustedPlatformModuleEnabled,omitempty" tf:"is_trusted_platform_module_enabled,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | INTEL_ICELAKE_BM) The number of NUMA nodes per socket (NPS).
+	// (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS).
 	// +kubebuilder:validation:Optional
 	NumaNodesPerSocket *string `json:"numaNodesPerSocket,omitempty" tf:"numa_nodes_per_socket,omitempty"`
 
-	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | INTEL_ICELAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+	// (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
 	// +kubebuilder:validation:Optional
 	PercentageOfCoresEnabled *float64 `json:"percentageOfCoresEnabled,omitempty" tf:"percentage_of_cores_enabled,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -1398,7 +1469,7 @@ type PreemptionActionInitParameters struct {
 	// Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
 	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -1407,7 +1478,7 @@ type PreemptionActionObservation struct {
 	// Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified.
 	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -1417,7 +1488,7 @@ type PreemptionActionParameters struct {
 	// +kubebuilder:validation:Optional
 	PreserveBootVolume *bool `json:"preserveBootVolume,omitempty" tf:"preserve_boot_volume,omitempty"`
 
-	// The type of platform being configured.
+	// The type of volume attachment. Currently, the only supported values are "iscsi" and "paravirtualized".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -1436,6 +1507,7 @@ type ShapeConfigInitParameters struct {
 	// (Updatable) The total number of OCPUs available to the instance.
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
 
+	// (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
 }
 
@@ -1477,6 +1549,7 @@ type ShapeConfigObservation struct {
 	// A short description of the instance's processor (CPU).
 	ProcessorDescription *string `json:"processorDescription,omitempty" tf:"processor_description,omitempty"`
 
+	// (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
 }
 
@@ -1498,6 +1571,7 @@ type ShapeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Ocpus *float64 `json:"ocpus,omitempty" tf:"ocpus,omitempty"`
 
+	// (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 	// +kubebuilder:validation:Optional
 	Vcpus *float64 `json:"vcpus,omitempty" tf:"vcpus,omitempty"`
 }

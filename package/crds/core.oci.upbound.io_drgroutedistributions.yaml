@@ -89,7 +89,7 @@ spec:
                     type: string
                   distributionType:
                     description: Whether this distribution defines how routes get
-                      imported into route tables or exported through DRG Attachments
+                      imported into route tables or exported through DRG attachments.
                     type: string
                   drgId:
                     description: The OCID of the DRG the DRG route table belongs to.
@@ -206,7 +206,7 @@ spec:
                     type: string
                   distributionType:
                     description: Whether this distribution defines how routes get
-                      imported into route tables or exported through DRG Attachments
+                      imported into route tables or exported through DRG attachments.
                     type: string
                   drgId:
                     description: The OCID of the DRG the DRG route table belongs to.
@@ -492,7 +492,7 @@ spec:
                     type: string
                   distributionType:
                     description: Whether this distribution defines how routes get
-                      imported into route tables or exported through DRG Attachments
+                      imported into route tables or exported through DRG attachments.
                     type: string
                   drgId:
                     description: The OCID of the DRG the DRG route table belongs to.

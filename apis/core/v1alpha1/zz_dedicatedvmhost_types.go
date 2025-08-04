@@ -17,20 +17,23 @@ type CapacityBinsInitParameters struct {
 }
 
 type CapacityBinsObservation struct {
+
+	// Zero-based index for the corresponding capacity bucket.
 	CapacityIndex *float64 `json:"capacityIndex,omitempty" tf:"capacity_index,omitempty"`
 
-	// The current available memory of the dedicated VM host, in GBs.
+	// The remaining memory of the capacity bucket, in GBs.
 	RemainingMemoryInGbs *float64 `json:"remainingMemoryInGbs,omitempty" tf:"remaining_memory_in_gbs,omitempty"`
 
-	// The current available OCPUs of the dedicated VM host.
+	// The available OCPUs of the capacity bucket.
 	RemainingOcpus *float64 `json:"remainingOcpus,omitempty" tf:"remaining_ocpus,omitempty"`
 
+	// List of VMI shapes supported on each capacity bucket.
 	SupportedShapes []*string `json:"supportedShapes,omitempty" tf:"supported_shapes,omitempty"`
 
-	// The current total memory of the dedicated VM host, in GBs.
+	// The total memory of the capacity bucket, in GBs.
 	TotalMemoryInGbs *float64 `json:"totalMemoryInGbs,omitempty" tf:"total_memory_in_gbs,omitempty"`
 
-	// The current total OCPUs of the dedicated VM host.
+	// The total OCPUs of the capacity bucket.
 	TotalOcpus *float64 `json:"totalOcpus,omitempty" tf:"total_ocpus,omitempty"`
 }
 
@@ -62,6 +65,7 @@ type DedicatedVMHostInitParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	PlacementConstraintDetails []PlacementConstraintDetailsInitParameters `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 }
 
@@ -70,12 +74,13 @@ type DedicatedVMHostObservation struct {
 	// The availability domain of the dedicated virtual machine host.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
+	// A list of total and remaining CPU & memory per capacity bucket.
 	CapacityBins []CapacityBinsObservation `json:"capacityBins,omitempty" tf:"capacity_bins,omitempty"`
 
 	// (Updatable) The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// The OCID of the dedicated VM host.
+	// The OCID of the compute bare metal host.
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
 	// The dedicated virtual machine host shape. The shape determines the number of CPUs and other resources available for VM instances launched on the dedicated virtual machine host.
@@ -98,12 +103,13 @@ type DedicatedVMHostObservation struct {
 	// The OCID of the dedicated VM host.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	PlacementConstraintDetails []PlacementConstraintDetailsObservation `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 
-	// The current available memory of the dedicated VM host, in GBs.
+	// The remaining memory of the capacity bucket, in GBs.
 	RemainingMemoryInGbs *float64 `json:"remainingMemoryInGbs,omitempty" tf:"remaining_memory_in_gbs,omitempty"`
 
-	// The current available OCPUs of the dedicated VM host.
+	// The available OCPUs of the capacity bucket.
 	RemainingOcpus *float64 `json:"remainingOcpus,omitempty" tf:"remaining_ocpus,omitempty"`
 
 	// The current state of the dedicated VM host.
@@ -112,10 +118,10 @@ type DedicatedVMHostObservation struct {
 	// The date and time the dedicated VM host was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
-	// The current total memory of the dedicated VM host, in GBs.
+	// The total memory of the capacity bucket, in GBs.
 	TotalMemoryInGbs *float64 `json:"totalMemoryInGbs,omitempty" tf:"total_memory_in_gbs,omitempty"`
 
-	// The current total OCPUs of the dedicated VM host.
+	// The total OCPUs of the capacity bucket.
 	TotalOcpus *float64 `json:"totalOcpus,omitempty" tf:"total_ocpus,omitempty"`
 }
 
@@ -151,32 +157,36 @@ type DedicatedVMHostParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
+	// Generic placement details field which is overloaded with bare metal host id or host group id based on the resource we are targeting to launch.
 	// +kubebuilder:validation:Optional
 	PlacementConstraintDetails []PlacementConstraintDetailsParameters `json:"placementConstraintDetails,omitempty" tf:"placement_constraint_details,omitempty"`
 }
 
 type PlacementConstraintDetailsInitParameters struct {
 
-	// The OCID of the dedicated VM host.
+	// The OCID of the compute bare metal host.
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
+	// Determines the type of targeted launch.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PlacementConstraintDetailsObservation struct {
 
-	// The OCID of the dedicated VM host.
+	// The OCID of the compute bare metal host.
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
+	// Determines the type of targeted launch.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PlacementConstraintDetailsParameters struct {
 
-	// The OCID of the dedicated VM host.
+	// The OCID of the compute bare metal host.
 	// +kubebuilder:validation:Optional
 	ComputeBareMetalHostID *string `json:"computeBareMetalHostId,omitempty" tf:"compute_bare_metal_host_id,omitempty"`
 
+	// Determines the type of targeted launch.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }

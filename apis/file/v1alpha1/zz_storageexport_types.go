@@ -15,9 +15,10 @@ import (
 
 type ExportOptionsInitParameters struct {
 
-	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_ONLY.
+	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_WRITE.
 	Access *string `json:"access,omitempty" tf:"access,omitempty"`
 
+	// (Updatable) Array of allowed NFS authentication types.
 	AllowedAuth []*string `json:"allowedAuth,omitempty" tf:"allowed_auth,omitempty"`
 
 	// (Updatable) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to 65534.
@@ -29,6 +30,7 @@ type ExportOptionsInitParameters struct {
 	// (Updatable) Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If ALL, all users and groups are remapped; if ROOT, only the root user and group (UID/GID 0) are remapped; if NONE, no remapping is done. If unspecified, defaults to ROOT.
 	IdentitySquash *string `json:"identitySquash,omitempty" tf:"identity_squash,omitempty"`
 
+	// (Updatable) Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping. If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID.
 	IsAnonymousAccessAllowed *bool `json:"isAnonymousAccessAllowed,omitempty" tf:"is_anonymous_access_allowed,omitempty"`
 
 	// (Updatable) If true, clients accessing the file system through this export must connect from a privileged source port. If unspecified, defaults to true.
@@ -40,9 +42,10 @@ type ExportOptionsInitParameters struct {
 
 type ExportOptionsObservation struct {
 
-	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_ONLY.
+	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_WRITE.
 	Access *string `json:"access,omitempty" tf:"access,omitempty"`
 
+	// (Updatable) Array of allowed NFS authentication types.
 	AllowedAuth []*string `json:"allowedAuth,omitempty" tf:"allowed_auth,omitempty"`
 
 	// (Updatable) GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to 65534.
@@ -54,6 +57,7 @@ type ExportOptionsObservation struct {
 	// (Updatable) Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If ALL, all users and groups are remapped; if ROOT, only the root user and group (UID/GID 0) are remapped; if NONE, no remapping is done. If unspecified, defaults to ROOT.
 	IdentitySquash *string `json:"identitySquash,omitempty" tf:"identity_squash,omitempty"`
 
+	// (Updatable) Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping. If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID.
 	IsAnonymousAccessAllowed *bool `json:"isAnonymousAccessAllowed,omitempty" tf:"is_anonymous_access_allowed,omitempty"`
 
 	// (Updatable) If true, clients accessing the file system through this export must connect from a privileged source port. If unspecified, defaults to true.
@@ -65,10 +69,11 @@ type ExportOptionsObservation struct {
 
 type ExportOptionsParameters struct {
 
-	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_ONLY.
+	// (Updatable) Type of access to grant clients using the file system through this export. If unspecified defaults to READ_WRITE.
 	// +kubebuilder:validation:Optional
 	Access *string `json:"access,omitempty" tf:"access,omitempty"`
 
+	// (Updatable) Array of allowed NFS authentication types.
 	// +kubebuilder:validation:Optional
 	AllowedAuth []*string `json:"allowedAuth,omitempty" tf:"allowed_auth,omitempty"`
 
@@ -84,6 +89,7 @@ type ExportOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	IdentitySquash *string `json:"identitySquash,omitempty" tf:"identity_squash,omitempty"`
 
+	// (Updatable) Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping. If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID.
 	// +kubebuilder:validation:Optional
 	IsAnonymousAccessAllowed *bool `json:"isAnonymousAccessAllowed,omitempty" tf:"is_anonymous_access_allowed,omitempty"`
 
@@ -97,49 +103,57 @@ type ExportOptionsParameters struct {
 }
 
 type LocksInitParameters struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of this export.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the export was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LocksObservation struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of this export.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the export was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type LocksParameters struct {
 
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	// +kubebuilder:validation:Optional
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of this export.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	// +kubebuilder:validation:Optional
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the export was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	// +kubebuilder:validation:Optional
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type StorageExportInitParameters struct {
 
-	// (Updatable) Export options for the new export. If left unspecified, defaults to:
+	// (Updatable) Export options for the new export. For exports of mount targets with IPv4 address, if client options are left unspecified, client options would default to:
 	ExportOptions []ExportOptionsInitParameters `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
 	// The OCID of this export's export set.
@@ -166,10 +180,12 @@ type StorageExportInitParameters struct {
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 
+	// (Updatable) Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 	IsIdmapGroupsForSysAuth *bool `json:"isIdmapGroupsForSysAuth,omitempty" tf:"is_idmap_groups_for_sys_auth,omitempty"`
 
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []LocksInitParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Path used to access the associated file system.
@@ -178,7 +194,7 @@ type StorageExportInitParameters struct {
 
 type StorageExportObservation struct {
 
-	// (Updatable) Export options for the new export. If left unspecified, defaults to:
+	// (Updatable) Export options for the new export. For exports of mount targets with IPv4 address, if client options are left unspecified, client options would default to:
 	ExportOptions []ExportOptionsObservation `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
 	// The OCID of this export's export set.
@@ -190,10 +206,12 @@ type StorageExportObservation struct {
 	// The OCID of this export.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Updatable) Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 	IsIdmapGroupsForSysAuth *bool `json:"isIdmapGroupsForSysAuth,omitempty" tf:"is_idmap_groups_for_sys_auth,omitempty"`
 
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []LocksObservation `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Path used to access the associated file system.
@@ -202,13 +220,13 @@ type StorageExportObservation struct {
 	// The current state of this export.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The date and time the export was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
 
 type StorageExportParameters struct {
 
-	// (Updatable) Export options for the new export. If left unspecified, defaults to:
+	// (Updatable) Export options for the new export. For exports of mount targets with IPv4 address, if client options are left unspecified, client options would default to:
 	// +kubebuilder:validation:Optional
 	ExportOptions []ExportOptionsParameters `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
@@ -238,12 +256,14 @@ type StorageExportParameters struct {
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 
+	// (Updatable) Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 	// +kubebuilder:validation:Optional
 	IsIdmapGroupsForSysAuth *bool `json:"isIdmapGroupsForSysAuth,omitempty" tf:"is_idmap_groups_for_sys_auth,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	// +kubebuilder:validation:Optional
 	Locks []LocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 

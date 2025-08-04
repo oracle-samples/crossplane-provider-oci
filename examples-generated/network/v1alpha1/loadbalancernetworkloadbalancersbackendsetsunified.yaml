@@ -8,6 +8,7 @@ metadata:
   name: test-network-load-balancers-backend-sets-unified
 spec:
   forProvider:
+    areOperationallyActiveBackendsPreferred: ${var.network_load_balancers_backend_sets_unified_are_operationally_active_backends_preferred}
     backends:
     - ipAddress: ${var.network_load_balancers_backend_sets_unified_backends_ip_address}
       isBackup: ${var.network_load_balancers_backend_sets_unified_backends_is_backup}
@@ -18,7 +19,13 @@ spec:
       targetId: ${oci_cloud_guard_target.test_target.id}
       weight: ${var.network_load_balancers_backend_sets_unified_backends_weight}
     healthChecker:
-    - intervalInMillis: ${var.network_load_balancers_backend_sets_unified_health_checker_interval_in_millis}
+    - dns:
+      - domainName: ${oci_identity_domain.test_domain.name}
+        queryClass: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_query_class}
+        queryType: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_query_type}
+        rcodes: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_rcodes}
+        transportProtocol: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_transport_protocol}
+      intervalInMillis: ${var.network_load_balancers_backend_sets_unified_health_checker_interval_in_millis}
       port: ${var.network_load_balancers_backend_sets_unified_health_checker_port}
       protocol: ${var.network_load_balancers_backend_sets_unified_health_checker_protocol}
       requestData: ${var.network_load_balancers_backend_sets_unified_health_checker_request_data}
@@ -29,6 +36,9 @@ spec:
       timeoutInMillis: ${var.network_load_balancers_backend_sets_unified_health_checker_timeout_in_millis}
       urlPath: ${var.network_load_balancers_backend_sets_unified_health_checker_url_path}
     ipVersion: ${var.network_load_balancers_backend_sets_unified_ip_version}
+    isFailOpen: ${var.network_load_balancers_backend_sets_unified_is_fail_open}
+    isInstantFailoverEnabled: ${var.network_load_balancers_backend_sets_unified_is_instant_failover_enabled}
+    isInstantFailoverTcpResetEnabled: ${var.network_load_balancers_backend_sets_unified_is_instant_failover_tcp_reset_enabled}
     isPreserveSource: ${var.network_load_balancers_backend_sets_unified_is_preserve_source}
     name: ${var.network_load_balancers_backend_sets_unified_name}
     networkLoadBalancerIdSelector:

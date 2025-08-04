@@ -37,6 +37,7 @@ type CaptureFilterInitParameters struct {
 	// Indicates which service will use this capture filter
 	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
 
+	// (Updatable) The set of rules governing what traffic the Flow Log collects when creating a flow log capture filter.
 	FlowLogCaptureFilterRules []FlowLogCaptureFilterRulesInitParameters `json:"flowLogCaptureFilterRules,omitempty" tf:"flow_log_capture_filter_rules,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
@@ -62,6 +63,7 @@ type CaptureFilterObservation struct {
 	// Indicates which service will use this capture filter
 	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
 
+	// (Updatable) The set of rules governing what traffic the Flow Log collects when creating a flow log capture filter.
 	FlowLogCaptureFilterRules []FlowLogCaptureFilterRulesObservation `json:"flowLogCaptureFilterRules,omitempty" tf:"flow_log_capture_filter_rules,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"Department": "Finance"}
@@ -109,6 +111,7 @@ type CaptureFilterParameters struct {
 	// +kubebuilder:validation:Optional
 	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
 
+	// (Updatable) The set of rules governing what traffic the Flow Log collects when creating a flow log capture filter.
 	// +kubebuilder:validation:Optional
 	FlowLogCaptureFilterRules []FlowLogCaptureFilterRulesParameters `json:"flowLogCaptureFilterRules,omitempty" tf:"flow_log_capture_filter_rules,omitempty"`
 
@@ -153,28 +156,31 @@ type DestinationPortRangeParameters struct {
 
 type FlowLogCaptureFilterRulesInitParameters struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
-	// (Updatable) The ICMP type.
+	// (Updatable) Type or types of flow logs to store. ALL includes records for both accepted traffic and rejected traffic.
 	FlowLogType *string `json:"flowLogType,omitempty" tf:"flow_log_type,omitempty"`
 
 	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	IcmpOptions []IcmpOptionsInitParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
+	// (Updatable) Indicates whether a flow log capture filter rule is enabled.
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
+	// (Updatable) A lower number indicates a higher priority, range 0-9. Each rule must have a distinct priority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
+	// (Updatable) Sampling interval as 1 of X, where X is an integer not greater than 100000.
 	SamplingRate *float64 `json:"samplingRate,omitempty" tf:"sampling_rate,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
@@ -186,28 +192,31 @@ type FlowLogCaptureFilterRulesInitParameters struct {
 
 type FlowLogCaptureFilterRulesObservation struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
-	// (Updatable) The ICMP type.
+	// (Updatable) Type or types of flow logs to store. ALL includes records for both accepted traffic and rejected traffic.
 	FlowLogType *string `json:"flowLogType,omitempty" tf:"flow_log_type,omitempty"`
 
 	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	IcmpOptions []IcmpOptionsObservation `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
+	// (Updatable) Indicates whether a flow log capture filter rule is enabled.
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
+	// (Updatable) A lower number indicates a higher priority, range 0-9. Each rule must have a distinct priority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
+	// (Updatable) Sampling interval as 1 of X, where X is an integer not greater than 100000.
 	SamplingRate *float64 `json:"samplingRate,omitempty" tf:"sampling_rate,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
@@ -219,11 +228,11 @@ type FlowLogCaptureFilterRulesObservation struct {
 
 type FlowLogCaptureFilterRulesParameters struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
-	// (Updatable) The ICMP type.
+	// (Updatable) Type or types of flow logs to store. ALL includes records for both accepted traffic and rejected traffic.
 	// +kubebuilder:validation:Optional
 	FlowLogType *string `json:"flowLogType,omitempty" tf:"flow_log_type,omitempty"`
 
@@ -231,24 +240,27 @@ type FlowLogCaptureFilterRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	IcmpOptions []IcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
+	// (Updatable) Indicates whether a flow log capture filter rule is enabled.
 	// +kubebuilder:validation:Optional
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
+	// (Updatable) A lower number indicates a higher priority, range 0-9. Each rule must have a distinct priority.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	// +kubebuilder:validation:Optional
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
+	// (Updatable) Sampling interval as 1 of X, where X is an integer not greater than 100000.
 	// +kubebuilder:validation:Optional
 	SamplingRate *float64 `json:"samplingRate,omitempty" tf:"sampling_rate,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
@@ -524,19 +536,19 @@ type VtapCaptureFilterRulesIcmpOptionsParameters struct {
 
 type VtapCaptureFilterRulesInitParameters struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	IcmpOptions []VtapCaptureFilterRulesIcmpOptionsInitParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
@@ -551,19 +563,19 @@ type VtapCaptureFilterRulesInitParameters struct {
 
 type VtapCaptureFilterRulesObservation struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 	IcmpOptions []VtapCaptureFilterRulesIcmpOptionsObservation `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 
 	// (Updatable) Optional and valid only for TCP. Use to specify particular destination ports for TCP rules. If you specify TCP as the protocol but omit this object, then all destination ports are allowed.
@@ -578,7 +590,7 @@ type VtapCaptureFilterRulesObservation struct {
 
 type VtapCaptureFilterRulesParameters struct {
 
-	// (Updatable) Traffic sent to this CIDR block through the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic to this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	DestinationCidr *string `json:"destinationCidr,omitempty" tf:"destination_cidr,omitempty"`
 
@@ -586,15 +598,15 @@ type VtapCaptureFilterRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	IcmpOptions []VtapCaptureFilterRulesIcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
-	// (Updatable) The transport protocol used in the filter. If do not choose a protocol, all protocols will be used in the filter. Supported options are:
+	// (Updatable) The transport protocol the filter uses.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Updatable) Include or exclude packets meeting this definition from mirrored traffic.
+	// (Updatable) Include or exclude a ruleAction object.
 	// +kubebuilder:validation:Optional
 	RuleAction *string `json:"ruleAction,omitempty" tf:"rule_action,omitempty"`
 
-	// (Updatable) Traffic from this CIDR block to the VTAP source will be mirrored to the VTAP target.
+	// (Updatable) Traffic from this CIDR will be captured in the flow log.
 	// +kubebuilder:validation:Optional
 	SourceCidr *string `json:"sourceCidr,omitempty" tf:"source_cidr,omitempty"`
 

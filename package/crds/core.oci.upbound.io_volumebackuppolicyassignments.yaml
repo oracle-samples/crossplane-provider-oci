@@ -76,7 +76,8 @@ spec:
               forProvider:
                 properties:
                   assetId:
-                    description: The OCID of the volume to assign the policy to.
+                    description: The OCID of the volume or volume group to assign
+                      the policy to.
                     type: string
                   assetIdRef:
                     description: Reference to a Volume to populate assetId.
@@ -231,7 +232,12 @@ spec:
                         type: object
                     type: object
                   xrcKmsKeyId:
-                    description: The OCID of the volume backup policy assignment.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block / boot volume cross region backups,
+                      which will be used in the destination region to encrypt the
+                      backup's encryption keys. For more information about the Vault
+                      service and encryption keys, see Overview of Vault service and
+                      Using Keys.
                     type: string
                 type: object
               initProvider:
@@ -248,7 +254,8 @@ spec:
                   autoscaler.
                 properties:
                   assetId:
-                    description: The OCID of the volume to assign the policy to.
+                    description: The OCID of the volume or volume group to assign
+                      the policy to.
                     type: string
                   assetIdRef:
                     description: Reference to a Volume to populate assetId.
@@ -403,7 +410,12 @@ spec:
                         type: object
                     type: object
                   xrcKmsKeyId:
-                    description: The OCID of the volume backup policy assignment.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block / boot volume cross region backups,
+                      which will be used in the destination region to encrypt the
+                      backup's encryption keys. For more information about the Vault
+                      service and encryption keys, see Overview of Vault service and
+                      Using Keys.
                     type: string
                 type: object
               managementPolicies:
@@ -580,7 +592,8 @@ spec:
               atProvider:
                 properties:
                   assetId:
-                    description: The OCID of the volume to assign the policy to.
+                    description: The OCID of the volume or volume group to assign
+                      the policy to.
                     type: string
                   id:
                     description: The OCID of the volume backup policy assignment.
@@ -594,7 +607,12 @@ spec:
                       to the volume. The format is defined by RFC3339.
                     type: string
                   xrcKmsKeyId:
-                    description: The OCID of the volume backup policy assignment.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block / boot volume cross region backups,
+                      which will be used in the destination region to encrypt the
+                      backup's encryption keys. For more information about the Vault
+                      service and encryption keys, see Overview of Vault service and
+                      Using Keys.
                     type: string
                 type: object
               conditions:

@@ -74,13 +74,18 @@ spec:
               forProvider:
                 properties:
                   alarmSummary:
+                    description: (Updatable) Customizable alarm summary (alarmSummary
+                      alarm message parameter). Optionally include dynamic variables.
+                      The alarm summary appears within the body of the alarm message
+                      and in responses to  ListAlarmStatus  GetAlarmHistory and RetrieveDimensionStates.
                     type: string
                   body:
-                    description: '(Updatable) The human-readable content of the notification
-                      delivered. Oracle recommends providing guidance to operators
-                      for resolving the alarm condition. Consider adding links to
-                      standard runbook practices. Avoid entering confidential information.  Example:
-                      High CPU usage alert. Follow runbook instructions for resolution.'
+                    description: '(Updatable) The human-readable content of the delivered
+                      alarm notification. Optionally include dynamic variables. Oracle
+                      recommends providing guidance to operators for resolving the
+                      alarm condition. Consider adding links to standard runbook practices.
+                      Avoid entering confidential information.  Example: High CPU
+                      usage alert. Follow runbook instructions for resolution.'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -171,13 +176,11 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   destinations:
-                    description: '(Updatable) A list of destinations to which the
-                      notifications for this alarm will be delivered. Each destination
-                      is represented by an OCID related to the supported destination
-                      service. For example, a destination using the Notifications
-                      service is represented by a topic OCID. Supported destination
-                      services: Notifications Service. Limit: One destination per
-                      supported destination service.'
+                    description: '(Updatable) A list of destinations for alarm notifications.
+                      Each destination is represented by the OCID of a related resource,
+                      such as a topic. Supported destination services: Notifications,
+                      Streaming. Limit: One destination per supported destination
+                      service.'
                     items:
                       type: string
                     type: array
@@ -187,6 +190,11 @@ spec:
                       confidential information.
                     type: string
                   evaluationSlackDuration:
+                    description: '(Updatable) Customizable slack period to wait for
+                      metric ingestion before evaluating the alarm. Specify a string
+                      in ISO 8601 format (PT10M for ten minutes or PT1H for one hour).
+                      Minimum: PT3M. Maximum: PT2H. Default: PT3M. For more information
+                      about the slack period, see About the Internal Reset Period.'
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -201,13 +209,13 @@ spec:
                       true'
                     type: boolean
                   isNotificationsPerMetricDimensionEnabled:
-                    description: '(Updatable) When set to true, splits notifications
-                      per metric stream. When set to false, groups notifications across
-                      metric streams. Example: true'
+                    description: '(Updatable) When set to true, splits alarm notifications
+                      per metric stream. When set to false, groups alarm notifications
+                      across metric streams. Example: true'
                     type: boolean
                   messageFormat:
-                    description: '(Updatable) The format to use for notification messages
-                      sent from this alarm. The formats are:'
+                    description: '(Updatable) The format to use for alarm notifications.
+                      The formats are:'
                     type: string
                   metricCompartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -304,19 +312,30 @@ spec:
                       the metric that is evaluated by the alarm.  Example: oci_computeagent'
                     type: string
                   notificationTitle:
+                    description: (Updatable) Customizable notification title (title
+                      alarm message parameter). Optionally include dynamic variables.
+                      The notification title appears as the subject line in a formatted
+                      email message and as the title in a Slack message.
                     type: string
                   notificationVersion:
+                    description: '(Updatable) The version of the alarm notification
+                      to be delivered. Allowed value: 1.X The value must start with
+                      a number (up to four digits), followed by a period and an uppercase
+                      X.'
                     type: string
                   overrides:
+                    description: (Updatable) A set of overrides that control evaluations
+                      of the alarm.
                     items:
                       properties:
                         body:
                           description: '(Updatable) The human-readable content of
-                            the notification delivered. Oracle recommends providing
-                            guidance to operators for resolving the alarm condition.
-                            Consider adding links to standard runbook practices. Avoid
-                            entering confidential information.  Example: High CPU
-                            usage alert. Follow runbook instructions for resolution.'
+                            the delivered alarm notification. Optionally include dynamic
+                            variables. Oracle recommends providing guidance to operators
+                            for resolving the alarm condition. Consider adding links
+                            to standard runbook practices. Avoid entering confidential
+                            information.  Example: High CPU usage alert. Follow runbook
+                            instructions for resolution.'
                           type: string
                         pendingDuration:
                           description: (Updatable) The period of time that the condition
@@ -338,18 +357,22 @@ spec:
                             values for interval depend on the specified time range.
                             More interval values are supported for smaller time ranges.
                             You can optionally specify dimensions and grouping functions.
+                            Also, you can customize the  absence detection period.
                             Supported grouping functions: grouping(), groupBy(). For
-                            details about Monitoring Query Language (MQL), see Monitoring
-                            Query Language (MQL) Reference. For available dimensions,
-                            review the metric definition for the supported service.
-                            See Supported Services.'
+                            information about writing MQL expressions, see Editing
+                            the MQL Expression for a Query. For details about MQL,
+                            see Monitoring Query Language (MQL) Reference. For available
+                            dimensions, review the metric definition for the supported
+                            service. See Supported Services.'
                           type: string
                         ruleName:
+                          description: (Updatable) A user-friendly description for
+                            this alarm override. Must be unique across all ruleName
+                            values for the alarm.
                           type: string
                         severity:
-                          description: '(Updatable) The perceived type of response
-                            required when the alarm is in the "FIRING" state.  Example:
-                            CRITICAL'
+                          description: '(Updatable) The perceived severity of the
+                            alarm with regard to the affected system.  Example: CRITICAL'
                           type: string
                       type: object
                     type: array
@@ -371,14 +394,16 @@ spec:
                       absence). Supported values for interval depend on the specified
                       time range. More interval values are supported for smaller time
                       ranges. You can optionally specify dimensions and grouping functions.
-                      Supported grouping functions: grouping(), groupBy(). For details
-                      about Monitoring Query Language (MQL), see Monitoring Query
-                      Language (MQL) Reference. For available dimensions, review the
-                      metric definition for the supported service. See Supported Services.'
+                      Also, you can customize the  absence detection period. Supported
+                      grouping functions: grouping(), groupBy(). For information about
+                      writing MQL expressions, see Editing the MQL Expression for
+                      a Query. For details about MQL, see Monitoring Query Language
+                      (MQL) Reference. For available dimensions, review the metric
+                      definition for the supported service. See Supported Services.'
                     type: string
                   repeatNotificationDuration:
-                    description: '(Updatable) The frequency at which notifications
-                      are re-submitted, if the alarm keeps firing without interruption.
+                    description: '(Updatable) The frequency for re-submitting alarm
+                      notifications, if the alarm keeps firing without interruption.
                       Format defined by ISO 8601. For example, PT4H indicates four
                       hours. Minimum: PT1M. Maximum: P30D.'
                     type: string
@@ -397,10 +422,13 @@ spec:
                       entering confidential information.  Example: frontend-fleet'
                     type: string
                   ruleName:
+                    description: (Updatable) A user-friendly description for this
+                      alarm override. Must be unique across all ruleName values for
+                      the alarm.
                     type: string
                   severity:
-                    description: '(Updatable) The perceived type of response required
-                      when the alarm is in the "FIRING" state.  Example: CRITICAL'
+                    description: '(Updatable) The perceived severity of the alarm
+                      with regard to the affected system.  Example: CRITICAL'
                     type: string
                   suppression:
                     description: (Updatable) The configuration details for suppressing
@@ -415,12 +443,12 @@ spec:
                         timeSuppressFrom:
                           description: '(Updatable) The start date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T01:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T01:02:29.600Z'
                           type: string
                         timeSuppressUntil:
                           description: '(Updatable) The end date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T02:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T02:02:29.600Z'
                           type: string
                       type: object
                     type: array
@@ -439,13 +467,18 @@ spec:
                   autoscaler.
                 properties:
                   alarmSummary:
+                    description: (Updatable) Customizable alarm summary (alarmSummary
+                      alarm message parameter). Optionally include dynamic variables.
+                      The alarm summary appears within the body of the alarm message
+                      and in responses to  ListAlarmStatus  GetAlarmHistory and RetrieveDimensionStates.
                     type: string
                   body:
-                    description: '(Updatable) The human-readable content of the notification
-                      delivered. Oracle recommends providing guidance to operators
-                      for resolving the alarm condition. Consider adding links to
-                      standard runbook practices. Avoid entering confidential information.  Example:
-                      High CPU usage alert. Follow runbook instructions for resolution.'
+                    description: '(Updatable) The human-readable content of the delivered
+                      alarm notification. Optionally include dynamic variables. Oracle
+                      recommends providing guidance to operators for resolving the
+                      alarm condition. Consider adding links to standard runbook practices.
+                      Avoid entering confidential information.  Example: High CPU
+                      usage alert. Follow runbook instructions for resolution.'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -536,13 +569,11 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   destinations:
-                    description: '(Updatable) A list of destinations to which the
-                      notifications for this alarm will be delivered. Each destination
-                      is represented by an OCID related to the supported destination
-                      service. For example, a destination using the Notifications
-                      service is represented by a topic OCID. Supported destination
-                      services: Notifications Service. Limit: One destination per
-                      supported destination service.'
+                    description: '(Updatable) A list of destinations for alarm notifications.
+                      Each destination is represented by the OCID of a related resource,
+                      such as a topic. Supported destination services: Notifications,
+                      Streaming. Limit: One destination per supported destination
+                      service.'
                     items:
                       type: string
                     type: array
@@ -552,6 +583,11 @@ spec:
                       confidential information.
                     type: string
                   evaluationSlackDuration:
+                    description: '(Updatable) Customizable slack period to wait for
+                      metric ingestion before evaluating the alarm. Specify a string
+                      in ISO 8601 format (PT10M for ten minutes or PT1H for one hour).
+                      Minimum: PT3M. Maximum: PT2H. Default: PT3M. For more information
+                      about the slack period, see About the Internal Reset Period.'
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -566,13 +602,13 @@ spec:
                       true'
                     type: boolean
                   isNotificationsPerMetricDimensionEnabled:
-                    description: '(Updatable) When set to true, splits notifications
-                      per metric stream. When set to false, groups notifications across
-                      metric streams. Example: true'
+                    description: '(Updatable) When set to true, splits alarm notifications
+                      per metric stream. When set to false, groups alarm notifications
+                      across metric streams. Example: true'
                     type: boolean
                   messageFormat:
-                    description: '(Updatable) The format to use for notification messages
-                      sent from this alarm. The formats are:'
+                    description: '(Updatable) The format to use for alarm notifications.
+                      The formats are:'
                     type: string
                   metricCompartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -669,19 +705,30 @@ spec:
                       the metric that is evaluated by the alarm.  Example: oci_computeagent'
                     type: string
                   notificationTitle:
+                    description: (Updatable) Customizable notification title (title
+                      alarm message parameter). Optionally include dynamic variables.
+                      The notification title appears as the subject line in a formatted
+                      email message and as the title in a Slack message.
                     type: string
                   notificationVersion:
+                    description: '(Updatable) The version of the alarm notification
+                      to be delivered. Allowed value: 1.X The value must start with
+                      a number (up to four digits), followed by a period and an uppercase
+                      X.'
                     type: string
                   overrides:
+                    description: (Updatable) A set of overrides that control evaluations
+                      of the alarm.
                     items:
                       properties:
                         body:
                           description: '(Updatable) The human-readable content of
-                            the notification delivered. Oracle recommends providing
-                            guidance to operators for resolving the alarm condition.
-                            Consider adding links to standard runbook practices. Avoid
-                            entering confidential information.  Example: High CPU
-                            usage alert. Follow runbook instructions for resolution.'
+                            the delivered alarm notification. Optionally include dynamic
+                            variables. Oracle recommends providing guidance to operators
+                            for resolving the alarm condition. Consider adding links
+                            to standard runbook practices. Avoid entering confidential
+                            information.  Example: High CPU usage alert. Follow runbook
+                            instructions for resolution.'
                           type: string
                         pendingDuration:
                           description: (Updatable) The period of time that the condition
@@ -703,18 +750,22 @@ spec:
                             values for interval depend on the specified time range.
                             More interval values are supported for smaller time ranges.
                             You can optionally specify dimensions and grouping functions.
+                            Also, you can customize the  absence detection period.
                             Supported grouping functions: grouping(), groupBy(). For
-                            details about Monitoring Query Language (MQL), see Monitoring
-                            Query Language (MQL) Reference. For available dimensions,
-                            review the metric definition for the supported service.
-                            See Supported Services.'
+                            information about writing MQL expressions, see Editing
+                            the MQL Expression for a Query. For details about MQL,
+                            see Monitoring Query Language (MQL) Reference. For available
+                            dimensions, review the metric definition for the supported
+                            service. See Supported Services.'
                           type: string
                         ruleName:
+                          description: (Updatable) A user-friendly description for
+                            this alarm override. Must be unique across all ruleName
+                            values for the alarm.
                           type: string
                         severity:
-                          description: '(Updatable) The perceived type of response
-                            required when the alarm is in the "FIRING" state.  Example:
-                            CRITICAL'
+                          description: '(Updatable) The perceived severity of the
+                            alarm with regard to the affected system.  Example: CRITICAL'
                           type: string
                       type: object
                     type: array
@@ -736,14 +787,16 @@ spec:
                       absence). Supported values for interval depend on the specified
                       time range. More interval values are supported for smaller time
                       ranges. You can optionally specify dimensions and grouping functions.
-                      Supported grouping functions: grouping(), groupBy(). For details
-                      about Monitoring Query Language (MQL), see Monitoring Query
-                      Language (MQL) Reference. For available dimensions, review the
-                      metric definition for the supported service. See Supported Services.'
+                      Also, you can customize the  absence detection period. Supported
+                      grouping functions: grouping(), groupBy(). For information about
+                      writing MQL expressions, see Editing the MQL Expression for
+                      a Query. For details about MQL, see Monitoring Query Language
+                      (MQL) Reference. For available dimensions, review the metric
+                      definition for the supported service. See Supported Services.'
                     type: string
                   repeatNotificationDuration:
-                    description: '(Updatable) The frequency at which notifications
-                      are re-submitted, if the alarm keeps firing without interruption.
+                    description: '(Updatable) The frequency for re-submitting alarm
+                      notifications, if the alarm keeps firing without interruption.
                       Format defined by ISO 8601. For example, PT4H indicates four
                       hours. Minimum: PT1M. Maximum: P30D.'
                     type: string
@@ -762,10 +815,13 @@ spec:
                       entering confidential information.  Example: frontend-fleet'
                     type: string
                   ruleName:
+                    description: (Updatable) A user-friendly description for this
+                      alarm override. Must be unique across all ruleName values for
+                      the alarm.
                     type: string
                   severity:
-                    description: '(Updatable) The perceived type of response required
-                      when the alarm is in the "FIRING" state.  Example: CRITICAL'
+                    description: '(Updatable) The perceived severity of the alarm
+                      with regard to the affected system.  Example: CRITICAL'
                     type: string
                   suppression:
                     description: (Updatable) The configuration details for suppressing
@@ -780,12 +836,12 @@ spec:
                         timeSuppressFrom:
                           description: '(Updatable) The start date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T01:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T01:02:29.600Z'
                           type: string
                         timeSuppressUntil:
                           description: '(Updatable) The end date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T02:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T02:02:29.600Z'
                           type: string
                       type: object
                     type: array
@@ -988,13 +1044,18 @@ spec:
               atProvider:
                 properties:
                   alarmSummary:
+                    description: (Updatable) Customizable alarm summary (alarmSummary
+                      alarm message parameter). Optionally include dynamic variables.
+                      The alarm summary appears within the body of the alarm message
+                      and in responses to  ListAlarmStatus  GetAlarmHistory and RetrieveDimensionStates.
                     type: string
                   body:
-                    description: '(Updatable) The human-readable content of the notification
-                      delivered. Oracle recommends providing guidance to operators
-                      for resolving the alarm condition. Consider adding links to
-                      standard runbook practices. Avoid entering confidential information.  Example:
-                      High CPU usage alert. Follow runbook instructions for resolution.'
+                    description: '(Updatable) The human-readable content of the delivered
+                      alarm notification. Optionally include dynamic variables. Oracle
+                      recommends providing guidance to operators for resolving the
+                      alarm condition. Consider adding links to standard runbook practices.
+                      Avoid entering confidential information.  Example: High CPU
+                      usage alert. Follow runbook instructions for resolution.'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -1009,13 +1070,11 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   destinations:
-                    description: '(Updatable) A list of destinations to which the
-                      notifications for this alarm will be delivered. Each destination
-                      is represented by an OCID related to the supported destination
-                      service. For example, a destination using the Notifications
-                      service is represented by a topic OCID. Supported destination
-                      services: Notifications Service. Limit: One destination per
-                      supported destination service.'
+                    description: '(Updatable) A list of destinations for alarm notifications.
+                      Each destination is represented by the OCID of a related resource,
+                      such as a topic. Supported destination services: Notifications,
+                      Streaming. Limit: One destination per supported destination
+                      service.'
                     items:
                       type: string
                     type: array
@@ -1025,6 +1084,11 @@ spec:
                       confidential information.
                     type: string
                   evaluationSlackDuration:
+                    description: '(Updatable) Customizable slack period to wait for
+                      metric ingestion before evaluating the alarm. Specify a string
+                      in ISO 8601 format (PT10M for ten minutes or PT1H for one hour).
+                      Minimum: PT3M. Maximum: PT2H. Default: PT3M. For more information
+                      about the slack period, see About the Internal Reset Period.'
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -1042,13 +1106,13 @@ spec:
                       true'
                     type: boolean
                   isNotificationsPerMetricDimensionEnabled:
-                    description: '(Updatable) When set to true, splits notifications
-                      per metric stream. When set to false, groups notifications across
-                      metric streams. Example: true'
+                    description: '(Updatable) When set to true, splits alarm notifications
+                      per metric stream. When set to false, groups alarm notifications
+                      across metric streams. Example: true'
                     type: boolean
                   messageFormat:
-                    description: '(Updatable) The format to use for notification messages
-                      sent from this alarm. The formats are:'
+                    description: '(Updatable) The format to use for alarm notifications.
+                      The formats are:'
                     type: string
                   metricCompartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -1069,19 +1133,30 @@ spec:
                       the metric that is evaluated by the alarm.  Example: oci_computeagent'
                     type: string
                   notificationTitle:
+                    description: (Updatable) Customizable notification title (title
+                      alarm message parameter). Optionally include dynamic variables.
+                      The notification title appears as the subject line in a formatted
+                      email message and as the title in a Slack message.
                     type: string
                   notificationVersion:
+                    description: '(Updatable) The version of the alarm notification
+                      to be delivered. Allowed value: 1.X The value must start with
+                      a number (up to four digits), followed by a period and an uppercase
+                      X.'
                     type: string
                   overrides:
+                    description: (Updatable) A set of overrides that control evaluations
+                      of the alarm.
                     items:
                       properties:
                         body:
                           description: '(Updatable) The human-readable content of
-                            the notification delivered. Oracle recommends providing
-                            guidance to operators for resolving the alarm condition.
-                            Consider adding links to standard runbook practices. Avoid
-                            entering confidential information.  Example: High CPU
-                            usage alert. Follow runbook instructions for resolution.'
+                            the delivered alarm notification. Optionally include dynamic
+                            variables. Oracle recommends providing guidance to operators
+                            for resolving the alarm condition. Consider adding links
+                            to standard runbook practices. Avoid entering confidential
+                            information.  Example: High CPU usage alert. Follow runbook
+                            instructions for resolution.'
                           type: string
                         pendingDuration:
                           description: (Updatable) The period of time that the condition
@@ -1103,18 +1178,22 @@ spec:
                             values for interval depend on the specified time range.
                             More interval values are supported for smaller time ranges.
                             You can optionally specify dimensions and grouping functions.
+                            Also, you can customize the  absence detection period.
                             Supported grouping functions: grouping(), groupBy(). For
-                            details about Monitoring Query Language (MQL), see Monitoring
-                            Query Language (MQL) Reference. For available dimensions,
-                            review the metric definition for the supported service.
-                            See Supported Services.'
+                            information about writing MQL expressions, see Editing
+                            the MQL Expression for a Query. For details about MQL,
+                            see Monitoring Query Language (MQL) Reference. For available
+                            dimensions, review the metric definition for the supported
+                            service. See Supported Services.'
                           type: string
                         ruleName:
+                          description: (Updatable) A user-friendly description for
+                            this alarm override. Must be unique across all ruleName
+                            values for the alarm.
                           type: string
                         severity:
-                          description: '(Updatable) The perceived type of response
-                            required when the alarm is in the "FIRING" state.  Example:
-                            CRITICAL'
+                          description: '(Updatable) The perceived severity of the
+                            alarm with regard to the affected system.  Example: CRITICAL'
                           type: string
                       type: object
                     type: array
@@ -1136,14 +1215,16 @@ spec:
                       absence). Supported values for interval depend on the specified
                       time range. More interval values are supported for smaller time
                       ranges. You can optionally specify dimensions and grouping functions.
-                      Supported grouping functions: grouping(), groupBy(). For details
-                      about Monitoring Query Language (MQL), see Monitoring Query
-                      Language (MQL) Reference. For available dimensions, review the
-                      metric definition for the supported service. See Supported Services.'
+                      Also, you can customize the  absence detection period. Supported
+                      grouping functions: grouping(), groupBy(). For information about
+                      writing MQL expressions, see Editing the MQL Expression for
+                      a Query. For details about MQL, see Monitoring Query Language
+                      (MQL) Reference. For available dimensions, review the metric
+                      definition for the supported service. See Supported Services.'
                     type: string
                   repeatNotificationDuration:
-                    description: '(Updatable) The frequency at which notifications
-                      are re-submitted, if the alarm keeps firing without interruption.
+                    description: '(Updatable) The frequency for re-submitting alarm
+                      notifications, if the alarm keeps firing without interruption.
                       Format defined by ISO 8601. For example, PT4H indicates four
                       hours. Minimum: PT1M. Maximum: P30D.'
                     type: string
@@ -1162,10 +1243,13 @@ spec:
                       entering confidential information.  Example: frontend-fleet'
                     type: string
                   ruleName:
+                    description: (Updatable) A user-friendly description for this
+                      alarm override. Must be unique across all ruleName values for
+                      the alarm.
                     type: string
                   severity:
-                    description: '(Updatable) The perceived type of response required
-                      when the alarm is in the "FIRING" state.  Example: CRITICAL'
+                    description: '(Updatable) The perceived severity of the alarm
+                      with regard to the affected system.  Example: CRITICAL'
                     type: string
                   state:
                     description: 'The current lifecycle state of the alarm.  Example:
@@ -1184,22 +1268,22 @@ spec:
                         timeSuppressFrom:
                           description: '(Updatable) The start date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T01:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T01:02:29.600Z'
                           type: string
                         timeSuppressUntil:
                           description: '(Updatable) The end date and time for the
                             suppression to take place, inclusive. Format defined by
-                            RFC3339.  Example: 2019-02-01T02:02:29.600Z'
+                            RFC3339.  Example: 2023-02-01T02:02:29.600Z'
                           type: string
                       type: object
                     type: array
                   timeCreated:
                     description: 'The date and time the alarm was created. Format
-                      defined by RFC3339.  Example: 2019-02-01T01:02:29.600Z'
+                      defined by RFC3339.  Example: 2023-02-01T01:02:29.600Z'
                     type: string
                   timeUpdated:
                     description: 'The date and time the alarm was last updated. Format
-                      defined by RFC3339.  Example: 2019-02-03T01:02:29.600Z'
+                      defined by RFC3339.  Example: 2023-02-03T01:02:29.600Z'
                     type: string
                 type: object
               conditions:

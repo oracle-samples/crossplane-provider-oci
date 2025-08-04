@@ -12,6 +12,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     definedTags: ${var.zone_defined_tags}
+    dnssecState: ${var.zone_dnssec_state}
+    externalDownstreams:
+    - address: ${var.zone_external_downstreams_address}
+      port: ${var.zone_external_downstreams_port}
+      tsigKeyId: ${oci_dns_tsig_key.test_tsig_key.id}
     externalMasters:
     - address: ${var.zone_external_masters_address}
       port: ${var.zone_external_masters_port}

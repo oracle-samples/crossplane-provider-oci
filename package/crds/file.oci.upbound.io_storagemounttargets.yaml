@@ -189,67 +189,103 @@ spec:
                       RFC 952 and RFC 1123.
                     type: string
                   idmapType:
+                    description: (Updatable) The method used to map a Unix UID to
+                      secondary groups, if any.
                     type: string
                   ipAddress:
-                    description: A private IP address of your choice. Must be an available
-                      IP address within the subnet's CIDR. If you don't specify a
-                      value, Oracle automatically assigns a private IP address from
-                      the subnet.
+                    description: 'A private IP address of your choice. Must be an
+                      available IP address within the subnet''s CIDR. If you don''t
+                      specify a value, Oracle automatically assigns a private IP address
+                      from the subnet.  Example: 10.0.3.3'
                     type: string
                   isLockOverride:
+                    description: (Updatable) Whether to override locks (if any exist).
                     type: boolean
                   kerberos:
+                    description: (Updatable) Kerberos details needed to create configuration.
                     items:
                       properties:
                         backupKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use as a backup.
                           type: number
                         currentKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use.
                           type: number
                         isKerberosEnabled:
+                          description: (Updatable) Specifies whether to enable or
+                            disable Kerberos.
                           type: boolean
                         kerberosRealm:
+                          description: (Updatable) The Kerberos realm that the mount
+                            target will join.
                           type: string
                         keyTabSecretId:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the keytab Secret in
+                            the Vault.
                           type: string
                       type: object
                     type: array
                   ldapIdmap:
+                    description: (Updatable) Mount target details about the LDAP ID
+                      mapping configuration.
                     items:
                       properties:
                         cacheLifetimeSeconds:
+                          description: (Updatable) The maximum amount of time the
+                            mount target is allowed to use a cached entry.
                           type: number
                         cacheRefreshIntervalSeconds:
+                          description: (Updatable) The amount of time that the mount
+                            target should allow an entry to persist in its cache before
+                            attempting to refresh the entry.
                           type: number
                         groupSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this group.  Example: CN=Group,DC=domain,DC=com'
                           type: string
                         negativeCacheLifetimeSeconds:
+                          description: (Updatable) The amount of time that a mount
+                            target will maintain information that a user is not found
+                            in the ID mapping configuration.
                           type: number
                         outboundConnector1Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the first connector
+                            to use to communicate with the LDAP server.
                           type: string
                         outboundConnector2Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the second connector
+                            to use to communicate with the LDAP server.
                           type: string
                         schemaType:
+                          description: (Updatable) Schema type of the LDAP account.
                           type: string
                         userSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this user.  Example: CN=User,DC=domain,DC=com'
                           type: string
                       type: object
                     type: array
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the mount target.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the mount target was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -264,6 +300,10 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   requestedThroughput:
+                    description: (Updatable) Throughput for mount target in Gbps.
+                      Currently only 1 Gbps of requestedThroughput is supported during
+                      create MountTarget. Available shapes and corresponding throughput
+                      are listed at Mount Target Performance.
                     type: string
                   subnetId:
                     description: The OCID of the subnet in which to create the mount
@@ -472,67 +512,103 @@ spec:
                       RFC 952 and RFC 1123.
                     type: string
                   idmapType:
+                    description: (Updatable) The method used to map a Unix UID to
+                      secondary groups, if any.
                     type: string
                   ipAddress:
-                    description: A private IP address of your choice. Must be an available
-                      IP address within the subnet's CIDR. If you don't specify a
-                      value, Oracle automatically assigns a private IP address from
-                      the subnet.
+                    description: 'A private IP address of your choice. Must be an
+                      available IP address within the subnet''s CIDR. If you don''t
+                      specify a value, Oracle automatically assigns a private IP address
+                      from the subnet.  Example: 10.0.3.3'
                     type: string
                   isLockOverride:
+                    description: (Updatable) Whether to override locks (if any exist).
                     type: boolean
                   kerberos:
+                    description: (Updatable) Kerberos details needed to create configuration.
                     items:
                       properties:
                         backupKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use as a backup.
                           type: number
                         currentKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use.
                           type: number
                         isKerberosEnabled:
+                          description: (Updatable) Specifies whether to enable or
+                            disable Kerberos.
                           type: boolean
                         kerberosRealm:
+                          description: (Updatable) The Kerberos realm that the mount
+                            target will join.
                           type: string
                         keyTabSecretId:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the keytab Secret in
+                            the Vault.
                           type: string
                       type: object
                     type: array
                   ldapIdmap:
+                    description: (Updatable) Mount target details about the LDAP ID
+                      mapping configuration.
                     items:
                       properties:
                         cacheLifetimeSeconds:
+                          description: (Updatable) The maximum amount of time the
+                            mount target is allowed to use a cached entry.
                           type: number
                         cacheRefreshIntervalSeconds:
+                          description: (Updatable) The amount of time that the mount
+                            target should allow an entry to persist in its cache before
+                            attempting to refresh the entry.
                           type: number
                         groupSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this group.  Example: CN=Group,DC=domain,DC=com'
                           type: string
                         negativeCacheLifetimeSeconds:
+                          description: (Updatable) The amount of time that a mount
+                            target will maintain information that a user is not found
+                            in the ID mapping configuration.
                           type: number
                         outboundConnector1Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the first connector
+                            to use to communicate with the LDAP server.
                           type: string
                         outboundConnector2Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the second connector
+                            to use to communicate with the LDAP server.
                           type: string
                         schemaType:
+                          description: (Updatable) Schema type of the LDAP account.
                           type: string
                         userSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this user.  Example: CN=User,DC=domain,DC=com'
                           type: string
                       type: object
                     type: array
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the mount target.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the mount target was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -547,6 +623,10 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   requestedThroughput:
+                    description: (Updatable) Throughput for mount target in Gbps.
+                      Currently only 1 Gbps of requestedThroughput is supported during
+                      create MountTarget. Available shapes and corresponding throughput
+                      are listed at Mount Target Performance.
                     type: string
                   subnetId:
                     description: The OCID of the subnet in which to create the mount
@@ -851,51 +931,81 @@ spec:
                     description: The OCID of the mount target.
                     type: string
                   idmapType:
+                    description: (Updatable) The method used to map a Unix UID to
+                      secondary groups, if any.
                     type: string
                   ipAddress:
-                    description: A private IP address of your choice. Must be an available
-                      IP address within the subnet's CIDR. If you don't specify a
-                      value, Oracle automatically assigns a private IP address from
-                      the subnet.
+                    description: 'A private IP address of your choice. Must be an
+                      available IP address within the subnet''s CIDR. If you don''t
+                      specify a value, Oracle automatically assigns a private IP address
+                      from the subnet.  Example: 10.0.3.3'
                     type: string
                   isLockOverride:
+                    description: (Updatable) Whether to override locks (if any exist).
                     type: boolean
                   kerberos:
+                    description: (Updatable) Kerberos details needed to create configuration.
                     items:
                       properties:
                         backupKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use as a backup.
                           type: number
                         currentKeyTabSecretVersion:
+                          description: (Updatable) Version of the keytab Secret in
+                            the Vault to use.
                           type: number
                         isKerberosEnabled:
+                          description: (Updatable) Specifies whether to enable or
+                            disable Kerberos.
                           type: boolean
                         kerberosRealm:
+                          description: (Updatable) The Kerberos realm that the mount
+                            target will join.
                           type: string
                         keyTabSecretId:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the keytab Secret in
+                            the Vault.
                           type: string
                       type: object
                     type: array
                   ldapIdmap:
+                    description: (Updatable) Mount target details about the LDAP ID
+                      mapping configuration.
                     items:
                       properties:
                         cacheLifetimeSeconds:
+                          description: (Updatable) The maximum amount of time the
+                            mount target is allowed to use a cached entry.
                           type: number
                         cacheRefreshIntervalSeconds:
+                          description: (Updatable) The amount of time that the mount
+                            target should allow an entry to persist in its cache before
+                            attempting to refresh the entry.
                           type: number
                         groupSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this group.  Example: CN=Group,DC=domain,DC=com'
                           type: string
                         negativeCacheLifetimeSeconds:
+                          description: (Updatable) The amount of time that a mount
+                            target will maintain information that a user is not found
+                            in the ID mapping configuration.
                           type: number
                         outboundConnector1Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the first connector
+                            to use to communicate with the LDAP server.
                           type: string
                         outboundConnector2Id:
-                          description: The OCID of the mount target.
+                          description: (Updatable) The OCID of the second connector
+                            to use to communicate with the LDAP server.
                           type: string
                         schemaType:
+                          description: (Updatable) Schema type of the LDAP account.
                           type: string
                         userSearchBase:
+                          description: '(Updatable) All LDAP searches are recursive
+                            starting at this user.  Example: CN=User,DC=domain,DC=com'
                           type: string
                       type: object
                     type: array
@@ -903,18 +1013,24 @@ spec:
                     description: Additional information about the current 'lifecycleState'.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the mount target.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the mount target was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -929,6 +1045,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   observedThroughput:
+                    description: Current billed throughput for mount target in Gbps.
+                      This corresponds to shape of mount target. Available shapes
+                      and corresponding throughput are listed at Mount Target Performance.
                     type: string
                   privateIpIds:
                     description: The OCIDs of the private IP addresses associated
@@ -937,6 +1056,10 @@ spec:
                       type: string
                     type: array
                   requestedThroughput:
+                    description: (Updatable) Throughput for mount target in Gbps.
+                      Currently only 1 Gbps of requestedThroughput is supported during
+                      create MountTarget. Available shapes and corresponding throughput
+                      are listed at Mount Target Performance.
                     type: string
                   reservedStorageCapacity:
                     type: string
@@ -950,13 +1073,18 @@ spec:
                   systemTags:
                     additionalProperties:
                       type: string
+                    description: System tags for this resource. System tags are applied
+                      to resources by internal Oracle Cloud Infrastructure services.
                     type: object
                     x-kubernetes-map-type: granular
                   timeBillingCycleEnd:
+                    description: 'The date and time the mount target current billing
+                      cycle will end, expressed in  RFC 3339 timestamp format. Once
+                      a cycle ends, it is updated  automatically to next timestamp
+                      which is after 30 days.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
                   timeCreated:
-                    description: 'The date and time the mount target was created,
-                      expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                    description: When the lock was created.
                     type: string
                 type: object
               conditions:

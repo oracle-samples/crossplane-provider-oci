@@ -74,7 +74,7 @@ spec:
               forProvider:
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
+                    description: (Updatable) The OCID of the compartment the zone
                       belongs to.
                     type: string
                   compartmentIdRef:
@@ -160,7 +160,7 @@ spec:
                   items:
                     description: |-
                       (Updatable)
-                      NOTE Omitting items at time of create, will delete any existing records in the RRSet
+                      NOTE Omitting items at time of create will delete any existing records in the RRSet
                     items:
                       properties:
                         domain:
@@ -175,27 +175,26 @@ spec:
                             about RDATA, see Supported DNS Resource Record Types
                           type: string
                         rtype:
-                          description: The canonical name for the record's type, such
-                            as A or CNAME. For more information, see Resource Record
-                            (RR) TYPEs.
+                          description: The type of DNS record, such as A or CNAME.
+                            For more information, see Resource Record (RR) TYPEs.
                           type: string
                         ttl:
                           description: (Updatable) The Time To Live for the record,
-                            in seconds.
+                            in seconds. Using a TTL lower than 30 seconds is not recommended.
                           type: number
                       type: object
                     type: array
                   rtype:
-                    description: The canonical name for the record's type, such as
-                      A or CNAME. For more information, see Resource Record (RR) TYPEs.
+                    description: The type of DNS record, such as A or CNAME. For more
+                      information, see Resource Record (RR) TYPEs.
                     type: string
                   scope:
-                    description: |-
-                      Specifies to operate only on resources that have a matching DNS scope.
-                      This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                   viewId:
-                    description: The OCID of the view the resource is associated with.
+                    description: The OCID of the view the zone is associated with.
+                      Required when accessing a private zone by name.
                     type: string
                   zoneNameOrId:
                     description: The name or OCID of the target zone.
@@ -215,7 +214,7 @@ spec:
                   autoscaler.
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
+                    description: (Updatable) The OCID of the compartment the zone
                       belongs to.
                     type: string
                   compartmentIdRef:
@@ -301,7 +300,7 @@ spec:
                   items:
                     description: |-
                       (Updatable)
-                      NOTE Omitting items at time of create, will delete any existing records in the RRSet
+                      NOTE Omitting items at time of create will delete any existing records in the RRSet
                     items:
                       properties:
                         domain:
@@ -316,27 +315,26 @@ spec:
                             about RDATA, see Supported DNS Resource Record Types
                           type: string
                         rtype:
-                          description: The canonical name for the record's type, such
-                            as A or CNAME. For more information, see Resource Record
-                            (RR) TYPEs.
+                          description: The type of DNS record, such as A or CNAME.
+                            For more information, see Resource Record (RR) TYPEs.
                           type: string
                         ttl:
                           description: (Updatable) The Time To Live for the record,
-                            in seconds.
+                            in seconds. Using a TTL lower than 30 seconds is not recommended.
                           type: number
                       type: object
                     type: array
                   rtype:
-                    description: The canonical name for the record's type, such as
-                      A or CNAME. For more information, see Resource Record (RR) TYPEs.
+                    description: The type of DNS record, such as A or CNAME. For more
+                      information, see Resource Record (RR) TYPEs.
                     type: string
                   scope:
-                    description: |-
-                      Specifies to operate only on resources that have a matching DNS scope.
-                      This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                   viewId:
-                    description: The OCID of the view the resource is associated with.
+                    description: The OCID of the view the zone is associated with.
+                      Required when accessing a private zone by name.
                     type: string
                   zoneNameOrId:
                     description: The name or OCID of the target zone.
@@ -528,7 +526,7 @@ spec:
               atProvider:
                 properties:
                   compartmentId:
-                    description: (Updatable) The OCID of the compartment the resource
+                    description: (Updatable) The OCID of the compartment the zone
                       belongs to.
                     type: string
                   domain:
@@ -540,7 +538,7 @@ spec:
                   items:
                     description: |-
                       (Updatable)
-                      NOTE Omitting items at time of create, will delete any existing records in the RRSet
+                      NOTE Omitting items at time of create will delete any existing records in the RRSet
                     items:
                       properties:
                         domain:
@@ -567,27 +565,26 @@ spec:
                             which its RRSet differs from the preceding version.
                           type: string
                         rtype:
-                          description: The canonical name for the record's type, such
-                            as A or CNAME. For more information, see Resource Record
-                            (RR) TYPEs.
+                          description: The type of DNS record, such as A or CNAME.
+                            For more information, see Resource Record (RR) TYPEs.
                           type: string
                         ttl:
                           description: (Updatable) The Time To Live for the record,
-                            in seconds.
+                            in seconds. Using a TTL lower than 30 seconds is not recommended.
                           type: number
                       type: object
                     type: array
                   rtype:
-                    description: The canonical name for the record's type, such as
-                      A or CNAME. For more information, see Resource Record (RR) TYPEs.
+                    description: The type of DNS record, such as A or CNAME. For more
+                      information, see Resource Record (RR) TYPEs.
                     type: string
                   scope:
-                    description: |-
-                      Specifies to operate only on resources that have a matching DNS scope.
-                      This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                   viewId:
-                    description: The OCID of the view the resource is associated with.
+                    description: The OCID of the view the zone is associated with.
+                      Required when accessing a private zone by name.
                     type: string
                   zoneNameOrId:
                     description: The name or OCID of the target zone.

@@ -18,7 +18,7 @@ type DrgRouteTableRouteRuleInitParameters struct {
 	// (Updatable) This is the range of IP addresses used for matching when routing traffic. Only CIDR_BLOCK values are allowed.
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
-	// Type of destination for the rule. Required if direction = EGRESS. Allowed values:
+	// Type of destination for the rule. Allowed values:
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// The OCID of the DRG route table.
@@ -55,7 +55,7 @@ type DrgRouteTableRouteRuleObservation struct {
 	// (Updatable) This is the range of IP addresses used for matching when routing traffic. Only CIDR_BLOCK values are allowed.
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
-	// Type of destination for the rule. Required if direction = EGRESS. Allowed values:
+	// Type of destination for the rule. Allowed values:
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// The OCID of the DRG route table.
@@ -86,7 +86,7 @@ type DrgRouteTableRouteRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
 
-	// Type of destination for the rule. Required if direction = EGRESS. Allowed values:
+	// Type of destination for the rule. Allowed values:
 	// +kubebuilder:validation:Optional
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 

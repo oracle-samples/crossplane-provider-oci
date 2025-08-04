@@ -51,7 +51,7 @@ type LoadBalancerBackendInitParameters struct {
 	// The IP OCID/Instance OCID associated with the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancer policies, see Network Load Balancer Policies.  Example: 3
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -86,7 +86,7 @@ type LoadBalancerBackendObservation struct {
 	// The IP OCID/Instance OCID associated with the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancer policies, see Network Load Balancer Policies.  Example: 3
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -137,7 +137,7 @@ type LoadBalancerBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancer policies, see Network Load Balancer Policies.  Example: 3
 	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }

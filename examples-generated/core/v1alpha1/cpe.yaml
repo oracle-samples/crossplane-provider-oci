@@ -18,3 +18,4 @@ spec:
     freeformTags:
       Department: Finance
     ipAddress: ${var.cpe_ip_address}
+    isPrivate: ${var.cpe_is_private}

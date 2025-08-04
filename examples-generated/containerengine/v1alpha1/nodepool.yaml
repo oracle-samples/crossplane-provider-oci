@@ -52,11 +52,13 @@ spec:
       size: ${var.node_pool_node_config_details_size}
     nodeEvictionNodePoolSettings:
     - evictionGraceDuration: ${var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration}
+      isForceActionAfterGraceDuration: ${var.node_pool_node_eviction_node_pool_settings_is_force_action_after_grace_duration}
       isForceDeleteAfterGraceDuration: ${var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration}
     nodeImageName: ${oci_core_image.test_image.name}
     nodeMetadata: ${var.node_pool_node_metadata}
     nodePoolCyclingDetails:
-    - isNodeCyclingEnabled: ${var.node_pool_node_pool_cycling_details_is_node_cycling_enabled}
+    - cycleModes: ${var.node_pool_node_pool_cycling_details_cycle_modes}
+      isNodeCyclingEnabled: ${var.node_pool_node_pool_cycling_details_is_node_cycling_enabled}
       maximumSurge: ${var.node_pool_node_pool_cycling_details_maximum_surge}
       maximumUnavailable: ${var.node_pool_node_pool_cycling_details_maximum_unavailable}
     nodeShape: ${var.node_pool_node_shape}

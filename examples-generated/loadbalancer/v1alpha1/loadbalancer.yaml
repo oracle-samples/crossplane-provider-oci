@@ -17,10 +17,15 @@ spec:
     freeformTags:
       Department: Finance
     ipMode: ${var.load_balancer_ip_mode}
+    ipv6subnetCidr: ${var.load_balancer_ipv6subnet_cidr}
+    isDeleteProtectionEnabled: ${var.load_balancer_is_delete_protection_enabled}
     isPrivate: ${var.load_balancer_is_private}
+    isRequestIdEnabled: ${var.load_balancer_is_request_id_enabled}
     networkSecurityGroupIds: ${var.load_balancer_network_security_group_ids}
+    requestIdHeader: ${var.load_balancer_request_id_header}
     reservedIps:
     - id: ${var.load_balancer_reserved_ips_id}
+    securityAttributes: ${var.load_balancer_security_attributes}
     shape: ${var.load_balancer_shape}
     shapeDetails:
     - maximumBandwidthInMbps: ${var.load_balancer_shape_details_maximum_bandwidth_in_mbps}

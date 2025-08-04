@@ -15,7 +15,7 @@ import (
 
 type VolumeBackupPolicyAssignmentInitParameters struct {
 
-	// The OCID of the volume to assign the policy to.
+	// The OCID of the volume or volume group to assign the policy to.
 	// +crossplane:generate:reference:type=Volume
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
 
@@ -39,13 +39,13 @@ type VolumeBackupPolicyAssignmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
 
-	// The OCID of the volume backup policy assignment.
+	// The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeBackupPolicyAssignmentObservation struct {
 
-	// The OCID of the volume to assign the policy to.
+	// The OCID of the volume or volume group to assign the policy to.
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
 
 	// The OCID of the volume backup policy assignment.
@@ -57,13 +57,13 @@ type VolumeBackupPolicyAssignmentObservation struct {
 	// The date and time the volume backup policy was assigned to the volume. The format is defined by RFC3339.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
-	// The OCID of the volume backup policy assignment.
+	// The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeBackupPolicyAssignmentParameters struct {
 
-	// The OCID of the volume to assign the policy to.
+	// The OCID of the volume or volume group to assign the policy to.
 	// +crossplane:generate:reference:type=Volume
 	// +kubebuilder:validation:Optional
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
@@ -89,7 +89,7 @@ type VolumeBackupPolicyAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
 
-	// The OCID of the volume backup policy assignment.
+	// The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }

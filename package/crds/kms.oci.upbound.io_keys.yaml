@@ -74,19 +74,46 @@ spec:
               forProvider:
                 properties:
                   autoKeyRotationDetails:
+                    description: (Updatable) The details of auto rotation schedule
+                      for the Key being create updated or imported.
                     items:
                       properties:
                         lastRotationMessage:
+                          description: (Updatable) The last execution status message
+                            of auto key rotation.
                           type: string
                         lastRotationStatus:
+                          description: (Updatable) The status of last execution of
+                            auto key rotation.
                           type: string
                         rotationIntervalInDays:
+                          description: '(Updatable) The interval of auto key rotation.
+                            For auto key rotation the interval should between 60 day
+                            and 365 days (1 year). Note: User must specify this parameter
+                            when creating a new schedule.'
                           type: number
                         timeOfLastRotation:
+                          description: '(Updatable) A property indicating Last rotation
+                            Date. Example: 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfNextRotation:
+                          description: '(Updatable) A property indicating Next estimated
+                            scheduled Time, as per the interval, expressed as date
+                            YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The
+                            time has no significance when scheduling an auto key rotation
+                            as this can be done anytime approximately the scheduled
+                            day, KMS ignores the time and replaces it with 00:00,
+                            for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfScheduleStart:
+                          description: '(Updatable) A property indicating  scheduled
+                            start date expressed as date YYYY-MM-DD String. Example:
+                            `2023-04-04T00:00:00Z. The time has no significance when
+                            scheduling an auto key rotation as this can be done anytime
+                            approximately the scheduled day, KMS ignores the time
+                            and replaces it with 00:00, for example 2023-04-04T15:14:13Z
+                            will be used as 2023-04-04T00:00:00Z . Note : Today’s
+                            date will be used if not specified by customer.'
                           type: string
                       type: object
                     type: array
@@ -188,10 +215,13 @@ spec:
                       confidential information.
                     type: string
                   externalKeyReference:
+                    description: A reference to the key on external key manager.
                     items:
                       properties:
                         externalKeyId:
-                          description: The OCID of the key.
+                          description: ExternalKeyId refers to the globally unique
+                            key Id associated with the key created in external vault
+                            in CTM
                           type: string
                       type: object
                     type: array
@@ -205,6 +235,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   isAutoRotationEnabled:
+                    description: (Updatable) A parameter specifying whether the auto
+                      key rotation is enabled or not.
                     type: boolean
                   keyShape:
                     description: The cryptographic properties of a key.
@@ -212,7 +244,8 @@ spec:
                       properties:
                         algorithm:
                           description: The algorithm used by a key's key versions
-                            to encrypt or decrypt.
+                            to encrypt or decrypt. Only AES algorithm is supported
+                            for External keys.
                           type: string
                         curveId:
                           description: Supported curve IDs for ECDSA keys.
@@ -235,11 +268,16 @@ spec:
                       security module (HSM) and all cryptographic operations are performed
                       inside the HSM. A protection mode of SOFTWARE means that the
                       key persists on the server, protected by the vault's RSA wrapping
-                      key which persists  on the HSM. All cryptographic operations
+                      key which persists on the HSM. All cryptographic operations
                       that use a key with a protection mode of SOFTWARE are performed
-                      on the server. By default,  a key's protection mode is set to
+                      on the server. By default, a key's protection mode is set to
                       HSM. You can't change a key's protection mode after the key
-                      is created or imported.
+                      is created or imported. A protection mode of EXTERNAL mean that
+                      the key persists on the customer's external key manager which
+                      is hosted externally outside of oracle. Oracle only hold a reference
+                      to that key. All cryptographic operations that use a key with
+                      a protection mode of EXTERNAL are performed by external key
+                      manager.
                     type: string
                   restoreFromFile:
                     description: (Updatable) Details where key was backed up.
@@ -308,19 +346,46 @@ spec:
                   autoscaler.
                 properties:
                   autoKeyRotationDetails:
+                    description: (Updatable) The details of auto rotation schedule
+                      for the Key being create updated or imported.
                     items:
                       properties:
                         lastRotationMessage:
+                          description: (Updatable) The last execution status message
+                            of auto key rotation.
                           type: string
                         lastRotationStatus:
+                          description: (Updatable) The status of last execution of
+                            auto key rotation.
                           type: string
                         rotationIntervalInDays:
+                          description: '(Updatable) The interval of auto key rotation.
+                            For auto key rotation the interval should between 60 day
+                            and 365 days (1 year). Note: User must specify this parameter
+                            when creating a new schedule.'
                           type: number
                         timeOfLastRotation:
+                          description: '(Updatable) A property indicating Last rotation
+                            Date. Example: 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfNextRotation:
+                          description: '(Updatable) A property indicating Next estimated
+                            scheduled Time, as per the interval, expressed as date
+                            YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The
+                            time has no significance when scheduling an auto key rotation
+                            as this can be done anytime approximately the scheduled
+                            day, KMS ignores the time and replaces it with 00:00,
+                            for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfScheduleStart:
+                          description: '(Updatable) A property indicating  scheduled
+                            start date expressed as date YYYY-MM-DD String. Example:
+                            `2023-04-04T00:00:00Z. The time has no significance when
+                            scheduling an auto key rotation as this can be done anytime
+                            approximately the scheduled day, KMS ignores the time
+                            and replaces it with 00:00, for example 2023-04-04T15:14:13Z
+                            will be used as 2023-04-04T00:00:00Z . Note : Today’s
+                            date will be used if not specified by customer.'
                           type: string
                       type: object
                     type: array
@@ -422,10 +487,13 @@ spec:
                       confidential information.
                     type: string
                   externalKeyReference:
+                    description: A reference to the key on external key manager.
                     items:
                       properties:
                         externalKeyId:
-                          description: The OCID of the key.
+                          description: ExternalKeyId refers to the globally unique
+                            key Id associated with the key created in external vault
+                            in CTM
                           type: string
                       type: object
                     type: array
@@ -439,6 +507,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   isAutoRotationEnabled:
+                    description: (Updatable) A parameter specifying whether the auto
+                      key rotation is enabled or not.
                     type: boolean
                   keyShape:
                     description: The cryptographic properties of a key.
@@ -446,7 +516,8 @@ spec:
                       properties:
                         algorithm:
                           description: The algorithm used by a key's key versions
-                            to encrypt or decrypt.
+                            to encrypt or decrypt. Only AES algorithm is supported
+                            for External keys.
                           type: string
                         curveId:
                           description: Supported curve IDs for ECDSA keys.
@@ -469,11 +540,16 @@ spec:
                       security module (HSM) and all cryptographic operations are performed
                       inside the HSM. A protection mode of SOFTWARE means that the
                       key persists on the server, protected by the vault's RSA wrapping
-                      key which persists  on the HSM. All cryptographic operations
+                      key which persists on the HSM. All cryptographic operations
                       that use a key with a protection mode of SOFTWARE are performed
-                      on the server. By default,  a key's protection mode is set to
+                      on the server. By default, a key's protection mode is set to
                       HSM. You can't change a key's protection mode after the key
-                      is created or imported.
+                      is created or imported. A protection mode of EXTERNAL mean that
+                      the key persists on the customer's external key manager which
+                      is hosted externally outside of oracle. Oracle only hold a reference
+                      to that key. All cryptographic operations that use a key with
+                      a protection mode of EXTERNAL are performed by external key
+                      manager.
                     type: string
                   restoreFromFile:
                     description: (Updatable) Details where key was backed up.
@@ -714,19 +790,46 @@ spec:
               atProvider:
                 properties:
                   autoKeyRotationDetails:
+                    description: (Updatable) The details of auto rotation schedule
+                      for the Key being create updated or imported.
                     items:
                       properties:
                         lastRotationMessage:
+                          description: (Updatable) The last execution status message
+                            of auto key rotation.
                           type: string
                         lastRotationStatus:
+                          description: (Updatable) The status of last execution of
+                            auto key rotation.
                           type: string
                         rotationIntervalInDays:
+                          description: '(Updatable) The interval of auto key rotation.
+                            For auto key rotation the interval should between 60 day
+                            and 365 days (1 year). Note: User must specify this parameter
+                            when creating a new schedule.'
                           type: number
                         timeOfLastRotation:
+                          description: '(Updatable) A property indicating Last rotation
+                            Date. Example: 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfNextRotation:
+                          description: '(Updatable) A property indicating Next estimated
+                            scheduled Time, as per the interval, expressed as date
+                            YYYY-MM-DD String. Example: 2023-04-04T00:00:00Z. The
+                            time has no significance when scheduling an auto key rotation
+                            as this can be done anytime approximately the scheduled
+                            day, KMS ignores the time and replaces it with 00:00,
+                            for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z.'
                           type: string
                         timeOfScheduleStart:
+                          description: '(Updatable) A property indicating  scheduled
+                            start date expressed as date YYYY-MM-DD String. Example:
+                            `2023-04-04T00:00:00Z. The time has no significance when
+                            scheduling an auto key rotation as this can be done anytime
+                            approximately the scheduled day, KMS ignores the time
+                            and replaces it with 00:00, for example 2023-04-04T15:14:13Z
+                            will be used as 2023-04-04T00:00:00Z . Note : Today’s
+                            date will be used if not specified by customer.'
                           type: string
                       type: object
                     type: array
@@ -760,21 +863,29 @@ spec:
                       confidential information.
                     type: string
                   externalKeyReference:
+                    description: A reference to the key on external key manager.
                     items:
                       properties:
                         externalKeyId:
-                          description: The OCID of the key.
+                          description: ExternalKeyId refers to the globally unique
+                            key Id associated with the key created in external vault
+                            in CTM
                           type: string
                       type: object
                     type: array
                   externalKeyReferenceDetails:
+                    description: Key reference data to be returned to the customer
+                      as a response.
                     items:
                       properties:
                         externalKeyId:
-                          description: The OCID of the key.
+                          description: ExternalKeyId refers to the globally unique
+                            key Id associated with the key created in external vault
+                            in CTM
                           type: string
                         externalKeyVersionId:
-                          description: The OCID of the key.
+                          description: Key version ID associated with the external
+                            key.
                           type: string
                       type: object
                     type: array
@@ -791,10 +902,12 @@ spec:
                     description: The OCID of the key.
                     type: string
                   isAutoRotationEnabled:
+                    description: (Updatable) A parameter specifying whether the auto
+                      key rotation is enabled or not.
                     type: boolean
                   isPrimary:
-                    description: A boolean that will be true when key is primary,
-                      and will be false when key is a replica from a primary key.
+                    description: A Boolean value that indicates whether the Key belongs
+                      to primary Vault or replica vault.
                     type: boolean
                   keyShape:
                     description: The cryptographic properties of a key.
@@ -802,7 +915,8 @@ spec:
                       properties:
                         algorithm:
                           description: The algorithm used by a key's key versions
-                            to encrypt or decrypt.
+                            to encrypt or decrypt. Only AES algorithm is supported
+                            for External keys.
                           type: string
                         curveId:
                           description: Supported curve IDs for ECDSA keys.
@@ -825,11 +939,16 @@ spec:
                       security module (HSM) and all cryptographic operations are performed
                       inside the HSM. A protection mode of SOFTWARE means that the
                       key persists on the server, protected by the vault's RSA wrapping
-                      key which persists  on the HSM. All cryptographic operations
+                      key which persists on the HSM. All cryptographic operations
                       that use a key with a protection mode of SOFTWARE are performed
-                      on the server. By default,  a key's protection mode is set to
+                      on the server. By default, a key's protection mode is set to
                       HSM. You can't change a key's protection mode after the key
-                      is created or imported.
+                      is created or imported. A protection mode of EXTERNAL mean that
+                      the key persists on the customer's external key manager which
+                      is hosted externally outside of oracle. Oracle only hold a reference
+                      to that key. All cryptographic operations that use a key with
+                      a protection mode of EXTERNAL are performed by external key
+                      manager.
                     type: string
                   replicaDetails:
                     description: Key replica details

@@ -106,8 +106,11 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   instanceReservationConfigs:
-                    description: (Updatable) The capacity configurations for the capacity
-                      reservation.
+                    description: '(Updatable) The capacity configurations for the
+                      capacity reservation. (Note: From 6.17.0 instance_reservation_configs
+                      field in oci_core_compute_capacity_reservation is changed from
+                      TypeList to TypeSet - to avoid unnecessary updates. Also, configs
+                      cant by accessed by index)'
                     items:
                       properties:
                         clusterConfig:
@@ -116,18 +119,19 @@ spec:
                           items:
                             properties:
                               hpcIslandId:
-                                description: (Updatable) The OCID of the HpcIsland.
+                                description: (Updatable) The OCID of the HPC island.
                                 type: string
                               networkBlockIds:
-                                description: (Updatable) The list of OCID of the network
-                                  blocks.
+                                description: (Updatable) The list of OCIDs of the
+                                  network blocks.
                                 items:
                                   type: string
                                 type: array
                             type: object
                           type: array
                         clusterPlacementGroupId:
-                          description: The OCID of the compute capacity reservation.
+                          description: (Updatable) The OCID of the cluster placement
+                            group for this instance reservation capacity configuration.
                           type: string
                         faultDomain:
                           description: (Updatable) The fault domain to use for instances
@@ -215,8 +219,11 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   instanceReservationConfigs:
-                    description: (Updatable) The capacity configurations for the capacity
-                      reservation.
+                    description: '(Updatable) The capacity configurations for the
+                      capacity reservation. (Note: From 6.17.0 instance_reservation_configs
+                      field in oci_core_compute_capacity_reservation is changed from
+                      TypeList to TypeSet - to avoid unnecessary updates. Also, configs
+                      cant by accessed by index)'
                     items:
                       properties:
                         clusterConfig:
@@ -225,18 +232,19 @@ spec:
                           items:
                             properties:
                               hpcIslandId:
-                                description: (Updatable) The OCID of the HpcIsland.
+                                description: (Updatable) The OCID of the HPC island.
                                 type: string
                               networkBlockIds:
-                                description: (Updatable) The list of OCID of the network
-                                  blocks.
+                                description: (Updatable) The list of OCIDs of the
+                                  network blocks.
                                 items:
                                   type: string
                                 type: array
                             type: object
                           type: array
                         clusterPlacementGroupId:
-                          description: The OCID of the compute capacity reservation.
+                          description: (Updatable) The OCID of the cluster placement
+                            group for this instance reservation capacity configuration.
                           type: string
                         faultDomain:
                           description: (Updatable) The fault domain to use for instances
@@ -500,8 +508,11 @@ spec:
                     description: The OCID of the compute capacity reservation.
                     type: string
                   instanceReservationConfigs:
-                    description: (Updatable) The capacity configurations for the capacity
-                      reservation.
+                    description: '(Updatable) The capacity configurations for the
+                      capacity reservation. (Note: From 6.17.0 instance_reservation_configs
+                      field in oci_core_compute_capacity_reservation is changed from
+                      TypeList to TypeSet - to avoid unnecessary updates. Also, configs
+                      cant by accessed by index)'
                     items:
                       properties:
                         clusterConfig:
@@ -510,18 +521,19 @@ spec:
                           items:
                             properties:
                               hpcIslandId:
-                                description: (Updatable) The OCID of the HpcIsland.
+                                description: (Updatable) The OCID of the HPC island.
                                 type: string
                               networkBlockIds:
-                                description: (Updatable) The list of OCID of the network
-                                  blocks.
+                                description: (Updatable) The list of OCIDs of the
+                                  network blocks.
                                 items:
                                   type: string
                                 type: array
                             type: object
                           type: array
                         clusterPlacementGroupId:
-                          description: The OCID of the compute capacity reservation.
+                          description: (Updatable) The OCID of the cluster placement
+                            group for this instance reservation capacity configuration.
                           type: string
                         faultDomain:
                           description: (Updatable) The fault domain to use for instances

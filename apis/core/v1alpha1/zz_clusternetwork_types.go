@@ -15,34 +15,36 @@ import (
 
 type ClusterConfigurationInitParameters struct {
 
-	// The OCID of the hpc island used by the cluster network.
+	// The OCID of the HPC island.
 	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
 
-	// The list of network block OCIDs of the HPC island.
+	// The list of network block OCIDs.
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterConfigurationObservation struct {
 
-	// The OCID of the hpc island used by the cluster network.
+	// The OCID of the HPC island.
 	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
 
-	// The list of network block OCIDs of the HPC island.
+	// The list of network block OCIDs.
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterConfigurationParameters struct {
 
-	// The OCID of the hpc island used by the cluster network.
+	// The OCID of the HPC island.
 	// +kubebuilder:validation:Optional
 	HpcIslandID *string `json:"hpcIslandId" tf:"hpc_island_id,omitempty"`
 
-	// The list of network block OCIDs of the HPC island.
+	// The list of network block OCIDs.
 	// +kubebuilder:validation:Optional
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterNetworkInitParameters struct {
+
+	// The HPC cluster configuration requested when launching instances of a cluster network.
 	ClusterConfiguration []ClusterConfigurationInitParameters `json:"clusterConfiguration,omitempty" tf:"cluster_configuration,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the cluster network.
@@ -67,6 +69,8 @@ type ClusterNetworkInitParameters struct {
 }
 
 type ClusterNetworkObservation struct {
+
+	// The HPC cluster configuration requested when launching instances of a cluster network.
 	ClusterConfiguration []ClusterConfigurationObservation `json:"clusterConfiguration,omitempty" tf:"cluster_configuration,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the cluster network.
@@ -83,7 +87,7 @@ type ClusterNetworkObservation struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of the hpc island used by the cluster network.
+	// The OCID of the HPC island.
 	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
 
 	// The OCID of the cluster network.
@@ -92,7 +96,7 @@ type ClusterNetworkObservation struct {
 	// (Updatable) The data to create the instance pools in the cluster network.
 	InstancePools []InstancePoolsObservation `json:"instancePools,omitempty" tf:"instance_pools,omitempty"`
 
-	// The list of network block OCIDs of the HPC island.
+	// The list of network block OCIDs.
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 
 	// The location for where the instance pools in a cluster network will place instances.
@@ -110,6 +114,7 @@ type ClusterNetworkObservation struct {
 
 type ClusterNetworkParameters struct {
 
+	// The HPC cluster configuration requested when launching instances of a cluster network.
 	// +kubebuilder:validation:Optional
 	ClusterConfiguration []ClusterConfigurationParameters `json:"clusterConfiguration,omitempty" tf:"cluster_configuration,omitempty"`
 
@@ -231,6 +236,8 @@ type Ipv6AddressIpv6SubnetCidrPairDetailsInitParameters struct {
 }
 
 type Ipv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
@@ -274,9 +281,10 @@ type PlacementConfigurationInitParameters struct {
 
 	PlacementConstraint *string `json:"placementConstraint,omitempty" tf:"placement_constraint,omitempty"`
 
-	// The OCID of the primary subnet to place instances.
+	// The OCID of the primary subnet to place instances. This field is deprecated. Use primaryVnicSubnets instead to set VNIC data for instances in the pool.
 	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
 
+	// Details about the IPv6 primary subnet.
 	PrimaryVnicSubnets []PlacementConfigurationPrimaryVnicSubnetsInitParameters `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
 
 	// The set of secondary VNIC data for instances in the pool.
@@ -290,9 +298,10 @@ type PlacementConfigurationObservation struct {
 
 	PlacementConstraint *string `json:"placementConstraint,omitempty" tf:"placement_constraint,omitempty"`
 
-	// The OCID of the primary subnet to place instances.
+	// The OCID of the primary subnet to place instances. This field is deprecated. Use primaryVnicSubnets instead to set VNIC data for instances in the pool.
 	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
 
+	// Details about the IPv6 primary subnet.
 	PrimaryVnicSubnets []PlacementConfigurationPrimaryVnicSubnetsObservation `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
 
 	// The set of secondary VNIC data for instances in the pool.
@@ -308,10 +317,11 @@ type PlacementConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PlacementConstraint *string `json:"placementConstraint,omitempty" tf:"placement_constraint,omitempty"`
 
-	// The OCID of the primary subnet to place instances.
+	// The OCID of the primary subnet to place instances. This field is deprecated. Use primaryVnicSubnets instead to set VNIC data for instances in the pool.
 	// +kubebuilder:validation:Optional
 	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
 
+	// Details about the IPv6 primary subnet.
 	// +kubebuilder:validation:Optional
 	PrimaryVnicSubnets []PlacementConfigurationPrimaryVnicSubnetsParameters `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
 
@@ -321,8 +331,11 @@ type PlacementConfigurationParameters struct {
 }
 
 type PlacementConfigurationPrimaryVnicSubnetsInitParameters struct {
+
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
@@ -330,8 +343,11 @@ type PlacementConfigurationPrimaryVnicSubnetsInitParameters struct {
 }
 
 type PlacementConfigurationPrimaryVnicSubnetsObservation struct {
+
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
@@ -340,9 +356,11 @@ type PlacementConfigurationPrimaryVnicSubnetsObservation struct {
 
 type PlacementConfigurationPrimaryVnicSubnetsParameters struct {
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	// +kubebuilder:validation:Optional
 	Ipv6AddressIpv6SubnetCidrPairDetails []PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	// +kubebuilder:validation:Optional
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
@@ -356,8 +374,10 @@ type PlacementConfigurationSecondaryVnicSubnetsInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
@@ -365,15 +385,20 @@ type PlacementConfigurationSecondaryVnicSubnetsInitParameters struct {
 }
 
 type PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
 
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
@@ -383,8 +408,10 @@ type PlacementConfigurationSecondaryVnicSubnetsObservation struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
@@ -397,9 +424,11 @@ type PlacementConfigurationSecondaryVnicSubnetsParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	// +kubebuilder:validation:Optional
 	Ipv6AddressIpv6SubnetCidrPairDetails []PlacementConfigurationSecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	// +kubebuilder:validation:Optional
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
@@ -419,9 +448,10 @@ type PlacementConfigurationsObservation struct {
 	// The fault domains to place instances.
 	FaultDomains []*string `json:"faultDomains,omitempty" tf:"fault_domains,omitempty"`
 
-	// The OCID of the primary subnet to place instances.
+	// The OCID of the primary subnet to place instances. This field is deprecated. Use primaryVnicSubnets instead to set VNIC data for instances in the pool.
 	PrimarySubnetID *string `json:"primarySubnetId,omitempty" tf:"primary_subnet_id,omitempty"`
 
+	// Details about the IPv6 primary subnet.
 	PrimaryVnicSubnets []PrimaryVnicSubnetsObservation `json:"primaryVnicSubnets,omitempty" tf:"primary_vnic_subnets,omitempty"`
 
 	// The set of secondary VNIC data for instances in the pool.
@@ -435,22 +465,30 @@ type PrimaryVnicSubnetsInitParameters struct {
 }
 
 type PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PrimaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsParameters struct {
 
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
 type PrimaryVnicSubnetsObservation struct {
+
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []Ipv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.
@@ -467,6 +505,8 @@ type SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters stru
 }
 
 type SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation struct {
+
+	// Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 }
 
@@ -478,8 +518,10 @@ type SecondaryVnicSubnetsObservation struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range.
 	Ipv6AddressIpv6SubnetCidrPairDetails []SecondaryVnicSubnetsIpv6AddressIpv6SubnetCidrPairDetailsObservation `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
+	// Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (ipv6SubnetCidr) of your choice to assign the IPv6 address from. If ipv6SubnetCidr is not provided then an IPv6 prefix is chosen for you.
 	IsAssignIpv6Ip *bool `json:"isAssignIpv6Ip,omitempty" tf:"is_assign_ipv6ip,omitempty"`
 
 	// The subnet OCID for the secondary VNIC.

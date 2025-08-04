@@ -18,7 +18,7 @@ type Byoipv6CidrDetailsInitParameters struct {
 	// The OCID of the ByoipRange resource to which the CIDR block belongs.
 	Byoipv6RangeID *string `json:"byoipv6rangeId,omitempty" tf:"byoipv6range_id,omitempty"`
 
-	// An IPv6 CIDR block required to create a VCN with a BYOIP prefix. It could be the whole CIDR block identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
+	// An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 }
 
@@ -27,7 +27,7 @@ type Byoipv6CidrDetailsObservation struct {
 	// The OCID of the ByoipRange resource to which the CIDR block belongs.
 	Byoipv6RangeID *string `json:"byoipv6rangeId,omitempty" tf:"byoipv6range_id,omitempty"`
 
-	// An IPv6 CIDR block required to create a VCN with a BYOIP prefix. It could be the whole CIDR block identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
+	// An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 }
 
@@ -37,17 +37,17 @@ type Byoipv6CidrDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	Byoipv6RangeID *string `json:"byoipv6rangeId" tf:"byoipv6range_id,omitempty"`
 
-	// An IPv6 CIDR block required to create a VCN with a BYOIP prefix. It could be the whole CIDR block identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
+	// An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in byoipv6RangeId, or a subrange. Example: 2001:0db8:0123::/48
 	// +kubebuilder:validation:Optional
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock" tf:"ipv6cidr_block,omitempty"`
 }
 
 type VcnInitParameters struct {
 
-	// The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges.
 	Byoipv6CidrDetails []Byoipv6CidrDetailsInitParameters `json:"byoipv6cidrDetails,omitempty" tf:"byoipv6cidr_details,omitempty"`
 
-	// Deprecated. Do not set this value. Use cidrBlocks instead. Example: 10.0.0.0/16
+	// Deprecated. Do not set this value. Use cidr_blocks instead. Example: 10.0.0.0/16
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
@@ -89,19 +89,20 @@ type VcnInitParameters struct {
 	// Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN.
 	IsOracleGuaAllocationEnabled *bool `json:"isOracleGuaAllocationEnabled,omitempty" tf:"is_oracle_gua_allocation_enabled,omitempty"`
 
+	// (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 }
 
 type VcnObservation struct {
 
-	// The list of BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 ranges.
 	Byoipv6CidrBlocks []*string `json:"byoipv6cidrBlocks,omitempty" tf:"byoipv6cidr_blocks,omitempty"`
 
-	// The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges.
 	Byoipv6CidrDetails []Byoipv6CidrDetailsObservation `json:"byoipv6cidrDetails,omitempty" tf:"byoipv6cidr_details,omitempty"`
 
-	// Deprecated. Do not set this value. Use cidrBlocks instead. Example: 10.0.0.0/16
+	// Deprecated. Do not set this value. Use cidr_blocks instead. Example: 10.0.0.0/16
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
@@ -137,7 +138,7 @@ type VcnObservation struct {
 	// The VCN's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// For an IPv6-enabled VCN, this is the list of IPv6 CIDR blocks for the VCN's IP address space. The CIDRs are provided by Oracle and the sizes are always /56.
+	// For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space. The prefixes are provided by Oracle and the sizes are always /56.
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 
 	// The list of one or more ULA or Private IPv6 CIDR blocks for the vcn that meets the following criteria:
@@ -149,6 +150,7 @@ type VcnObservation struct {
 	// Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN.
 	IsOracleGuaAllocationEnabled *bool `json:"isOracleGuaAllocationEnabled,omitempty" tf:"is_oracle_gua_allocation_enabled,omitempty"`
 
+	// (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -164,11 +166,11 @@ type VcnObservation struct {
 
 type VcnParameters struct {
 
-	// The list of BYOIPv6 OCIDs and BYOIPv6 CIDR blocks required to create a VCN that uses BYOIPv6 ranges.
+	// The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges.
 	// +kubebuilder:validation:Optional
 	Byoipv6CidrDetails []Byoipv6CidrDetailsParameters `json:"byoipv6cidrDetails,omitempty" tf:"byoipv6cidr_details,omitempty"`
 
-	// Deprecated. Do not set this value. Use cidrBlocks instead. Example: 10.0.0.0/16
+	// Deprecated. Do not set this value. Use cidr_blocks instead. Example: 10.0.0.0/16
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
@@ -220,6 +222,7 @@ type VcnParameters struct {
 	// +kubebuilder:validation:Optional
 	IsOracleGuaAllocationEnabled *bool `json:"isOracleGuaAllocationEnabled,omitempty" tf:"is_oracle_gua_allocation_enabled,omitempty"`
 
+	// (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`

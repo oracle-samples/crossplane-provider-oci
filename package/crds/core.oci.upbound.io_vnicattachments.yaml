@@ -81,12 +81,18 @@ spec:
                     items:
                       properties:
                         assignIpv6Ip:
+                          description: 'Whether to allocate an IPv6 address at instance
+                            and VNIC creation from an IPv6 enabled subnet. Default:
+                            False. When provided you may optionally provide an IPv6
+                            prefix (ipv6SubnetCidr) of your choice to assign the IPv6
+                            address from. If ipv6SubnetCidr is not provided then an
+                            IPv6 prefix is chosen for you.'
                           type: boolean
                         assignPrivateDnsRecord:
-                          description: 'Whether the VNIC should be assigned a DNS
-                            record. If set to false, no DNS record registion for the
-                            VNIC; if set to true, DNS record will be registered. Example:
-                            true'
+                          description: Whether the VNIC should be assigned a DNS record.
+                            If set to false, there will be no DNS record registration
+                            for the VNIC. If set to true, the DNS record will be registered.
+                            The default value is true.
                           type: boolean
                         assignPublicIp:
                           description: Whether the VNIC should be assigned a public
@@ -133,6 +139,13 @@ spec:
                             and GetPrivateIp.
                           type: string
                         ipv6addressIpv6SubnetCidrPairDetails:
+                          description: A list of IPv6 prefix ranges from which the
+                            VNIC should be assigned an IPv6 address. You can provide
+                            only the prefix ranges from which Oracle Cloud Infrastructure
+                            will select an available address from the range. You can
+                            optionally choose to leave the prefix range empty and
+                            instead provide the specific IPv6 address that should
+                            be used from within that range.
                           items:
                             properties:
                               ipv6Address:
@@ -164,6 +177,11 @@ spec:
                         securityAttributes:
                           additionalProperties:
                             type: string
+                          description: 'Security Attributes for this resource. This
+                            is unique to ZPR, and helps identify which resources are
+                            allowed to be accessed by what permission controls.  Example:
+                            {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42",
+                            "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}'
                           type: object
                           x-kubernetes-map-type: granular
                         skipSourceDestCheck:
@@ -300,12 +318,18 @@ spec:
                     items:
                       properties:
                         assignIpv6Ip:
+                          description: 'Whether to allocate an IPv6 address at instance
+                            and VNIC creation from an IPv6 enabled subnet. Default:
+                            False. When provided you may optionally provide an IPv6
+                            prefix (ipv6SubnetCidr) of your choice to assign the IPv6
+                            address from. If ipv6SubnetCidr is not provided then an
+                            IPv6 prefix is chosen for you.'
                           type: boolean
                         assignPrivateDnsRecord:
-                          description: 'Whether the VNIC should be assigned a DNS
-                            record. If set to false, no DNS record registion for the
-                            VNIC; if set to true, DNS record will be registered. Example:
-                            true'
+                          description: Whether the VNIC should be assigned a DNS record.
+                            If set to false, there will be no DNS record registration
+                            for the VNIC. If set to true, the DNS record will be registered.
+                            The default value is true.
                           type: boolean
                         assignPublicIp:
                           description: Whether the VNIC should be assigned a public
@@ -352,6 +376,13 @@ spec:
                             and GetPrivateIp.
                           type: string
                         ipv6addressIpv6SubnetCidrPairDetails:
+                          description: A list of IPv6 prefix ranges from which the
+                            VNIC should be assigned an IPv6 address. You can provide
+                            only the prefix ranges from which Oracle Cloud Infrastructure
+                            will select an available address from the range. You can
+                            optionally choose to leave the prefix range empty and
+                            instead provide the specific IPv6 address that should
+                            be used from within that range.
                           items:
                             properties:
                               ipv6Address:
@@ -383,6 +414,11 @@ spec:
                         securityAttributes:
                           additionalProperties:
                             type: string
+                          description: 'Security Attributes for this resource. This
+                            is unique to ZPR, and helps identify which resources are
+                            allowed to be accessed by what permission controls.  Example:
+                            {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42",
+                            "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}'
                           type: object
                           x-kubernetes-map-type: granular
                         skipSourceDestCheck:
@@ -691,12 +727,18 @@ spec:
                     items:
                       properties:
                         assignIpv6Ip:
+                          description: 'Whether to allocate an IPv6 address at instance
+                            and VNIC creation from an IPv6 enabled subnet. Default:
+                            False. When provided you may optionally provide an IPv6
+                            prefix (ipv6SubnetCidr) of your choice to assign the IPv6
+                            address from. If ipv6SubnetCidr is not provided then an
+                            IPv6 prefix is chosen for you.'
                           type: boolean
                         assignPrivateDnsRecord:
-                          description: 'Whether the VNIC should be assigned a DNS
-                            record. If set to false, no DNS record registion for the
-                            VNIC; if set to true, DNS record will be registered. Example:
-                            true'
+                          description: Whether the VNIC should be assigned a DNS record.
+                            If set to false, there will be no DNS record registration
+                            for the VNIC. If set to true, the DNS record will be registered.
+                            The default value is true.
                           type: boolean
                         assignPublicIp:
                           description: Whether the VNIC should be assigned a public
@@ -743,6 +785,13 @@ spec:
                             and GetPrivateIp.
                           type: string
                         ipv6addressIpv6SubnetCidrPairDetails:
+                          description: A list of IPv6 prefix ranges from which the
+                            VNIC should be assigned an IPv6 address. You can provide
+                            only the prefix ranges from which Oracle Cloud Infrastructure
+                            will select an available address from the range. You can
+                            optionally choose to leave the prefix range empty and
+                            instead provide the specific IPv6 address that should
+                            be used from within that range.
                           items:
                             properties:
                               ipv6Address:
@@ -774,6 +823,11 @@ spec:
                         securityAttributes:
                           additionalProperties:
                             type: string
+                          description: 'Security Attributes for this resource. This
+                            is unique to ZPR, and helps identify which resources are
+                            allowed to be accessed by what permission controls.  Example:
+                            {"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42",
+                            "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}'
                           type: object
                           x-kubernetes-map-type: granular
                         skipSourceDestCheck:

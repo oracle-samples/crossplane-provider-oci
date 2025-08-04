@@ -110,12 +110,17 @@ spec:
                       from the subnet.  Example: 10.0.3.3'
                     type: string
                   lifetime:
+                    description: '(Updatable) Lifetime of the IP address. There are
+                      two types of IPv6 IPs:'
                     type: string
                   routeTableId:
-                    description: The private IP's Oracle ID (OCID).
+                    description: (Updatable) The OCID of the route table the IP address
+                      or VNIC will use. For more information, see Source Based Routing.
                     type: string
                   subnetId:
-                    description: The OCID of the subnet the VNIC is in.
+                    description: The OCID of the subnet from which the private IP
+                      is to be drawn. The IP address, if supplied, must be valid for
+                      the given subnet.
                     type: string
                   vlanId:
                     description: Use this attribute only with the Oracle Cloud VMware
@@ -324,12 +329,17 @@ spec:
                       from the subnet.  Example: 10.0.3.3'
                     type: string
                   lifetime:
+                    description: '(Updatable) Lifetime of the IP address. There are
+                      two types of IPv6 IPs:'
                     type: string
                   routeTableId:
-                    description: The private IP's Oracle ID (OCID).
+                    description: (Updatable) The OCID of the route table the IP address
+                      or VNIC will use. For more information, see Source Based Routing.
                     type: string
                   subnetId:
-                    description: The OCID of the subnet the VNIC is in.
+                    description: The OCID of the subnet from which the private IP
+                      is to be drawn. The IP address, if supplied, must be valid for
+                      the given subnet.
                     type: string
                   vlanId:
                     description: Use this attribute only with the Oracle Cloud VMware
@@ -709,6 +719,8 @@ spec:
                       from the subnet.  Example: 10.0.3.3'
                     type: string
                   ipState:
+                    description: State of the IP address. If an IP address is assigned
+                      to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
                     type: string
                   isPrimary:
                     description: 'Whether this private IP is the primary one on the
@@ -716,16 +728,19 @@ spec:
                       when the VNIC is terminated.  Example: true'
                     type: boolean
                   isReserved:
-                    description: true if the IP is reserved and can exist detached
-                      from vnic
                     type: boolean
                   lifetime:
+                    description: '(Updatable) Lifetime of the IP address. There are
+                      two types of IPv6 IPs:'
                     type: string
                   routeTableId:
-                    description: The private IP's Oracle ID (OCID).
+                    description: (Updatable) The OCID of the route table the IP address
+                      or VNIC will use. For more information, see Source Based Routing.
                     type: string
                   subnetId:
-                    description: The OCID of the subnet the VNIC is in.
+                    description: The OCID of the subnet from which the private IP
+                      is to be drawn. The IP address, if supplied, must be valid for
+                      the given subnet.
                     type: string
                   timeCreated:
                     description: 'The date and time the private IP was created, in

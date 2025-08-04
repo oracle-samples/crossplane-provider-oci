@@ -53,29 +53,37 @@ type ConditionsParameters struct {
 }
 
 type IPMaxConnectionsInitParameters struct {
+
+	// (Updatable) Each element in the list should be valid IPv4 or IPv6 CIDR Block address. Example: '["129.213.176.0/24", "150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]'
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// (Updatable) The maximum number of simultaneous connections that the specified IPs can make to the Listener. IPs without a maxConnections setting can make either defaultMaxConnections simultaneous connections to a listener or, if no defaultMaxConnections is specified, an unlimited number of simultaneous connections to a listener.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 }
 
 type IPMaxConnectionsObservation struct {
+
+	// (Updatable) Each element in the list should be valid IPv4 or IPv6 CIDR Block address. Example: '["129.213.176.0/24", "150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]'
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// (Updatable) The maximum number of simultaneous connections that the specified IPs can make to the Listener. IPs without a maxConnections setting can make either defaultMaxConnections simultaneous connections to a listener or, if no defaultMaxConnections is specified, an unlimited number of simultaneous connections to a listener.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 }
 
 type IPMaxConnectionsParameters struct {
 
+	// (Updatable) Each element in the list should be valid IPv4 or IPv6 CIDR Block address. Example: '["129.213.176.0/24", "150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]'
 	// +kubebuilder:validation:Optional
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// (Updatable) The maximum number of simultaneous connections that the specified IPs can make to the Listener. IPs without a maxConnections setting can make either defaultMaxConnections simultaneous connections to a listener or, if no defaultMaxConnections is specified, an unlimited number of simultaneous connections to a listener.
 	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 }
 
 type ItemsInitParameters struct {
 
-	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
+	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, IP_BASED_MAX_CONNECTIONS, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// (Updatable) The list of HTTP methods allowed for this listener.
@@ -88,6 +96,7 @@ type ItemsInitParameters struct {
 	// (Updatable)
 	Conditions []ConditionsInitParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) The maximum number of connections that the any IP can make to a listener unless the IP is mentioned in maxConnections. If no defaultMaxConnections is specified the default is unlimited.
 	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
 
 	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
@@ -99,6 +108,7 @@ type ItemsInitParameters struct {
 	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
 	Header *string `json:"header,omitempty" tf:"header,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) An array of IPs that have a maxConnection setting different than the default and what that maxConnection setting is
 	IPMaxConnections []IPMaxConnectionsInitParameters `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
 
 	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
@@ -122,7 +132,7 @@ type ItemsInitParameters struct {
 
 type ItemsObservation struct {
 
-	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
+	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, IP_BASED_MAX_CONNECTIONS, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// (Updatable) The list of HTTP methods allowed for this listener.
@@ -135,6 +145,7 @@ type ItemsObservation struct {
 	// (Updatable)
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) The maximum number of connections that the any IP can make to a listener unless the IP is mentioned in maxConnections. If no defaultMaxConnections is specified the default is unlimited.
 	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
 
 	// (Applicable when action=ALLOW) (Updatable) A brief description of the access control rule. Avoid entering confidential information.
@@ -146,6 +157,7 @@ type ItemsObservation struct {
 	// (Updatable) A header name that conforms to RFC 7230.  Example: example_header_name
 	Header *string `json:"header,omitempty" tf:"header,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) An array of IPs that have a maxConnection setting different than the default and what that maxConnection setting is
 	IPMaxConnections []IPMaxConnectionsObservation `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
 
 	// (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230. With the following exceptions:
@@ -169,7 +181,7 @@ type ItemsObservation struct {
 
 type ItemsParameters struct {
 
-	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
+	// (Updatable) The action can be one of these values: ADD_HTTP_REQUEST_HEADER, ADD_HTTP_RESPONSE_HEADER, ALLOW, CONTROL_ACCESS_USING_HTTP_METHODS, EXTEND_HTTP_REQUEST_HEADER_VALUE, EXTEND_HTTP_RESPONSE_HEADER_VALUE, HTTP_HEADER, IP_BASED_MAX_CONNECTIONS, REDIRECT, REMOVE_HTTP_REQUEST_HEADER, REMOVE_HTTP_RESPONSE_HEADER
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action" tf:"action,omitempty"`
 
@@ -186,6 +198,7 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) The maximum number of connections that the any IP can make to a listener unless the IP is mentioned in maxConnections. If no defaultMaxConnections is specified the default is unlimited.
 	// +kubebuilder:validation:Optional
 	DefaultMaxConnections *float64 `json:"defaultMaxConnections,omitempty" tf:"default_max_connections,omitempty"`
 
@@ -201,6 +214,7 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Header *string `json:"header,omitempty" tf:"header,omitempty"`
 
+	// (Applicable when action=IP_BASED_MAX_CONNECTIONS) (Updatable) An array of IPs that have a maxConnection setting different than the default and what that maxConnection setting is
 	// +kubebuilder:validation:Optional
 	IPMaxConnections []IPMaxConnectionsParameters `json:"ipMaxConnections,omitempty" tf:"ip_max_connections,omitempty"`
 

@@ -32,52 +32,55 @@ type CrossConnectGroupInitParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	MacsecProperties []CrossConnectGroupMacsecPropertiesInitParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 }
 
 type CrossConnectGroupMacsecPropertiesInitParameters struct {
 
-	// Type of encryption cipher suite to use for the MACsec connection.
+	// (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
+	// (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
 	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	PrimaryKey []MacsecPropertiesPrimaryKeyInitParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type CrossConnectGroupMacsecPropertiesObservation struct {
 
-	// Type of encryption cipher suite to use for the MACsec connection.
+	// (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
+	// (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
 	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	PrimaryKey []MacsecPropertiesPrimaryKeyObservation `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type CrossConnectGroupMacsecPropertiesParameters struct {
 
-	// Type of encryption cipher suite to use for the MACsec connection.
+	// (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	// +kubebuilder:validation:Optional
 	EncryptionCipher *string `json:"encryptionCipher,omitempty" tf:"encryption_cipher,omitempty"`
 
+	// (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
 	// +kubebuilder:validation:Optional
 	IsUnprotectedTrafficAllowed *bool `json:"isUnprotectedTrafficAllowed,omitempty" tf:"is_unprotected_traffic_allowed,omitempty"`
 
-	// An object defining the Secrets-in-Vault OCIDs representing the MACsec key.
+	// (Updatable) Defines the secret OCIDs held in Vault that represent the MACsec key.
 	// +kubebuilder:validation:Optional
 	PrimaryKey []MacsecPropertiesPrimaryKeyParameters `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state" tf:"state,omitempty"`
 }
@@ -104,7 +107,7 @@ type CrossConnectGroupObservation struct {
 	// The cross-connect group's Oracle ID (OCID).
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	MacsecProperties []CrossConnectGroupMacsecPropertiesObservation `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 
 	// The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection.
@@ -113,7 +116,7 @@ type CrossConnectGroupObservation struct {
 	// The FastConnect device that terminates the physical connection.
 	OciPhysicalDeviceName *string `json:"ociPhysicalDeviceName,omitempty" tf:"oci_physical_device_name,omitempty"`
 
-	// Indicates whether or not MACsec is enabled.
+	// (Updatable) Indicates whether or not MACsec is enabled.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
 	// The date and time the cross-connect group was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -144,56 +147,56 @@ type CrossConnectGroupParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// Properties used for MACsec (if capable).
+	// (Updatable) Properties used to configure MACsec (if capable).
 	// +kubebuilder:validation:Optional
 	MacsecProperties []CrossConnectGroupMacsecPropertiesParameters `json:"macsecProperties,omitempty" tf:"macsec_properties,omitempty"`
 }
 
 type MacsecPropertiesPrimaryKeyInitParameters struct {
 
-	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId,omitempty" tf:"connectivity_association_key_secret_id,omitempty"`
 
-	// The secret version of the connectivityAssociationKey secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_key_secret_id secret in Vault.
 	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
 
-	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId,omitempty" tf:"connectivity_association_name_secret_id,omitempty"`
 
-	// The secret version of the connectivity association name secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_name_secret_id secret in Vault.
 	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }
 
 type MacsecPropertiesPrimaryKeyObservation struct {
 
-	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId,omitempty" tf:"connectivity_association_key_secret_id,omitempty"`
 
-	// The secret version of the connectivityAssociationKey secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_key_secret_id secret in Vault.
 	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
 
-	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId,omitempty" tf:"connectivity_association_name_secret_id,omitempty"`
 
-	// The secret version of the connectivity association name secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_name_secret_id secret in Vault.
 	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }
 
 type MacsecPropertiesPrimaryKeyParameters struct {
 
-	// Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity Association Key (CAK) of this MACsec key.
 	// +kubebuilder:validation:Optional
 	ConnectivityAssociationKeySecretID *string `json:"connectivityAssociationKeySecretId" tf:"connectivity_association_key_secret_id,omitempty"`
 
-	// The secret version of the connectivityAssociationKey secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_key_secret_id secret in Vault.
 	// +kubebuilder:validation:Optional
 	ConnectivityAssociationKeySecretVersion *string `json:"connectivityAssociationKeySecretVersion,omitempty" tf:"connectivity_association_key_secret_version,omitempty"`
 
-	// Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
+	// (Updatable) Secret OCID containing the Connectivity association Key Name (CKN) of this MACsec key.
 	// +kubebuilder:validation:Optional
 	ConnectivityAssociationNameSecretID *string `json:"connectivityAssociationNameSecretId" tf:"connectivity_association_name_secret_id,omitempty"`
 
-	// The secret version of the connectivity association name secret in Vault.
+	// (Updatable) The secret version of the connectivity_association_name_secret_id secret in Vault.
 	// +kubebuilder:validation:Optional
 	ConnectivityAssociationNameSecretVersion *string `json:"connectivityAssociationNameSecretVersion,omitempty" tf:"connectivity_association_name_secret_version,omitempty"`
 }

@@ -16,7 +16,9 @@ spec:
     bootVolumeReplicas:
     - availabilityDomain: ${var.boot_volume_boot_volume_replicas_availability_domain}
       displayName: ${var.boot_volume_boot_volume_replicas_display_name}
+      xrrKmsKeyId: ${oci_kms_key.test_key.id}
     bootVolumeReplicasDeletion: true
+    clusterPlacementGroupId: ${oci_identity_group.test_group.id}
     compartmentId: ${var.compartment_id}
     definedTags:
       Operations.CostCenter: "42"
@@ -27,6 +29,10 @@ spec:
     kmsKeyId: ${oci_kms_key.test_key.id}
     sizeInGbs: ${var.boot_volume_size_in_gbs}
     sourceDetails:
-    - id: ${var.boot_volume_source_details_id}
+    - changeBlockSizeInBytes: ${var.boot_volume_source_details_change_block_size_in_bytes}
+      firstBackupId: ${oci_database_backup.test_backup.id}
+      id: ${var.boot_volume_source_details_id}
+      secondBackupId: ${oci_database_backup.test_backup.id}
       type: ${var.boot_volume_source_details_type}
     vpusPerGb: ${var.boot_volume_vpus_per_gb}
+    xrcKmsKeyId: ${oci_kms_key.test_key.id}

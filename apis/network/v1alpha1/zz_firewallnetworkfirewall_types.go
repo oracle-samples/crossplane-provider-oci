@@ -30,14 +30,14 @@ type FirewallNetworkFirewallInitParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: {"foo-namespace.bar-key": "value"}
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name for the Network Firewall. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"bar-key": "value"}
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
@@ -47,6 +47,7 @@ type FirewallNetworkFirewallInitParameters struct {
 	// IPv6 address for the Network Firewall.
 	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
 
+	// (Updatable) Nat Configuration request to use Nat feature on firewall.
 	NATConfiguration []NATConfigurationInitParameters `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
 
 	// (Updatable) The OCID of the Network Firewall Policy.
@@ -86,14 +87,14 @@ type FirewallNetworkFirewallObservation struct {
 	// (Updatable) The OCID of the compartment containing the Network Firewall.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: {"foo-namespace.bar-key": "value"}
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
 	// (Updatable) A user-friendly name for the Network Firewall. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"bar-key": "value"}
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
@@ -106,9 +107,10 @@ type FirewallNetworkFirewallObservation struct {
 	// IPv6 address for the Network Firewall.
 	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, it can be used to provide actionable information for a resource in 'FAILED' state.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
+	// (Updatable) Nat Configuration request to use Nat feature on firewall.
 	NATConfiguration []NATConfigurationObservation `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
 
 	// (Updatable) The OCID of the Network Firewall Policy.
@@ -128,10 +130,10 @@ type FirewallNetworkFirewallObservation struct {
 	// +mapType=granular
 	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
-	// The time instant at which the Network Firewall was created in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
+	// The time at which the Network Firewall was created in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
-	// The time instant at which the Network Firewall was updated in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
+	// The time at which the Network Firewall was updated in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	TimeUpdated *string `json:"timeUpdated,omitempty" tf:"time_updated,omitempty"`
 }
 
@@ -154,7 +156,7 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: {"foo-namespace.bar-key": "value"}
+	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
@@ -163,7 +165,7 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: {"bar-key": "value"}
+	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
@@ -176,6 +178,7 @@ type FirewallNetworkFirewallParameters struct {
 	// +kubebuilder:validation:Optional
 	Ipv6Address *string `json:"ipv6address,omitempty" tf:"ipv6address,omitempty"`
 
+	// (Updatable) Nat Configuration request to use Nat feature on firewall.
 	// +kubebuilder:validation:Optional
 	NATConfiguration []NATConfigurationParameters `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
 
@@ -212,17 +215,23 @@ type FirewallNetworkFirewallParameters struct {
 }
 
 type NATConfigurationInitParameters struct {
+
+	// (Updatable) To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall. The value of this field can not be false to release the NAT IPs given that the attached network firewall policy does not contains any NAT rules. The value of this field should be set to true if the network firewall policy being applied contains NAT rules.
 	MustEnablePrivateNAT *bool `json:"mustEnablePrivateNat,omitempty" tf:"must_enable_private_nat,omitempty"`
 }
 
 type NATConfigurationObservation struct {
+
+	// (Updatable) To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall. The value of this field can not be false to release the NAT IPs given that the attached network firewall policy does not contains any NAT rules. The value of this field should be set to true if the network firewall policy being applied contains NAT rules.
 	MustEnablePrivateNAT *bool `json:"mustEnablePrivateNat,omitempty" tf:"must_enable_private_nat,omitempty"`
 
+	// An array of NAT IP addresses that are associated with the Network Firewall. These IPs are reserved for NAT and shouldn't be used for any other purpose in the subnet.
 	NATIPAddressList []*string `json:"natIpAddressList,omitempty" tf:"nat_ip_address_list,omitempty"`
 }
 
 type NATConfigurationParameters struct {
 
+	// (Updatable) To allocate private NAT IPs to the firewall. The attached network firewall policy must also have NAT rules to enable NAT on any traffic passing through the firewall. The value of this field can not be false to release the NAT IPs given that the attached network firewall policy does not contains any NAT rules. The value of this field should be set to true if the network firewall policy being applied contains NAT rules.
 	// +kubebuilder:validation:Optional
 	MustEnablePrivateNAT *bool `json:"mustEnablePrivateNat" tf:"must_enable_private_nat,omitempty"`
 }

@@ -79,10 +79,13 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume group. If omitted,
-                      no policy will be assigned.
+                      no policy will be assigned. This field is deprecated. Use the
+                      oci_core_volume_backup_policy_assignments instead to assign
+                      a backup policy to a volume group.
                     type: string
                   clusterPlacementGroupId:
-                    description: The OCID for the volume group.
+                    description: The clusterPlacementGroup Id of the volume group
+                      for volume group placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -207,7 +210,8 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                         volumeIds:
-                          description: OCIDs for the volumes in this volume group.
+                          description: OCIDs for the volumes used to create this volume
+                            group.
                           items:
                             type: string
                           type: array
@@ -306,19 +310,31 @@ spec:
                             confidential information.
                           type: string
                         xrrKmsKeyId:
-                          description: The OCID for the volume group.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the cross region
+                            volume group's replicas, which will be used in the destination
+                            region to encrypt the volume group's replicas encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   volumeGroupReplicasDeletion:
                     type: boolean
                   volumeIds:
-                    description: OCIDs for the volumes in this volume group.
+                    description: OCIDs for the volumes used to create this volume
+                      group.
                     items:
                       type: string
                     type: array
                   xrcKmsKeyId:
-                    description: The OCID for the volume group.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the volume's cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               initProvider:
@@ -340,10 +356,13 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume group. If omitted,
-                      no policy will be assigned.
+                      no policy will be assigned. This field is deprecated. Use the
+                      oci_core_volume_backup_policy_assignments instead to assign
+                      a backup policy to a volume group.
                     type: string
                   clusterPlacementGroupId:
-                    description: The OCID for the volume group.
+                    description: The clusterPlacementGroup Id of the volume group
+                      for volume group placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -468,7 +487,8 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                         volumeIds:
-                          description: OCIDs for the volumes in this volume group.
+                          description: OCIDs for the volumes used to create this volume
+                            group.
                           items:
                             type: string
                           type: array
@@ -567,19 +587,31 @@ spec:
                             confidential information.
                           type: string
                         xrrKmsKeyId:
-                          description: The OCID for the volume group.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the cross region
+                            volume group's replicas, which will be used in the destination
+                            region to encrypt the volume group's replicas encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   volumeGroupReplicasDeletion:
                     type: boolean
                   volumeIds:
-                    description: OCIDs for the volumes in this volume group.
+                    description: OCIDs for the volumes used to create this volume
+                      group.
                     items:
                       type: string
                     type: array
                   xrcKmsKeyId:
-                    description: The OCID for the volume group.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the volume's cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               managementPolicies:
@@ -769,10 +801,13 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume group. If omitted,
-                      no policy will be assigned.
+                      no policy will be assigned. This field is deprecated. Use the
+                      oci_core_volume_backup_policy_assignments instead to assign
+                      a backup policy to a volume group.
                     type: string
                   clusterPlacementGroupId:
-                    description: The OCID for the volume group.
+                    description: The clusterPlacementGroup Id of the volume group
+                      for volume group placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -835,7 +870,8 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                         volumeIds:
-                          description: OCIDs for the volumes in this volume group.
+                          description: OCIDs for the volumes used to create this volume
+                            group.
                           items:
                             type: string
                           type: array
@@ -867,19 +903,31 @@ spec:
                           description: The OCID of the volume group replica.
                           type: string
                         xrrKmsKeyId:
-                          description: The OCID for the volume group.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the cross region
+                            volume group's replicas, which will be used in the destination
+                            region to encrypt the volume group's replicas encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   volumeGroupReplicasDeletion:
                     type: boolean
                   volumeIds:
-                    description: OCIDs for the volumes in this volume group.
+                    description: OCIDs for the volumes used to create this volume
+                      group.
                     items:
                       type: string
                     type: array
                   xrcKmsKeyId:
-                    description: The OCID for the volume group.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the volume's cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               conditions:

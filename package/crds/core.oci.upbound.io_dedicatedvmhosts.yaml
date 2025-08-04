@@ -116,12 +116,16 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
                     items:
                       properties:
                         computeBareMetalHostId:
-                          description: The OCID of the dedicated VM host.
+                          description: The OCID of the compute bare metal host.
                           type: string
                         type:
+                          description: Determines the type of targeted launch.
                           type: string
                       type: object
                     type: array
@@ -182,12 +186,16 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
                     items:
                       properties:
                         computeBareMetalHostId:
-                          description: The OCID of the dedicated VM host.
+                          description: The OCID of the compute bare metal host.
                           type: string
                         type:
+                          description: Determines the type of targeted launch.
                           type: string
                       type: object
                     type: array
@@ -382,29 +390,33 @@ spec:
                       machine host.  Example: Uocm:PHX-AD-1'
                     type: string
                   capacityBins:
+                    description: A list of total and remaining CPU & memory per capacity
+                      bucket.
                     items:
                       properties:
                         capacityIndex:
+                          description: Zero-based index for the corresponding capacity
+                            bucket.
                           type: number
                         remainingMemoryInGbs:
-                          description: The current available memory of the dedicated
-                            VM host, in GBs.
+                          description: The remaining memory of the capacity bucket,
+                            in GBs.
                           type: number
                         remainingOcpus:
-                          description: The current available OCPUs of the dedicated
-                            VM host.
+                          description: The available OCPUs of the capacity bucket.
                           type: number
                         supportedShapes:
+                          description: List of VMI shapes supported on each capacity
+                            bucket.
                           items:
                             type: string
                           type: array
                         totalMemoryInGbs:
-                          description: The current total memory of the dedicated VM
-                            host, in GBs.
+                          description: The total memory of the capacity bucket, in
+                            GBs.
                           type: number
                         totalOcpus:
-                          description: The current total OCPUs of the dedicated VM
-                            host.
+                          description: The total OCPUs of the capacity bucket.
                           type: number
                       type: object
                     type: array
@@ -412,7 +424,7 @@ spec:
                     description: (Updatable) The OCID of the compartment.
                     type: string
                   computeBareMetalHostId:
-                    description: The OCID of the dedicated VM host.
+                    description: The OCID of the compute bare metal host.
                     type: string
                   dedicatedVmHostShape:
                     description: The dedicated virtual machine host shape. The shape
@@ -453,21 +465,24 @@ spec:
                     description: The OCID of the dedicated VM host.
                     type: string
                   placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
                     items:
                       properties:
                         computeBareMetalHostId:
-                          description: The OCID of the dedicated VM host.
+                          description: The OCID of the compute bare metal host.
                           type: string
                         type:
+                          description: Determines the type of targeted launch.
                           type: string
                       type: object
                     type: array
                   remainingMemoryInGbs:
-                    description: The current available memory of the dedicated VM
-                      host, in GBs.
+                    description: The remaining memory of the capacity bucket, in GBs.
                     type: number
                   remainingOcpus:
-                    description: The current available OCPUs of the dedicated VM host.
+                    description: The available OCPUs of the capacity bucket.
                     type: number
                   state:
                     description: The current state of the dedicated VM host.
@@ -477,11 +492,10 @@ spec:
                       in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
                   totalMemoryInGbs:
-                    description: The current total memory of the dedicated VM host,
-                      in GBs.
+                    description: The total memory of the capacity bucket, in GBs.
                     type: number
                   totalOcpus:
-                    description: The current total OCPUs of the dedicated VM host.
+                    description: The total OCPUs of the capacity bucket.
                     type: number
                 type: object
               conditions:

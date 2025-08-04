@@ -8,9 +8,6 @@ metadata:
   name: test-record
 spec:
   forProvider:
-    compartmentIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
     domain: ${var.record_items_domain}
     rdata: ${var.record_items_rdata}
     rtype: ${var.record_items_rtype}

@@ -105,9 +105,10 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   kmsKeyId:
-                    description: The OCID of the KMS key in the destination region
-                      which will be the master encryption key for the copied volume
-                      backup.
+                    description: (Updatable) The OCID of the Vault service key which
+                      is the master encryption key for the volume backup. For more
+                      information about the Vault service and encryption keys, see
+                      Overview of Vault service and Using Keys.
                     type: string
                   sourceDetails:
                     description: Details of the volume backup source in the cloud.
@@ -118,9 +119,10 @@ spec:
                           description: The OCID of the source volume backup.
                           type: string
                         kmsKeyId:
-                          description: The OCID of the KMS key in the destination
-                            region which will be the master encryption key for the
-                            copied volume backup.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the volume backup.
+                            For more information about the Vault service and encryption
+                            keys, see Overview of Vault service and Using Keys.
                           type: string
                         region:
                           description: The region of the volume backup source.
@@ -176,9 +178,10 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   kmsKeyId:
-                    description: The OCID of the KMS key in the destination region
-                      which will be the master encryption key for the copied volume
-                      backup.
+                    description: (Updatable) The OCID of the Vault service key which
+                      is the master encryption key for the volume backup. For more
+                      information about the Vault service and encryption keys, see
+                      Overview of Vault service and Using Keys.
                     type: string
                   sourceDetails:
                     description: Details of the volume backup source in the cloud.
@@ -189,9 +192,10 @@ spec:
                           description: The OCID of the source volume backup.
                           type: string
                         kmsKeyId:
-                          description: The OCID of the KMS key in the destination
-                            region which will be the master encryption key for the
-                            copied volume backup.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the volume backup.
+                            For more information about the Vault service and encryption
+                            keys, see Overview of Vault service and Using Keys.
                           type: string
                         region:
                           description: The region of the volume backup source.
@@ -421,9 +425,10 @@ spec:
                       backup is taken from.
                     type: string
                   kmsKeyId:
-                    description: The OCID of the KMS key in the destination region
-                      which will be the master encryption key for the copied volume
-                      backup.
+                    description: (Updatable) The OCID of the Vault service key which
+                      is the master encryption key for the volume backup. For more
+                      information about the Vault service and encryption keys, see
+                      Overview of Vault service and Using Keys.
                     type: string
                   sizeInGbs:
                     description: The size of the boot volume, in GBs.
@@ -440,9 +445,10 @@ spec:
                           description: The OCID of the source volume backup.
                           type: string
                         kmsKeyId:
-                          description: The OCID of the KMS key in the destination
-                            region which will be the master encryption key for the
-                            copied volume backup.
+                          description: (Updatable) The OCID of the Vault service key
+                            which is the master encryption key for the volume backup.
+                            For more information about the Vault service and encryption
+                            keys, see Overview of Vault service and Using Keys.
                           type: string
                         region:
                           description: The region of the volume backup source.

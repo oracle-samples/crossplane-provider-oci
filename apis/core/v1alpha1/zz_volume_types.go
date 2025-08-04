@@ -50,7 +50,7 @@ type VolumeBlockVolumeReplicasInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region block volume replicas, which will be used in the destination region to encrypt the block volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -65,10 +65,10 @@ type VolumeBlockVolumeReplicasObservation struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see Overview of Vault service and Using Keys.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region block volume replicas, which will be used in the destination region to encrypt the block volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -82,7 +82,7 @@ type VolumeBlockVolumeReplicasParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region block volume replicas, which will be used in the destination region to encrypt the block volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
@@ -95,7 +95,7 @@ type VolumeInitParameters struct {
 	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
@@ -103,7 +103,7 @@ type VolumeInitParameters struct {
 
 	BlockVolumeReplicasDeletion *bool `json:"blockVolumeReplicasDeletion,omitempty" tf:"block_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the volume.
@@ -132,6 +132,7 @@ type VolumeInitParameters struct {
 	// (Updatable) Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the DetachedVolumeAutotunePolicy instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `json:"isAutoTuneEnabled,omitempty" tf:"is_auto_tune_enabled,omitempty"`
 
+	// (Updatable) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
 	IsReservationsEnabled *bool `json:"isReservationsEnabled,omitempty" tf:"is_reservations_enabled,omitempty"`
 
 	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
@@ -140,9 +141,10 @@ type VolumeInitParameters struct {
 	// (Updatable) The size of the volume in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
-	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use size_in_gbs instead.
+	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead.
 	SizeInMbs *string `json:"sizeInMbs,omitempty" tf:"size_in_mbs,omitempty"`
 
+	// Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup.
 	SourceDetails []VolumeSourceDetailsInitParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
 	// The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the sourceDetails field instead to specify the backup for the volume.
@@ -151,7 +153,7 @@ type VolumeInitParameters struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -166,7 +168,7 @@ type VolumeObservation struct {
 	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
 	// (Updatable) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
@@ -174,7 +176,7 @@ type VolumeObservation struct {
 
 	BlockVolumeReplicasDeletion *bool `json:"blockVolumeReplicasDeletion,omitempty" tf:"block_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the volume.
@@ -191,7 +193,7 @@ type VolumeObservation struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the volume.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Updatable) Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the DetachedVolumeAutotunePolicy instead to enable the volume for detached autotune.
@@ -200,6 +202,7 @@ type VolumeObservation struct {
 	// Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 	IsHydrated *bool `json:"isHydrated,omitempty" tf:"is_hydrated,omitempty"`
 
+	// (Updatable) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
 	IsReservationsEnabled *bool `json:"isReservationsEnabled,omitempty" tf:"is_reservations_enabled,omitempty"`
 
 	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
@@ -208,9 +211,10 @@ type VolumeObservation struct {
 	// (Updatable) The size of the volume in GBs.
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
-	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use size_in_gbs instead.
+	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead.
 	SizeInMbs *string `json:"sizeInMbs,omitempty" tf:"size_in_mbs,omitempty"`
 
+	// Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup.
 	SourceDetails []VolumeSourceDetailsObservation `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
 	// The current state of a volume.
@@ -232,7 +236,7 @@ type VolumeObservation struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -246,7 +250,7 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
@@ -257,7 +261,7 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	BlockVolumeReplicasDeletion *bool `json:"blockVolumeReplicasDeletion,omitempty" tf:"block_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	// +kubebuilder:validation:Optional
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
@@ -292,6 +296,7 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	IsAutoTuneEnabled *bool `json:"isAutoTuneEnabled,omitempty" tf:"is_auto_tune_enabled,omitempty"`
 
+	// (Updatable) Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
 	// +kubebuilder:validation:Optional
 	IsReservationsEnabled *bool `json:"isReservationsEnabled,omitempty" tf:"is_reservations_enabled,omitempty"`
 
@@ -303,10 +308,11 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	SizeInGbs *string `json:"sizeInGbs,omitempty" tf:"size_in_gbs,omitempty"`
 
-	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use size_in_gbs instead.
+	// The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead.
 	// +kubebuilder:validation:Optional
 	SizeInMbs *string `json:"sizeInMbs,omitempty" tf:"size_in_mbs,omitempty"`
 
+	// Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup.
 	// +kubebuilder:validation:Optional
 	SourceDetails []VolumeSourceDetailsParameters `json:"sourceDetails,omitempty" tf:"source_details,omitempty"`
 
@@ -318,49 +324,54 @@ type VolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume.
+	// The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
 type VolumeSourceDetailsInitParameters struct {
+
+	// (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the first volume backup.
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
 	// The OCID of the block volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the second volume backup.
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup
+	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup, volumeBackupDelta
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type VolumeSourceDetailsObservation struct {
+
+	// (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the first volume backup.
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
 	// The OCID of the block volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the second volume backup.
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup
+	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup, volumeBackupDelta
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type VolumeSourceDetailsParameters struct {
 
+	// (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	// +kubebuilder:validation:Optional
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the first volume backup.
 	// +kubebuilder:validation:Optional
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
@@ -368,11 +379,11 @@ type VolumeSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the block volume replica.
+	// The OCID of the second volume backup.
 	// +kubebuilder:validation:Optional
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup
+	// The type can be one of these values: blockVolumeReplica, volume, volumeBackup, volumeBackupDelta
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }

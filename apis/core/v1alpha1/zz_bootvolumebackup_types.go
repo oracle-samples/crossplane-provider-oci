@@ -32,7 +32,7 @@ type BootVolumeBackupInitParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Details of the volume backup source in the cloud. Cannot be defined if boot_volume_id is defined.
@@ -70,7 +70,7 @@ type BootVolumeBackupObservation struct {
 	// The image OCID used to create the boot volume the backup is taken from.
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The size of the boot volume, in GBs.
@@ -129,7 +129,7 @@ type BootVolumeBackupParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
@@ -147,7 +147,7 @@ type BootVolumeBackupSourceDetailsInitParameters struct {
 	// The OCID of the source volume backup.
 	BootVolumeBackupID *string `json:"bootVolumeBackupId,omitempty" tf:"boot_volume_backup_id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The region of the volume backup source.
@@ -159,7 +159,7 @@ type BootVolumeBackupSourceDetailsObservation struct {
 	// The OCID of the source volume backup.
 	BootVolumeBackupID *string `json:"bootVolumeBackupId,omitempty" tf:"boot_volume_backup_id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The region of the volume backup source.
@@ -172,7 +172,7 @@ type BootVolumeBackupSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	BootVolumeBackupID *string `json:"bootVolumeBackupId" tf:"boot_volume_backup_id,omitempty"`
 
-	// The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the volume backup. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 

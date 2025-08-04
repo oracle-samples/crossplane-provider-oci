@@ -21,10 +21,10 @@ type ItemsInitParameters struct {
 	// (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see Supported DNS Resource Record Types
 	Rdata *string `json:"rdata,omitempty" tf:"rdata,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
-	// (Updatable) The Time To Live for the record, in seconds.
+	// (Updatable) The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -45,10 +45,10 @@ type ItemsObservation struct {
 	// The latest version of the record's zone in which its RRSet differs from the preceding version.
 	RrsetVersion *string `json:"rrsetVersion,omitempty" tf:"rrset_version,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
-	// (Updatable) The Time To Live for the record, in seconds.
+	// (Updatable) The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
@@ -62,18 +62,18 @@ type ItemsParameters struct {
 	// +kubebuilder:validation:Optional
 	Rdata *string `json:"rdata" tf:"rdata,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	// +kubebuilder:validation:Optional
 	Rtype *string `json:"rtype" tf:"rtype,omitempty"`
 
-	// (Updatable) The Time To Live for the record, in seconds.
+	// (Updatable) The Time To Live for the record, in seconds. Using a TTL lower than 30 seconds is not recommended.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl" tf:"ttl,omitempty"`
 }
 
 type RrsetInitParameters struct {
 
-	// (Updatable) The OCID of the compartment the resource belongs to.
+	// (Updatable) The OCID of the compartment the zone belongs to.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
@@ -89,17 +89,16 @@ type RrsetInitParameters struct {
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// (Updatable)
-	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
+	// NOTE Omitting items at time of create will delete any existing records in the RRSet
 	Items []ItemsInitParameters `json:"items,omitempty" tf:"items,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.
-	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
-	// The OCID of the view the resource is associated with.
+	// The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 
 	// The name or OCID of the target zone.
@@ -108,7 +107,7 @@ type RrsetInitParameters struct {
 
 type RrsetObservation struct {
 
-	// (Updatable) The OCID of the compartment the resource belongs to.
+	// (Updatable) The OCID of the compartment the zone belongs to.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// The target fully-qualified domain name (FQDN) within the target zone.
@@ -117,17 +116,16 @@ type RrsetObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Updatable)
-	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
+	// NOTE Omitting items at time of create will delete any existing records in the RRSet
 	Items []ItemsObservation `json:"items,omitempty" tf:"items,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.
-	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
-	// The OCID of the view the resource is associated with.
+	// The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 
 	// The name or OCID of the target zone.
@@ -136,7 +134,7 @@ type RrsetObservation struct {
 
 type RrsetParameters struct {
 
-	// (Updatable) The OCID of the compartment the resource belongs to.
+	// (Updatable) The OCID of the compartment the zone belongs to.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
@@ -154,20 +152,19 @@ type RrsetParameters struct {
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// (Updatable)
-	// NOTE Omitting items at time of create, will delete any existing records in the RRSet
+	// NOTE Omitting items at time of create will delete any existing records in the RRSet
 	// +kubebuilder:validation:Optional
 	Items []ItemsParameters `json:"items,omitempty" tf:"items,omitempty"`
 
-	// The canonical name for the record's type, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
+	// The type of DNS record, such as A or CNAME. For more information, see Resource Record (RR) TYPEs.
 	// +kubebuilder:validation:Optional
 	Rtype *string `json:"rtype,omitempty" tf:"rtype,omitempty"`
 
 	// Specifies to operate only on resources that have a matching DNS scope.
-	// This value will be null for zones in the global DNS and PRIVATE when creating private Rrsets.
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
-	// The OCID of the view the resource is associated with.
+	// The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 	// +kubebuilder:validation:Optional
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 

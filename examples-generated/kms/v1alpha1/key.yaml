@@ -8,14 +8,24 @@ metadata:
   name: test-key
 spec:
   forProvider:
+    autoKeyRotationDetails:
+    - lastRotationMessage: ${var.key_auto_key_rotation_details_last_rotation_message}
+      lastRotationStatus: ${var.key_auto_key_rotation_details_last_rotation_status}
+      rotationIntervalInDays: ${var.key_auto_key_rotation_details_rotation_interval_in_days}
+      timeOfLastRotation: ${var.key_auto_key_rotation_details_time_of_last_rotation}
+      timeOfNextRotation: ${var.key_auto_key_rotation_details_time_of_next_rotation}
+      timeOfScheduleStart: ${var.key_auto_key_rotation_details_time_of_schedule_start}
     compartmentIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
     definedTags:
       Operations.CostCenter: "42"
     displayName: ${var.key_display_name}
+    externalKeyReference:
+    - externalKeyId: ${oci_kms_key.test_key.id}
     freeformTags:
       Department: Finance
+    isAutoRotationEnabled: ${var.key_is_auto_rotation_enabled}
     keyShape:
     - algorithm: ${var.key_key_shape_algorithm}
       curveId: ${oci_kms_curve.test_curve.id}

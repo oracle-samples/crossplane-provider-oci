@@ -187,6 +187,8 @@ spec:
                       203.0.113.2'
                     type: string
                   isPrivate:
+                    description: Indicates whether this CPE is of type private or
+                      not.
                     type: boolean
                 type: object
               initProvider:
@@ -316,6 +318,8 @@ spec:
                       203.0.113.2'
                     type: string
                   isPrivate:
+                    description: Indicates whether this CPE is of type private or
+                      not.
                     type: boolean
                 type: object
               managementPolicies:
@@ -536,6 +540,8 @@ spec:
                       203.0.113.2'
                     type: string
                   isPrivate:
+                    description: Indicates whether this CPE is of type private or
+                      not.
                     type: boolean
                   timeCreated:
                     description: 'The date and time the CPE was created, in the format

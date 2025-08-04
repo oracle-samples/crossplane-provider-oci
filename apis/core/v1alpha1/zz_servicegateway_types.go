@@ -15,7 +15,7 @@ import (
 
 type ServiceGatewayInitParameters struct {
 
-	// (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
+	// (Updatable) The OCID of the compartment to contain the service gateway.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
@@ -62,7 +62,7 @@ type ServiceGatewayObservation struct {
 	// Whether the service gateway blocks all traffic through it. The default is false. When this is true, traffic is not routed to any services, regardless of route rules.  Example: true
 	BlockTraffic *bool `json:"blockTraffic,omitempty" tf:"block_traffic,omitempty"`
 
-	// (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
+	// (Updatable) The OCID of the compartment to contain the service gateway.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -97,7 +97,7 @@ type ServiceGatewayObservation struct {
 
 type ServiceGatewayParameters struct {
 
-	// (Updatable) The [OCID] (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
+	// (Updatable) The OCID of the compartment to contain the service gateway.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`

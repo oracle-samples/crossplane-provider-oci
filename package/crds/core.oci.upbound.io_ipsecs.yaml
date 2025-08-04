@@ -347,6 +347,8 @@ spec:
                       type: string
                     type: array
                   tunnelConfiguration:
+                    description: (Non-updatable) Tunnel configuration for private
+                      ipsec connection over fastconnect.
                     items:
                       properties:
                         associatedVirtualCircuits:
@@ -648,6 +650,8 @@ spec:
                       type: string
                     type: array
                   tunnelConfiguration:
+                    description: (Non-updatable) Tunnel configuration for private
+                      ipsec connection over fastconnect.
                     items:
                       properties:
                         associatedVirtualCircuits:
@@ -899,8 +903,11 @@ spec:
                       in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
                     type: string
                   transportType:
+                    description: The transport type used for the IPSec connection.
                     type: string
                   tunnelConfiguration:
+                    description: (Non-updatable) Tunnel configuration for private
+                      ipsec connection over fastconnect.
                     items:
                       properties:
                         associatedVirtualCircuits:

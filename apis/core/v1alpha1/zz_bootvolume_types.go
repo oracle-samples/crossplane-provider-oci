@@ -50,7 +50,7 @@ type BootVolumeInitParameters struct {
 	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a boot volume.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
 	// (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains.
@@ -58,7 +58,7 @@ type BootVolumeInitParameters struct {
 
 	BootVolumeReplicasDeletion *bool `json:"bootVolumeReplicasDeletion,omitempty" tf:"boot_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the boot volume.
@@ -89,7 +89,7 @@ type BootVolumeInitParameters struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key which is the master encryption key for the boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -104,7 +104,7 @@ type BootVolumeObservation struct {
 	// The availability domain of the volume. Omissible for cloning a volume. The new volume will be created in the availability domain of the source volume.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a boot volume.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
 	// (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains.
@@ -112,7 +112,7 @@ type BootVolumeObservation struct {
 
 	BootVolumeReplicasDeletion *bool `json:"bootVolumeReplicasDeletion,omitempty" tf:"boot_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the boot volume.
@@ -168,7 +168,7 @@ type BootVolumeObservation struct {
 	// (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See Block Volume Performance Levels for more information.
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key which is the master encryption key for the boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -182,7 +182,7 @@ type BootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the boot volume backup policy to assign to the newly created boot volume. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a boot volume.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
@@ -193,7 +193,7 @@ type BootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	BootVolumeReplicasDeletion *bool `json:"bootVolumeReplicasDeletion,omitempty" tf:"boot_volume_replicas_deletion,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The clusterPlacementGroup Id of the volume for volume placement.
 	// +kubebuilder:validation:Optional
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
@@ -234,7 +234,7 @@ type BootVolumeParameters struct {
 	// +kubebuilder:validation:Optional
 	VpusPerGb *string `json:"vpusPerGb,omitempty" tf:"vpus_per_gb,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// The OCID of the Vault service key which is the master encryption key for the boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
@@ -247,7 +247,7 @@ type BootVolumeReplicasInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region boot volume replicas, which will be used in the destination region to encrypt the boot volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -265,7 +265,7 @@ type BootVolumeReplicasObservation struct {
 	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region boot volume replicas, which will be used in the destination region to encrypt the boot volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -279,49 +279,54 @@ type BootVolumeReplicasParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region boot volume replicas, which will be used in the destination region to encrypt the boot volume replica's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
 type SourceDetailsInitParameters struct {
+
+	// (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the first boot volume backup.
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
 	// The OCID of the boot volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the second boot volume backup.
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeReplica
+	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeBackupDelta, bootVolumeReplica
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type SourceDetailsObservation struct {
+
+	// (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the first boot volume backup.
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
 	// The OCID of the boot volume replica.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the second boot volume backup.
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeReplica
+	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeBackupDelta, bootVolumeReplica
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type SourceDetailsParameters struct {
 
+	// (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB).
 	// +kubebuilder:validation:Optional
 	ChangeBlockSizeInBytes *string `json:"changeBlockSizeInBytes,omitempty" tf:"change_block_size_in_bytes,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the first boot volume backup.
 	// +kubebuilder:validation:Optional
 	FirstBackupID *string `json:"firstBackupId,omitempty" tf:"first_backup_id,omitempty"`
 
@@ -329,11 +334,11 @@ type SourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The OCID of the boot volume replica.
+	// The OCID of the second boot volume backup.
 	// +kubebuilder:validation:Optional
 	SecondBackupID *string `json:"secondBackupId,omitempty" tf:"second_backup_id,omitempty"`
 
-	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeReplica
+	// The type can be one of these values: bootVolume, bootVolumeBackup, bootVolumeBackupDelta, bootVolumeReplica
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }

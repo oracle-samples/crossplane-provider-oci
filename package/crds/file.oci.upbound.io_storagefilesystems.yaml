@@ -75,12 +75,19 @@ spec:
               forProvider:
                 properties:
                   areQuotaRulesEnabled:
+                    description: (Updatable) Specifies the enforcement of quota rules
+                      on the file system.
                     type: boolean
                   availabilityDomain:
                     description: 'The availability domain to create the file system
                       in.  Example: Uocm:PHX-AD-1'
                     type: string
                   cloneAttachStatus:
+                    description: Specifies whether the clone file system is attached
+                      to its parent file system. If the value is set to 'DETACH',
+                      then the file system will be created, which is deep copied from
+                      the snapshot specified by sourceSnapshotId, else will remain
+                      attached to its parent.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment to create
@@ -171,6 +178,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   detachCloneTrigger:
+                    description: (Updatable) An optional property when incremented
+                      triggers Detach Clone. Could be set to any integer value.
                     type: number
                   displayName:
                     description: '(Updatable) A user-friendly name. It does not have
@@ -178,7 +187,9 @@ spec:
                       information.  Example: My file system'
                     type: string
                   filesystemSnapshotPolicyId:
-                    description: The OCID of the file system.
+                    description: (Updatable) The OCID of the associated file system
+                      snapshot policy, which controls the frequency of snapshot creation
+                      and retention period of the taken snapshots.
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -198,18 +209,24 @@ spec:
                       key.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the file system was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -232,12 +249,19 @@ spec:
                   autoscaler.
                 properties:
                   areQuotaRulesEnabled:
+                    description: (Updatable) Specifies the enforcement of quota rules
+                      on the file system.
                     type: boolean
                   availabilityDomain:
                     description: 'The availability domain to create the file system
                       in.  Example: Uocm:PHX-AD-1'
                     type: string
                   cloneAttachStatus:
+                    description: Specifies whether the clone file system is attached
+                      to its parent file system. If the value is set to 'DETACH',
+                      then the file system will be created, which is deep copied from
+                      the snapshot specified by sourceSnapshotId, else will remain
+                      attached to its parent.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment to create
@@ -328,6 +352,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   detachCloneTrigger:
+                    description: (Updatable) An optional property when incremented
+                      triggers Detach Clone. Could be set to any integer value.
                     type: number
                   displayName:
                     description: '(Updatable) A user-friendly name. It does not have
@@ -335,7 +361,9 @@ spec:
                       information.  Example: My file system'
                     type: string
                   filesystemSnapshotPolicyId:
-                    description: The OCID of the file system.
+                    description: (Updatable) The OCID of the associated file system
+                      snapshot policy, which controls the frequency of snapshot creation
+                      and retention period of the taken snapshots.
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -355,18 +383,24 @@ spec:
                       key.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the file system was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -553,14 +587,23 @@ spec:
               atProvider:
                 properties:
                   areQuotaRulesEnabled:
+                    description: (Updatable) Specifies the enforcement of quota rules
+                      on the file system.
                     type: boolean
                   availabilityDomain:
                     description: 'The availability domain to create the file system
                       in.  Example: Uocm:PHX-AD-1'
                     type: string
                   cloneAttachStatus:
+                    description: Specifies whether the clone file system is attached
+                      to its parent file system. If the value is set to 'DETACH',
+                      then the file system will be created, which is deep copied from
+                      the snapshot specified by sourceSnapshotId, else will remain
+                      attached to its parent.
                     type: string
                   cloneCount:
+                    description: Specifies the total number of children of a file
+                      system.
                     type: number
                   compartmentId:
                     description: (Updatable) The OCID of the compartment to create
@@ -575,6 +618,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   detachCloneTrigger:
+                    description: (Updatable) An optional property when incremented
+                      triggers Detach Clone. Could be set to any integer value.
                     type: number
                   displayName:
                     description: '(Updatable) A user-friendly name. It does not have
@@ -582,7 +627,9 @@ spec:
                       information.  Example: My file system'
                     type: string
                   filesystemSnapshotPolicyId:
-                    description: The OCID of the file system.
+                    description: (Updatable) The OCID of the associated file system
+                      snapshot policy, which controls the frequency of snapshot creation
+                      and retention period of the taken snapshots.
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -611,8 +658,13 @@ spec:
                     type: boolean
                   isTargetable:
                     description: Specifies whether the file system can be used as
-                      a target file system for replication. For more information,
-                      see Using Replication.
+                      a target file system for replication. The system sets this value
+                      to true if the file system is unexported, hasn't yet been specified
+                      as a target file system in any replication resource, and has
+                      no user snapshots. After the file system has been specified
+                      as a target in a replication, or if the file system contains
+                      user snapshots, the system sets this value to false. For more
+                      information, see Using Replication.
                     type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of KMS key used to encrypt the
@@ -624,18 +676,24 @@ spec:
                     description: Additional information about the current 'lifecycleState'.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the file system was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -647,9 +705,12 @@ spec:
                       System Usage and Metering.
                     type: string
                   quotaEnforcementState:
-                    description: The current state of the file system.
+                    description: Displays the state of enforcement of quota rules
+                      on the file system.
                     type: string
                   replicationSourceCount:
+                    description: Specifies the total number of replications for which
+                      this file system is a source.
                     type: number
                   replicationTargetId:
                     description: The OCID of the replication target associated with
@@ -681,11 +742,12 @@ spec:
                   systemTags:
                     additionalProperties:
                       type: string
+                    description: System tags for this resource. System tags are applied
+                      to resources by internal Oracle Cloud Infrastructure services.
                     type: object
                     x-kubernetes-map-type: granular
                   timeCreated:
-                    description: 'The date and time the file system was created, expressed
-                      in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                    description: When the lock was created.
                     type: string
                 type: object
               conditions:

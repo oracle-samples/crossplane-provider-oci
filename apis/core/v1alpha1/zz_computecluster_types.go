@@ -15,10 +15,10 @@ import (
 
 type ComputeClusterInitParameters struct {
 
-	// The availability domain that the compute cluster is running in. Example: Uocm:PHX-AD-1
+	// The availability domain to place the compute cluster in.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// (Updatable) The OCID of the compartment that contains this compute cluster.
+	// (Updatable) The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -35,10 +35,10 @@ type ComputeClusterInitParameters struct {
 
 type ComputeClusterObservation struct {
 
-	// The availability domain that the compute cluster is running in. Example: Uocm:PHX-AD-1
+	// The availability domain to place the compute cluster in.  Example: Uocm:PHX-AD-1
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// (Updatable) The OCID of the compartment that contains this compute cluster.
+	// (Updatable) The OCID of the compartment.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -52,23 +52,23 @@ type ComputeClusterObservation struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// The OCID of this compute cluster.
+	// The OCID of the compute cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The current state of the compute cluster.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The date and time the compute cluster was created, in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
+	// The date and time the compute cluster was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
 
 type ComputeClusterParameters struct {
 
-	// The availability domain that the compute cluster is running in. Example: Uocm:PHX-AD-1
+	// The availability domain to place the compute cluster in.  Example: Uocm:PHX-AD-1
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// (Updatable) The OCID of the compartment that contains this compute cluster.
+	// (Updatable) The OCID of the compartment.
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 

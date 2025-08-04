@@ -82,8 +82,12 @@ spec:
                     description: (Updatable) IP version associated with the listener.
                     type: string
                   isPpv2Enabled:
+                    description: (Updatable) Property to enable/disable PPv2 feature
+                      for this listener.
                     type: boolean
                   l3ipIdleTimeout:
+                    description: '(Updatable) The duration for L3IP idle timeout in
+                      seconds. Example: 200'
                     type: number
                   name:
                     description: 'A friendly name for the listener. It must be unique
@@ -175,15 +179,20 @@ spec:
                   protocol:
                     description: '(Updatable) The protocol on which the listener accepts
                       connection requests. For public network load balancers, ANY
-                      protocol refers to TCP/UDP. For private network load balancers,
-                      ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires
-                      isPreserveSourceDestination to be set to true). To get a list
-                      of valid protocols, use the ListNetworkLoadBalancersProtocols
-                      operation.  Example: TCP'
+                      protocol refers to TCP/UDP with the wildcard port. For private
+                      network load balancers, ANY protocol refers to TCP/UDP/ICMP
+                      (note that ICMP requires isPreserveSourceDestination to be set
+                      to true). "ListNetworkLoadBalancersProtocols" API is deprecated
+                      and it will not return the updated values. Use the allowed values
+                      for the protocol instead.  Example: TCP'
                     type: string
                   tcpIdleTimeout:
+                    description: '(Updatable) The duration for TCP idle timeout in
+                      seconds. Example: 300'
                     type: number
                   udpIdleTimeout:
+                    description: '(Updatable) The duration for UDP idle timeout in
+                      seconds. Example: 120'
                     type: number
                 type: object
               initProvider:
@@ -207,8 +216,12 @@ spec:
                     description: (Updatable) IP version associated with the listener.
                     type: string
                   isPpv2Enabled:
+                    description: (Updatable) Property to enable/disable PPv2 feature
+                      for this listener.
                     type: boolean
                   l3ipIdleTimeout:
+                    description: '(Updatable) The duration for L3IP idle timeout in
+                      seconds. Example: 200'
                     type: number
                   name:
                     description: 'A friendly name for the listener. It must be unique
@@ -300,15 +313,20 @@ spec:
                   protocol:
                     description: '(Updatable) The protocol on which the listener accepts
                       connection requests. For public network load balancers, ANY
-                      protocol refers to TCP/UDP. For private network load balancers,
-                      ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires
-                      isPreserveSourceDestination to be set to true). To get a list
-                      of valid protocols, use the ListNetworkLoadBalancersProtocols
-                      operation.  Example: TCP'
+                      protocol refers to TCP/UDP with the wildcard port. For private
+                      network load balancers, ANY protocol refers to TCP/UDP/ICMP
+                      (note that ICMP requires isPreserveSourceDestination to be set
+                      to true). "ListNetworkLoadBalancersProtocols" API is deprecated
+                      and it will not return the updated values. Use the allowed values
+                      for the protocol instead.  Example: TCP'
                     type: string
                   tcpIdleTimeout:
+                    description: '(Updatable) The duration for TCP idle timeout in
+                      seconds. Example: 300'
                     type: number
                   udpIdleTimeout:
+                    description: '(Updatable) The duration for UDP idle timeout in
+                      seconds. Example: 120'
                     type: number
                 type: object
               managementPolicies:
@@ -511,8 +529,12 @@ spec:
                     description: (Updatable) IP version associated with the listener.
                     type: string
                   isPpv2Enabled:
+                    description: (Updatable) Property to enable/disable PPv2 feature
+                      for this listener.
                     type: boolean
                   l3ipIdleTimeout:
+                    description: '(Updatable) The duration for L3IP idle timeout in
+                      seconds. Example: 200'
                     type: number
                   name:
                     description: 'A friendly name for the listener. It must be unique
@@ -528,15 +550,20 @@ spec:
                   protocol:
                     description: '(Updatable) The protocol on which the listener accepts
                       connection requests. For public network load balancers, ANY
-                      protocol refers to TCP/UDP. For private network load balancers,
-                      ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires
-                      isPreserveSourceDestination to be set to true). To get a list
-                      of valid protocols, use the ListNetworkLoadBalancersProtocols
-                      operation.  Example: TCP'
+                      protocol refers to TCP/UDP with the wildcard port. For private
+                      network load balancers, ANY protocol refers to TCP/UDP/ICMP
+                      (note that ICMP requires isPreserveSourceDestination to be set
+                      to true). "ListNetworkLoadBalancersProtocols" API is deprecated
+                      and it will not return the updated values. Use the allowed values
+                      for the protocol instead.  Example: TCP'
                     type: string
                   tcpIdleTimeout:
+                    description: '(Updatable) The duration for TCP idle timeout in
+                      seconds. Example: 300'
                     type: number
                   udpIdleTimeout:
+                    description: '(Updatable) The duration for UDP idle timeout in
+                      seconds. Example: 120'
                     type: number
                 type: object
               conditions:
