@@ -72,7 +72,7 @@ GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 else
 # Sub-package build - parse comma-separated list and build service-specific binaries
 SUBPACKAGE_LIST := $(subst $(comma), ,$(SUBPACKAGES))
-GO_STATIC_PACKAGES = $(foreach pkg,$(SUBPACKAGE_LIST),$(GO_PROJECT)/cmd/provider/$(pkg))
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/generator $(foreach pkg,$(SUBPACKAGE_LIST),$(GO_PROJECT)/cmd/provider/$(pkg))
 endif
 
 # ====================================================================================
@@ -94,11 +94,32 @@ IMAGES = $(PROJECT_NAME)
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+XPKG_REG_ORGS ?= iad.ocir.io/iddevjmhjw0n
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
 XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
 XPKGS = $(PROJECT_NAME)
+XPKG_DIR = $(OUTPUT_DIR)/package
+XPKG_IGNORE = kustomization.yaml
+XPKG_OUTPUT_DIR ?= $(OUTPUT_DIR)/xpkg
+BATCH_PLATFORMS ?= linux_amd64,linux_arm64
+
+export XPKG_REG_ORGS := $(XPKG_REG_ORGS)
+export XPKG_REG_ORGS_NO_PROMOTE := $(XPKG_REG_ORGS_NO_PROMOTE)
+export XPKG_DIR := $(XPKG_DIR)
+export XPKG_IGNORE := $(XPKG_IGNORE)
+export XPKG_OUTPUT_DIR := $(XPKG_OUTPUT_DIR)
+export BATCH_PLATFORMS := $(BATCH_PLATFORMS)
+
+# Config provider setup for sub-packages
+CONFIG_CRD_GROUP = oci
+PROVIDER_AUTH_GROUP = oci
+CONFIG_DEPENDENCY_REG_ORG ?= $(XPKG_REG_ORGS)
+
+export CONFIG_CRD_GROUP := $(CONFIG_CRD_GROUP)
+export PROVIDER_AUTH_GROUP := $(PROVIDER_AUTH_GROUP)
+export CONFIG_DEPENDENCY_REG_ORG := $(CONFIG_DEPENDENCY_REG_ORG)
+
 -include build/makelib/xpkg.mk
 
 # NOTE(hasheddan): we force image building to happen prior to xpkg build so that
@@ -107,30 +128,15 @@ xpkg.build.provider-oci: do.build.images
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP)
+build.init: $(UP) kustomize-crds
 
-# Override build behavior when SUBPACKAGES is set to non-monolith
-ifneq ($(SUBPACKAGES),monolith)
-# When building sub-packages, override the build target
-build:
-	@$(INFO) Building sub-packages: $(SUBPACKAGE_LIST)
-	@for pkg in $(SUBPACKAGE_LIST); do \
-		if [ -d "cmd/provider/$$pkg" ]; then \
-			echo "Building $$pkg..."; \
-			if [ "$$pkg" = "config" ]; then \
-				output_name="provider-family-oci"; \
-			else \
-				output_name="provider-oci-$$pkg"; \
-			fi; \
-			CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -ldflags '$(GO_LDFLAGS)' \
-				-o $(GO_OUT_DIR)/$$output_name $(GO_PROJECT)/cmd/provider/$$pkg/ || exit 1; \
-		else \
-			echo "Warning: Sub-package directory cmd/provider/$$pkg does not exist."; \
-			echo "Note: Sub-package directories will be created by the code generator in Phase 2."; \
-		fi; \
-	done
-	@$(OK) Built sub-packages: $(SUBPACKAGE_LIST)
-endif
+# Prepare package directory with CRDs
+kustomize-crds: output.init
+	@$(INFO) Preparing package directory with CRDs...
+	@rm -fr $(OUTPUT_DIR)/package || $(FAIL)
+	@cp -R package $(OUTPUT_DIR) || $(FAIL)
+	@$(OK) Package directory prepared
+
 
 # ====================================================================================
 # Fallthrough
@@ -178,7 +184,18 @@ pull-docs:
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+# Transform resolver references to use scheme-based resolution for sub-package architecture
+generate.resolve: generate
+	@$(INFO) transforming resolver references for sub-package architecture
+	@go run github.com/crossplane/upjet/cmd/resolver -g oci.upbound.io -a github.com/oracle/provider-oci/internal/apis -s
+	@$(OK) transforming resolver references for sub-package architecture
+
+# Complete build workflow: generate → resolve → build
+build.complete: generate.resolve build
+	@$(INFO) complete build workflow finished
+	@$(OK) complete build workflow finished
+
+.PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs generate.resolve build.complete
 # ====================================================================================
 # Targets
 
@@ -235,7 +252,7 @@ local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
 
 e2e: local-deploy uptest
 
-.PHONY: cobertura submodules fallthrough run crds.clean
+.PHONY: cobertura submodules fallthrough run crds.clean generate.resolve build.complete kustomize-crds
 
 # ====================================================================================
 # Sub-package Targets
@@ -243,13 +260,14 @@ e2e: local-deploy uptest
 
 # Build a specific sub-package
 # Usage: make build.subpackage.compute
+# Usage with specific platform: make build.subpackage.compute PLATFORMS=linux_amd64
 build.subpackage.%:
 	@if [ "$*" = "config" ]; then \
-		$(INFO) Building sub-package provider-family-oci binary; \
 		output_name="provider-family-oci"; \
+		$(INFO) Building sub-package $$output_name for platforms: $(PLATFORMS); \
 	else \
-		$(INFO) Building sub-package provider-oci-$* binary; \
 		output_name="provider-oci-$*"; \
+		$(INFO) Building sub-package $$output_name for platforms: $(PLATFORMS); \
 	fi
 	@if [ ! -d "cmd/provider/$*" ]; then \
 		echo "Error: Sub-package directory cmd/provider/$* does not exist."; \
@@ -257,16 +275,24 @@ build.subpackage.%:
 		echo "For now, this is expected behavior as we're implementing the build system first."; \
 		exit 1; \
 	fi
+	@for platform in $(PLATFORMS); do \
+		GOOS=$$(echo $$platform | cut -d_ -f1); \
+		GOARCH=$$(echo $$platform | cut -d_ -f2); \
+		echo "  Building for $$GOOS/$$GOARCH..."; \
+		if [ "$*" = "config" ]; then \
+			output_name="provider-family-oci"; \
+		else \
+			output_name="provider-oci-$*"; \
+		fi; \
+		mkdir -p $(GO_OUT_DIR)/$${GOOS}_$${GOARCH}; \
+		CGO_ENABLED=0 GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -ldflags '$(GO_LDFLAGS)' \
+			-o $(GO_OUT_DIR)/$${GOOS}_$${GOARCH}/$$output_name$(BINARY_EXT) \
+			$(GO_PROJECT)/cmd/provider/$*/ || exit 1; \
+	done
 	@if [ "$*" = "config" ]; then \
-		output_name="provider-family-oci"; \
+		$(OK) Built sub-package provider-family-oci for platforms: $(PLATFORMS); \
 	else \
-		output_name="provider-oci-$*"; \
-	fi; \
-	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) $(GO) build -ldflags '$(GO_LDFLAGS)' -o $(GO_OUT_DIR)/$$output_name $(GO_PROJECT)/cmd/provider/$*/
-	@if [ "$*" = "config" ]; then \
-		$(OK) Built sub-package provider-family-oci binary; \
-	else \
-		$(OK) Built sub-package provider-oci-$* binary; \
+		$(OK) Built sub-package provider-oci-$* for platforms: $(PLATFORMS); \
 	fi
 
 # Package a specific sub-package as a container
@@ -326,7 +352,13 @@ debug-subpackages:
 	@echo "SUBPACKAGE_LIST: $(SUBPACKAGE_LIST)"
 	@echo "GO_STATIC_PACKAGES: $(GO_STATIC_PACKAGES)"
 
-.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages
+# Build sub-packages for current platform only (faster for development)
+# Usage: make build.current SUBPACKAGES="compute,networking"
+build.current:
+	@CURRENT_PLATFORM=$$(go env GOOS)_$$(go env GOARCH); \
+	$(MAKE) build PLATFORMS="$$CURRENT_PLATFORM" SUBPACKAGES="$(SUBPACKAGES)"
+
+.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages build.current
 
 # ====================================================================================
 # Special Targets
@@ -343,6 +375,17 @@ Sub-package Build Support:
                             make build                                # builds monolithic provider (default)
                             make build SUBPACKAGES=config             # builds only config sub-package
                             make build SUBPACKAGES=config,compute     # builds multiple sub-packages
+
+    PLATFORMS             Variable to control target platforms (default: "darwin_amd64 linux_arm64 linux_amd64")
+                          Examples:
+                            make build PLATFORMS=linux_amd64          # build only for linux/amd64
+                            make build PLATFORMS="linux_amd64 linux_arm64"  # build for multiple platforms
+
+Sub-package Architecture:
+    generate.resolve      Transform resolver references for sub-package support
+    build.complete        Complete workflow: generate → resolve → build
+    build.current         Build sub-packages for current platform only (faster for development)
+                          Example: make build.current SUBPACKAGES="compute,networking"
 
 Sub-package Targets:
     build.subpackage.%    Build a specific sub-package binary
@@ -371,3 +414,133 @@ crossplane.help:
 help-special: crossplane.help
 
 .PHONY: crossplane.help help-special
+
+# ====================================================================================
+# Package Metadata Generation
+# Variables for package metadata generation
+XPKG_DIR ?= $(ROOT_DIR)/package
+XPKG_OUTPUT_DIR ?= $(OUTPUT_DIR)/xpkg
+XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+DEP_CONSTRAINT ?= >= 1.0.0
+PROVIDER_NAME := oci
+
+# Service display names for package metadata
+define SERVICE_DISPLAY_NAMES
+config:Configuration
+compute:Compute
+networking:Networking
+blockstorage:Block Storage
+networkconnectivity:Network Connectivity
+containerengine:Container Engine
+identity:Identity and Access Management
+objectstorage:Object Storage
+loadbalancer:Load Balancer
+networkloadbalancer:Network Load Balancer
+dns:DNS
+kms:Key Management
+functions:Functions
+logging:Logging
+monitoring:Monitoring
+events:Events
+streaming:Streaming
+filestorage:File Storage
+artifacts:Artifacts
+vault:Vault
+ons:Notifications
+certificatesmanagement:Certificates Management
+networkfirewall:Network Firewall
+servicemesh:Service Mesh
+healthchecks:Health Checks
+endef
+export SERVICE_DISPLAY_NAMES
+
+# Generate package metadata for a specific service
+# Usage: make generate.xpkg SERVICE=compute
+generate.xpkg:
+	@if [ -z "$(SERVICE)" ]; then \
+		echo "Error: SERVICE must be specified. Example: make generate.xpkg SERVICE=compute"; \
+		exit 1; \
+	fi
+	@go run cmd/xpkg-gen/main.go \
+		-service=$(SERVICE) \
+		-template=$(XPKG_DIR)/crossplane.yaml.tmpl \
+		-output=$(XPKG_OUTPUT_DIR) \
+		-version=$(VERSION) \
+		-registry=$(XPKG_REG_ORGS) \
+		-dep-constraint="$(DEP_CONSTRAINT)"
+	@$(OK) Generated package metadata for $(SERVICE)
+
+# Generate all package metadata files
+generate.xpkg.all:
+	@for service in config compute networking blockstorage networkconnectivity containerengine identity objectstorage loadbalancer networkloadbalancer dns kms functions logging monitoring events streaming filestorage artifacts vault ons certificatesmanagement networkfirewall servicemesh healthchecks; do \
+		$(MAKE) generate.xpkg SERVICE=$$service || exit 1; \
+	done
+	@$(OK) Generated package metadata for all services
+
+.PHONY: generate.xpkg generate.xpkg.all
+
+# ====================================================================================
+# Batch Processing with up xpkg batch
+
+CONCURRENCY ?= 30
+DEP_CONSTRAINT := >= 0.0.0
+ifeq (-,$(findstring -,$(VERSION)))
+    DEP_CONSTRAINT = >= 0.0.0-0
+endif
+BUILD_ONLY ?= false
+STORE_PACKAGES ?= ""
+XPKG_CLEANUP_EXAMPLES_VERSION ?= v0.12.1
+SUBPACKAGES_FOR_BATCH ?= config,networking,containerengine
+
+# The batch processing target - creates filtered sub-packages with proper CRDs
+batch-process: $(UP)
+	@rm -rf $(WORK_DIR)/xpkg-cleaned-examples
+	@GOOS=$(HOSTOS) GOARCH=$(TARGETARCH) go run github.com/upbound/uptest/cmd/cleanupexamples@$(XPKG_CLEANUP_EXAMPLES_VERSION) $(ROOT_DIR)/examples $(WORK_DIR)/xpkg-cleaned-examples || $(FAIL)
+	@$(INFO) Batch processing smaller provider packages for: "$(SUBPACKAGES_FOR_BATCH)"
+	@mkdir -p "$(XPKG_OUTPUT_DIR)/$(PLATFORM)" && \
+	$(UP) xpkg batch --smaller-providers "$(SUBPACKAGES_FOR_BATCH)" \
+		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
+		--platform $(BATCH_PLATFORMS) \
+		--provider-name $(PROJECT_NAME) \
+		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
+		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(PROVIDER_NAME) \
+		--provider-bin-root $(OUTPUT_DIR)/bin \
+		--output-dir $(XPKG_OUTPUT_DIR) \
+		--store-packages "$(STORE_PACKAGES)" \
+		--build-only=$(BUILD_ONLY) \
+		--examples-root $(WORK_DIR)/xpkg-cleaned-examples \
+		--examples-group-override monolith=* --examples-group-override config=providerconfig \
+		--auth-ext $(XPKG_DIR)/auth.yaml \
+		--crd-root $(XPKG_DIR)/crds \
+		--ignore $(XPKG_IGNORE) \
+		--crd-group-override monolith=* --crd-group-override config=$(CONFIG_CRD_GROUP) \
+		--crd-group-override networking=networking.oci.upbound.io \
+		--crd-group-override containerengine=containerengine.oci.upbound.io \
+		--package-metadata-template $(XPKG_DIR)/crossplane.yaml.tmpl \
+		--template-var XpkgRegOrg=$(CONFIG_DEPENDENCY_REG_ORG) --template-var DepConstraint="$(DEP_CONSTRAINT)" --template-var ProviderName=$(PROVIDER_NAME) --template-var ProviderAuthGroup=$(PROVIDER_AUTH_GROUP) \
+		--concurrency $(CONCURRENCY) \
+		--push-retry 10 || $(FAIL)
+	@$(OK) Done processing smaller provider packages for: "$(SUBPACKAGES_FOR_BATCH)"
+	@rm -rf $(WORK_DIR)/xpkg-cleaned-examples
+
+# Build specific sub-packages using batch processing
+# Usage: make build-subpackages SUBPACKAGES_FOR_BATCH="config,networking"
+build-subpackages: build
+	@$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=true
+
+# Build sub-package binaries before batch processing
+build-subpackage-binaries:
+	@$(INFO) Building sub-package binaries for batch processing
+	@SUBPACKAGE_LIST=$$(echo "$(SUBPACKAGES_FOR_BATCH)" | tr ',' ' '); \
+	for service in $$SUBPACKAGE_LIST; do \
+		$(INFO) Building binary for service: $$service; \
+		$(MAKE) build SUBPACKAGES=$$service || exit 1; \
+	done
+	@$(OK) Built all sub-package binaries for batch processing
+
+# Build and push sub-packages using batch processing  
+# Usage: make publish-subpackages SUBPACKAGES_FOR_BATCH="config,networking,containerengine"
+publish-subpackages: build-subpackage-binaries
+	@$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=false
+
+.PHONY: batch-process build-subpackages build-subpackage-binaries publish-subpackages
