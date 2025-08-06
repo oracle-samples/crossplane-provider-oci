@@ -29,6 +29,7 @@ spec:
     gatewayId: ${oci_core_gateway.test_gateway.id}
     ipMtu: ${var.virtual_circuit_ip_mtu}
     isBfdEnabled: ${var.virtual_circuit_is_bfd_enabled}
+    isTransportMode: ${var.virtual_circuit_is_transport_mode}
     providerServiceId: ${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}
     providerServiceKeyName: ${var.virtual_circuit_provider_service_key_name}
     publicPrefixes:

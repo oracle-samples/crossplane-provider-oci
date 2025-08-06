@@ -21,23 +21,25 @@ type BGPSessionInfoInitParameters struct {
 	// The IP address for the CPE end of the inside tunnel interface.
 	CustomerInterfaceIP *string `json:"customerInterfaceIp,omitempty" tf:"customer_interface_ip,omitempty"`
 
+	// The IPv6 address for the CPE end of the inside tunnel interface. This IP address is optional.
 	CustomerInterfaceIPv6 *string `json:"customerInterfaceIpv6,omitempty" tf:"customer_interface_ipv6,omitempty"`
 
 	// The IP address for the Oracle end of the inside tunnel interface.
 	OracleInterfaceIP *string `json:"oracleInterfaceIp,omitempty" tf:"oracle_interface_ip,omitempty"`
 
+	// The IPv6 address for the Oracle end of the inside tunnel interface. This IP address is optional.
 	OracleInterfaceIPv6 *string `json:"oracleInterfaceIpv6,omitempty" tf:"oracle_interface_ipv6,omitempty"`
 }
 
 type BGPSessionInfoObservation struct {
 
-	// The IPSec connection's tunnel's lifecycle state.
+	// The state of the BGP IPv6 session.
 	BGPIPv6State *string `json:"bgpIpv6State,omitempty" tf:"bgp_ipv6_state,omitempty"`
 
 	// The IPSec connection's tunnel's lifecycle state.
 	BGPIpv6State *string `json:"bgpIpv6State,omitempty" tf:"bgp_ipv6state,omitempty"`
 
-	// the state of the BGP.
+	// The state of the BGP session.
 	BGPState *string `json:"bgpState,omitempty" tf:"bgp_state,omitempty"`
 
 	// If the tunnel's routing attribute is set to BGP (see IPSecConnectionTunnel), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
@@ -46,14 +48,16 @@ type BGPSessionInfoObservation struct {
 	// The IP address for the CPE end of the inside tunnel interface.
 	CustomerInterfaceIP *string `json:"customerInterfaceIp,omitempty" tf:"customer_interface_ip,omitempty"`
 
+	// The IPv6 address for the CPE end of the inside tunnel interface. This IP address is optional.
 	CustomerInterfaceIPv6 *string `json:"customerInterfaceIpv6,omitempty" tf:"customer_interface_ipv6,omitempty"`
 
-	// This is the value of the Oracle Bgp ASN in asplain format, as a string. Example: 1587232876 (4 byte ASN) or 12345 (2 byte ASN)
+	// The Oracle BGP ASN.
 	OracleBGPAsn *string `json:"oracleBgpAsn,omitempty" tf:"oracle_bgp_asn,omitempty"`
 
 	// The IP address for the Oracle end of the inside tunnel interface.
 	OracleInterfaceIP *string `json:"oracleInterfaceIp,omitempty" tf:"oracle_interface_ip,omitempty"`
 
+	// The IPv6 address for the Oracle end of the inside tunnel interface. This IP address is optional.
 	OracleInterfaceIPv6 *string `json:"oracleInterfaceIpv6,omitempty" tf:"oracle_interface_ipv6,omitempty"`
 }
 
@@ -67,6 +71,7 @@ type BGPSessionInfoParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerInterfaceIP *string `json:"customerInterfaceIp,omitempty" tf:"customer_interface_ip,omitempty"`
 
+	// The IPv6 address for the CPE end of the inside tunnel interface. This IP address is optional.
 	// +kubebuilder:validation:Optional
 	CustomerInterfaceIPv6 *string `json:"customerInterfaceIpv6,omitempty" tf:"customer_interface_ipv6,omitempty"`
 
@@ -74,27 +79,36 @@ type BGPSessionInfoParameters struct {
 	// +kubebuilder:validation:Optional
 	OracleInterfaceIP *string `json:"oracleInterfaceIp,omitempty" tf:"oracle_interface_ip,omitempty"`
 
+	// The IPv6 address for the Oracle end of the inside tunnel interface. This IP address is optional.
 	// +kubebuilder:validation:Optional
 	OracleInterfaceIPv6 *string `json:"oracleInterfaceIpv6,omitempty" tf:"oracle_interface_ipv6,omitempty"`
 }
 
 type DpdConfigInitParameters struct {
+
+	// This option defines whether DPD can be initiated from the Oracle side of the connection. INITIATE_AND_RESPOND or RESPOND_ONLY
 	DpdMode *string `json:"dpdMode,omitempty" tf:"dpd_mode,omitempty"`
 
+	// DPD timeout in seconds. This sets the longest interval between CPE device health messages before the IPSec connection indicates it has lost contact with the CPE. The default is 20 seconds.
 	DpdTimeoutInSec *float64 `json:"dpdTimeoutInSec,omitempty" tf:"dpd_timeout_in_sec,omitempty"`
 }
 
 type DpdConfigObservation struct {
+
+	// This option defines whether DPD can be initiated from the Oracle side of the connection. INITIATE_AND_RESPOND or RESPOND_ONLY
 	DpdMode *string `json:"dpdMode,omitempty" tf:"dpd_mode,omitempty"`
 
+	// DPD timeout in seconds. This sets the longest interval between CPE device health messages before the IPSec connection indicates it has lost contact with the CPE. The default is 20 seconds.
 	DpdTimeoutInSec *float64 `json:"dpdTimeoutInSec,omitempty" tf:"dpd_timeout_in_sec,omitempty"`
 }
 
 type DpdConfigParameters struct {
 
+	// This option defines whether DPD can be initiated from the Oracle side of the connection. INITIATE_AND_RESPOND or RESPOND_ONLY
 	// +kubebuilder:validation:Optional
 	DpdMode *string `json:"dpdMode,omitempty" tf:"dpd_mode,omitempty"`
 
+	// DPD timeout in seconds. This sets the longest interval between CPE device health messages before the IPSec connection indicates it has lost contact with the CPE. The default is 20 seconds.
 	// +kubebuilder:validation:Optional
 	DpdTimeoutInSec *float64 `json:"dpdTimeoutInSec,omitempty" tf:"dpd_timeout_in_sec,omitempty"`
 }
@@ -147,12 +161,16 @@ type IpsecConnectionTunnelManagementInitParameters struct {
 	// The OCID of the IPSec connection.
 	IpsecID *string `json:"ipsecId,omitempty" tf:"ipsec_id,omitempty"`
 
+	// By default (the AUTO setting), IKE sends packets with a source and destination port set to 500, and when it detects that the port used to forward packets has changed (most likely because a NAT device is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
 	NATTranslationEnabled *string `json:"natTranslationEnabled,omitempty" tf:"nat_translation_enabled,omitempty"`
 
+	// Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device (RESPONDER_ONLY), or both respond to and initiate requests (INITIATOR_OR_RESPONDER).
 	OracleCanInitiate *string `json:"oracleCanInitiate,omitempty" tf:"oracle_can_initiate,omitempty"`
 
+	// Configuration details for IKE phase one (ISAKMP) configuration parameters.
 	PhaseOneDetails []PhaseOneDetailsInitParameters `json:"phaseOneDetails,omitempty" tf:"phase_one_details,omitempty"`
 
+	// Configuration details for IPSec phase two configuration parameters.
 	PhaseTwoDetails []PhaseTwoDetailsInitParameters `json:"phaseTwoDetails,omitempty" tf:"phase_two_details,omitempty"`
 
 	// The type of routing to use for this tunnel (either BGP dynamic routing, STATIC routing or POLICY routing).
@@ -166,6 +184,8 @@ type IpsecConnectionTunnelManagementInitParameters struct {
 }
 
 type IpsecConnectionTunnelManagementObservation struct {
+
+	// The list of virtual circuit OCIDs over which your network can reach this tunnel.
 	AssociatedVirtualCircuits []*string `json:"associatedVirtualCircuits,omitempty" tf:"associated_virtual_circuits,omitempty"`
 
 	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
@@ -174,7 +194,7 @@ type IpsecConnectionTunnelManagementObservation struct {
 	// The OCID of the compartment containing the tunnel.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// The IP address of Cpe headend.  Example: 129.146.17.50
+	// The IP address of the CPE device's VPN headend.  Example: 203.0.113.22
 	CpeIP *string `json:"cpeIp,omitempty" tf:"cpe_ip,omitempty"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -182,8 +202,10 @@ type IpsecConnectionTunnelManagementObservation struct {
 
 	DpdConfig []DpdConfigObservation `json:"dpdConfig,omitempty" tf:"dpd_config,omitempty"`
 
+	// This option defines whether DPD can be initiated from the Oracle side of the connection. INITIATE_AND_RESPOND or RESPOND_ONLY
 	DpdMode *string `json:"dpdMode,omitempty" tf:"dpd_mode,omitempty"`
 
+	// DPD timeout in seconds. This sets the longest interval between CPE device health messages before the IPSec connection indicates it has lost contact with the CPE. The default is 20 seconds.
 	DpdTimeoutInSec *float64 `json:"dpdTimeoutInSec,omitempty" tf:"dpd_timeout_in_sec,omitempty"`
 
 	// Configuration information used by the encryption domain policy. Required if the tunnel uses POLICY routing.
@@ -198,12 +220,16 @@ type IpsecConnectionTunnelManagementObservation struct {
 	// The OCID of the IPSec connection.
 	IpsecID *string `json:"ipsecId,omitempty" tf:"ipsec_id,omitempty"`
 
+	// By default (the AUTO setting), IKE sends packets with a source and destination port set to 500, and when it detects that the port used to forward packets has changed (most likely because a NAT device is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
 	NATTranslationEnabled *string `json:"natTranslationEnabled,omitempty" tf:"nat_translation_enabled,omitempty"`
 
+	// Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device (RESPONDER_ONLY), or both respond to and initiate requests (INITIATOR_OR_RESPONDER).
 	OracleCanInitiate *string `json:"oracleCanInitiate,omitempty" tf:"oracle_can_initiate,omitempty"`
 
+	// Configuration details for IKE phase one (ISAKMP) configuration parameters.
 	PhaseOneDetails []PhaseOneDetailsObservation `json:"phaseOneDetails,omitempty" tf:"phase_one_details,omitempty"`
 
+	// Configuration details for IPSec phase two configuration parameters.
 	PhaseTwoDetails []PhaseTwoDetailsObservation `json:"phaseTwoDetails,omitempty" tf:"phase_two_details,omitempty"`
 
 	// The type of routing to use for this tunnel (either BGP dynamic routing, STATIC routing or POLICY routing).
@@ -253,15 +279,19 @@ type IpsecConnectionTunnelManagementParameters struct {
 	// +kubebuilder:validation:Optional
 	IpsecID *string `json:"ipsecId,omitempty" tf:"ipsec_id,omitempty"`
 
+	// By default (the AUTO setting), IKE sends packets with a source and destination port set to 500, and when it detects that the port used to forward packets has changed (most likely because a NAT device is between the CPE device and the Oracle VPN headend) it will try to negotiate the use of NAT-T.
 	// +kubebuilder:validation:Optional
 	NATTranslationEnabled *string `json:"natTranslationEnabled,omitempty" tf:"nat_translation_enabled,omitempty"`
 
+	// Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device (RESPONDER_ONLY), or both respond to and initiate requests (INITIATOR_OR_RESPONDER).
 	// +kubebuilder:validation:Optional
 	OracleCanInitiate *string `json:"oracleCanInitiate,omitempty" tf:"oracle_can_initiate,omitempty"`
 
+	// Configuration details for IKE phase one (ISAKMP) configuration parameters.
 	// +kubebuilder:validation:Optional
 	PhaseOneDetails []PhaseOneDetailsParameters `json:"phaseOneDetails,omitempty" tf:"phase_one_details,omitempty"`
 
+	// Configuration details for IPSec phase two configuration parameters.
 	// +kubebuilder:validation:Optional
 	PhaseTwoDetails []PhaseTwoDetailsParameters `json:"phaseTwoDetails,omitempty" tf:"phase_two_details,omitempty"`
 
@@ -279,120 +309,171 @@ type IpsecConnectionTunnelManagementParameters struct {
 }
 
 type PhaseOneDetailsInitParameters struct {
+
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom Diffie-Hellman group proposed during phase one tunnel negotiation.
 	CustomDhGroup *string `json:"customDhGroup,omitempty" tf:"custom_dh_group,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase one options.
 	IsCustomPhaseOneConfig *bool `json:"isCustomPhaseOneConfig,omitempty" tf:"is_custom_phase_one_config,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }
 
 type PhaseOneDetailsObservation struct {
+
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom Diffie-Hellman group proposed during phase one tunnel negotiation.
 	CustomDhGroup *string `json:"customDhGroup,omitempty" tf:"custom_dh_group,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase one options.
 	IsCustomPhaseOneConfig *bool `json:"isCustomPhaseOneConfig,omitempty" tf:"is_custom_phase_one_config,omitempty"`
 
+	// Indicates whether IKE phase one is established.
 	IsIkeEstablished *bool `json:"isIkeEstablished,omitempty" tf:"is_ike_established,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
+	// The negotiated authentication algorithm.
 	NegotiatedAuthenticationAlgorithm *string `json:"negotiatedAuthenticationAlgorithm,omitempty" tf:"negotiated_authentication_algorithm,omitempty"`
 
+	// The negotiated Diffie-Hellman group.
 	NegotiatedDhGroup *string `json:"negotiatedDhGroup,omitempty" tf:"negotiated_dh_group,omitempty"`
 
+	// The negotiated encryption algorithm.
 	NegotiatedEncryptionAlgorithm *string `json:"negotiatedEncryptionAlgorithm,omitempty" tf:"negotiated_encryption_algorithm,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	RemainingLifetime *string `json:"remainingLifetime,omitempty" tf:"remaining_lifetime,omitempty"`
 
+	// The remaining lifetime before the key is refreshed.
 	RemainingLifetimeInt *float64 `json:"remainingLifetimeInt,omitempty" tf:"remaining_lifetime_int,omitempty"`
 
+	// The date and time we retrieved the remaining lifetime, in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	RemainingLifetimeLastRetrieved *string `json:"remainingLifetimeLastRetrieved,omitempty" tf:"remaining_lifetime_last_retrieved,omitempty"`
 }
 
 type PhaseOneDetailsParameters struct {
 
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	// +kubebuilder:validation:Optional
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom Diffie-Hellman group proposed during phase one tunnel negotiation.
 	// +kubebuilder:validation:Optional
 	CustomDhGroup *string `json:"customDhGroup,omitempty" tf:"custom_dh_group,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	// +kubebuilder:validation:Optional
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase one options.
 	// +kubebuilder:validation:Optional
 	IsCustomPhaseOneConfig *bool `json:"isCustomPhaseOneConfig,omitempty" tf:"is_custom_phase_one_config,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	// +kubebuilder:validation:Optional
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }
 
 type PhaseTwoDetailsInitParameters struct {
+
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// The Diffie-Hellman group used for PFS, if PFS is enabled.
 	DhGroup *string `json:"dhGroup,omitempty" tf:"dh_group,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase two options.
 	IsCustomPhaseTwoConfig *bool `json:"isCustomPhaseTwoConfig,omitempty" tf:"is_custom_phase_two_config,omitempty"`
 
+	// Indicates whether perfect forward secrecy (PFS) is enabled.
 	IsPfsEnabled *bool `json:"isPfsEnabled,omitempty" tf:"is_pfs_enabled,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }
 
 type PhaseTwoDetailsObservation struct {
+
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// The Diffie-Hellman group used for PFS, if PFS is enabled.
 	DhGroup *string `json:"dhGroup,omitempty" tf:"dh_group,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase two options.
 	IsCustomPhaseTwoConfig *bool `json:"isCustomPhaseTwoConfig,omitempty" tf:"is_custom_phase_two_config,omitempty"`
 
+	// Indicates that ESP phase two is established.
 	IsEspEstablished *bool `json:"isEspEstablished,omitempty" tf:"is_esp_established,omitempty"`
 
+	// Indicates whether perfect forward secrecy (PFS) is enabled.
 	IsPfsEnabled *bool `json:"isPfsEnabled,omitempty" tf:"is_pfs_enabled,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
+	// The negotiated authentication algorithm.
 	NegotiatedAuthenticationAlgorithm *string `json:"negotiatedAuthenticationAlgorithm,omitempty" tf:"negotiated_authentication_algorithm,omitempty"`
 
+	// The negotiated Diffie-Hellman group.
 	NegotiatedDhGroup *string `json:"negotiatedDhGroup,omitempty" tf:"negotiated_dh_group,omitempty"`
 
+	// The negotiated encryption algorithm.
 	NegotiatedEncryptionAlgorithm *string `json:"negotiatedEncryptionAlgorithm,omitempty" tf:"negotiated_encryption_algorithm,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	RemainingLifetime *string `json:"remainingLifetime,omitempty" tf:"remaining_lifetime,omitempty"`
 
+	// The remaining lifetime before the key is refreshed.
 	RemainingLifetimeInt *float64 `json:"remainingLifetimeInt,omitempty" tf:"remaining_lifetime_int,omitempty"`
 
+	// The date and time we retrieved the remaining lifetime, in the format defined by RFC3339. Example: 2016-08-25T21:10:29.600Z
 	RemainingLifetimeLastRetrieved *string `json:"remainingLifetimeLastRetrieved,omitempty" tf:"remaining_lifetime_last_retrieved,omitempty"`
 }
 
 type PhaseTwoDetailsParameters struct {
 
+	// The custom authentication algorithm proposed during phase one tunnel negotiation.
 	// +kubebuilder:validation:Optional
 	CustomAuthenticationAlgorithm *string `json:"customAuthenticationAlgorithm,omitempty" tf:"custom_authentication_algorithm,omitempty"`
 
+	// The custom encryption algorithm proposed during phase one tunnel negotiation.
 	// +kubebuilder:validation:Optional
 	CustomEncryptionAlgorithm *string `json:"customEncryptionAlgorithm,omitempty" tf:"custom_encryption_algorithm,omitempty"`
 
+	// The Diffie-Hellman group used for PFS, if PFS is enabled.
 	// +kubebuilder:validation:Optional
 	DhGroup *string `json:"dhGroup,omitempty" tf:"dh_group,omitempty"`
 
+	// Indicates whether custom configuration is enabled for phase two options.
 	// +kubebuilder:validation:Optional
 	IsCustomPhaseTwoConfig *bool `json:"isCustomPhaseTwoConfig,omitempty" tf:"is_custom_phase_two_config,omitempty"`
 
+	// Indicates whether perfect forward secrecy (PFS) is enabled.
 	// +kubebuilder:validation:Optional
 	IsPfsEnabled *bool `json:"isPfsEnabled,omitempty" tf:"is_pfs_enabled,omitempty"`
 
+	// Internet key association (IKE) session key lifetime in seconds for IPSec phase one. The default is 28800 which is equivalent to 8 hours.
 	// +kubebuilder:validation:Optional
 	Lifetime *float64 `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 }

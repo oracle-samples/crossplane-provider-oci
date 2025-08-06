@@ -196,8 +196,8 @@ spec:
                       receive a larger proportion of incoming traffic. For example,
                       a server weighted ''3'' receives three times the number of new
                       connections as a server weighted ''1''. For more information
-                      about load balancing policies, see How Network Load Balancing
-                      Policies Work.  Example: 3'
+                      about network load balancer policies, see Network Load Balancer
+                      Policies.  Example: 3'
                     type: number
                 type: object
               initProvider:
@@ -335,8 +335,8 @@ spec:
                       receive a larger proportion of incoming traffic. For example,
                       a server weighted ''3'' receives three times the number of new
                       connections as a server weighted ''1''. For more information
-                      about load balancing policies, see How Network Load Balancing
-                      Policies Work.  Example: 3'
+                      about network load balancer policies, see Network Load Balancer
+                      Policies.  Example: 3'
                     type: number
                 type: object
               managementPolicies:
@@ -568,8 +568,8 @@ spec:
                       receive a larger proportion of incoming traffic. For example,
                       a server weighted ''3'' receives three times the number of new
                       connections as a server weighted ''1''. For more information
-                      about load balancing policies, see How Network Load Balancing
-                      Policies Work.  Example: 3'
+                      about network load balancer policies, see Network Load Balancer
+                      Policies.  Example: 3'
                     type: number
                 type: object
               conditions:

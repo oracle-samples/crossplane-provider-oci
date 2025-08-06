@@ -117,8 +117,8 @@ spec:
                       and differentiate objects based on a particular language.
                     type: string
                   contentMd5:
-                    description: '(Updatable) The optional base-64 header that defines
-                      the encoded MD5 hash of the body. If the optional Content-MD5
+                    description: '(Updatable) The optional header that defines the
+                      base64-encoded MD5 hash of the body. If the optional Content-MD5
                       header is present, Object Storage performs an integrity check
                       on the body of the HTTP request by computing the MD5 hash for
                       the body and comparing it to the MD5 hash supplied in the header.
@@ -334,8 +334,8 @@ spec:
                       and differentiate objects based on a particular language.
                     type: string
                   contentMd5:
-                    description: '(Updatable) The optional base-64 header that defines
-                      the encoded MD5 hash of the body. If the optional Content-MD5
+                    description: '(Updatable) The optional header that defines the
+                      base64-encoded MD5 hash of the body. If the optional Content-MD5
                       header is present, Object Storage performs an integrity check
                       on the body of the HTTP request by computing the MD5 hash for
                       the body and comparing it to the MD5 hash supplied in the header.
@@ -726,8 +726,8 @@ spec:
                     description: (Updatable) The content length of the body.
                     type: string
                   contentMd5:
-                    description: '(Updatable) The optional base-64 header that defines
-                      the encoded MD5 hash of the body. If the optional Content-MD5
+                    description: '(Updatable) The optional header that defines the
+                      base64-encoded MD5 hash of the body. If the optional Content-MD5
                       header is present, Object Storage performs an integrity check
                       on the body of the HTTP request by computing the MD5 hash for
                       the body and comparing it to the MD5 hash supplied in the header.

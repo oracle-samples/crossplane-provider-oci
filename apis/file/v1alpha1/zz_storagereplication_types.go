@@ -40,6 +40,7 @@ type StorageReplicationInitParameters struct {
 
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []StorageReplicationLocksInitParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// (Updatable) Duration in minutes between replication snapshots.
@@ -71,42 +72,50 @@ type StorageReplicationInitParameters struct {
 }
 
 type StorageReplicationLocksInitParameters struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the source file system.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type StorageReplicationLocksObservation struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the source file system.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type StorageReplicationLocksParameters struct {
 
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	// +kubebuilder:validation:Optional
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the source file system.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	// +kubebuilder:validation:Optional
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
+	// When the lock was created.
 	// +kubebuilder:validation:Optional
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -147,6 +156,7 @@ type StorageReplicationObservation struct {
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []StorageReplicationLocksObservation `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// The snapshotTime of the most recent recoverable replication snapshot in RFC 3339 timestamp format. Example: 2021-04-04T20:01:29.100Z
@@ -164,13 +174,14 @@ type StorageReplicationObservation struct {
 	// The current state of this replication. This resource can be in a FAILED state if replication target is deleted instead of the replication resource.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services.
 	// +mapType=granular
 	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
 	// The OCID of the target file system.
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// The date and time the replication was created in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
 
@@ -206,6 +217,7 @@ type StorageReplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	// +kubebuilder:validation:Optional
 	Locks []StorageReplicationLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 

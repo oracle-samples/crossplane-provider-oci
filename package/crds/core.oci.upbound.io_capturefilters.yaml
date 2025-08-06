@@ -170,14 +170,18 @@ spec:
                     description: Indicates which service will use this capture filter
                     type: string
                   flowLogCaptureFilterRules:
+                    description: (Updatable) The set of rules governing what traffic
+                      the Flow Log collects when creating a flow log capture filter.
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         flowLogType:
-                          description: (Updatable) The ICMP type.
+                          description: (Updatable) Type or types of flow logs to store.
+                            ALL includes records for both accepted traffic and rejected
+                            traffic.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -194,23 +198,28 @@ spec:
                             type: object
                           type: array
                         isEnabled:
+                          description: (Updatable) Indicates whether a flow log capture
+                            filter rule is enabled.
                           type: boolean
                         priority:
+                          description: (Updatable) A lower number indicates a higher
+                            priority, range 0-9. Each rule must have a distinct priority.
                           type: number
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         samplingRate:
+                          description: (Updatable) Sampling interval as 1 of X, where
+                            X is an integer not greater than 100000.
                           type: number
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.
@@ -315,8 +324,8 @@ spec:
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -333,17 +342,16 @@ spec:
                             type: object
                           type: array
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.
@@ -548,14 +556,18 @@ spec:
                     description: Indicates which service will use this capture filter
                     type: string
                   flowLogCaptureFilterRules:
+                    description: (Updatable) The set of rules governing what traffic
+                      the Flow Log collects when creating a flow log capture filter.
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         flowLogType:
-                          description: (Updatable) The ICMP type.
+                          description: (Updatable) Type or types of flow logs to store.
+                            ALL includes records for both accepted traffic and rejected
+                            traffic.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -572,23 +584,28 @@ spec:
                             type: object
                           type: array
                         isEnabled:
+                          description: (Updatable) Indicates whether a flow log capture
+                            filter rule is enabled.
                           type: boolean
                         priority:
+                          description: (Updatable) A lower number indicates a higher
+                            priority, range 0-9. Each rule must have a distinct priority.
                           type: number
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         samplingRate:
+                          description: (Updatable) Sampling interval as 1 of X, where
+                            X is an integer not greater than 100000.
                           type: number
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.
@@ -693,8 +710,8 @@ spec:
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -711,17 +728,16 @@ spec:
                             type: object
                           type: array
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.
@@ -1014,14 +1030,18 @@ spec:
                     description: Indicates which service will use this capture filter
                     type: string
                   flowLogCaptureFilterRules:
+                    description: (Updatable) The set of rules governing what traffic
+                      the Flow Log collects when creating a flow log capture filter.
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         flowLogType:
-                          description: (Updatable) The ICMP type.
+                          description: (Updatable) Type or types of flow logs to store.
+                            ALL includes records for both accepted traffic and rejected
+                            traffic.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -1038,23 +1058,28 @@ spec:
                             type: object
                           type: array
                         isEnabled:
+                          description: (Updatable) Indicates whether a flow log capture
+                            filter rule is enabled.
                           type: boolean
                         priority:
+                          description: (Updatable) A lower number indicates a higher
+                            priority, range 0-9. Each rule must have a distinct priority.
                           type: number
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         samplingRate:
+                          description: (Updatable) Sampling interval as 1 of X, where
+                            X is an integer not greater than 100000.
                           type: number
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.
@@ -1169,8 +1194,8 @@ spec:
                     items:
                       properties:
                         destinationCidr:
-                          description: (Updatable) Traffic sent to this CIDR block
-                            through the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic to this CIDR will be captured
+                            in the flow log.
                           type: string
                         icmpOptions:
                           description: '(Updatable) Optional and valid only for ICMP
@@ -1187,17 +1212,16 @@ spec:
                             type: object
                           type: array
                         protocol:
-                          description: '(Updatable) The transport protocol used in
-                            the filter. If do not choose a protocol, all protocols
-                            will be used in the filter. Supported options are:'
+                          description: (Updatable) The transport protocol the filter
+                            uses.
                           type: string
                         ruleAction:
-                          description: (Updatable) Include or exclude packets meeting
-                            this definition from mirrored traffic.
+                          description: (Updatable) Include or exclude a ruleAction
+                            object.
                           type: string
                         sourceCidr:
-                          description: (Updatable) Traffic from this CIDR block to
-                            the VTAP source will be mirrored to the VTAP target.
+                          description: (Updatable) Traffic from this CIDR will be
+                            captured in the flow log.
                           type: string
                         tcpOptions:
                           description: (Updatable) Optional and valid only for TCP.

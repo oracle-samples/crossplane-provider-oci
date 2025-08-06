@@ -741,6 +741,9 @@ spec:
                       not specified.
                     type: boolean
                   isVolumeCreatedDuringLaunch:
+                    description: Flag indicating if this volume was created for the
+                      customer as part of a simplified launch. Used to determine whether
+                      the volume requires deletion on instance termination.
                     type: boolean
                   iscsiLoginState:
                     description: The iscsi login state of the volume attachment. For

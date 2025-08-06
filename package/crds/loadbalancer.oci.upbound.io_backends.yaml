@@ -245,6 +245,10 @@ spec:
                         type: object
                     type: object
                   maxConnections:
+                    description: (Updatable) The maximum number of simultaneous connections
+                      the load balancer can make to the backend. If this is not set
+                      or set to 0 then the maximum number of simultaneous connections
+                      the load balancer can make to the backend is unlimited.
                     type: number
                   offline:
                     description: '(Updatable) Whether the load balancer should treat
@@ -449,6 +453,10 @@ spec:
                         type: object
                     type: object
                   maxConnections:
+                    description: (Updatable) The maximum number of simultaneous connections
+                      the load balancer can make to the backend. If this is not set
+                      or set to 0 then the maximum number of simultaneous connections
+                      the load balancer can make to the backend is unlimited.
                     type: number
                   offline:
                     description: '(Updatable) Whether the load balancer should treat
@@ -675,6 +683,10 @@ spec:
                       backend set and servers.
                     type: string
                   maxConnections:
+                    description: (Updatable) The maximum number of simultaneous connections
+                      the load balancer can make to the backend. If this is not set
+                      or set to 0 then the maximum number of simultaneous connections
+                      the load balancer can make to the backend is unlimited.
                     type: number
                   name:
                     description: 'A read-only field showing the IP address and port

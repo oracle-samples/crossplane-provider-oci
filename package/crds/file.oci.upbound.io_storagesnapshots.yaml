@@ -82,6 +82,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   expirationTime:
+                    description: (Updatable) The time when this snapshot will be deleted.
                     type: string
                   fileSystemId:
                     description: The OCID of the file system to take a snapshot of.
@@ -172,18 +173,24 @@ spec:
                   isLockOverride:
                     type: boolean
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the snapshot.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the snapshot was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -215,6 +222,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   expirationTime:
+                    description: (Updatable) The time when this snapshot will be deleted.
                     type: string
                   fileSystemId:
                     description: The OCID of the file system to take a snapshot of.
@@ -305,18 +313,24 @@ spec:
                   isLockOverride:
                     type: boolean
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the snapshot.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the snapshot was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -512,12 +526,14 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   expirationTime:
+                    description: (Updatable) The time when this snapshot will be deleted.
                     type: string
                   fileSystemId:
                     description: The OCID of the file system to take a snapshot of.
                     type: string
                   filesystemSnapshotPolicyId:
-                    description: The OCID of the snapshot.
+                    description: The OCID of the file system snapshot policy that
+                      created this snapshot.
                     type: string
                   freeformTags:
                     additionalProperties:
@@ -541,18 +557,24 @@ spec:
                     description: Additional information about the current lifecycleState.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the snapshot.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the snapshot was created,
-                            expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -582,11 +604,12 @@ spec:
                   systemTags:
                     additionalProperties:
                       type: string
+                    description: System tags for this resource. System tags are applied
+                      to resources by internal Oracle Cloud Infrastructure services.
                     type: object
                     x-kubernetes-map-type: granular
                   timeCreated:
-                    description: 'The date and time the snapshot was created, expressed
-                      in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z'
+                    description: When the lock was created.
                     type: string
                 type: object
               conditions:

@@ -76,8 +76,15 @@ spec:
               forProvider:
                 properties:
                   assignedIpv6:
+                    description: '(Updatable) IPv6 address to be assigned to the network
+                      load balancer being created. This IP address has to be part
+                      of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"'
                     type: string
                   assignedPrivateIpv4:
+                    description: 'Private IP address to be assigned to the network
+                      load balancer being created. This IP address has to be in the
+                      CIDR range of the subnet where network load balancer is being
+                      created Example: "10.0.0.1"'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -191,6 +198,10 @@ spec:
                       network-local (private) IP address.
                     type: boolean
                   isSymmetricHashEnabled:
+                    description: (Updatable) This can only be enabled when NLB is
+                      working in transparent mode with source destination header preservation
+                      enabled.  This removes the additional dependency from NLB backends(like
+                      Firewalls) to perform SNAT.
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of network security groups OCIDs
@@ -215,6 +226,10 @@ spec:
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) ZPR tags for this resource. Each tag
+                      is a simple key-value pair with no predefined name, type, or
+                      namespace. For more information, see Resource Tags.  Example:
+                      {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   subnetId:
@@ -296,6 +311,9 @@ spec:
                         type: object
                     type: object
                   subnetIpv6Cidr:
+                    description: IPv6 subnet prefix selection. If Ipv6 subnet prefix
+                      is passed, Nlb Ipv6 Address would be assign within the cidr
+                      block. NLB has to be dual or single stack ipv6 to support this.
                     type: string
                 type: object
               initProvider:
@@ -312,8 +330,15 @@ spec:
                   autoscaler.
                 properties:
                   assignedIpv6:
+                    description: '(Updatable) IPv6 address to be assigned to the network
+                      load balancer being created. This IP address has to be part
+                      of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"'
                     type: string
                   assignedPrivateIpv4:
+                    description: 'Private IP address to be assigned to the network
+                      load balancer being created. This IP address has to be in the
+                      CIDR range of the subnet where network load balancer is being
+                      created Example: "10.0.0.1"'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -427,6 +452,10 @@ spec:
                       network-local (private) IP address.
                     type: boolean
                   isSymmetricHashEnabled:
+                    description: (Updatable) This can only be enabled when NLB is
+                      working in transparent mode with source destination header preservation
+                      enabled.  This removes the additional dependency from NLB backends(like
+                      Firewalls) to perform SNAT.
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of network security groups OCIDs
@@ -451,6 +480,10 @@ spec:
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) ZPR tags for this resource. Each tag
+                      is a simple key-value pair with no predefined name, type, or
+                      namespace. For more information, see Resource Tags.  Example:
+                      {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   subnetId:
@@ -532,6 +565,9 @@ spec:
                         type: object
                     type: object
                   subnetIpv6Cidr:
+                    description: IPv6 subnet prefix selection. If Ipv6 subnet prefix
+                      is passed, Nlb Ipv6 Address would be assign within the cidr
+                      block. NLB has to be dual or single stack ipv6 to support this.
                     type: string
                 type: object
               managementPolicies:
@@ -713,8 +749,15 @@ spec:
               atProvider:
                 properties:
                   assignedIpv6:
+                    description: '(Updatable) IPv6 address to be assigned to the network
+                      load balancer being created. This IP address has to be part
+                      of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"'
                     type: string
                   assignedPrivateIpv4:
+                    description: 'Private IP address to be assigned to the network
+                      load balancer being created. This IP address has to be in the
+                      CIDR range of the subnet where network load balancer is being
+                      created Example: "10.0.0.1"'
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment containing
@@ -749,10 +792,11 @@ spec:
                     items:
                       properties:
                         ipAddress:
-                          description: 'An IP address.  Example: 192.168.0.3'
+                          description: 'The IP address of the backend server. Example:
+                            10.0.0.3'
                           type: string
                         ipVersion:
-                          description: IP version associated with this IP address.
+                          description: IP version associated with the backend set.
                           type: string
                         isPublic:
                           description: Whether the IP address is public or private.
@@ -783,6 +827,10 @@ spec:
                       network-local (private) IP address.
                     type: boolean
                   isSymmetricHashEnabled:
+                    description: (Updatable) This can only be enabled when NLB is
+                      working in transparent mode with source destination header preservation
+                      enabled.  This removes the additional dependency from NLB backends(like
+                      Firewalls) to perform SNAT.
                     type: boolean
                   lifecycleDetails:
                     description: A message describing the current state in more detail.
@@ -812,6 +860,10 @@ spec:
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) ZPR tags for this resource. Each tag
+                      is a simple key-value pair with no predefined name, type, or
+                      namespace. For more information, see Resource Tags.  Example:
+                      {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   state:
@@ -822,6 +874,9 @@ spec:
                       spawned OCIDs.
                     type: string
                   subnetIpv6Cidr:
+                    description: IPv6 subnet prefix selection. If Ipv6 subnet prefix
+                      is passed, Nlb Ipv6 Address would be assign within the cidr
+                      block. NLB has to be dual or single stack ipv6 to support this.
                     type: string
                   systemTags:
                     additionalProperties:

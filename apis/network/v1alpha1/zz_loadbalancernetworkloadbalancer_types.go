@@ -18,10 +18,10 @@ type IPAddressesInitParameters struct {
 
 type IPAddressesObservation struct {
 
-	// An IP address.  Example: 192.168.0.3
+	// The IP address of the backend server. Example: 10.0.0.3
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// IP version associated with this IP address.
+	// IP version associated with the backend set.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Whether the IP address is public or private.
@@ -35,8 +35,11 @@ type IPAddressesParameters struct {
 }
 
 type LoadBalancerNetworkLoadBalancerInitParameters struct {
+
+	// (Updatable) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
 	AssignedIPv6 *string `json:"assignedIpv6,omitempty" tf:"assigned_ipv6,omitempty"`
 
+	// Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1"
 	AssignedPrivateIPv4 *string `json:"assignedPrivateIpv4,omitempty" tf:"assigned_private_ipv4,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the network load balancer.
@@ -68,6 +71,7 @@ type LoadBalancerNetworkLoadBalancerInitParameters struct {
 	// Whether the network load balancer has a virtual cloud network-local (private) IP address.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
 	IsSymmetricHashEnabled *bool `json:"isSymmetricHashEnabled,omitempty" tf:"is_symmetric_hash_enabled,omitempty"`
 
 	// (Updatable) An array of network security groups OCIDs associated with the network load balancer.
@@ -80,6 +84,7 @@ type LoadBalancerNetworkLoadBalancerInitParameters struct {
 	// An array of reserved Ips.
 	ReservedIps []ReservedIpsInitParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -95,12 +100,16 @@ type LoadBalancerNetworkLoadBalancerInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 
+	// IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
 	SubnetIpv6Cidr *string `json:"subnetIpv6Cidr,omitempty" tf:"subnet_ipv6cidr,omitempty"`
 }
 
 type LoadBalancerNetworkLoadBalancerObservation struct {
+
+	// (Updatable) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
 	AssignedIPv6 *string `json:"assignedIpv6,omitempty" tf:"assigned_ipv6,omitempty"`
 
+	// Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1"
 	AssignedPrivateIPv4 *string `json:"assignedPrivateIpv4,omitempty" tf:"assigned_private_ipv4,omitempty"`
 
 	// (Updatable) The OCID of the compartment containing the network load balancer.
@@ -129,6 +138,7 @@ type LoadBalancerNetworkLoadBalancerObservation struct {
 	// Whether the network load balancer has a virtual cloud network-local (private) IP address.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
 	IsSymmetricHashEnabled *bool `json:"isSymmetricHashEnabled,omitempty" tf:"is_symmetric_hash_enabled,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -144,6 +154,7 @@ type LoadBalancerNetworkLoadBalancerObservation struct {
 	// An array of reserved Ips.
 	ReservedIps []ReservedIpsObservation `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
 
@@ -153,6 +164,7 @@ type LoadBalancerNetworkLoadBalancerObservation struct {
 	// The subnet in which the network load balancer is spawned OCIDs.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
+	// IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
 	SubnetIpv6Cidr *string `json:"subnetIpv6Cidr,omitempty" tf:"subnet_ipv6cidr,omitempty"`
 
 	// Key-value pair representing system tags' keys and values scoped to a namespace. Example: {"bar-key": "value"}
@@ -168,9 +180,11 @@ type LoadBalancerNetworkLoadBalancerObservation struct {
 
 type LoadBalancerNetworkLoadBalancerParameters struct {
 
+	// (Updatable) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
 	// +kubebuilder:validation:Optional
 	AssignedIPv6 *string `json:"assignedIpv6,omitempty" tf:"assigned_ipv6,omitempty"`
 
+	// Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1"
 	// +kubebuilder:validation:Optional
 	AssignedPrivateIPv4 *string `json:"assignedPrivateIpv4,omitempty" tf:"assigned_private_ipv4,omitempty"`
 
@@ -209,6 +223,7 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
+	// (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
 	// +kubebuilder:validation:Optional
 	IsSymmetricHashEnabled *bool `json:"isSymmetricHashEnabled,omitempty" tf:"is_symmetric_hash_enabled,omitempty"`
 
@@ -225,6 +240,7 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservedIps []ReservedIpsParameters `json:"reservedIps,omitempty" tf:"reserved_ips,omitempty"`
 
+	// (Updatable) ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags.  Example: {"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	SecurityAttributes map[string]*string `json:"securityAttributes,omitempty" tf:"security_attributes,omitempty"`
@@ -242,6 +258,7 @@ type LoadBalancerNetworkLoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 
+	// IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
 	// +kubebuilder:validation:Optional
 	SubnetIpv6Cidr *string `json:"subnetIpv6Cidr,omitempty" tf:"subnet_ipv6cidr,omitempty"`
 }

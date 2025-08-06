@@ -15,3 +15,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: test_function
     invokeFunctionBody: ${var.invoke_function_invoke_function_body}
+    isDryRun: ${var.invoke_function_is_dry_run}

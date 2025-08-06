@@ -79,6 +79,9 @@ spec:
                     items:
                       properties:
                         backendTcpProxyProtocolOptions:
+                          description: '(Updatable) An array that represents the PPV2
+                            Options that can be enabled on TCP Listeners. Example:
+                            ["PP2_TYPE_AUTHORITY"]'
                           items:
                             type: string
                           type: array
@@ -611,6 +614,15 @@ spec:
                             use for HTTPS or SSL connections.
                           type: string
                         hasSessionResumption:
+                          description: '(Updatable) Whether the load balancer listener
+                            should resume an encrypted session by reusing the cryptographic
+                            parameters of a previous TLS session, without having to
+                            perform a full handshake again. If "true", the service
+                            resumes the previous TLS encrypted session. If "false",
+                            the service starts a new TLS encrypted session. Enabling
+                            session resumption improves performance but provides a
+                            lower level of security. Disabling session resumption
+                            improves security but reduces performance.  Example: true'
                           type: boolean
                         protocols:
                           description: (Updatable) A list of SSL protocols the load
@@ -660,6 +672,9 @@ spec:
                     items:
                       properties:
                         backendTcpProxyProtocolOptions:
+                          description: '(Updatable) An array that represents the PPV2
+                            Options that can be enabled on TCP Listeners. Example:
+                            ["PP2_TYPE_AUTHORITY"]'
                           items:
                             type: string
                           type: array
@@ -1192,6 +1207,15 @@ spec:
                             use for HTTPS or SSL connections.
                           type: string
                         hasSessionResumption:
+                          description: '(Updatable) Whether the load balancer listener
+                            should resume an encrypted session by reusing the cryptographic
+                            parameters of a previous TLS session, without having to
+                            perform a full handshake again. If "true", the service
+                            resumes the previous TLS encrypted session. If "false",
+                            the service starts a new TLS encrypted session. Enabling
+                            session resumption improves performance but provides a
+                            lower level of security. Disabling session resumption
+                            improves security but reduces performance.  Example: true'
                           type: boolean
                         protocols:
                           description: (Updatable) A list of SSL protocols the load
@@ -1413,6 +1437,9 @@ spec:
                     items:
                       properties:
                         backendTcpProxyProtocolOptions:
+                          description: '(Updatable) An array that represents the PPV2
+                            Options that can be enabled on TCP Listeners. Example:
+                            ["PP2_TYPE_AUTHORITY"]'
                           items:
                             type: string
                           type: array
@@ -1497,6 +1524,15 @@ spec:
                             use for HTTPS or SSL connections.
                           type: string
                         hasSessionResumption:
+                          description: '(Updatable) Whether the load balancer listener
+                            should resume an encrypted session by reusing the cryptographic
+                            parameters of a previous TLS session, without having to
+                            perform a full handshake again. If "true", the service
+                            resumes the previous TLS encrypted session. If "false",
+                            the service starts a new TLS encrypted session. Enabling
+                            session resumption improves performance but provides a
+                            lower level of security. Disabling session resumption
+                            improves security but reduces performance.  Example: true'
                           type: boolean
                         protocols:
                           description: (Updatable) A list of SSL protocols the load

@@ -44,6 +44,7 @@ type CpeInitParameters struct {
 	// The public IP address of the on-premises router.  Example: 203.0.113.2
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Indicates whether this CPE is of type private or not.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 }
 
@@ -72,6 +73,7 @@ type CpeObservation struct {
 	// The public IP address of the on-premises router.  Example: 203.0.113.2
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Indicates whether this CPE is of type private or not.
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 
 	// The date and time the CPE was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -115,6 +117,7 @@ type CpeParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Indicates whether this CPE is of type private or not.
 	// +kubebuilder:validation:Optional
 	IsPrivate *bool `json:"isPrivate,omitempty" tf:"is_private,omitempty"`
 }

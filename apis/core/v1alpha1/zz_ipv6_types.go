@@ -29,15 +29,16 @@ type IPv6InitParameters struct {
 	// An IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns an IPv6 address from the subnet. The subnet is the one that contains the VNIC you specify in vnicId.  Example: 2001:DB8::
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
+	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The OCID of the IPv6.
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the IPv6 is to be drawn. The IP address, if supplied, must be valid for the given subnet, only valid for reserved IPs currently.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// (Updatable) The OCID of the VNIC to assign the IPv6 to. The IPv6 will be in the VNIC's subnet.
@@ -66,21 +67,22 @@ type IPv6Observation struct {
 	// An IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns an IPv6 address from the subnet. The subnet is the one that contains the VNIC you specify in vnicId.  Example: 2001:DB8::
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The IPv6's current state.
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
 	IPState *string `json:"ipState,omitempty" tf:"ip_state,omitempty"`
 
-	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
+	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The OCID of the IPv6.
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
 	// The IPv6's current state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the IPv6 is to be drawn. The IP address, if supplied, must be valid for the given subnet, only valid for reserved IPs currently.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// The date and time the IPv6 was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -110,18 +112,19 @@ type IPv6Parameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
+	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	// +kubebuilder:validation:Optional
 	Ipv6SubnetCidr *string `json:"ipv6subnetCidr,omitempty" tf:"ipv6subnet_cidr,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	// +kubebuilder:validation:Optional
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The OCID of the IPv6.
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	// +kubebuilder:validation:Optional
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the IPv6 is to be drawn. The IP address, if supplied, must be valid for the given subnet, only valid for reserved IPs currently.
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 

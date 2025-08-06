@@ -97,7 +97,8 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume. If omitted, no
-                      policy will be assigned.
+                      policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments
+                      instead to assign a backup policy to a volume.
                     type: string
                   blockVolumeReplicas:
                     description: (Updatable) The list of block volume replicas to
@@ -116,14 +117,20 @@ spec:
                           type: string
                         xrrKmsKeyId:
                           description: (Updatable) The OCID of the Vault service key
-                            to assign as the master encryption key for the volume.
+                            which is the master encryption key for the cross region
+                            block volume replicas, which will be used in the destination
+                            region to encrypt the block volume replica's encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   blockVolumeReplicasDeletion:
                     type: boolean
                   clusterPlacementGroupId:
-                    description: The OCID of the block volume replica.
+                    description: The clusterPlacementGroup Id of the volume for volume
+                      placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -234,6 +241,8 @@ spec:
                       detached autotune.
                     type: boolean
                   isReservationsEnabled:
+                    description: (Updatable) Reservations-enabled is a boolean field
+                      that allows to enable PR (Persistent Reservation) on a volume.
                     type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of the Vault service key to
@@ -244,26 +253,37 @@ spec:
                     type: string
                   sizeInMbs:
                     description: The size of the volume in MBs. The value must be
-                      a multiple of 1024. This field is deprecated. Use size_in_gbs
+                      a multiple of 1024. This field is deprecated. Use sizeInGBs
                       instead.
                     type: string
                   sourceDetails:
+                    description: Specifies the volume source details for a new Block
+                      volume. The volume source is either another Block volume in
+                      the same Availability Domain or a Block volume backup. This
+                      is an optional field. If not specified or set to null, the new
+                      Block volume will be empty. When specified, the new Block volume
+                      will contain data from the source volume or backup.
                     items:
                       properties:
                         changeBlockSizeInBytes:
+                          description: (Applicable when type=volumeBackupDelta) Block
+                            size in bytes to be considered while performing volume
+                            restore. The value must be a power of 2; ranging from
+                            4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults
+                            to 4,096 bytes (4 KiB).
                           type: string
                         firstBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the first volume backup.
                           type: string
                         id:
                           description: The OCID of the block volume replica.
                           type: string
                         secondBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the second volume backup.
                           type: string
                         type:
                           description: 'The type can be one of these values: blockVolumeReplica,
-                            volume, volumeBackup'
+                            volume, volumeBackup, volumeBackupDelta'
                           type: string
                       type: object
                     type: array
@@ -280,8 +300,12 @@ spec:
                       Block Volume Performance Levels for more information.
                     type: string
                   xrcKmsKeyId:
-                    description: (Updatable) The OCID of the Vault service key to
-                      assign as the master encryption key for the volume.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block volume cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               initProvider:
@@ -321,7 +345,8 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume. If omitted, no
-                      policy will be assigned.
+                      policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments
+                      instead to assign a backup policy to a volume.
                     type: string
                   blockVolumeReplicas:
                     description: (Updatable) The list of block volume replicas to
@@ -340,14 +365,20 @@ spec:
                           type: string
                         xrrKmsKeyId:
                           description: (Updatable) The OCID of the Vault service key
-                            to assign as the master encryption key for the volume.
+                            which is the master encryption key for the cross region
+                            block volume replicas, which will be used in the destination
+                            region to encrypt the block volume replica's encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   blockVolumeReplicasDeletion:
                     type: boolean
                   clusterPlacementGroupId:
-                    description: The OCID of the block volume replica.
+                    description: The clusterPlacementGroup Id of the volume for volume
+                      placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -458,6 +489,8 @@ spec:
                       detached autotune.
                     type: boolean
                   isReservationsEnabled:
+                    description: (Updatable) Reservations-enabled is a boolean field
+                      that allows to enable PR (Persistent Reservation) on a volume.
                     type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of the Vault service key to
@@ -468,26 +501,37 @@ spec:
                     type: string
                   sizeInMbs:
                     description: The size of the volume in MBs. The value must be
-                      a multiple of 1024. This field is deprecated. Use size_in_gbs
+                      a multiple of 1024. This field is deprecated. Use sizeInGBs
                       instead.
                     type: string
                   sourceDetails:
+                    description: Specifies the volume source details for a new Block
+                      volume. The volume source is either another Block volume in
+                      the same Availability Domain or a Block volume backup. This
+                      is an optional field. If not specified or set to null, the new
+                      Block volume will be empty. When specified, the new Block volume
+                      will contain data from the source volume or backup.
                     items:
                       properties:
                         changeBlockSizeInBytes:
+                          description: (Applicable when type=volumeBackupDelta) Block
+                            size in bytes to be considered while performing volume
+                            restore. The value must be a power of 2; ranging from
+                            4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults
+                            to 4,096 bytes (4 KiB).
                           type: string
                         firstBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the first volume backup.
                           type: string
                         id:
                           description: The OCID of the block volume replica.
                           type: string
                         secondBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the second volume backup.
                           type: string
                         type:
                           description: 'The type can be one of these values: blockVolumeReplica,
-                            volume, volumeBackup'
+                            volume, volumeBackup, volumeBackupDelta'
                           type: string
                       type: object
                     type: array
@@ -504,8 +548,12 @@ spec:
                       Block Volume Performance Levels for more information.
                     type: string
                   xrcKmsKeyId:
-                    description: (Updatable) The OCID of the Vault service key to
-                      assign as the master encryption key for the volume.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block volume cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               managementPolicies:
@@ -713,7 +761,8 @@ spec:
                   backupPolicyId:
                     description: If provided, specifies the ID of the volume backup
                       policy to assign to the newly created volume. If omitted, no
-                      policy will be assigned.
+                      policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments
+                      instead to assign a backup policy to a volume.
                     type: string
                   blockVolumeReplicas:
                     description: (Updatable) The list of block volume replicas to
@@ -734,19 +783,26 @@ spec:
                             confidential information.
                           type: string
                         kmsKeyId:
-                          description: (Updatable) The OCID of the Vault service key
-                            to assign as the master encryption key for the volume.
+                          description: The OCID of the Vault service key to assign
+                            as the master encryption key for the block volume replica,
+                            see Overview of Vault service and Using Keys.
                           type: string
                         xrrKmsKeyId:
                           description: (Updatable) The OCID of the Vault service key
-                            to assign as the master encryption key for the volume.
+                            which is the master encryption key for the cross region
+                            block volume replicas, which will be used in the destination
+                            region to encrypt the block volume replica's encryption
+                            keys. For more information about the Vault service and
+                            encryption keys, see Overview of Vault service and Using
+                            Keys.
                           type: string
                       type: object
                     type: array
                   blockVolumeReplicasDeletion:
                     type: boolean
                   clusterPlacementGroupId:
-                    description: The OCID of the block volume replica.
+                    description: The clusterPlacementGroup Id of the volume for volume
+                      placement.
                     type: string
                   compartmentId:
                     description: (Updatable) The OCID of the compartment that contains
@@ -775,7 +831,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   id:
-                    description: The OCID of the block volume replica.
+                    description: The OCID of the volume.
                     type: string
                   isAutoTuneEnabled:
                     description: (Updatable) Specifies whether the auto-tune performance
@@ -788,6 +844,8 @@ spec:
                       copying from the source volume or backup.
                     type: boolean
                   isReservationsEnabled:
+                    description: (Updatable) Reservations-enabled is a boolean field
+                      that allows to enable PR (Persistent Reservation) on a volume.
                     type: boolean
                   kmsKeyId:
                     description: (Updatable) The OCID of the Vault service key to
@@ -798,26 +856,37 @@ spec:
                     type: string
                   sizeInMbs:
                     description: The size of the volume in MBs. The value must be
-                      a multiple of 1024. This field is deprecated. Use size_in_gbs
+                      a multiple of 1024. This field is deprecated. Use sizeInGBs
                       instead.
                     type: string
                   sourceDetails:
+                    description: Specifies the volume source details for a new Block
+                      volume. The volume source is either another Block volume in
+                      the same Availability Domain or a Block volume backup. This
+                      is an optional field. If not specified or set to null, the new
+                      Block volume will be empty. When specified, the new Block volume
+                      will contain data from the source volume or backup.
                     items:
                       properties:
                         changeBlockSizeInBytes:
+                          description: (Applicable when type=volumeBackupDelta) Block
+                            size in bytes to be considered while performing volume
+                            restore. The value must be a power of 2; ranging from
+                            4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults
+                            to 4,096 bytes (4 KiB).
                           type: string
                         firstBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the first volume backup.
                           type: string
                         id:
                           description: The OCID of the block volume replica.
                           type: string
                         secondBackupId:
-                          description: The OCID of the block volume replica.
+                          description: The OCID of the second volume backup.
                           type: string
                         type:
                           description: 'The type can be one of these values: blockVolumeReplica,
-                            volume, volumeBackup'
+                            volume, volumeBackup, volumeBackupDelta'
                           type: string
                       type: object
                     type: array
@@ -852,8 +921,12 @@ spec:
                       Block Volume Performance Levels for more information.
                     type: string
                   xrcKmsKeyId:
-                    description: (Updatable) The OCID of the Vault service key to
-                      assign as the master encryption key for the volume.
+                    description: The OCID of the Vault service key which is the master
+                      encryption key for the block volume cross region backups, which
+                      will be used in the destination region to encrypt the backup's
+                      encryption keys. For more information about the Vault service
+                      and encryption keys, see Overview of Vault service and Using
+                      Keys.
                     type: string
                 type: object
               conditions:

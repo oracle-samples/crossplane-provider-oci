@@ -18,10 +18,10 @@ type VolumeGroupInitParameters struct {
 	// The availability domain of the volume group.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume group.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
-	// The OCID for the volume group.
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the volume group.
@@ -57,10 +57,10 @@ type VolumeGroupInitParameters struct {
 
 	VolumeGroupReplicasDeletion *bool `json:"volumeGroupReplicasDeletion,omitempty" tf:"volume_group_replicas_deletion,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 
-	// The OCID for the volume group.
+	// The OCID of the Vault service key which is the master encryption key for the volume's cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -69,10 +69,10 @@ type VolumeGroupObservation struct {
 	// The availability domain of the volume group.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume group.
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
-	// The OCID for the volume group.
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The OCID of the compartment that contains the volume group.
@@ -117,10 +117,10 @@ type VolumeGroupObservation struct {
 
 	VolumeGroupReplicasDeletion *bool `json:"volumeGroupReplicasDeletion,omitempty" tf:"volume_group_replicas_deletion,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 
-	// The OCID for the volume group.
+	// The OCID of the Vault service key which is the master encryption key for the volume's cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
 
@@ -130,11 +130,11 @@ type VolumeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
-	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned.
+	// If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. This field is deprecated. Use the oci_core_volume_backup_policy_assignments instead to assign a backup policy to a volume group.
 	// +kubebuilder:validation:Optional
 	BackupPolicyID *string `json:"backupPolicyId,omitempty" tf:"backup_policy_id,omitempty"`
 
-	// The OCID for the volume group.
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
 	// +kubebuilder:validation:Optional
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
@@ -179,11 +179,11 @@ type VolumeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicasDeletion *bool `json:"volumeGroupReplicasDeletion,omitempty" tf:"volume_group_replicas_deletion,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +kubebuilder:validation:Optional
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 
-	// The OCID for the volume group.
+	// The OCID of the Vault service key which is the master encryption key for the volume's cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrcKMSKeyID *string `json:"xrcKmsKeyId,omitempty" tf:"xrc_kms_key_id,omitempty"`
 }
@@ -196,7 +196,7 @@ type VolumeGroupReplicasInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// The OCID for the volume group.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region volume group's replicas, which will be used in the destination region to encrypt the volume group's replicas encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -211,7 +211,7 @@ type VolumeGroupReplicasObservation struct {
 	// The OCID of the volume group replica.
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
-	// The OCID for the volume group.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region volume group's replicas, which will be used in the destination region to encrypt the volume group's replicas encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
 
@@ -225,7 +225,7 @@ type VolumeGroupReplicasParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// The OCID for the volume group.
+	// (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region volume group's replicas, which will be used in the destination region to encrypt the volume group's replicas encryption keys. For more information about the Vault service and encryption keys, see Overview of Vault service and Using Keys.
 	// +kubebuilder:validation:Optional
 	XrrKMSKeyID *string `json:"xrrKmsKeyId,omitempty" tf:"xrr_kms_key_id,omitempty"`
 }
@@ -244,7 +244,7 @@ type VolumeGroupSourceDetailsInitParameters struct {
 	// The OCID of the volume group replica.
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +crossplane:generate:reference:type=Volume
 	// +listType=set
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
@@ -272,7 +272,7 @@ type VolumeGroupSourceDetailsObservation struct {
 	// The OCID of the volume group replica.
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +listType=set
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 }
@@ -295,7 +295,7 @@ type VolumeGroupSourceDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
-	// OCIDs for the volumes in this volume group.
+	// OCIDs for the volumes used to create this volume group.
 	// +crossplane:generate:reference:type=Volume
 	// +kubebuilder:validation:Optional
 	// +listType=set

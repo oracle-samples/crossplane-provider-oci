@@ -181,6 +181,7 @@ type NodeEvictionNodePoolSettingsInitParameters struct {
 	// (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
 
+	// (Updatable) If the node action should be performed if not all the pods can be evicted in the grace period
 	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
 
 	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
@@ -192,6 +193,7 @@ type NodeEvictionNodePoolSettingsObservation struct {
 	// (Updatable) Duration after which OKE will give up eviction of the pods on the node. PT0M will indicate you want to delete the node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
 
+	// (Updatable) If the node action should be performed if not all the pods can be evicted in the grace period
 	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
 
 	// (Updatable) If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
@@ -204,6 +206,7 @@ type NodeEvictionNodePoolSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	EvictionGraceDuration *string `json:"evictionGraceDuration,omitempty" tf:"eviction_grace_duration,omitempty"`
 
+	// (Updatable) If the node action should be performed if not all the pods can be evicted in the grace period
 	// +kubebuilder:validation:Optional
 	IsForceActionAfterGraceDuration *bool `json:"isForceActionAfterGraceDuration,omitempty" tf:"is_force_action_after_grace_duration,omitempty"`
 
@@ -213,9 +216,11 @@ type NodeEvictionNodePoolSettingsParameters struct {
 }
 
 type NodePoolCyclingDetailsInitParameters struct {
+
+	// (Updatable) An ordered list of cycle modes that should be performed on the OKE nodes.
 	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
 
-	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	// (Updatable) If cycling operation should be performed on the nodes in the node pool.
 	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
 
 	// (Updatable) Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
@@ -226,9 +231,11 @@ type NodePoolCyclingDetailsInitParameters struct {
 }
 
 type NodePoolCyclingDetailsObservation struct {
+
+	// (Updatable) An ordered list of cycle modes that should be performed on the OKE nodes.
 	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
 
-	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	// (Updatable) If cycling operation should be performed on the nodes in the node pool.
 	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
 
 	// (Updatable) Maximum additional new compute instances that would be temporarily created and added to nodepool during the cycling nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Nodepool size or 0% to 100%
@@ -240,10 +247,11 @@ type NodePoolCyclingDetailsObservation struct {
 
 type NodePoolCyclingDetailsParameters struct {
 
+	// (Updatable) An ordered list of cycle modes that should be performed on the OKE nodes.
 	// +kubebuilder:validation:Optional
 	CycleModes []*string `json:"cycleModes,omitempty" tf:"cycle_modes,omitempty"`
 
-	// (Updatable) If nodes in the nodepool will be cycled to have new changes.
+	// (Updatable) If cycling operation should be performed on the nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	IsNodeCyclingEnabled *bool `json:"isNodeCyclingEnabled,omitempty" tf:"is_node_cycling_enabled,omitempty"`
 

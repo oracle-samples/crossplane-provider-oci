@@ -181,14 +181,19 @@ spec:
                       Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
                     type: string
                   ipv6subnetCidr:
+                    description: Applies to IPV6 LB creation only.
                     type: string
                   isDeleteProtectionEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      delete protection enabled.
                     type: boolean
                   isPrivate:
                     description: Whether the load balancer has a VCN-local (private)
                       IP address.
                     type: boolean
                   isRequestIdEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      the Request Id feature enabled for HTTP listeners.
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of NSG OCIDs associated with
@@ -198,6 +203,11 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   requestIdHeader:
+                    description: (Updatable) If isRequestIdEnabled is true then this
+                      field contains the name of the header field that contains the
+                      unique request id that is attached to every request from the
+                      load balancer to the load balancer backends and to every response
+                      from the load balancer.
                     type: string
                   reservedIps:
                     description: An array of reserved Ips. Pre-created public IP that
@@ -207,22 +217,25 @@ spec:
                     items:
                       properties:
                         id:
-                          description: Ocid of the pre-created public IP that should
-                            be attached to this load balancer. The public IP will
-                            be attached to a private IP.
+                          description: Ocid of the Reserved IP/Public Ip created with
+                            VCN.
                           type: string
                       type: object
                     type: array
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Extended Defined tags for ZPR for this
+                      resource. Each key is predefined and scoped to a namespace.  Example:
+                      {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit",
+                      "usagetype" : "zpr"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   shape:
                     description: '(Updatable) A template that determines the total
                       pre-provisioned bandwidth (ingress plus egress). To get a list
                       of available shapes, use the ListShapes operation.  Example:
-                      flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps,
+                      flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps,
                       400Mbps, 8000Mbps would be deprecated and only shape allowed
                       would be Flexible *Note: When updating shape for a load balancer,
                       all existing connections to the load balancer will be reset
@@ -455,14 +468,19 @@ spec:
                       Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
                     type: string
                   ipv6subnetCidr:
+                    description: Applies to IPV6 LB creation only.
                     type: string
                   isDeleteProtectionEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      delete protection enabled.
                     type: boolean
                   isPrivate:
                     description: Whether the load balancer has a VCN-local (private)
                       IP address.
                     type: boolean
                   isRequestIdEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      the Request Id feature enabled for HTTP listeners.
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of NSG OCIDs associated with
@@ -472,6 +490,11 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   requestIdHeader:
+                    description: (Updatable) If isRequestIdEnabled is true then this
+                      field contains the name of the header field that contains the
+                      unique request id that is attached to every request from the
+                      load balancer to the load balancer backends and to every response
+                      from the load balancer.
                     type: string
                   reservedIps:
                     description: An array of reserved Ips. Pre-created public IP that
@@ -481,22 +504,25 @@ spec:
                     items:
                       properties:
                         id:
-                          description: Ocid of the pre-created public IP that should
-                            be attached to this load balancer. The public IP will
-                            be attached to a private IP.
+                          description: Ocid of the Reserved IP/Public Ip created with
+                            VCN.
                           type: string
                       type: object
                     type: array
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Extended Defined tags for ZPR for this
+                      resource. Each key is predefined and scoped to a namespace.  Example:
+                      {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit",
+                      "usagetype" : "zpr"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   shape:
                     description: '(Updatable) A template that determines the total
                       pre-provisioned bandwidth (ingress plus egress). To get a list
                       of available shapes, use the ListShapes operation.  Example:
-                      flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps,
+                      flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps,
                       400Mbps, 8000Mbps would be deprecated and only shape allowed
                       would be Flexible *Note: When updating shape for a load balancer,
                       all existing connections to the load balancer will be reset
@@ -817,9 +843,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   id:
-                    description: Ocid of the pre-created public IP that should be
-                      attached to this load balancer. The public IP will be attached
-                      to a private IP.
+                    description: Ocid of the Reserved IP/Public Ip created with VCN.
                     type: string
                   ipAddressDetails:
                     description: An array of IP addresses.
@@ -832,16 +856,11 @@ spec:
                           description: Whether the IP address is public or private.
                           type: boolean
                         reservedIp:
-                          description: Pre-created public IP that will be used as
-                            the IP of this load balancer. This reserved IP will not
-                            be deleted when load balancer is deleted. This ip should
-                            not be already mapped to any other resource.
                           items:
                             properties:
                               id:
-                                description: Ocid of the pre-created public IP that
-                                  should be attached to this load balancer. The public
-                                  IP will be attached to a private IP.
+                                description: Ocid of the Reserved IP/Public Ip created
+                                  with VCN.
                                 type: string
                             type: object
                           type: array
@@ -858,14 +877,19 @@ spec:
                       Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
                     type: string
                   ipv6subnetCidr:
+                    description: Applies to IPV6 LB creation only.
                     type: string
                   isDeleteProtectionEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      delete protection enabled.
                     type: boolean
                   isPrivate:
                     description: Whether the load balancer has a VCN-local (private)
                       IP address.
                     type: boolean
                   isRequestIdEnabled:
+                    description: (Updatable) Whether or not the load balancer has
+                      the Request Id feature enabled for HTTP listeners.
                     type: boolean
                   networkSecurityGroupIds:
                     description: (Updatable) An array of NSG OCIDs associated with
@@ -875,6 +899,11 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   requestIdHeader:
+                    description: (Updatable) If isRequestIdEnabled is true then this
+                      field contains the name of the header field that contains the
+                      unique request id that is attached to every request from the
+                      load balancer to the load balancer backends and to every response
+                      from the load balancer.
                     type: string
                   reservedIps:
                     description: An array of reserved Ips. Pre-created public IP that
@@ -884,22 +913,25 @@ spec:
                     items:
                       properties:
                         id:
-                          description: Ocid of the pre-created public IP that should
-                            be attached to this load balancer. The public IP will
-                            be attached to a private IP.
+                          description: Ocid of the Reserved IP/Public Ip created with
+                            VCN.
                           type: string
                       type: object
                     type: array
                   securityAttributes:
                     additionalProperties:
                       type: string
+                    description: '(Updatable) Extended Defined tags for ZPR for this
+                      resource. Each key is predefined and scoped to a namespace.  Example:
+                      {"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit",
+                      "usagetype" : "zpr"}}}'
                     type: object
                     x-kubernetes-map-type: granular
                   shape:
                     description: '(Updatable) A template that determines the total
                       pre-provisioned bandwidth (ingress plus egress). To get a list
                       of available shapes, use the ListShapes operation.  Example:
-                      flexible NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps,
+                      flexible NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps,
                       400Mbps, 8000Mbps would be deprecated and only shape allowed
                       would be Flexible *Note: When updating shape for a load balancer,
                       all existing connections to the load balancer will be reset

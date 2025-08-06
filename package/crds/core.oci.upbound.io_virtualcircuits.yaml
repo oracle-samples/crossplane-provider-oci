@@ -203,6 +203,10 @@ spec:
                       the default is false.
                     type: boolean
                   isTransportMode:
+                    description: (Updatable) Set to true for the virtual circuit to
+                      carry only encrypted traffic, or set to false for the virtual
+                      circuit to carry unencrypted traffic. If this is not set, the
+                      default is false.
                     type: boolean
                   providerServiceId:
                     description: The OCID of the service offered by the provider (if
@@ -389,6 +393,10 @@ spec:
                       the default is false.
                     type: boolean
                   isTransportMode:
+                    description: (Updatable) Set to true for the virtual circuit to
+                      carry only encrypted traffic, or set to false for the virtual
+                      circuit to carry unencrypted traffic. If this is not set, the
+                      default is false.
                     type: boolean
                   providerServiceId:
                     description: The OCID of the service offered by the provider (if
@@ -757,6 +765,10 @@ spec:
                       the default is false.
                     type: boolean
                   isTransportMode:
+                    description: (Updatable) Set to true for the virtual circuit to
+                      carry only encrypted traffic, or set to false for the virtual
+                      circuit to carry unencrypted traffic. If this is not set, the
+                      default is false.
                     type: boolean
                   oracleBgpAsn:
                     description: The Oracle BGP ASN.
@@ -825,13 +837,22 @@ spec:
                       192.168/16).
                     type: string
                   virtualCircuitRedundancyMetadata:
+                    description: This resource provides redundancy level details for
+                      the virtual circuit. For more about redundancy, see FastConnect
+                      Redundancy Best Practices.
                     items:
                       properties:
                         configuredRedundancyLevel:
+                          description: The configured redundancy level of the virtual
+                            circuit.
                           type: string
                         ipv4bgpSessionRedundancyStatus:
+                          description: Indicates if the configured level is met for
+                            IPv4 BGP redundancy.
                           type: string
                         ipv6bgpSessionRedundancyStatus:
+                          description: Indicates if the configured level is met for
+                            IPv6 BGP redundancy.
                           type: string
                       type: object
                     type: array

@@ -62,7 +62,7 @@ type SubnetInitParameters struct {
 	// (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 
-	// (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet that meets the following criteria:
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 
 	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
@@ -145,7 +145,7 @@ type SubnetObservation struct {
 	// (Updatable) Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 
-	// (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet that meets the following criteria:
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 
 	// For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.  Example: 2001:0db8:0123:1111:89ab:cdef:1234:5678
@@ -241,7 +241,7 @@ type SubnetParameters struct {
 	// +kubebuilder:validation:Optional
 	Ipv6CidrBlock *string `json:"ipv6cidrBlock,omitempty" tf:"ipv6cidr_block,omitempty"`
 
-	// (Updatable) The list of all IPv6 CIDR blocks (Oracle allocated IPv6 GUA, ULA or private IPv6 CIDR blocks, BYOIPv6 CIDR blocks) for the subnet that meets the following criteria:
+	// (Updatable) The list of all IPv6 prefixes (Oracle allocated IPv6 GUA, ULA or private IPv6 prefixes, BYOIPv6 prefixes) for the subnet that meets the following criteria:
 	// +kubebuilder:validation:Optional
 	Ipv6CidrBlocks []*string `json:"ipv6cidrBlocks,omitempty" tf:"ipv6cidr_blocks,omitempty"`
 

@@ -12,6 +12,7 @@ spec:
     - compartmentId: ${var.compartment_id}
       source:
       - category: ${var.log_configuration_source_category}
+        parameters: ${var.log_configuration_source_parameters}
         resource: ${var.log_configuration_source_resource}
         service: ${var.log_configuration_source_service}
         sourceType: ${var.log_configuration_source_source_type}

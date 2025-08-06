@@ -216,16 +216,16 @@ spec:
                             type: string
                           type: array
                         sourceEndpointName:
-                          description: (Updatable) Name of an endpoint, that is a
-                            sub-resource of the resolver, to use as the forwarding
-                            interface. The endpoint must have isForwarding set to
-                            true.
+                          description: (Updatable) Case-insensitive name of an endpoint,
+                            that is a sub-resource of the resolver, to use as the
+                            forwarding interface. The endpoint must have isForwarding
+                            set to true.
                           type: string
                       type: object
                     type: array
                   scope:
-                    description: If specified, must be PRIVATE when creating private
-                      name resolvers.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                 type: object
               initProvider:
@@ -384,16 +384,16 @@ spec:
                             type: string
                           type: array
                         sourceEndpointName:
-                          description: (Updatable) Name of an endpoint, that is a
-                            sub-resource of the resolver, to use as the forwarding
-                            interface. The endpoint must have isForwarding set to
-                            true.
+                          description: (Updatable) Case-insensitive name of an endpoint,
+                            that is a sub-resource of the resolver, to use as the
+                            forwarding interface. The endpoint must have isForwarding
+                            set to true.
                           type: string
                       type: object
                     type: array
                   scope:
-                    description: If specified, must be PRIVATE when creating private
-                      name resolvers.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                 type: object
               managementPolicies:
@@ -710,16 +710,16 @@ spec:
                             type: string
                           type: array
                         sourceEndpointName:
-                          description: (Updatable) Name of an endpoint, that is a
-                            sub-resource of the resolver, to use as the forwarding
-                            interface. The endpoint must have isForwarding set to
-                            true.
+                          description: (Updatable) Case-insensitive name of an endpoint,
+                            that is a sub-resource of the resolver, to use as the
+                            forwarding interface. The endpoint must have isForwarding
+                            set to true.
                           type: string
                       type: object
                     type: array
                   scope:
-                    description: If specified, must be PRIVATE when creating private
-                      name resolvers.
+                    description: Specifies to operate only on resources that have
+                      a matching DNS scope.
                     type: string
                   self:
                     description: The canonical absolute URL of the resource.

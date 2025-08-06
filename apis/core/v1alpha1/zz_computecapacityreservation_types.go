@@ -15,29 +15,29 @@ import (
 
 type ClusterConfigInitParameters struct {
 
-	// (Updatable) The OCID of the HpcIsland.
+	// (Updatable) The OCID of the HPC island.
 	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
 
-	// (Updatable) The list of OCID of the network blocks.
+	// (Updatable) The list of OCIDs of the network blocks.
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterConfigObservation struct {
 
-	// (Updatable) The OCID of the HpcIsland.
+	// (Updatable) The OCID of the HPC island.
 	HpcIslandID *string `json:"hpcIslandId,omitempty" tf:"hpc_island_id,omitempty"`
 
-	// (Updatable) The list of OCID of the network blocks.
+	// (Updatable) The list of OCIDs of the network blocks.
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
 
 type ClusterConfigParameters struct {
 
-	// (Updatable) The OCID of the HpcIsland.
+	// (Updatable) The OCID of the HPC island.
 	// +kubebuilder:validation:Optional
 	HpcIslandID *string `json:"hpcIslandId" tf:"hpc_island_id,omitempty"`
 
-	// (Updatable) The list of OCID of the network blocks.
+	// (Updatable) The list of OCIDs of the network blocks.
 	// +kubebuilder:validation:Optional
 	NetworkBlockIds []*string `json:"networkBlockIds,omitempty" tf:"network_block_ids,omitempty"`
 }
@@ -61,7 +61,7 @@ type ComputeCapacityReservationInitParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// (Updatable) The capacity configurations for the capacity reservation.
+	// (Updatable) The capacity configurations for the capacity reservation. (Note: From 6.17.0 instance_reservation_configs field in oci_core_compute_capacity_reservation is changed from TypeList to TypeSet - to avoid unnecessary updates. Also, configs cant by accessed by index)
 	InstanceReservationConfigs []InstanceReservationConfigsInitParameters `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
 
 	// (Updatable) Whether this capacity reservation is the default. For more information, see Capacity Reservations.
@@ -90,7 +90,7 @@ type ComputeCapacityReservationObservation struct {
 	// The OCID of the compute capacity reservation.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Updatable) The capacity configurations for the capacity reservation.
+	// (Updatable) The capacity configurations for the capacity reservation. (Note: From 6.17.0 instance_reservation_configs field in oci_core_compute_capacity_reservation is changed from TypeList to TypeSet - to avoid unnecessary updates. Also, configs cant by accessed by index)
 	InstanceReservationConfigs []InstanceReservationConfigsObservation `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
 
 	// (Updatable) Whether this capacity reservation is the default. For more information, see Capacity Reservations.
@@ -136,7 +136,7 @@ type ComputeCapacityReservationParameters struct {
 	// +mapType=granular
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
-	// (Updatable) The capacity configurations for the capacity reservation.
+	// (Updatable) The capacity configurations for the capacity reservation. (Note: From 6.17.0 instance_reservation_configs field in oci_core_compute_capacity_reservation is changed from TypeList to TypeSet - to avoid unnecessary updates. Also, configs cant by accessed by index)
 	// +kubebuilder:validation:Optional
 	InstanceReservationConfigs []InstanceReservationConfigsParameters `json:"instanceReservationConfigs,omitempty" tf:"instance_reservation_configs,omitempty"`
 
@@ -150,7 +150,7 @@ type InstanceReservationConfigsInitParameters struct {
 	// (Updatable) The HPC cluster configuration requested when launching instances in a compute capacity reservation.
 	ClusterConfig []ClusterConfigInitParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
-	// The OCID of the compute capacity reservation.
+	// (Updatable) The OCID of the cluster placement group for this instance reservation capacity configuration.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
@@ -171,7 +171,7 @@ type InstanceReservationConfigsObservation struct {
 	// (Updatable) The HPC cluster configuration requested when launching instances in a compute capacity reservation.
 	ClusterConfig []ClusterConfigObservation `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
-	// The OCID of the compute capacity reservation.
+	// (Updatable) The OCID of the cluster placement group for this instance reservation capacity configuration.
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 
 	// (Updatable) The fault domain to use for instances created using this capacity configuration. For more information, see Fault Domains. If you do not specify the fault domain, the capacity is available for an instance that does not specify a fault domain. To change the fault domain for a reservation, delete the reservation and create a new one in the preferred fault domain.
@@ -196,7 +196,7 @@ type InstanceReservationConfigsParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterConfig []ClusterConfigParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
 
-	// The OCID of the compute capacity reservation.
+	// (Updatable) The OCID of the cluster placement group for this instance reservation capacity configuration.
 	// +kubebuilder:validation:Optional
 	ClusterPlacementGroupID *string `json:"clusterPlacementGroupId,omitempty" tf:"cluster_placement_group_id,omitempty"`
 

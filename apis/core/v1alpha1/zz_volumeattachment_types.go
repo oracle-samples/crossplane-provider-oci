@@ -144,6 +144,7 @@ type VolumeAttachmentObservation struct {
 	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `json:"isShareable,omitempty" tf:"is_shareable,omitempty"`
 
+	// Flag indicating if this volume was created for the customer as part of a simplified launch. Used to determine whether the volume requires deletion on instance termination.
 	IsVolumeCreatedDuringLaunch *bool `json:"isVolumeCreatedDuringLaunch,omitempty" tf:"is_volume_created_during_launch,omitempty"`
 
 	// A list of secondary multipath devices

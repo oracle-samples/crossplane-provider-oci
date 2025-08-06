@@ -166,8 +166,10 @@ type ClusterObservation struct {
 	// (Updatable) The name of the cluster. Avoid entering confidential information.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The cluster-specific OpenID Connect Discovery endpoint
 	OpenIDConnectDiscoveryEndpoint *string `json:"openIdConnectDiscoveryEndpoint,omitempty" tf:"open_id_connect_discovery_endpoint,omitempty"`
 
+	// The cluster-specific OpenID Connect Discovery Key to derive the DiscoveryEndpoint
 	OpenIDConnectDiscoveryKey *string `json:"openIdConnectDiscoveryKey,omitempty" tf:"open_id_connect_discovery_key,omitempty"`
 
 	// (Updatable) Optional attributes for the cluster.
@@ -355,6 +357,8 @@ type EndpointsInitParameters struct {
 }
 
 type EndpointsObservation struct {
+
+	// The IPv6 networking Kubernetes API server endpoint.
 	Ipv6Endpoint *string `json:"ipv6endpoint,omitempty" tf:"ipv6endpoint,omitempty"`
 
 	// The non-native networking Kubernetes API server endpoint.
@@ -423,29 +427,29 @@ type KeyDetailsParameters struct {
 
 type KubernetesNetworkConfigInitParameters struct {
 
-	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+	// The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
 	PodsCidr *string `json:"podsCidr,omitempty" tf:"pods_cidr,omitempty"`
 
-	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	// The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
 }
 
 type KubernetesNetworkConfigObservation struct {
 
-	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+	// The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
 	PodsCidr *string `json:"podsCidr,omitempty" tf:"pods_cidr,omitempty"`
 
-	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	// The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
 }
 
 type KubernetesNetworkConfigParameters struct {
 
-	// The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
+	// The CIDR block for Kubernetes pods. Optional. For ipv4, defaults to 10.244.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0000::/96.
 	// +kubebuilder:validation:Optional
 	PodsCidr *string `json:"podsCidr,omitempty" tf:"pods_cidr,omitempty"`
 
-	// The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	// The CIDR block for Kubernetes services. Optional. For ipv4, defaults to 10.96.0.0/16. For ipv6, defaults to fd00:eeee:eeee:0001::/108.
 	// +kubebuilder:validation:Optional
 	ServicesCidr *string `json:"servicesCidr,omitempty" tf:"services_cidr,omitempty"`
 }
@@ -470,6 +474,7 @@ type MetadataObservation struct {
 	// The time the cluster was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// The time until which the cluster credential is valid.
 	TimeCredentialExpiration *string `json:"timeCredentialExpiration,omitempty" tf:"time_credential_expiration,omitempty"`
 
 	// The time the cluster was deleted.
@@ -489,102 +494,139 @@ type MetadataParameters struct {
 }
 
 type OpenIDConnectDiscoveryInitParameters struct {
+
+	// (Updatable) Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint.
 	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
 }
 
 type OpenIDConnectDiscoveryObservation struct {
+
+	// (Updatable) Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint.
 	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
 }
 
 type OpenIDConnectDiscoveryParameters struct {
 
+	// (Updatable) Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint.
 	// +kubebuilder:validation:Optional
 	IsOpenIDConnectDiscoveryEnabled *bool `json:"isOpenIdConnectDiscoveryEnabled,omitempty" tf:"is_open_id_connect_discovery_enabled,omitempty"`
 }
 
 type OpenIDConnectTokenAuthenticationConfigInitParameters struct {
+
+	// (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
-	// The OCID of the cluster.
+	// (Updatable) A client id that all tokens must be issued for.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (Updatable) A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info here
 	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
 
+	// (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings.
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups).
 	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
 
+	// (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false.
 	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled,omitempty" tf:"is_open_id_connect_auth_enabled,omitempty"`
 
+	// (Updatable) URL of the provider that allows the API server to discover public signing keys.  Only URLs that use the https:// scheme are accepted. This is typically the provider's discovery URL,  changed to have an empty path.
 	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
 
+	// (Updatable) A key=value pair that describes a required claim in the ID Token. If set, the claim is verified to be present  in the ID Token with a matching value. Repeat this flag to specify multiple claims.
 	RequiredClaims []RequiredClaimsInitParameters `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
 
+	// (Updatable) The signing algorithms accepted. Default is ["RS256"].
 	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
 
+	// (Updatable) JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins.
 	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing.
 	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
 }
 
 type OpenIDConnectTokenAuthenticationConfigObservation struct {
+
+	// (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
-	// The OCID of the cluster.
+	// (Updatable) A client id that all tokens must be issued for.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (Updatable) A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info here
 	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
 
+	// (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings.
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups).
 	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
 
+	// (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false.
 	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled,omitempty" tf:"is_open_id_connect_auth_enabled,omitempty"`
 
+	// (Updatable) URL of the provider that allows the API server to discover public signing keys.  Only URLs that use the https:// scheme are accepted. This is typically the provider's discovery URL,  changed to have an empty path.
 	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
 
+	// (Updatable) A key=value pair that describes a required claim in the ID Token. If set, the claim is verified to be present  in the ID Token with a matching value. Repeat this flag to specify multiple claims.
 	RequiredClaims []RequiredClaimsObservation `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
 
+	// (Updatable) The signing algorithms accepted. Default is ["RS256"].
 	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
 
+	// (Updatable) JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins.
 	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing.
 	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
 }
 
 type OpenIDConnectTokenAuthenticationConfigParameters struct {
 
+	// (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate.
 	// +kubebuilder:validation:Optional
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
-	// The OCID of the cluster.
+	// (Updatable) A client id that all tokens must be issued for.
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// (Updatable) A Base64 encoded string of a Kubernetes OIDC Auth Config file. More info here
 	// +kubebuilder:validation:Optional
 	ConfigurationFile *string `json:"configurationFile,omitempty" tf:"configuration_file,omitempty"`
 
+	// (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings.
 	// +kubebuilder:validation:Optional
 	GroupsClaim *string `json:"groupsClaim,omitempty" tf:"groups_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups).
 	// +kubebuilder:validation:Optional
 	GroupsPrefix *string `json:"groupsPrefix,omitempty" tf:"groups_prefix,omitempty"`
 
+	// (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false.
 	// +kubebuilder:validation:Optional
 	IsOpenIDConnectAuthEnabled *bool `json:"isOpenIdConnectAuthEnabled" tf:"is_open_id_connect_auth_enabled,omitempty"`
 
+	// (Updatable) URL of the provider that allows the API server to discover public signing keys.  Only URLs that use the https:// scheme are accepted. This is typically the provider's discovery URL,  changed to have an empty path.
 	// +kubebuilder:validation:Optional
 	IssuerURL *string `json:"issuerUrl,omitempty" tf:"issuer_url,omitempty"`
 
+	// (Updatable) A key=value pair that describes a required claim in the ID Token. If set, the claim is verified to be present  in the ID Token with a matching value. Repeat this flag to specify multiple claims.
 	// +kubebuilder:validation:Optional
 	RequiredClaims []RequiredClaimsParameters `json:"requiredClaims,omitempty" tf:"required_claims,omitempty"`
 
+	// (Updatable) The signing algorithms accepted. Default is ["RS256"].
 	// +kubebuilder:validation:Optional
 	SigningAlgorithms []*string `json:"signingAlgorithms,omitempty" tf:"signing_algorithms,omitempty"`
 
+	// (Updatable) JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins.
 	// +kubebuilder:validation:Optional
 	UsernameClaim *string `json:"usernameClaim,omitempty" tf:"username_claim,omitempty"`
 
+	// (Updatable) Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing.
 	// +kubebuilder:validation:Optional
 	UsernamePrefix *string `json:"usernamePrefix,omitempty" tf:"username_prefix,omitempty"`
 }
@@ -597,13 +639,16 @@ type OptionsInitParameters struct {
 	// (Updatable) Configurable cluster admission controllers
 	AdmissionControllerOptions []AdmissionControllerOptionsInitParameters `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
 
+	// IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
 
 	// Network configuration for Kubernetes.
 	KubernetesNetworkConfig []KubernetesNetworkConfigInitParameters `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
 
+	// (Updatable) The property that define the status of the OIDC Discovery feature for a cluster.
 	OpenIDConnectDiscovery []OpenIDConnectDiscoveryInitParameters `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
 
+	// (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see Configuring the API Server.
 	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigInitParameters `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
 
 	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
@@ -635,13 +680,16 @@ type OptionsObservation struct {
 	// (Updatable) Configurable cluster admission controllers
 	AdmissionControllerOptions []AdmissionControllerOptionsObservation `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
 
+	// IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
 
 	// Network configuration for Kubernetes.
 	KubernetesNetworkConfig []KubernetesNetworkConfigObservation `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
 
+	// (Updatable) The property that define the status of the OIDC Discovery feature for a cluster.
 	OpenIDConnectDiscovery []OpenIDConnectDiscoveryObservation `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
 
+	// (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see Configuring the API Server.
 	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigObservation `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
 
 	// (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
@@ -664,6 +712,7 @@ type OptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AdmissionControllerOptions []AdmissionControllerOptionsParameters `json:"admissionControllerOptions,omitempty" tf:"admission_controller_options,omitempty"`
 
+	// IP family to use for single stack or define the order of IP families for dual-stack. Available values are [] (defaults to IPv4), [IPv4] (IPv4), [IPv4, IPv6] (IPv4 preferred dual stack).
 	// +kubebuilder:validation:Optional
 	IPFamilies []*string `json:"ipFamilies,omitempty" tf:"ip_families,omitempty"`
 
@@ -671,9 +720,11 @@ type OptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	KubernetesNetworkConfig []KubernetesNetworkConfigParameters `json:"kubernetesNetworkConfig,omitempty" tf:"kubernetes_network_config,omitempty"`
 
+	// (Updatable) The property that define the status of the OIDC Discovery feature for a cluster.
 	// +kubebuilder:validation:Optional
 	OpenIDConnectDiscovery []OpenIDConnectDiscoveryParameters `json:"openIdConnectDiscovery,omitempty" tf:"open_id_connect_discovery,omitempty"`
 
+	// (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see Configuring the API Server.
 	// +kubebuilder:validation:Optional
 	OpenIDConnectTokenAuthenticationConfig []OpenIDConnectTokenAuthenticationConfigParameters `json:"openIdConnectTokenAuthenticationConfig,omitempty" tf:"open_id_connect_token_authentication_config,omitempty"`
 
@@ -737,22 +788,30 @@ type PersistentVolumeConfigParameters struct {
 }
 
 type RequiredClaimsInitParameters struct {
+
+	// (Updatable) The key of the pair.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// (Updatable) The value of the pair.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type RequiredClaimsObservation struct {
+
+	// (Updatable) The key of the pair.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// (Updatable) The value of the pair.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type RequiredClaimsParameters struct {
 
+	// (Updatable) The key of the pair.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// (Updatable) The value of the pair.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }

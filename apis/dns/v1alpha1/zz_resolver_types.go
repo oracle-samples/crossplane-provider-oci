@@ -111,7 +111,7 @@ type ResolverInitParameters struct {
 	// (Updatable) Rules for the resolver. Rules are evaluated in order.
 	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
-	// If specified, must be PRIVATE when creating private name resolvers.
+	// Specifies to operate only on resources that have a matching DNS scope.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
 
@@ -155,7 +155,7 @@ type ResolverObservation struct {
 	// (Updatable) Rules for the resolver. Rules are evaluated in order.
 	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
-	// If specified, must be PRIVATE when creating private name resolvers.
+	// Specifies to operate only on resources that have a matching DNS scope.
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The canonical absolute URL of the resource.
@@ -212,7 +212,7 @@ type ResolverParameters struct {
 	// +kubebuilder:validation:Optional
 	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
-	// If specified, must be PRIVATE when creating private name resolvers.
+	// Specifies to operate only on resources that have a matching DNS scope.
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
@@ -231,7 +231,7 @@ type RulesInitParameters struct {
 	// (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
 	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
 
-	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
+	// (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
 	SourceEndpointName *string `json:"sourceEndpointName,omitempty" tf:"source_endpoint_name,omitempty"`
 }
 
@@ -249,7 +249,7 @@ type RulesObservation struct {
 	// (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply.
 	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
 
-	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
+	// (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
 	SourceEndpointName *string `json:"sourceEndpointName,omitempty" tf:"source_endpoint_name,omitempty"`
 }
 
@@ -271,7 +271,7 @@ type RulesParameters struct {
 	// +kubebuilder:validation:Optional
 	QnameCoverConditions []*string `json:"qnameCoverConditions,omitempty" tf:"qname_cover_conditions,omitempty"`
 
-	// (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
+	// (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true.
 	// +kubebuilder:validation:Optional
 	SourceEndpointName *string `json:"sourceEndpointName" tf:"source_endpoint_name,omitempty"`
 }

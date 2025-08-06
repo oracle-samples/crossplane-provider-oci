@@ -18,27 +18,28 @@ type BackendSetBackendInitParameters struct {
 
 type BackendSetBackendObservation struct {
 
-	// Whether the load balancer should treat this server as a backup unit. If true, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+	// (Updatable) Whether the load balancer should treat this server as a backup unit. If true, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
 	Backup *bool `json:"backup,omitempty" tf:"backup,omitempty"`
 
-	// Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: false
+	// (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: false
 	Drain *bool `json:"drain,omitempty" tf:"drain,omitempty"`
 
-	// The IP address of the backend server.  Example: 10.0.0.3
+	// (Updatable) The IP address of the backend server.  Example: 10.0.0.3
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (Updatable) The maximum number of simultaneous connections the load balancer can make to the backend. If this is not set or set to 0 then the maximum number of simultaneous connections the load balancer can make to the backend is unlimited.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
 	// A friendly name for the backend set. It must be unique and it cannot be changed.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
+	// (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
 	Offline *bool `json:"offline,omitempty" tf:"offline,omitempty"`
 
-	// (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the Backend object.  Example: 8080
+	// (Updatable) The communication port for the backend server.  Example: 8080
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see How Load Balancing Policies Work.  Example: 3
+	// (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see How Load Balancing Policies Work.  Example: 3
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -46,6 +47,8 @@ type BackendSetBackendParameters struct {
 }
 
 type BackendSetInitParameters struct {
+
+	// (Updatable) The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.
 	BackendMaxConnections *float64 `json:"backendMaxConnections,omitempty" tf:"backend_max_connections,omitempty"`
 
 	// (Updatable) The health check policy's configuration details.
@@ -80,8 +83,11 @@ type BackendSetInitParameters struct {
 }
 
 type BackendSetObservation struct {
+
+	// (Updatable)
 	Backend []BackendSetBackendObservation `json:"backend,omitempty" tf:"backend,omitempty"`
 
+	// (Updatable) The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.
 	BackendMaxConnections *float64 `json:"backendMaxConnections,omitempty" tf:"backend_max_connections,omitempty"`
 
 	// (Updatable) The health check policy's configuration details.
@@ -112,6 +118,7 @@ type BackendSetObservation struct {
 
 type BackendSetParameters struct {
 
+	// (Updatable) The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.
 	// +kubebuilder:validation:Optional
 	BackendMaxConnections *float64 `json:"backendMaxConnections,omitempty" tf:"backend_max_connections,omitempty"`
 
@@ -161,7 +168,7 @@ type HealthCheckerInitParameters struct {
 	// (Updatable) Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
 	IsForcePlainText *bool `json:"isForcePlainText,omitempty" tf:"is_force_plain_text,omitempty"`
 
-	// (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the Backend object.  Example: 8080
+	// (Updatable) The communication port for the backend server.  Example: 8080
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The protocol the health check must use; either HTTP or TCP.  Example: HTTP
@@ -191,7 +198,7 @@ type HealthCheckerObservation struct {
 	// (Updatable) Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
 	IsForcePlainText *bool `json:"isForcePlainText,omitempty" tf:"is_force_plain_text,omitempty"`
 
-	// (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the Backend object.  Example: 8080
+	// (Updatable) The communication port for the backend server.  Example: 8080
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// (Updatable) The protocol the health check must use; either HTTP or TCP.  Example: HTTP
@@ -223,7 +230,7 @@ type HealthCheckerParameters struct {
 	// +kubebuilder:validation:Optional
 	IsForcePlainText *bool `json:"isForcePlainText,omitempty" tf:"is_force_plain_text,omitempty"`
 
-	// (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the Backend object.  Example: 8080
+	// (Updatable) The communication port for the backend server.  Example: 8080
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 

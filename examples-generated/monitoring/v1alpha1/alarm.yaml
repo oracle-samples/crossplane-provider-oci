@@ -8,6 +8,7 @@ metadata:
   name: test-alarm
 spec:
   forProvider:
+    alarmSummary: ${var.alarm_alarm_summary}
     body: ${var.alarm_body}
     compartmentIdSelector:
       matchLabels:
@@ -17,6 +18,7 @@ spec:
     destinations:
     - ${oci_ons_notification_topic.test_notification_topic.id}
     displayName: ${var.alarm_display_name}
+    evaluationSlackDuration: ${var.alarm_evaluation_slack_duration}
     freeformTags:
       Department: Finance
     isEnabled: ${var.alarm_is_enabled}
@@ -27,11 +29,20 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     namespace: ${var.alarm_namespace}
+    notificationTitle: ${var.alarm_notification_title}
+    notificationVersion: ${var.alarm_notification_version}
+    overrides:
+    - body: ${var.alarm_overrides_body}
+      pendingDuration: ${var.alarm_overrides_pending_duration}
+      query: ${var.alarm_overrides_query}
+      ruleName: ${oci_events_rule.test_rule.name}
+      severity: ${var.alarm_overrides_severity}
     pendingDuration: ${var.alarm_pending_duration}
     query: ${var.alarm_query}
     repeatNotificationDuration: ${var.alarm_repeat_notification_duration}
     resolution: ${var.alarm_resolution}
     resourceGroup: ${var.alarm_resource_group}
+    ruleName: ${oci_events_rule.test_rule.name}
     severity: ${var.alarm_severity}
     suppression:
     - description: ${var.alarm_suppression_description}

@@ -16,6 +16,11 @@ spec:
     displayName: ${var.replication_display_name}
     freeformTags:
       Department: Finance
+    locks:
+    - message: ${var.replication_locks_message}
+      relatedResourceId: ${oci_cloud_guard_resource.test_resource.id}
+      timeCreated: ${var.replication_locks_time_created}
+      type: ${var.replication_locks_type}
     replicationInterval: ${var.replication_replication_interval}
     sourceIdSelector:
       matchLabels:

@@ -75,31 +75,45 @@ spec:
               forProvider:
                 properties:
                   areOperationallyActiveBackendsPreferred:
+                    description: (Updatable) If enabled, NLB supports active-standby
+                      backends. The standby backend takes over the traffic when the
+                      active node fails, and continues to serve the traffic even when
+                      the old active node is back healthy.
                     type: boolean
                   healthChecker:
                     description: (Updatable) The health check policy configuration.
-                      For more information, see Editing Health Check Policies.
+                      For more information, see Editing Network Load Balancer Health
+                      Check Policies.
                     items:
                       properties:
                         dns:
+                          description: (Updatable) DNS healthcheck configurations.
                           items:
                             properties:
                               domainName:
-                                description: A user-friendly name for the backend
-                                  set that must be unique and cannot be changed.
+                                description: (Updatable) The absolute fully-qualified
+                                  domain name to perform periodic DNS queries. If
+                                  not provided, an extra dot will be added at the
+                                  end of a domain name during the query.
                                 type: string
                               queryClass:
+                                description: '(Updatable) The class the dns health
+                                  check query to use; either IN or CH.  Example: IN'
                                 type: string
                               queryType:
+                                description: '(Updatable) The type the dns health
+                                  check query to use; A, AAAA, TXT.  Example: A'
                                 type: string
                               rcodes:
+                                description: '(Updatable) An array that represents
+                                  accepetable RCODE values for DNS query response.
+                                  Example: ["NOERROR", "NXDOMAIN"]'
                                 items:
                                   type: string
                                 type: array
                               transportProtocol:
-                                description: '(Updatable) The protocol the health
-                                  check must use; either HTTP or HTTPS, or UDP or
-                                  TCP.  Example: HTTP'
+                                description: '(Updatable) DNS transport protocol;
+                                  either UDP or TCP.  Example: UDP'
                                 type: string
                             type: object
                           type: array
@@ -109,15 +123,12 @@ spec:
                             10000'
                           type: number
                         port:
-                          description: '(Updatable) The backend server port against
-                            which to run the health check. If the port is not specified,
-                            then the network load balancer uses the port information
-                            from the Backend object. The port must be specified if
-                            the backend port is 0.  Example: 8080'
+                          description: '(Updatable) The communication port for the
+                            backend server.  Example: 8080'
                           type: number
                         protocol:
                           description: '(Updatable) The protocol the health check
-                            must use; either HTTP or HTTPS, or UDP or TCP.  Example:
+                            must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example:
                             HTTP'
                           type: string
                         requestData:
@@ -162,10 +173,22 @@ spec:
                       set.
                     type: string
                   isFailOpen:
+                    description: (Updatable) If enabled, the network load balancer
+                      will continue to distribute traffic in the configured distribution
+                      in the event all backends are unhealthy. The value is false
+                      by default.
                     type: boolean
                   isInstantFailoverEnabled:
+                    description: (Updatable) If enabled existing connections will
+                      be forwarded to an alternative healthy backend as soon as current
+                      backend becomes unhealthy.
                     type: boolean
                   isInstantFailoverTcpResetEnabled:
+                    description: (Updatable) If enabled along with instant failover,
+                      the network load balancer will send TCP RST to the clients for
+                      the existing connections instead of failing over to a healthy
+                      backend. This only applies when using the instant failover.
+                      By default, TCP RST is enabled.
                     type: boolean
                   isPreserveSource:
                     description: (Updatable) If this parameter is enabled, then the
@@ -176,8 +199,10 @@ spec:
                       cannot be disabled. The value is true by default.
                     type: boolean
                   name:
-                    description: A user-friendly name for the backend set that must
-                      be unique and cannot be changed.
+                    description: '(Updatable) A read-only field showing the IP address/OCID
+                      and port that uniquely identify this backend server in the backend
+                      set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443
+                      or 10.0.0.3:0'
                     type: string
                   networkLoadBalancerId:
                     description: The OCID of the network load balancer to update.
@@ -277,31 +302,45 @@ spec:
                   autoscaler.
                 properties:
                   areOperationallyActiveBackendsPreferred:
+                    description: (Updatable) If enabled, NLB supports active-standby
+                      backends. The standby backend takes over the traffic when the
+                      active node fails, and continues to serve the traffic even when
+                      the old active node is back healthy.
                     type: boolean
                   healthChecker:
                     description: (Updatable) The health check policy configuration.
-                      For more information, see Editing Health Check Policies.
+                      For more information, see Editing Network Load Balancer Health
+                      Check Policies.
                     items:
                       properties:
                         dns:
+                          description: (Updatable) DNS healthcheck configurations.
                           items:
                             properties:
                               domainName:
-                                description: A user-friendly name for the backend
-                                  set that must be unique and cannot be changed.
+                                description: (Updatable) The absolute fully-qualified
+                                  domain name to perform periodic DNS queries. If
+                                  not provided, an extra dot will be added at the
+                                  end of a domain name during the query.
                                 type: string
                               queryClass:
+                                description: '(Updatable) The class the dns health
+                                  check query to use; either IN or CH.  Example: IN'
                                 type: string
                               queryType:
+                                description: '(Updatable) The type the dns health
+                                  check query to use; A, AAAA, TXT.  Example: A'
                                 type: string
                               rcodes:
+                                description: '(Updatable) An array that represents
+                                  accepetable RCODE values for DNS query response.
+                                  Example: ["NOERROR", "NXDOMAIN"]'
                                 items:
                                   type: string
                                 type: array
                               transportProtocol:
-                                description: '(Updatable) The protocol the health
-                                  check must use; either HTTP or HTTPS, or UDP or
-                                  TCP.  Example: HTTP'
+                                description: '(Updatable) DNS transport protocol;
+                                  either UDP or TCP.  Example: UDP'
                                 type: string
                             type: object
                           type: array
@@ -311,15 +350,12 @@ spec:
                             10000'
                           type: number
                         port:
-                          description: '(Updatable) The backend server port against
-                            which to run the health check. If the port is not specified,
-                            then the network load balancer uses the port information
-                            from the Backend object. The port must be specified if
-                            the backend port is 0.  Example: 8080'
+                          description: '(Updatable) The communication port for the
+                            backend server.  Example: 8080'
                           type: number
                         protocol:
                           description: '(Updatable) The protocol the health check
-                            must use; either HTTP or HTTPS, or UDP or TCP.  Example:
+                            must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example:
                             HTTP'
                           type: string
                         requestData:
@@ -364,10 +400,22 @@ spec:
                       set.
                     type: string
                   isFailOpen:
+                    description: (Updatable) If enabled, the network load balancer
+                      will continue to distribute traffic in the configured distribution
+                      in the event all backends are unhealthy. The value is false
+                      by default.
                     type: boolean
                   isInstantFailoverEnabled:
+                    description: (Updatable) If enabled existing connections will
+                      be forwarded to an alternative healthy backend as soon as current
+                      backend becomes unhealthy.
                     type: boolean
                   isInstantFailoverTcpResetEnabled:
+                    description: (Updatable) If enabled along with instant failover,
+                      the network load balancer will send TCP RST to the clients for
+                      the existing connections instead of failing over to a healthy
+                      backend. This only applies when using the instant failover.
+                      By default, TCP RST is enabled.
                     type: boolean
                   isPreserveSource:
                     description: (Updatable) If this parameter is enabled, then the
@@ -378,8 +426,10 @@ spec:
                       cannot be disabled. The value is true by default.
                     type: boolean
                   name:
-                    description: A user-friendly name for the backend set that must
-                      be unique and cannot be changed.
+                    description: '(Updatable) A read-only field showing the IP address/OCID
+                      and port that uniquely identify this backend server in the backend
+                      set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443
+                      or 10.0.0.3:0'
                     type: string
                   networkLoadBalancerId:
                     description: The OCID of the network load balancer to update.
@@ -652,82 +702,99 @@ spec:
               atProvider:
                 properties:
                   areOperationallyActiveBackendsPreferred:
+                    description: (Updatable) If enabled, NLB supports active-standby
+                      backends. The standby backend takes over the traffic when the
+                      active node fails, and continues to serve the traffic even when
+                      the old active node is back healthy.
                     type: boolean
                   backends:
-                    description: Array of backends.
+                    description: (Updatable) An array of backends to be associated
+                      with the backend set.
                     items:
                       properties:
                         ipAddress:
-                          description: 'The IP address of the backend server. Example:
-                            10.0.0.3'
+                          description: '(Updatable) The IP address of the backend
+                            server.  Example: 10.0.0.3'
                           type: string
                         isBackup:
-                          description: 'Whether the network load balancer should treat
-                            this server as a backup unit. If true, then the network
-                            load balancer forwards no ingress traffic to this backend
-                            server unless all other backend servers not marked as
-                            "isBackup" fail the health check policy.  Example: false'
+                          description: '(Updatable) Whether the network load balancer
+                            should treat this server as a backup unit. If true, then
+                            the network load balancer forwards no ingress traffic
+                            to this backend server unless all other backend servers
+                            not marked as "isBackup" fail the health check policy.  Example:
+                            false'
                           type: boolean
                         isDrain:
-                          description: 'Whether the network load balancer should drain
-                            this server. Servers marked "isDrain" receive no incoming
-                            traffic.  Example: false'
+                          description: '(Updatable) Whether the network load balancer
+                            should drain this server. Servers marked "isDrain" receive
+                            no incoming traffic.  Example: false'
                           type: boolean
                         isOffline:
-                          description: 'Whether the network load balancer should treat
-                            this server as offline. Offline servers receive no incoming
-                            traffic.  Example: false'
+                          description: '(Updatable) Whether the network load balancer
+                            should treat this server as offline. Offline servers receive
+                            no incoming traffic.  Example: false'
                           type: boolean
                         name:
-                          description: A user-friendly name for the backend set that
-                            must be unique and cannot be changed.
+                          description: '(Updatable) A read-only field showing the
+                            IP address/OCID and port that uniquely identify this backend
+                            server in the backend set.  Example: 10.0.0.3:8080, or
+                            ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443
+                            or 10.0.0.3:0'
                           type: string
                         port:
-                          description: '(Updatable) The backend server port against
-                            which to run the health check. If the port is not specified,
-                            then the network load balancer uses the port information
-                            from the Backend object. The port must be specified if
-                            the backend port is 0.  Example: 8080'
+                          description: '(Updatable) The communication port for the
+                            backend server.  Example: 8080'
                           type: number
                         targetId:
-                          description: 'The IP OCID/Instance OCID associated with
-                            the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>'
+                          description: '(Updatable) The IP OCID/Instance OCID associated
+                            with the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>'
                           type: string
                         weight:
-                          description: 'The network load balancing policy weight assigned
-                            to the server. Backend servers with a higher weight receive
-                            a larger proportion of incoming traffic. For example,
-                            a server weighted ''3'' receives three times the number
-                            of new connections as a server weighted ''1''. For more
-                            information about load balancing policies, see How Network
-                            Load Balancing Policies Work.  Example: 3'
+                          description: '(Updatable) The network load balancing policy
+                            weight assigned to the server. Backend servers with a
+                            higher weight receive a larger proportion of incoming
+                            traffic. For example, a server weighted ''3'' receives
+                            three times the number of new connections as a server
+                            weighted ''1''. For more information about load balancing
+                            policies, see Network Load Balancer Policies.  Example:
+                            3'
                           type: number
                       type: object
                     type: array
                   healthChecker:
                     description: (Updatable) The health check policy configuration.
-                      For more information, see Editing Health Check Policies.
+                      For more information, see Editing Network Load Balancer Health
+                      Check Policies.
                     items:
                       properties:
                         dns:
+                          description: (Updatable) DNS healthcheck configurations.
                           items:
                             properties:
                               domainName:
-                                description: A user-friendly name for the backend
-                                  set that must be unique and cannot be changed.
+                                description: (Updatable) The absolute fully-qualified
+                                  domain name to perform periodic DNS queries. If
+                                  not provided, an extra dot will be added at the
+                                  end of a domain name during the query.
                                 type: string
                               queryClass:
+                                description: '(Updatable) The class the dns health
+                                  check query to use; either IN or CH.  Example: IN'
                                 type: string
                               queryType:
+                                description: '(Updatable) The type the dns health
+                                  check query to use; A, AAAA, TXT.  Example: A'
                                 type: string
                               rcodes:
+                                description: '(Updatable) An array that represents
+                                  accepetable RCODE values for DNS query response.
+                                  Example: ["NOERROR", "NXDOMAIN"]'
                                 items:
                                   type: string
                                 type: array
                               transportProtocol:
-                                description: '(Updatable) The protocol the health
-                                  check must use; either HTTP or HTTPS, or UDP or
-                                  TCP.  Example: HTTP'
+                                description: '(Updatable) DNS transport protocol;
+                                  either UDP or TCP.  Example: UDP'
                                 type: string
                             type: object
                           type: array
@@ -737,15 +804,12 @@ spec:
                             10000'
                           type: number
                         port:
-                          description: '(Updatable) The backend server port against
-                            which to run the health check. If the port is not specified,
-                            then the network load balancer uses the port information
-                            from the Backend object. The port must be specified if
-                            the backend port is 0.  Example: 8080'
+                          description: '(Updatable) The communication port for the
+                            backend server.  Example: 8080'
                           type: number
                         protocol:
                           description: '(Updatable) The protocol the health check
-                            must use; either HTTP or HTTPS, or UDP or TCP.  Example:
+                            must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example:
                             HTTP'
                           type: string
                         requestData:
@@ -792,10 +856,22 @@ spec:
                       set.
                     type: string
                   isFailOpen:
+                    description: (Updatable) If enabled, the network load balancer
+                      will continue to distribute traffic in the configured distribution
+                      in the event all backends are unhealthy. The value is false
+                      by default.
                     type: boolean
                   isInstantFailoverEnabled:
+                    description: (Updatable) If enabled existing connections will
+                      be forwarded to an alternative healthy backend as soon as current
+                      backend becomes unhealthy.
                     type: boolean
                   isInstantFailoverTcpResetEnabled:
+                    description: (Updatable) If enabled along with instant failover,
+                      the network load balancer will send TCP RST to the clients for
+                      the existing connections instead of failing over to a healthy
+                      backend. This only applies when using the instant failover.
+                      By default, TCP RST is enabled.
                     type: boolean
                   isPreserveSource:
                     description: (Updatable) If this parameter is enabled, then the
@@ -806,8 +882,10 @@ spec:
                       cannot be disabled. The value is true by default.
                     type: boolean
                   name:
-                    description: A user-friendly name for the backend set that must
-                      be unique and cannot be changed.
+                    description: '(Updatable) A read-only field showing the IP address/OCID
+                      and port that uniquely identify this backend server in the backend
+                      set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443
+                      or 10.0.0.3:0'
                     type: string
                   networkLoadBalancerId:
                     description: The OCID of the network load balancer to update.

@@ -17,6 +17,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_load_balancer
+    maxConnections: ${var.backend_max_connections}
     offline: ${var.backend_offline}
     port: ${var.backend_port}
     weight: ${var.backend_weight}

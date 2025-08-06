@@ -9,7 +9,8 @@ metadata:
 spec:
   forProvider:
     connectionConfiguration:
-    - backendTcpProxyProtocolVersion: ${var.listener_connection_configuration_backend_tcp_proxy_protocol_version}
+    - backendTcpProxyProtocolOptions: ${var.listener_connection_configuration_backend_tcp_proxy_protocol_options}
+      backendTcpProxyProtocolVersion: ${var.listener_connection_configuration_backend_tcp_proxy_protocol_version}
       idleTimeoutInSeconds: ${var.listener_connection_configuration_idle_timeout_in_seconds}
     defaultBackendSetNameSelector:
       matchLabels:
@@ -34,6 +35,7 @@ spec:
     - certificateIds: ${var.listener_ssl_configuration_certificate_ids}
       certificateName: ${oci_load_balancer_certificate.test_certificate.name}
       cipherSuiteName: ${var.listener_ssl_configuration_cipher_suite_name}
+      hasSessionResumption: ${var.listener_ssl_configuration_has_session_resumption}
       protocols: ${var.listener_ssl_configuration_protocols}
       serverOrderPreference: ${var.listener_ssl_configuration_server_order_preference}
       trustedCertificateAuthorityIds: ${var.listener_ssl_configuration_trusted_certificate_authority_ids}

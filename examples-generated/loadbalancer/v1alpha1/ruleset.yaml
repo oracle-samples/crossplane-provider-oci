@@ -16,9 +16,13 @@ spec:
       - attributeName: ${var.rule_set_items_conditions_attribute_name}
         attributeValue: ${var.rule_set_items_conditions_attribute_value}
         operator: ${var.rule_set_items_conditions_operator}
+      defaultMaxConnections: ${var.rule_set_items_default_max_connections}
       description: ${var.rule_set_items_description}
       header: ${var.rule_set_items_header}
       httpLargeHeaderSizeInKb: ${var.rule_set_items_http_large_header_size_in_kb}
+      ipMaxConnections:
+      - ipAddresses: ${var.rule_set_items_ip_max_connections_ip_addresses}
+        maxConnections: ${var.rule_set_items_ip_max_connections_max_connections}
       prefix: ${var.rule_set_items_prefix}
       redirectUri:
       - host: ${var.rule_set_items_redirect_uri_host}

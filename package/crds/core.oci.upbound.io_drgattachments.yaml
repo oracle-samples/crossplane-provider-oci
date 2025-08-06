@@ -417,7 +417,8 @@ spec:
                           type: object
                         type:
                           description: '(Updatable) The type can be one of these values:
-                            IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT'
+                            IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN,
+                            VIRTUAL_CIRCUIT'
                           type: string
                         vcnRouteType:
                           description: (Updatable) Indicates whether the VCN CIDRs
@@ -799,7 +800,8 @@ spec:
                           type: object
                         type:
                           description: '(Updatable) The type can be one of these values:
-                            IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT'
+                            IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN,
+                            VIRTUAL_CIRCUIT'
                           type: string
                         vcnRouteType:
                           description: (Updatable) Indicates whether the VCN CIDRs
@@ -1049,6 +1051,7 @@ spec:
                           description: The OCID of the network attached to the DRG.
                           type: string
                         ids:
+                          description: The OCID of the target IPSec tunnel attachment.
                           items:
                             type: string
                           type: array
@@ -1062,13 +1065,16 @@ spec:
                             this attachment.
                           type: string
                         transportAttachmentId:
-                          description: The OCID of the network attached to the DRG.
+                          description: The OCID of the virtual circuit's DRG attachment.
                           type: string
                         transportOnlyMode:
+                          description: 'Boolean flag that determines wether all traffic
+                            over the virtual circuits is encrypted.  Example: true'
                           type: boolean
                         type:
                           description: '(Updatable) The type can be one of these values:
-                            IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT'
+                            IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN,
+                            VIRTUAL_CIRCUIT'
                           type: string
                         vcnRouteType:
                           description: (Updatable) Indicates whether the VCN CIDRs

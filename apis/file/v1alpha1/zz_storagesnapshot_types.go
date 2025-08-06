@@ -19,6 +19,7 @@ type StorageSnapshotInitParameters struct {
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
+	// (Updatable) The time when this snapshot will be deleted.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
@@ -39,6 +40,7 @@ type StorageSnapshotInitParameters struct {
 
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []StorageSnapshotLocksInitParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.
@@ -46,42 +48,50 @@ type StorageSnapshotInitParameters struct {
 }
 
 type StorageSnapshotLocksInitParameters struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the snapshot.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type StorageSnapshotLocksObservation struct {
+
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the snapshot.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type StorageSnapshotLocksParameters struct {
 
+	// A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
 	// +kubebuilder:validation:Optional
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
-	// The OCID of the snapshot.
+	// The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
 	// +kubebuilder:validation:Optional
 	RelatedResourceID *string `json:"relatedResourceId,omitempty" tf:"related_resource_id,omitempty"`
 
-	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	// +kubebuilder:validation:Optional
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Type of the lock.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -92,12 +102,13 @@ type StorageSnapshotObservation struct {
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
+	// (Updatable) The time when this snapshot will be deleted.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
 	FileSystemID *string `json:"fileSystemId,omitempty" tf:"file_system_id,omitempty"`
 
-	// The OCID of the snapshot.
+	// The OCID of the file system snapshot policy that created this snapshot.
 	FilesystemSnapshotPolicyID *string `json:"filesystemSnapshotPolicyId,omitempty" tf:"filesystem_snapshot_policy_id,omitempty"`
 
 	// (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags. Example: {"Department": "Finance"}
@@ -115,6 +126,7 @@ type StorageSnapshotObservation struct {
 	// Additional information about the current lifecycleState.
 	LifecycleDetails *string `json:"lifecycleDetails,omitempty" tf:"lifecycle_details,omitempty"`
 
+	// Locks associated with this resource.
 	Locks []StorageSnapshotLocksObservation `json:"locks,omitempty" tf:"locks,omitempty"`
 
 	// Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.
@@ -132,10 +144,11 @@ type StorageSnapshotObservation struct {
 	// The current state of the snapshot.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services.
 	// +mapType=granular
 	SystemTags map[string]*string `json:"systemTags,omitempty" tf:"system_tags,omitempty"`
 
-	// The date and time the snapshot was created, expressed in RFC 3339 timestamp format.  Example: 2016-08-25T21:10:29.600Z
+	// When the lock was created.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 }
 
@@ -146,6 +159,7 @@ type StorageSnapshotParameters struct {
 	// +mapType=granular
 	DefinedTags map[string]*string `json:"definedTags,omitempty" tf:"defined_tags,omitempty"`
 
+	// (Updatable) The time when this snapshot will be deleted.
 	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
@@ -170,6 +184,7 @@ type StorageSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	IsLockOverride *bool `json:"isLockOverride,omitempty" tf:"is_lock_override,omitempty"`
 
+	// Locks associated with this resource.
 	// +kubebuilder:validation:Optional
 	Locks []StorageSnapshotLocksParameters `json:"locks,omitempty" tf:"locks,omitempty"`
 

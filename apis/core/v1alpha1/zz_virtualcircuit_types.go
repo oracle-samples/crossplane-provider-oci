@@ -151,6 +151,7 @@ type VirtualCircuitInitParameters struct {
 	// (Updatable) Set to true to enable BFD for IPv4 BGP peering, or set to false to disable BFD. If this is not set, the default is false.
 	IsBfdEnabled *bool `json:"isBfdEnabled,omitempty" tf:"is_bfd_enabled,omitempty"`
 
+	// (Updatable) Set to true for the virtual circuit to carry only encrypted traffic, or set to false for the virtual circuit to carry unencrypted traffic. If this is not set, the default is false.
 	IsTransportMode *bool `json:"isTransportMode,omitempty" tf:"is_transport_mode,omitempty"`
 
 	// The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see ListFastConnectProviderServices.
@@ -224,6 +225,7 @@ type VirtualCircuitObservation struct {
 	// (Updatable) Set to true to enable BFD for IPv4 BGP peering, or set to false to disable BFD. If this is not set, the default is false.
 	IsBfdEnabled *bool `json:"isBfdEnabled,omitempty" tf:"is_bfd_enabled,omitempty"`
 
+	// (Updatable) Set to true for the virtual circuit to carry only encrypted traffic, or set to false for the virtual circuit to carry unencrypted traffic. If this is not set, the default is false.
 	IsTransportMode *bool `json:"isTransportMode,omitempty" tf:"is_transport_mode,omitempty"`
 
 	// The Oracle BGP ASN.
@@ -262,6 +264,7 @@ type VirtualCircuitObservation struct {
 	// The type of IP addresses used in this virtual circuit. PRIVATE means RFC 1918 addresses (10.0.0.0/8, 172.16/12, and 192.168/16).
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// This resource provides redundancy level details for the virtual circuit. For more about redundancy, see FastConnect Redundancy Best Practices.
 	VirtualCircuitRedundancyMetadata []VirtualCircuitRedundancyMetadataObservation `json:"virtualCircuitRedundancyMetadata,omitempty" tf:"virtual_circuit_redundancy_metadata,omitempty"`
 }
 
@@ -317,6 +320,7 @@ type VirtualCircuitParameters struct {
 	// +kubebuilder:validation:Optional
 	IsBfdEnabled *bool `json:"isBfdEnabled,omitempty" tf:"is_bfd_enabled,omitempty"`
 
+	// (Updatable) Set to true for the virtual circuit to carry only encrypted traffic, or set to false for the virtual circuit to carry unencrypted traffic. If this is not set, the default is false.
 	// +kubebuilder:validation:Optional
 	IsTransportMode *bool `json:"isTransportMode,omitempty" tf:"is_transport_mode,omitempty"`
 
@@ -349,10 +353,14 @@ type VirtualCircuitRedundancyMetadataInitParameters struct {
 }
 
 type VirtualCircuitRedundancyMetadataObservation struct {
+
+	// The configured redundancy level of the virtual circuit.
 	ConfiguredRedundancyLevel *string `json:"configuredRedundancyLevel,omitempty" tf:"configured_redundancy_level,omitempty"`
 
+	// Indicates if the configured level is met for IPv4 BGP redundancy.
 	Ipv4BgpSessionRedundancyStatus *string `json:"ipv4bgpSessionRedundancyStatus,omitempty" tf:"ipv4bgp_session_redundancy_status,omitempty"`
 
+	// Indicates if the configured level is met for IPv6 BGP redundancy.
 	Ipv6BgpSessionRedundancyStatus *string `json:"ipv6bgpSessionRedundancyStatus,omitempty" tf:"ipv6bgp_session_redundancy_status,omitempty"`
 }
 

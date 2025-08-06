@@ -71,6 +71,7 @@ type IpsecInitParameters struct {
 	// (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
 	StaticRoutes []*string `json:"staticRoutes,omitempty" tf:"static_routes,omitempty"`
 
+	// (Non-updatable) Tunnel configuration for private ipsec connection over fastconnect.
 	TunnelConfiguration []TunnelConfigurationInitParameters `json:"tunnelConfiguration,omitempty" tf:"tunnel_configuration,omitempty"`
 }
 
@@ -114,8 +115,10 @@ type IpsecObservation struct {
 	// The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// The transport type used for the IPSec connection.
 	TransportType *string `json:"transportType,omitempty" tf:"transport_type,omitempty"`
 
+	// (Non-updatable) Tunnel configuration for private ipsec connection over fastconnect.
 	TunnelConfiguration []TunnelConfigurationObservation `json:"tunnelConfiguration,omitempty" tf:"tunnel_configuration,omitempty"`
 }
 
@@ -186,6 +189,7 @@ type IpsecParameters struct {
 	// +kubebuilder:validation:Optional
 	StaticRoutes []*string `json:"staticRoutes,omitempty" tf:"static_routes,omitempty"`
 
+	// (Non-updatable) Tunnel configuration for private ipsec connection over fastconnect.
 	// +kubebuilder:validation:Optional
 	TunnelConfiguration []TunnelConfigurationParameters `json:"tunnelConfiguration,omitempty" tf:"tunnel_configuration,omitempty"`
 }

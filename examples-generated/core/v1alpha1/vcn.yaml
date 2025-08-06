@@ -25,3 +25,4 @@ spec:
     ipv6privateCidrBlocks: ${var.vcn_ipv6private_cidr_blocks}
     isIpv6Enabled: ${var.vcn_is_ipv6enabled}
     isOracleGuaAllocationEnabled: ${var.vcn_is_oracle_gua_allocation_enabled}
+    securityAttributes: ${var.vcn_security_attributes}

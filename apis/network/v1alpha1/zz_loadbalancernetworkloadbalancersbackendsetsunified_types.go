@@ -15,50 +15,59 @@ import (
 
 type HealthCheckerDNSInitParameters struct {
 
-	// (Updatable) A read-only field showing the IP address/OCID and port that uniquely identify this backend server in the backend set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443 or 10.0.0.3:0
+	// (Updatable) The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
+	// (Updatable) The class the dns health check query to use; either IN or CH.  Example: IN
 	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
 
+	// (Updatable) The type the dns health check query to use; A, AAAA, TXT.  Example: A
 	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
 
+	// (Updatable) An array that represents accepetable RCODE values for DNS query response. Example: ["NOERROR", "NXDOMAIN"]
 	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
 
-	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// (Updatable) DNS transport protocol; either UDP or TCP.  Example: UDP
 	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
 }
 
 type HealthCheckerDNSObservation struct {
 
-	// (Updatable) A read-only field showing the IP address/OCID and port that uniquely identify this backend server in the backend set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443 or 10.0.0.3:0
+	// (Updatable) The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
+	// (Updatable) The class the dns health check query to use; either IN or CH.  Example: IN
 	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
 
+	// (Updatable) The type the dns health check query to use; A, AAAA, TXT.  Example: A
 	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
 
+	// (Updatable) An array that represents accepetable RCODE values for DNS query response. Example: ["NOERROR", "NXDOMAIN"]
 	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
 
-	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// (Updatable) DNS transport protocol; either UDP or TCP.  Example: UDP
 	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
 }
 
 type HealthCheckerDNSParameters struct {
 
-	// (Updatable) A read-only field showing the IP address/OCID and port that uniquely identify this backend server in the backend set.  Example: 10.0.0.3:8080, or ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443 or 10.0.0.3:0
+	// (Updatable) The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query.
 	// +kubebuilder:validation:Optional
 	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
 
+	// (Updatable) The class the dns health check query to use; either IN or CH.  Example: IN
 	// +kubebuilder:validation:Optional
 	QueryClass *string `json:"queryClass,omitempty" tf:"query_class,omitempty"`
 
+	// (Updatable) The type the dns health check query to use; A, AAAA, TXT.  Example: A
 	// +kubebuilder:validation:Optional
 	QueryType *string `json:"queryType,omitempty" tf:"query_type,omitempty"`
 
+	// (Updatable) An array that represents accepetable RCODE values for DNS query response. Example: ["NOERROR", "NXDOMAIN"]
 	// +kubebuilder:validation:Optional
 	Rcodes []*string `json:"rcodes,omitempty" tf:"rcodes,omitempty"`
 
-	// (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: HTTP
+	// (Updatable) DNS transport protocol; either UDP or TCP.  Example: UDP
 	// +kubebuilder:validation:Optional
 	TransportProtocol *string `json:"transportProtocol,omitempty" tf:"transport_protocol,omitempty"`
 }
@@ -71,7 +80,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsInitParameters st
 	// (Updatable) Whether the network load balancer should treat this server as a backup unit. If true, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: false
 	IsBackup *bool `json:"isBackup,omitempty" tf:"is_backup,omitempty"`
 
-	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no  incoming traffic.  Example: false
+	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: false
 	IsDrain *bool `json:"isDrain,omitempty" tf:"is_drain,omitempty"`
 
 	// (Updatable) Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
@@ -86,7 +95,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsInitParameters st
 	// (Updatable) The IP OCID/Instance OCID associated with the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see Network Load Balancer Policies.  Example: 3
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -98,7 +107,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsObservation struc
 	// (Updatable) Whether the network load balancer should treat this server as a backup unit. If true, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: false
 	IsBackup *bool `json:"isBackup,omitempty" tf:"is_backup,omitempty"`
 
-	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no  incoming traffic.  Example: false
+	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: false
 	IsDrain *bool `json:"isDrain,omitempty" tf:"is_drain,omitempty"`
 
 	// (Updatable) Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: false
@@ -113,7 +122,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsObservation struc
 	// (Updatable) The IP OCID/Instance OCID associated with the backend server. Example: ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see Network Load Balancer Policies.  Example: 3
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -127,7 +136,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsParameters struct
 	// +kubebuilder:validation:Optional
 	IsBackup *bool `json:"isBackup,omitempty" tf:"is_backup,omitempty"`
 
-	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no  incoming traffic.  Example: false
+	// (Updatable) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: false
 	// +kubebuilder:validation:Optional
 	IsDrain *bool `json:"isDrain,omitempty" tf:"is_drain,omitempty"`
 
@@ -147,12 +156,14 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsParameters struct
 	// +kubebuilder:validation:Optional
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see How Network Load Balancing Policies Work.  Example: 3
+	// (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see Network Load Balancer Policies.  Example: 3
 	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerInitParameters struct {
+
+	// (Updatable) DNS healthcheck configurations.
 	DNS []HealthCheckerDNSInitParameters `json:"dns,omitempty" tf:"dns,omitempty"`
 
 	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
@@ -187,6 +198,8 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerInitParamete
 }
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerObservation struct {
+
+	// (Updatable) DNS healthcheck configurations.
 	DNS []HealthCheckerDNSObservation `json:"dns,omitempty" tf:"dns,omitempty"`
 
 	// (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: 10000
@@ -222,6 +235,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerObservation 
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerParameters struct {
 
+	// (Updatable) DNS healthcheck configurations.
 	// +kubebuilder:validation:Optional
 	DNS []HealthCheckerDNSParameters `json:"dns,omitempty" tf:"dns,omitempty"`
 
@@ -267,21 +281,26 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerParameters s
 }
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedInitParameters struct {
+
+	// (Updatable) If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.
 	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
 
 	// (Updatable) An array of backends to be associated with the backend set.
 	Backends []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsInitParameters `json:"backends,omitempty" tf:"backends,omitempty"`
 
-	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
+	// (Updatable) The health check policy configuration. For more information, see Editing Network Load Balancer Health Check Policies.
 	HealthChecker []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerInitParameters `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
 
 	// (Updatable) IP version associated with the backend set.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// (Updatable) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default.
 	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
 
+	// (Updatable) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
 	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
 
+	// (Updatable) If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
 	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 
 	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
@@ -307,12 +326,14 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedInitParameters struct {
 }
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedObservation struct {
+
+	// (Updatable) If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.
 	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
 
 	// (Updatable) An array of backends to be associated with the backend set.
 	Backends []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsObservation `json:"backends,omitempty" tf:"backends,omitempty"`
 
-	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
+	// (Updatable) The health check policy configuration. For more information, see Editing Network Load Balancer Health Check Policies.
 	HealthChecker []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerObservation `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -320,10 +341,13 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedObservation struct {
 	// (Updatable) IP version associated with the backend set.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// (Updatable) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default.
 	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
 
+	// (Updatable) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
 	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
 
+	// (Updatable) If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
 	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 
 	// (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default.
@@ -341,6 +365,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedObservation struct {
 
 type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedParameters struct {
 
+	// (Updatable) If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy.
 	// +kubebuilder:validation:Optional
 	AreOperationallyActiveBackendsPreferred *bool `json:"areOperationallyActiveBackendsPreferred,omitempty" tf:"are_operationally_active_backends_preferred,omitempty"`
 
@@ -348,7 +373,7 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedParameters struct {
 	// +kubebuilder:validation:Optional
 	Backends []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsParameters `json:"backends,omitempty" tf:"backends,omitempty"`
 
-	// (Updatable) The health check policy configuration. For more information, see Editing Health Check Policies.
+	// (Updatable) The health check policy configuration. For more information, see Editing Network Load Balancer Health Check Policies.
 	// +kubebuilder:validation:Optional
 	HealthChecker []LoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerParameters `json:"healthChecker,omitempty" tf:"health_checker,omitempty"`
 
@@ -356,12 +381,15 @@ type LoadBalancerNetworkLoadBalancersBackendSetsUnifiedParameters struct {
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// (Updatable) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default.
 	// +kubebuilder:validation:Optional
 	IsFailOpen *bool `json:"isFailOpen,omitempty" tf:"is_fail_open,omitempty"`
 
+	// (Updatable) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
 	// +kubebuilder:validation:Optional
 	IsInstantFailoverEnabled *bool `json:"isInstantFailoverEnabled,omitempty" tf:"is_instant_failover_enabled,omitempty"`
 
+	// (Updatable) If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled.
 	// +kubebuilder:validation:Optional
 	IsInstantFailoverTCPResetEnabled *bool `json:"isInstantFailoverTcpResetEnabled,omitempty" tf:"is_instant_failover_tcp_reset_enabled,omitempty"`
 

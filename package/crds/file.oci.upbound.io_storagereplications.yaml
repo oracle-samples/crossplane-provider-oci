@@ -180,18 +180,24 @@ spec:
                   isLockOverride:
                     type: boolean
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the source file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the replication was created
-                            in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -473,18 +479,24 @@ spec:
                   isLockOverride:
                     type: boolean
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the source file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the replication was created
-                            in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -872,18 +884,24 @@ spec:
                     description: Additional information about the current 'lifecycleState'.
                     type: string
                   locks:
+                    description: Locks associated with this resource.
                     items:
                       properties:
                         message:
+                          description: A message added by the creator of the lock.
+                            This is typically used to give an indication of why the
+                            resource is locked.
                           type: string
                         relatedResourceId:
-                          description: The OCID of the source file system.
+                          description: The ID of the resource that is locking this
+                            resource. Indicates that deleting this resource will remove
+                            the lock.
                           type: string
                         timeCreated:
-                          description: 'The date and time the replication was created
-                            in RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'
+                          description: When the lock was created.
                           type: string
                         type:
+                          description: Type of the lock.
                           type: string
                       type: object
                     type: array
@@ -910,14 +928,15 @@ spec:
                   systemTags:
                     additionalProperties:
                       type: string
+                    description: System tags for this resource. System tags are applied
+                      to resources by internal Oracle Cloud Infrastructure services.
                     type: object
                     x-kubernetes-map-type: granular
                   targetId:
                     description: The OCID of the target file system.
                     type: string
                   timeCreated:
-                    description: 'The date and time the replication was created in
-                      RFC 3339 timestamp format.  Example: 2021-01-04T20:01:29.100Z'
+                    description: When the lock was created.
                     type: string
                 type: object
               conditions:

@@ -8,6 +8,7 @@ metadata:
   name: test-backend-set
 spec:
   forProvider:
+    backendMaxConnections: ${var.backend_set_backend_max_connections}
     healthChecker:
     - intervalMs: ${var.backend_set_health_checker_interval_ms}
       isForcePlainText: ${var.backend_set_health_checker_is_force_plain_text}

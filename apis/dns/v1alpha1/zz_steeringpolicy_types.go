@@ -116,7 +116,7 @@ type CasesInitParameters struct {
 	// (Applicable when rule_type=FILTER | PRIORITY | WEIGHTED) An array of SteeringPolicyPriorityAnswerData objects.
 	AnswerData []AnswerDataInitParameters `json:"answerData,omitempty" tf:"answer_data,omitempty"`
 
-	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.subnet in ('192.0.2.0/24') to define a case that matches queries from that office.
+	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.address in ('192.0.2.0/24') to define a case that matches queries from that office.
 	CaseCondition *string `json:"caseCondition,omitempty" tf:"case_condition,omitempty"`
 
 	// The number of answers allowed to remain after the limit rule has been processed, keeping only the first of the remaining answers in the list. Example: If the count property is set to 2 and four answers remain before the limit rule is processed, only the first two answers in the list will remain after the limit rule has been processed.
@@ -128,7 +128,7 @@ type CasesObservation struct {
 	// (Applicable when rule_type=FILTER | PRIORITY | WEIGHTED) An array of SteeringPolicyPriorityAnswerData objects.
 	AnswerData []AnswerDataObservation `json:"answerData,omitempty" tf:"answer_data,omitempty"`
 
-	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.subnet in ('192.0.2.0/24') to define a case that matches queries from that office.
+	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.address in ('192.0.2.0/24') to define a case that matches queries from that office.
 	CaseCondition *string `json:"caseCondition,omitempty" tf:"case_condition,omitempty"`
 
 	// The number of answers allowed to remain after the limit rule has been processed, keeping only the first of the remaining answers in the list. Example: If the count property is set to 2 and four answers remain before the limit rule is processed, only the first two answers in the list will remain after the limit rule has been processed.
@@ -141,7 +141,7 @@ type CasesParameters struct {
 	// +kubebuilder:validation:Optional
 	AnswerData []AnswerDataParameters `json:"answerData,omitempty" tf:"answer_data,omitempty"`
 
-	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.subnet in ('192.0.2.0/24') to define a case that matches queries from that office.
+	// (Applicable when rule_type=FILTER | HEALTH | LIMIT | PRIORITY | WEIGHTED) An expression that uses conditions at the time of a DNS query to indicate whether a case matches. Conditions may include the geographical location, IP subnet, or ASN the DNS query originated. Example: If you have an office that uses the subnet 192.0.2.0/24 you could use a caseCondition expression query.client.address in ('192.0.2.0/24') to define a case that matches queries from that office.
 	// +kubebuilder:validation:Optional
 	CaseCondition *string `json:"caseCondition,omitempty" tf:"case_condition,omitempty"`
 

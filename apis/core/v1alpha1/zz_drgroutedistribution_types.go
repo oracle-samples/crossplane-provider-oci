@@ -22,7 +22,7 @@ type DrgRouteDistributionInitParameters struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
 	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
 
 	// The OCID of the DRG the DRG route table belongs to.
@@ -54,7 +54,7 @@ type DrgRouteDistributionObservation struct {
 	// (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
 	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
 
 	// The OCID of the DRG the DRG route table belongs to.
@@ -85,7 +85,7 @@ type DrgRouteDistributionParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
-	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
 	// +kubebuilder:validation:Optional
 	DistributionType *string `json:"distributionType,omitempty" tf:"distribution_type,omitempty"`
 

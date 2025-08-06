@@ -32,12 +32,13 @@ type PrivateIPInitParameters struct {
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: 10.0.3.3
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The private IP's Oracle ID (OCID).
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the private IP is to be drawn. The IP address, if supplied, must be valid for the given subnet.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// Use this attribute only with the Oracle Cloud VMware Solution.
@@ -93,20 +94,21 @@ type PrivateIPObservation struct {
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: 10.0.3.3
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
 	IPState *string `json:"ipState,omitempty" tf:"ip_state,omitempty"`
 
 	// Whether this private IP is the primary one on the VNIC. Primary private IPs are unassigned and deleted automatically when the VNIC is terminated.  Example: true
 	IsPrimary *bool `json:"isPrimary,omitempty" tf:"is_primary,omitempty"`
 
-	// true if the IP is reserved and can exist detached from vnic
 	IsReserved *bool `json:"isReserved,omitempty" tf:"is_reserved,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The private IP's Oracle ID (OCID).
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the private IP is to be drawn. The IP address, if supplied, must be valid for the given subnet.
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// The date and time the private IP was created, in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z
@@ -143,14 +145,15 @@ type PrivateIPParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
 	// +kubebuilder:validation:Optional
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
-	// The private IP's Oracle ID (OCID).
+	// (Updatable) The OCID of the route table the IP address or VNIC will use. For more information, see Source Based Routing.
 	// +kubebuilder:validation:Optional
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the subnet the VNIC is in.
+	// The OCID of the subnet from which the private IP is to be drawn. The IP address, if supplied, must be valid for the given subnet.
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 

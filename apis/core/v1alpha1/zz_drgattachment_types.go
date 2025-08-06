@@ -208,7 +208,7 @@ type NetworkDetailsInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
+	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// (Updatable) Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment. Routes from the VCN ingress route table are always imported.
@@ -220,6 +220,7 @@ type NetworkDetailsObservation struct {
 	// The OCID of the network attached to the DRG.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The OCID of the target IPSec tunnel attachment.
 	Ids []*string `json:"ids,omitempty" tf:"ids,omitempty"`
 
 	// The IPSec connection that contains the attached IPSec tunnel.
@@ -228,12 +229,13 @@ type NetworkDetailsObservation struct {
 	// (Updatable) This is the OCID of the route table that is used to route the traffic as it enters a VCN through this attachment.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The OCID of the network attached to the DRG.
+	// The OCID of the virtual circuit's DRG attachment.
 	TransportAttachmentID *string `json:"transportAttachmentId,omitempty" tf:"transport_attachment_id,omitempty"`
 
+	// Boolean flag that determines wether all traffic over the virtual circuits is encrypted.  Example: true
 	TransportOnlyMode *bool `json:"transportOnlyMode,omitempty" tf:"transport_only_mode,omitempty"`
 
-	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
+	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// (Updatable) Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment. Routes from the VCN ingress route table are always imported.
@@ -268,7 +270,7 @@ type NetworkDetailsParameters struct {
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
+	// (Updatable) The type can be one of these values: IPSEC_TUNNEL, LOOPBACK, REMOTE_PEERING_CONNECTION, VCN, VIRTUAL_CIRCUIT
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 

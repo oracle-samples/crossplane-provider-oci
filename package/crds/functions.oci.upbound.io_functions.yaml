@@ -210,7 +210,8 @@ spec:
                     items:
                       properties:
                         count:
-                          description: (Updatable)
+                          description: (Updatable) Configuration specifying a constant
+                            amount of provisioned concurrency.
                           type: number
                         strategy:
                           description: (Updatable) The strategy for provisioned concurrency
@@ -399,7 +400,8 @@ spec:
                     items:
                       properties:
                         count:
-                          description: (Updatable)
+                          description: (Updatable) Configuration specifying a constant
+                            amount of provisioned concurrency.
                           type: number
                         strategy:
                           description: (Updatable) The strategy for provisioned concurrency
@@ -693,7 +695,8 @@ spec:
                     items:
                       properties:
                         count:
-                          description: (Updatable)
+                          description: (Updatable) Configuration specifying a constant
+                            amount of provisioned concurrency.
                           type: number
                         strategy:
                           description: (Updatable) The strategy for provisioned concurrency
@@ -702,6 +705,9 @@ spec:
                       type: object
                     type: array
                   shape:
+                    description: The processor shape (GENERIC_X86/GENERIC_ARM) on
+                      which to run functions in the application, extracted from the
+                      image manifest.
                     type: string
                   sourceDetails:
                     description: The source details for the Function. The function
