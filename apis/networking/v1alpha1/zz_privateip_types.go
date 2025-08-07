@@ -42,26 +42,26 @@ type PrivateIpInitParameters struct {
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// Use this attribute only with the Oracle Cloud VMware Solution.
-	// +crossplane:generate:reference:type=Vlan
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vlan
 	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
-	// Reference to a Vlan to populate vlanId.
+	// Reference to a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDRef *v1.Reference `json:"vlanIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vlan to populate vlanId.
+	// Selector for a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDSelector *v1.Selector `json:"vlanIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the VNIC to assign the private IP to. The VNIC and private IP must be in the same subnet.
-	// +crossplane:generate:reference:type=VnicAttachment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.VnicAttachment
 	VnicID *string `json:"vnicId,omitempty" tf:"vnic_id,omitempty"`
 
-	// Reference to a VnicAttachment to populate vnicId.
+	// Reference to a VnicAttachment in networking to populate vnicId.
 	// +kubebuilder:validation:Optional
 	VnicIDRef *v1.Reference `json:"vnicIdRef,omitempty" tf:"-"`
 
-	// Selector for a VnicAttachment to populate vnicId.
+	// Selector for a VnicAttachment in networking to populate vnicId.
 	// +kubebuilder:validation:Optional
 	VnicIDSelector *v1.Selector `json:"vnicIdSelector,omitempty" tf:"-"`
 }
@@ -158,28 +158,28 @@ type PrivateIpParameters struct {
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// Use this attribute only with the Oracle Cloud VMware Solution.
-	// +crossplane:generate:reference:type=Vlan
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vlan
 	// +kubebuilder:validation:Optional
 	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
-	// Reference to a Vlan to populate vlanId.
+	// Reference to a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDRef *v1.Reference `json:"vlanIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vlan to populate vlanId.
+	// Selector for a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDSelector *v1.Selector `json:"vlanIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the VNIC to assign the private IP to. The VNIC and private IP must be in the same subnet.
-	// +crossplane:generate:reference:type=VnicAttachment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.VnicAttachment
 	// +kubebuilder:validation:Optional
 	VnicID *string `json:"vnicId,omitempty" tf:"vnic_id,omitempty"`
 
-	// Reference to a VnicAttachment to populate vnicId.
+	// Reference to a VnicAttachment in networking to populate vnicId.
 	// +kubebuilder:validation:Optional
 	VnicIDRef *v1.Reference `json:"vnicIdRef,omitempty" tf:"-"`
 
-	// Selector for a VnicAttachment to populate vnicId.
+	// Selector for a VnicAttachment in networking to populate vnicId.
 	// +kubebuilder:validation:Optional
 	VnicIDSelector *v1.Selector `json:"vnicIdSelector,omitempty" tf:"-"`
 }

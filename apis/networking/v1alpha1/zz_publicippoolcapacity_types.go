@@ -22,14 +22,14 @@ type PublicIpPoolCapacityInitParameters struct {
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// The OCID of the pool object created by the current tenancy
-	// +crossplane:generate:reference:type=PublicIPPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PublicIpPool
 	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
 
-	// Reference to a PublicIPPool to populate publicIpPoolId.
+	// Reference to a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDRef *v1.Reference `json:"publicIpPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a PublicIPPool to populate publicIpPoolId.
+	// Selector for a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDSelector *v1.Selector `json:"publicIpPoolIdSelector,omitempty" tf:"-"`
 }
@@ -59,15 +59,15 @@ type PublicIpPoolCapacityParameters struct {
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// The OCID of the pool object created by the current tenancy
-	// +crossplane:generate:reference:type=PublicIPPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PublicIpPool
 	// +kubebuilder:validation:Optional
 	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
 
-	// Reference to a PublicIPPool to populate publicIpPoolId.
+	// Reference to a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDRef *v1.Reference `json:"publicIpPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a PublicIPPool to populate publicIpPoolId.
+	// Selector for a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDSelector *v1.Selector `json:"publicIpPoolIdSelector,omitempty" tf:"-"`
 }

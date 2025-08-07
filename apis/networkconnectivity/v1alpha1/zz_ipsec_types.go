@@ -28,14 +28,14 @@ type IpsecInitParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the Cpe object.
-	// +crossplane:generate:reference:type=Cpe
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Cpe
 	CpeID *string `json:"cpeId,omitempty" tf:"cpe_id,omitempty"`
 
-	// Reference to a Cpe to populate cpeId.
+	// Reference to a Cpe in networkconnectivity to populate cpeId.
 	// +kubebuilder:validation:Optional
 	CpeIDRef *v1.Reference `json:"cpeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Cpe to populate cpeId.
+	// Selector for a Cpe in networkconnectivity to populate cpeId.
 	// +kubebuilder:validation:Optional
 	CpeIDSelector *v1.Selector `json:"cpeIdSelector,omitempty" tf:"-"`
 
@@ -53,14 +53,14 @@ type IpsecInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
@@ -138,15 +138,15 @@ type IpsecParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the Cpe object.
-	// +crossplane:generate:reference:type=Cpe
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Cpe
 	// +kubebuilder:validation:Optional
 	CpeID *string `json:"cpeId,omitempty" tf:"cpe_id,omitempty"`
 
-	// Reference to a Cpe to populate cpeId.
+	// Reference to a Cpe in networkconnectivity to populate cpeId.
 	// +kubebuilder:validation:Optional
 	CpeIDRef *v1.Reference `json:"cpeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Cpe to populate cpeId.
+	// Selector for a Cpe in networkconnectivity to populate cpeId.
 	// +kubebuilder:validation:Optional
 	CpeIDSelector *v1.Selector `json:"cpeIdSelector,omitempty" tf:"-"`
 
@@ -168,15 +168,15 @@ type IpsecParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	// +kubebuilder:validation:Optional
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 

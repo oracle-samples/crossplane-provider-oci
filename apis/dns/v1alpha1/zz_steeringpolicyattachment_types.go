@@ -22,26 +22,26 @@ type SteeringPolicyAttachmentInitParameters struct {
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// The OCID of the attached steering policy.
-	// +crossplane:generate:reference:type=SteeringPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.SteeringPolicy
 	SteeringPolicyID *string `json:"steeringPolicyId,omitempty" tf:"steering_policy_id,omitempty"`
 
-	// Reference to a SteeringPolicy to populate steeringPolicyId.
+	// Reference to a SteeringPolicy in dns to populate steeringPolicyId.
 	// +kubebuilder:validation:Optional
 	SteeringPolicyIDRef *v1.Reference `json:"steeringPolicyIdRef,omitempty" tf:"-"`
 
-	// Selector for a SteeringPolicy to populate steeringPolicyId.
+	// Selector for a SteeringPolicy in dns to populate steeringPolicyId.
 	// +kubebuilder:validation:Optional
 	SteeringPolicyIDSelector *v1.Selector `json:"steeringPolicyIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the attached zone.
-	// +crossplane:generate:reference:type=Zone
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.Zone
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
-	// Reference to a Zone to populate zoneId.
+	// Reference to a Zone in dns to populate zoneId.
 	// +kubebuilder:validation:Optional
 	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
-	// Selector for a Zone to populate zoneId.
+	// Selector for a Zone in dns to populate zoneId.
 	// +kubebuilder:validation:Optional
 	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
@@ -90,28 +90,28 @@ type SteeringPolicyAttachmentParameters struct {
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// The OCID of the attached steering policy.
-	// +crossplane:generate:reference:type=SteeringPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.SteeringPolicy
 	// +kubebuilder:validation:Optional
 	SteeringPolicyID *string `json:"steeringPolicyId,omitempty" tf:"steering_policy_id,omitempty"`
 
-	// Reference to a SteeringPolicy to populate steeringPolicyId.
+	// Reference to a SteeringPolicy in dns to populate steeringPolicyId.
 	// +kubebuilder:validation:Optional
 	SteeringPolicyIDRef *v1.Reference `json:"steeringPolicyIdRef,omitempty" tf:"-"`
 
-	// Selector for a SteeringPolicy to populate steeringPolicyId.
+	// Selector for a SteeringPolicy in dns to populate steeringPolicyId.
 	// +kubebuilder:validation:Optional
 	SteeringPolicyIDSelector *v1.Selector `json:"steeringPolicyIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the attached zone.
-	// +crossplane:generate:reference:type=Zone
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.Zone
 	// +kubebuilder:validation:Optional
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
-	// Reference to a Zone to populate zoneId.
+	// Reference to a Zone in dns to populate zoneId.
 	// +kubebuilder:validation:Optional
 	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
-	// Selector for a Zone to populate zoneId.
+	// Selector for a Zone in dns to populate zoneId.
 	// +kubebuilder:validation:Optional
 	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }

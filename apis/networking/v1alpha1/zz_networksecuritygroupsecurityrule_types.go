@@ -89,14 +89,14 @@ type NetworkSecurityGroupSecurityRuleInitParameters struct {
 	IcmpOptions []IcmpOptionsInitParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
 	// The OCID of the network security group.
-	// +crossplane:generate:reference:type=NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	NetworkSecurityGroupID *string `json:"networkSecurityGroupId,omitempty" tf:"network_security_group_id,omitempty"`
 
-	// Reference to a NetworkSecurityGroup to populate networkSecurityGroupId.
+	// Reference to a NetworkSecurityGroup in networking to populate networkSecurityGroupId.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIDRef *v1.Reference `json:"networkSecurityGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a NetworkSecurityGroup to populate networkSecurityGroupId.
+	// Selector for a NetworkSecurityGroup in networking to populate networkSecurityGroupId.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIDSelector *v1.Selector `json:"networkSecurityGroupIdSelector,omitempty" tf:"-"`
 
@@ -190,15 +190,15 @@ type NetworkSecurityGroupSecurityRuleParameters struct {
 	IcmpOptions []IcmpOptionsParameters `json:"icmpOptions,omitempty" tf:"icmp_options,omitempty"`
 
 	// The OCID of the network security group.
-	// +crossplane:generate:reference:type=NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupID *string `json:"networkSecurityGroupId,omitempty" tf:"network_security_group_id,omitempty"`
 
-	// Reference to a NetworkSecurityGroup to populate networkSecurityGroupId.
+	// Reference to a NetworkSecurityGroup in networking to populate networkSecurityGroupId.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIDRef *v1.Reference `json:"networkSecurityGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a NetworkSecurityGroup to populate networkSecurityGroupId.
+	// Selector for a NetworkSecurityGroup in networking to populate networkSecurityGroupId.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIDSelector *v1.Selector `json:"networkSecurityGroupIdSelector,omitempty" tf:"-"`
 

@@ -22,26 +22,26 @@ type DrgRouteTableRouteRuleInitParameters struct {
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// The OCID of the DRG route table.
-	// +crossplane:generate:reference:type=DrgRouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteTable
 	DrgRouteTableID *string `json:"drgRouteTableId,omitempty" tf:"drg_route_table_id,omitempty"`
 
-	// Reference to a DrgRouteTable to populate drgRouteTableId.
+	// Reference to a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDRef *v1.Reference `json:"drgRouteTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteTable to populate drgRouteTableId.
+	// Selector for a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDSelector *v1.Selector `json:"drgRouteTableIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the next hop DRG attachment. The next hop DRG attachment is responsible for reaching the network destination.
-	// +crossplane:generate:reference:type=DrgAttachment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgAttachment
 	NextHopDrgAttachmentID *string `json:"nextHopDrgAttachmentId,omitempty" tf:"next_hop_drg_attachment_id,omitempty"`
 
-	// Reference to a DrgAttachment to populate nextHopDrgAttachmentId.
+	// Reference to a DrgAttachment in networkconnectivity to populate nextHopDrgAttachmentId.
 	// +kubebuilder:validation:Optional
 	NextHopDrgAttachmentIDRef *v1.Reference `json:"nextHopDrgAttachmentIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgAttachment to populate nextHopDrgAttachmentId.
+	// Selector for a DrgAttachment in networkconnectivity to populate nextHopDrgAttachmentId.
 	// +kubebuilder:validation:Optional
 	NextHopDrgAttachmentIDSelector *v1.Selector `json:"nextHopDrgAttachmentIdSelector,omitempty" tf:"-"`
 }
@@ -91,28 +91,28 @@ type DrgRouteTableRouteRuleParameters struct {
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// The OCID of the DRG route table.
-	// +crossplane:generate:reference:type=DrgRouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteTable
 	// +kubebuilder:validation:Optional
 	DrgRouteTableID *string `json:"drgRouteTableId,omitempty" tf:"drg_route_table_id,omitempty"`
 
-	// Reference to a DrgRouteTable to populate drgRouteTableId.
+	// Reference to a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDRef *v1.Reference `json:"drgRouteTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteTable to populate drgRouteTableId.
+	// Selector for a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDSelector *v1.Selector `json:"drgRouteTableIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the next hop DRG attachment. The next hop DRG attachment is responsible for reaching the network destination.
-	// +crossplane:generate:reference:type=DrgAttachment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgAttachment
 	// +kubebuilder:validation:Optional
 	NextHopDrgAttachmentID *string `json:"nextHopDrgAttachmentId,omitempty" tf:"next_hop_drg_attachment_id,omitempty"`
 
-	// Reference to a DrgAttachment to populate nextHopDrgAttachmentId.
+	// Reference to a DrgAttachment in networkconnectivity to populate nextHopDrgAttachmentId.
 	// +kubebuilder:validation:Optional
 	NextHopDrgAttachmentIDRef *v1.Reference `json:"nextHopDrgAttachmentIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgAttachment to populate nextHopDrgAttachmentId.
+	// Selector for a DrgAttachment in networkconnectivity to populate nextHopDrgAttachmentId.
 	// +kubebuilder:validation:Optional
 	NextHopDrgAttachmentIDSelector *v1.Selector `json:"nextHopDrgAttachmentIdSelector,omitempty" tf:"-"`
 }

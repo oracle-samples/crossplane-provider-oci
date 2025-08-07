@@ -41,7 +41,7 @@ func Configure(p *config.Provider) {
 			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
 		}
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			Type: "github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet",
 		}
 	})
 

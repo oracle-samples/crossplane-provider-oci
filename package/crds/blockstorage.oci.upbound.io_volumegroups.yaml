@@ -217,7 +217,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         volumeIdsRefs:
-                          description: References to Volume to populate volumeIds.
+                          description: References to Volume in blockstorage to populate
+                            volumeIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -254,7 +255,8 @@ spec:
                             type: object
                           type: array
                         volumeIdsSelector:
-                          description: Selector for a list of Volume to populate volumeIds.
+                          description: Selector for a list of Volume in blockstorage
+                            to populate volumeIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -494,7 +496,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         volumeIdsRefs:
-                          description: References to Volume to populate volumeIds.
+                          description: References to Volume in blockstorage to populate
+                            volumeIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -531,7 +534,8 @@ spec:
                             type: object
                           type: array
                         volumeIdsSelector:
-                          description: Selector for a list of Volume to populate volumeIds.
+                          description: Selector for a list of Volume in blockstorage
+                            to populate volumeIds.
                           properties:
                             matchControllerRef:
                               description: |-

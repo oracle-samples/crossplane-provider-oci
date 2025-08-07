@@ -322,8 +322,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup to populate
-                            nsgIds.
+                          description: References to NetworkSecurityGroup in networking
+                            to populate nsgIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -361,7 +361,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -434,7 +434,8 @@ spec:
                             values must match.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -468,7 +469,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -514,7 +516,8 @@ spec:
                             Vlan.
                           type: string
                         vlanIdRef:
-                          description: Reference to a Vlan to populate vlanId.
+                          description: Reference to a Vlan in networking to populate
+                            vlanId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -548,7 +551,8 @@ spec:
                           - name
                           type: object
                         vlanIdSelector:
-                          description: Selector for a Vlan to populate vlanId.
+                          description: Selector for a Vlan in networking to populate
+                            vlanId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -594,7 +598,8 @@ spec:
                       host to place the instance on.
                     type: string
                   dedicatedVmHostIdRef:
-                    description: Reference to a DedicatedVMHost to populate dedicatedVmHostId.
+                    description: Reference to a DedicatedVmHost in compute to populate
+                      dedicatedVmHostId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -628,7 +633,8 @@ spec:
                     - name
                     type: object
                   dedicatedVmHostIdSelector:
-                    description: Selector for a DedicatedVMHost to populate dedicatedVmHostId.
+                    description: Selector for a DedicatedVmHost in compute to populate
+                      dedicatedVmHostId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1128,7 +1134,8 @@ spec:
                             the resource for other image types.
                           type: string
                         sourceIdRef:
-                          description: Reference to a Image to populate sourceId.
+                          description: Reference to a Image in compute to populate
+                            sourceId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1162,7 +1169,8 @@ spec:
                           - name
                           type: object
                         sourceIdSelector:
-                          description: Selector for a Image to populate sourceId.
+                          description: Selector for a Image in compute to populate
+                            sourceId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1483,8 +1491,8 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup to populate
-                            nsgIds.
+                          description: References to NetworkSecurityGroup in networking
+                            to populate nsgIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -1522,7 +1530,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1595,7 +1603,8 @@ spec:
                             values must match.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1629,7 +1638,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1675,7 +1685,8 @@ spec:
                             Vlan.
                           type: string
                         vlanIdRef:
-                          description: Reference to a Vlan to populate vlanId.
+                          description: Reference to a Vlan in networking to populate
+                            vlanId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1709,7 +1720,8 @@ spec:
                           - name
                           type: object
                         vlanIdSelector:
-                          description: Selector for a Vlan to populate vlanId.
+                          description: Selector for a Vlan in networking to populate
+                            vlanId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1755,7 +1767,8 @@ spec:
                       host to place the instance on.
                     type: string
                   dedicatedVmHostIdRef:
-                    description: Reference to a DedicatedVMHost to populate dedicatedVmHostId.
+                    description: Reference to a DedicatedVmHost in compute to populate
+                      dedicatedVmHostId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1789,7 +1802,8 @@ spec:
                     - name
                     type: object
                   dedicatedVmHostIdSelector:
-                    description: Selector for a DedicatedVMHost to populate dedicatedVmHostId.
+                    description: Selector for a DedicatedVmHost in compute to populate
+                      dedicatedVmHostId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -2289,7 +2303,8 @@ spec:
                             the resource for other image types.
                           type: string
                         sourceIdRef:
-                          description: Reference to a Image to populate sourceId.
+                          description: Reference to a Image in compute to populate
+                            sourceId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -2323,7 +2338,8 @@ spec:
                           - name
                           type: object
                         sourceIdSelector:
-                          description: Selector for a Image to populate sourceId.
+                          description: Selector for a Image in compute to populate
+                            sourceId.
                           properties:
                             matchControllerRef:
                               description: |-

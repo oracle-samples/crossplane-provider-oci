@@ -270,7 +270,7 @@ spec:
                       type: string
                     type: array
                   subnetIdsRefs:
-                    description: References to Subnet in core to populate subnetIds.
+                    description: References to Subnet in networking to populate subnetIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -307,7 +307,7 @@ spec:
                       type: object
                     type: array
                   subnetIdsSelector:
-                    description: Selector for a list of Subnet in core to populate
+                    description: Selector for a list of Subnet in networking to populate
                       subnetIds.
                     properties:
                       matchControllerRef:
@@ -557,7 +557,7 @@ spec:
                       type: string
                     type: array
                   subnetIdsRefs:
-                    description: References to Subnet in core to populate subnetIds.
+                    description: References to Subnet in networking to populate subnetIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -594,7 +594,7 @@ spec:
                       type: object
                     type: array
                   subnetIdsSelector:
-                    description: Selector for a list of Subnet in core to populate
+                    description: Selector for a list of Subnet in networking to populate
                       subnetIds.
                     properties:
                       matchControllerRef:

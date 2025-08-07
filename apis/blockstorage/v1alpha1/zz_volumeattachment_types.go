@@ -49,14 +49,14 @@ type VolumeAttachmentInitParameters struct {
 	EncryptionInTransitType *string `json:"encryptionInTransitType,omitempty" tf:"encryption_in_transit_type,omitempty"`
 
 	// The OCID of the instance.
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Instance
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
-	// Reference to a Instance to populate instanceId.
+	// Reference to a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instanceId.
+	// Selector for a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
@@ -76,14 +76,14 @@ type VolumeAttachmentInitParameters struct {
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 
 	// The OCID of the volume.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 
-	// Reference to a Volume to populate volumeId.
+	// Reference to a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDRef *v1.Reference `json:"volumeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate volumeId.
+	// Selector for a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDSelector *v1.Selector `json:"volumeIdSelector,omitempty" tf:"-"`
 }
@@ -189,15 +189,15 @@ type VolumeAttachmentParameters struct {
 	EncryptionInTransitType *string `json:"encryptionInTransitType,omitempty" tf:"encryption_in_transit_type,omitempty"`
 
 	// The OCID of the instance.
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Instance
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
-	// Reference to a Instance to populate instanceId.
+	// Reference to a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instanceId.
+	// Selector for a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
@@ -222,15 +222,15 @@ type VolumeAttachmentParameters struct {
 	UseChap *bool `json:"useChap,omitempty" tf:"use_chap,omitempty"`
 
 	// The OCID of the volume.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	// +kubebuilder:validation:Optional
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 
-	// Reference to a Volume to populate volumeId.
+	// Reference to a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDRef *v1.Reference `json:"volumeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate volumeId.
+	// Selector for a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDSelector *v1.Selector `json:"volumeIdSelector,omitempty" tf:"-"`
 }

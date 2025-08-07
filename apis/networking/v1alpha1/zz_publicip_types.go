@@ -42,26 +42,26 @@ type PublicIpInitParameters struct {
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
 	// (Updatable) The OCID of the private IP to assign the public IP to.
-	// +crossplane:generate:reference:type=PrivateIP
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PrivateIp
 	PrivateIPID *string `json:"privateIpId,omitempty" tf:"private_ip_id,omitempty"`
 
-	// Reference to a PrivateIP to populate privateIpId.
+	// Reference to a PrivateIp in networking to populate privateIpId.
 	// +kubebuilder:validation:Optional
 	PrivateIPIDRef *v1.Reference `json:"privateIpIdRef,omitempty" tf:"-"`
 
-	// Selector for a PrivateIP to populate privateIpId.
+	// Selector for a PrivateIp in networking to populate privateIpId.
 	// +kubebuilder:validation:Optional
 	PrivateIPIDSelector *v1.Selector `json:"privateIpIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the public IP pool.
-	// +crossplane:generate:reference:type=PublicIPPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PublicIpPool
 	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
 
-	// Reference to a PublicIPPool to populate publicIpPoolId.
+	// Reference to a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDRef *v1.Reference `json:"publicIpPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a PublicIPPool to populate publicIpPoolId.
+	// Selector for a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDSelector *v1.Selector `json:"publicIpPoolIdSelector,omitempty" tf:"-"`
 }
@@ -150,28 +150,28 @@ type PublicIpParameters struct {
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
 	// (Updatable) The OCID of the private IP to assign the public IP to.
-	// +crossplane:generate:reference:type=PrivateIP
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PrivateIp
 	// +kubebuilder:validation:Optional
 	PrivateIPID *string `json:"privateIpId,omitempty" tf:"private_ip_id,omitempty"`
 
-	// Reference to a PrivateIP to populate privateIpId.
+	// Reference to a PrivateIp in networking to populate privateIpId.
 	// +kubebuilder:validation:Optional
 	PrivateIPIDRef *v1.Reference `json:"privateIpIdRef,omitempty" tf:"-"`
 
-	// Selector for a PrivateIP to populate privateIpId.
+	// Selector for a PrivateIp in networking to populate privateIpId.
 	// +kubebuilder:validation:Optional
 	PrivateIPIDSelector *v1.Selector `json:"privateIpIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the public IP pool.
-	// +crossplane:generate:reference:type=PublicIPPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PublicIpPool
 	// +kubebuilder:validation:Optional
 	PublicIPPoolID *string `json:"publicIpPoolId,omitempty" tf:"public_ip_pool_id,omitempty"`
 
-	// Reference to a PublicIPPool to populate publicIpPoolId.
+	// Reference to a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDRef *v1.Reference `json:"publicIpPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a PublicIPPool to populate publicIpPoolId.
+	// Selector for a PublicIpPool in networking to populate publicIpPoolId.
 	// +kubebuilder:validation:Optional
 	PublicIPPoolIDSelector *v1.Selector `json:"publicIpPoolIdSelector,omitempty" tf:"-"`
 }

@@ -127,7 +127,7 @@ func (mg *ResolverEndpoint) ResolveReferences(ctx context.Context, c client.Read
 	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
+		m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -165,7 +165,7 @@ func (mg *ResolverEndpoint) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.ResolverID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ResolverIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+		m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -184,7 +184,7 @@ func (mg *ResolverEndpoint) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
+		m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -222,7 +222,7 @@ func (mg *ResolverEndpoint) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.InitProvider.ResolverID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ResolverIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+		m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

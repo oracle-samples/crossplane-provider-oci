@@ -121,15 +121,15 @@ type CreateVnicDetailsInitParameters struct {
 	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsInitParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
-	// +crossplane:generate:reference:type=NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
@@ -144,26 +144,26 @@ type CreateVnicDetailsInitParameters struct {
 	SkipSourceDestCheck *bool `json:"skipSourceDestCheck,omitempty" tf:"skip_source_dest_check,omitempty"`
 
 	// The OCID of the subnet to create the VNIC in. When launching an instance, use this subnetId instead of the deprecated subnetId in LaunchInstanceDetails. At least one of them is required; if you provide both, the values must match.
-	// +crossplane:generate:reference:type=Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 
 	// Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the OCID of the VLAN. See Vlan.
-	// +crossplane:generate:reference:type=Vlan
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vlan
 	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
-	// Reference to a Vlan to populate vlanId.
+	// Reference to a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDRef *v1.Reference `json:"vlanIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vlan to populate vlanId.
+	// Selector for a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDSelector *v1.Selector `json:"vlanIdSelector,omitempty" tf:"-"`
 }
@@ -277,16 +277,16 @@ type CreateVnicDetailsParameters struct {
 	Ipv6AddressIpv6SubnetCidrPairDetails []CreateVnicDetailsIpv6AddressIpv6SubnetCidrPairDetailsParameters `json:"ipv6addressIpv6SubnetCidrPairDetails,omitempty" tf:"ipv6address_ipv6subnet_cidr_pair_details,omitempty"`
 
 	// (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see NetworkSecurityGroup.
-	// +crossplane:generate:reference:type=NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
@@ -304,28 +304,28 @@ type CreateVnicDetailsParameters struct {
 	SkipSourceDestCheck *bool `json:"skipSourceDestCheck,omitempty" tf:"skip_source_dest_check,omitempty"`
 
 	// The OCID of the subnet to create the VNIC in. When launching an instance, use this subnetId instead of the deprecated subnetId in LaunchInstanceDetails. At least one of them is required; if you provide both, the values must match.
-	// +crossplane:generate:reference:type=Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 
 	// Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the OCID of the VLAN. See Vlan.
-	// +crossplane:generate:reference:type=Vlan
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vlan
 	// +kubebuilder:validation:Optional
 	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
-	// Reference to a Vlan to populate vlanId.
+	// Reference to a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDRef *v1.Reference `json:"vlanIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vlan to populate vlanId.
+	// Selector for a Vlan in networking to populate vlanId.
 	// +kubebuilder:validation:Optional
 	VlanIDSelector *v1.Selector `json:"vlanIdSelector,omitempty" tf:"-"`
 }
@@ -369,14 +369,14 @@ type InstanceInitParameters struct {
 	CreateVnicDetails []CreateVnicDetailsInitParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
 	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
-	// +crossplane:generate:reference:type=DedicatedVMHost
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.DedicatedVmHost
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
 
-	// Reference to a DedicatedVMHost to populate dedicatedVmHostId.
+	// Reference to a DedicatedVmHost in compute to populate dedicatedVmHostId.
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostIDRef *v1.Reference `json:"dedicatedVmHostIdRef,omitempty" tf:"-"`
 
-	// Selector for a DedicatedVMHost to populate dedicatedVmHostId.
+	// Selector for a DedicatedVmHost in compute to populate dedicatedVmHostId.
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostIDSelector *v1.Selector `json:"dedicatedVmHostIdSelector,omitempty" tf:"-"`
 
@@ -752,15 +752,15 @@ type InstanceParameters struct {
 	CreateVnicDetails []CreateVnicDetailsParameters `json:"createVnicDetails,omitempty" tf:"create_vnic_details,omitempty"`
 
 	// (Updatable) The OCID of the dedicated virtual machine host to place the instance on.
-	// +crossplane:generate:reference:type=DedicatedVMHost
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.DedicatedVmHost
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostID *string `json:"dedicatedVmHostId,omitempty" tf:"dedicated_vm_host_id,omitempty"`
 
-	// Reference to a DedicatedVMHost to populate dedicatedVmHostId.
+	// Reference to a DedicatedVmHost in compute to populate dedicatedVmHostId.
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostIDRef *v1.Reference `json:"dedicatedVmHostIdRef,omitempty" tf:"-"`
 
-	// Selector for a DedicatedVMHost to populate dedicatedVmHostId.
+	// Selector for a DedicatedVmHost in compute to populate dedicatedVmHostId.
 	// +kubebuilder:validation:Optional
 	DedicatedVMHostIDSelector *v1.Selector `json:"dedicatedVmHostIdSelector,omitempty" tf:"-"`
 
@@ -1497,14 +1497,14 @@ type SourceDetailsInitParameters struct {
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Image
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
-	// Reference to a Image to populate sourceId.
+	// Reference to a Image in compute to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate sourceId.
+	// Selector for a Image in compute to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 
@@ -1559,15 +1559,15 @@ type SourceDetailsParameters struct {
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
-	// +crossplane:generate:reference:type=Image
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Image
 	// +kubebuilder:validation:Optional
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
-	// Reference to a Image to populate sourceId.
+	// Reference to a Image in compute to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Image to populate sourceId.
+	// Selector for a Image in compute to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 

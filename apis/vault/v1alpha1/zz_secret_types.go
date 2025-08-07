@@ -14,58 +14,69 @@ import (
 )
 
 type ReplicationConfigInitParameters struct {
+
+	// (Updatable)  A Boolean value to enable forwarding of write requests from replicated secrets to the source secrets. The default value of false disables this option.
 	IsWriteForwardEnabled *bool `json:"isWriteForwardEnabled,omitempty" tf:"is_write_forward_enabled,omitempty"`
 
+	// (Updatable) List of the secret replication targets. By default, a maximum of 3 targets is allowed. To configure more than 3 targets, an override is required.
 	ReplicationTargets []ReplicationTargetsInitParameters `json:"replicationTargets,omitempty" tf:"replication_targets,omitempty"`
 }
 
 type ReplicationConfigObservation struct {
+
+	// (Updatable)  A Boolean value to enable forwarding of write requests from replicated secrets to the source secrets. The default value of false disables this option.
 	IsWriteForwardEnabled *bool `json:"isWriteForwardEnabled,omitempty" tf:"is_write_forward_enabled,omitempty"`
 
+	// (Updatable) List of the secret replication targets. By default, a maximum of 3 targets is allowed. To configure more than 3 targets, an override is required.
 	ReplicationTargets []ReplicationTargetsObservation `json:"replicationTargets,omitempty" tf:"replication_targets,omitempty"`
 }
 
 type ReplicationConfigParameters struct {
 
+	// (Updatable)  A Boolean value to enable forwarding of write requests from replicated secrets to the source secrets. The default value of false disables this option.
 	// +kubebuilder:validation:Optional
 	IsWriteForwardEnabled *bool `json:"isWriteForwardEnabled,omitempty" tf:"is_write_forward_enabled,omitempty"`
 
+	// (Updatable) List of the secret replication targets. By default, a maximum of 3 targets is allowed. To configure more than 3 targets, an override is required.
 	// +kubebuilder:validation:Optional
 	ReplicationTargets []ReplicationTargetsParameters `json:"replicationTargets" tf:"replication_targets,omitempty"`
 }
 
 type ReplicationTargetsInitParameters struct {
 
-	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+	// (Updatable) The OCID of the target region KMS key.
 	TargetKeyID *string `json:"targetKeyId,omitempty" tf:"target_key_id,omitempty"`
 
+	// (Updatable) The name of the target's region.
 	TargetRegion *string `json:"targetRegion,omitempty" tf:"target_region,omitempty"`
 
-	// The OCID of the vault where you want to create the secret.
+	// (Updatable) The OCID of the target region's Vault.
 	TargetVaultID *string `json:"targetVaultId,omitempty" tf:"target_vault_id,omitempty"`
 }
 
 type ReplicationTargetsObservation struct {
 
-	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+	// (Updatable) The OCID of the target region KMS key.
 	TargetKeyID *string `json:"targetKeyId,omitempty" tf:"target_key_id,omitempty"`
 
+	// (Updatable) The name of the target's region.
 	TargetRegion *string `json:"targetRegion,omitempty" tf:"target_region,omitempty"`
 
-	// The OCID of the vault where you want to create the secret.
+	// (Updatable) The OCID of the target region's Vault.
 	TargetVaultID *string `json:"targetVaultId,omitempty" tf:"target_vault_id,omitempty"`
 }
 
 type ReplicationTargetsParameters struct {
 
-	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+	// (Updatable) The OCID of the target region KMS key.
 	// +kubebuilder:validation:Optional
 	TargetKeyID *string `json:"targetKeyId" tf:"target_key_id,omitempty"`
 
+	// (Updatable) The name of the target's region.
 	// +kubebuilder:validation:Optional
 	TargetRegion *string `json:"targetRegion" tf:"target_region,omitempty"`
 
-	// The OCID of the vault where you want to create the secret.
+	// (Updatable) The OCID of the target region's Vault.
 	// +kubebuilder:validation:Optional
 	TargetVaultID *string `json:"targetVaultId" tf:"target_vault_id,omitempty"`
 }
@@ -251,6 +262,7 @@ type SecretInitParameters struct {
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// (Updatable) Defines the configuration that enables cross-region secret replication.
 	ReplicationConfig []ReplicationConfigInitParameters `json:"replicationConfig,omitempty" tf:"replication_config,omitempty"`
 
 	// (Updatable) Defines the frequency of the rotation and the information about the target system
@@ -309,6 +321,7 @@ type SecretObservation struct {
 	// The value of this flag determines whether or not secret content will be generated automatically.
 	IsAutoGenerationEnabled *bool `json:"isAutoGenerationEnabled,omitempty" tf:"is_auto_generation_enabled,omitempty"`
 
+	// A Boolean value that indicates whether the secret is a source or replica secret.
 	IsReplica *bool `json:"isReplica,omitempty" tf:"is_replica,omitempty"`
 
 	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
@@ -327,6 +340,7 @@ type SecretObservation struct {
 	// A property indicating when the secret is scheduled to be rotated, expressed in RFC 3339 timestamp format. Example: 2019-04-03T21:10:29.600Z
 	NextRotationTime *string `json:"nextRotationTime,omitempty" tf:"next_rotation_time,omitempty"`
 
+	// (Updatable) Defines the configuration that enables cross-region secret replication.
 	ReplicationConfig []ReplicationConfigObservation `json:"replicationConfig,omitempty" tf:"replication_config,omitempty"`
 
 	// (Updatable) Defines the frequency of the rotation and the information about the target system
@@ -347,6 +361,7 @@ type SecretObservation struct {
 	// (Updatable) A list of rules to control how the secret is used and managed.
 	SecretRules []SecretRulesObservation `json:"secretRules,omitempty" tf:"secret_rules,omitempty"`
 
+	// Details for the source that the source secret has.
 	SourceRegionInformation []SourceRegionInformationObservation `json:"sourceRegionInformation,omitempty" tf:"source_region_information,omitempty"`
 
 	// The current lifecycle state of the secret.
@@ -416,6 +431,7 @@ type SecretParameters struct {
 	// +mapType=granular
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// (Updatable) Defines the configuration that enables cross-region secret replication.
 	// +kubebuilder:validation:Optional
 	ReplicationConfig []ReplicationConfigParameters `json:"replicationConfig,omitempty" tf:"replication_config,omitempty"`
 
@@ -517,12 +533,13 @@ type SourceRegionInformationInitParameters struct {
 
 type SourceRegionInformationObservation struct {
 
-	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+	// The OCID of the source region KMS key.
 	SourceKeyID *string `json:"sourceKeyId,omitempty" tf:"source_key_id,omitempty"`
 
+	// The name of the source's region.
 	SourceRegion *string `json:"sourceRegion,omitempty" tf:"source_region,omitempty"`
 
-	// The OCID of the vault where you want to create the secret.
+	// The OCID of the source region's Vault.
 	SourceVaultID *string `json:"sourceVaultId,omitempty" tf:"source_vault_id,omitempty"`
 }
 

@@ -206,7 +206,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -227,7 +227,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "PrivateIP", "PrivateIPList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "PrivateIp", "PrivateIpList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -248,7 +248,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -309,7 +309,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "NetworkSecurityGroup", "NetworkSecurityGroupList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -330,7 +330,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "PrivateIP", "PrivateIPList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "PrivateIp", "PrivateIpList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
@@ -351,7 +351,7 @@ func (mg *StreamPool) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.PrivateEndpointSettings); i3++ {
 		{
-			m, l, err = apisresolver.GetManagedResource("core.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}

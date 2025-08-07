@@ -16,26 +16,26 @@ import (
 type VolumeBackupPolicyAssignmentInitParameters struct {
 
 	// The OCID of the volume or volume group to assign the policy to.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
 
-	// Reference to a Volume to populate assetId.
+	// Reference to a Volume in blockstorage to populate assetId.
 	// +kubebuilder:validation:Optional
 	AssetIDRef *v1.Reference `json:"assetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate assetId.
+	// Selector for a Volume in blockstorage to populate assetId.
 	// +kubebuilder:validation:Optional
 	AssetIDSelector *v1.Selector `json:"assetIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the volume backup policy to assign to the volume.
-	// +crossplane:generate:reference:type=VolumeBackupPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.VolumeBackupPolicy
 	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
 
-	// Reference to a VolumeBackupPolicy to populate policyId.
+	// Reference to a VolumeBackupPolicy in blockstorage to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDRef *v1.Reference `json:"policyIdRef,omitempty" tf:"-"`
 
-	// Selector for a VolumeBackupPolicy to populate policyId.
+	// Selector for a VolumeBackupPolicy in blockstorage to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
 
@@ -64,28 +64,28 @@ type VolumeBackupPolicyAssignmentObservation struct {
 type VolumeBackupPolicyAssignmentParameters struct {
 
 	// The OCID of the volume or volume group to assign the policy to.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	// +kubebuilder:validation:Optional
 	AssetID *string `json:"assetId,omitempty" tf:"asset_id,omitempty"`
 
-	// Reference to a Volume to populate assetId.
+	// Reference to a Volume in blockstorage to populate assetId.
 	// +kubebuilder:validation:Optional
 	AssetIDRef *v1.Reference `json:"assetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate assetId.
+	// Selector for a Volume in blockstorage to populate assetId.
 	// +kubebuilder:validation:Optional
 	AssetIDSelector *v1.Selector `json:"assetIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the volume backup policy to assign to the volume.
-	// +crossplane:generate:reference:type=VolumeBackupPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.VolumeBackupPolicy
 	// +kubebuilder:validation:Optional
 	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
 
-	// Reference to a VolumeBackupPolicy to populate policyId.
+	// Reference to a VolumeBackupPolicy in blockstorage to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDRef *v1.Reference `json:"policyIdRef,omitempty" tf:"-"`
 
-	// Selector for a VolumeBackupPolicy to populate policyId.
+	// Selector for a VolumeBackupPolicy in blockstorage to populate policyId.
 	// +kubebuilder:validation:Optional
 	PolicyIDSelector *v1.Selector `json:"policyIdSelector,omitempty" tf:"-"`
 

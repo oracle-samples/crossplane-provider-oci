@@ -35,14 +35,14 @@ type RemotePeeringConnectionInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG the RPC belongs to.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
@@ -126,15 +126,15 @@ type RemotePeeringConnectionParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG the RPC belongs to.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	// +kubebuilder:validation:Optional
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 

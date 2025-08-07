@@ -214,14 +214,14 @@ type VnicAttachmentInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the instance.
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Instance
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
-	// Reference to a Instance to populate instanceId.
+	// Reference to a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instanceId.
+	// Selector for a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
@@ -282,15 +282,15 @@ type VnicAttachmentParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the instance.
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/compute/v1alpha1.Instance
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
-	// Reference to a Instance to populate instanceId.
+	// Reference to a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
-	// Selector for a Instance to populate instanceId.
+	// Selector for a Instance in compute to populate instanceId.
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 

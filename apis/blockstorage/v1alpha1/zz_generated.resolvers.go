@@ -76,7 +76,7 @@ func (mg *VolumeAttachment) ResolveReferences(ctx context.Context, c client.Read
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("blockstorage.oci.upbound.io", "v1alpha1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.oci.upbound.io", "v1alpha1", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -114,7 +114,7 @@ func (mg *VolumeAttachment) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.VolumeID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.VolumeIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("blockstorage.oci.upbound.io", "v1alpha1", "Instance", "InstanceList")
+		m, l, err = apisresolver.GetManagedResource("compute.oci.upbound.io", "v1alpha1", "Instance", "InstanceList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

@@ -86,7 +86,8 @@ spec:
                     description: The OCID of the DRG route table.
                     type: string
                   drgRouteTableIdRef:
-                    description: Reference to a DrgRouteTable to populate drgRouteTableId.
+                    description: Reference to a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -120,7 +121,8 @@ spec:
                     - name
                     type: object
                   drgRouteTableIdSelector:
-                    description: Selector for a DrgRouteTable to populate drgRouteTableId.
+                    description: Selector for a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -164,7 +166,8 @@ spec:
                       hop DRG attachment is responsible for reaching the network destination.
                     type: string
                   nextHopDrgAttachmentIdRef:
-                    description: Reference to a DrgAttachment to populate nextHopDrgAttachmentId.
+                    description: Reference to a DrgAttachment in networkconnectivity
+                      to populate nextHopDrgAttachmentId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -198,7 +201,8 @@ spec:
                     - name
                     type: object
                   nextHopDrgAttachmentIdSelector:
-                    description: Selector for a DrgAttachment to populate nextHopDrgAttachmentId.
+                    description: Selector for a DrgAttachment in networkconnectivity
+                      to populate nextHopDrgAttachmentId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -263,7 +267,8 @@ spec:
                     description: The OCID of the DRG route table.
                     type: string
                   drgRouteTableIdRef:
-                    description: Reference to a DrgRouteTable to populate drgRouteTableId.
+                    description: Reference to a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -297,7 +302,8 @@ spec:
                     - name
                     type: object
                   drgRouteTableIdSelector:
-                    description: Selector for a DrgRouteTable to populate drgRouteTableId.
+                    description: Selector for a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -341,7 +347,8 @@ spec:
                       hop DRG attachment is responsible for reaching the network destination.
                     type: string
                   nextHopDrgAttachmentIdRef:
-                    description: Reference to a DrgAttachment to populate nextHopDrgAttachmentId.
+                    description: Reference to a DrgAttachment in networkconnectivity
+                      to populate nextHopDrgAttachmentId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -375,7 +382,8 @@ spec:
                     - name
                     type: object
                   nextHopDrgAttachmentIdSelector:
-                    description: Selector for a DrgAttachment to populate nextHopDrgAttachmentId.
+                    description: Selector for a DrgAttachment in networkconnectivity
+                      to populate nextHopDrgAttachmentId.
                     properties:
                       matchControllerRef:
                         description: |-

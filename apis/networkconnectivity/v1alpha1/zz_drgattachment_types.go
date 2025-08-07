@@ -23,26 +23,26 @@ type DrgAttachmentInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the DRG route table that is assigned to this attachment.
-	// +crossplane:generate:reference:type=DrgRouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteTable
 	DrgRouteTableID *string `json:"drgRouteTableId,omitempty" tf:"drg_route_table_id,omitempty"`
 
-	// Reference to a DrgRouteTable to populate drgRouteTableId.
+	// Reference to a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDRef *v1.Reference `json:"drgRouteTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteTable to populate drgRouteTableId.
+	// Selector for a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDSelector *v1.Selector `json:"drgRouteTableIdSelector,omitempty" tf:"-"`
 
@@ -130,28 +130,28 @@ type DrgAttachmentParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	// +kubebuilder:validation:Optional
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the DRG route table that is assigned to this attachment.
-	// +crossplane:generate:reference:type=DrgRouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteTable
 	// +kubebuilder:validation:Optional
 	DrgRouteTableID *string `json:"drgRouteTableId,omitempty" tf:"drg_route_table_id,omitempty"`
 
-	// Reference to a DrgRouteTable to populate drgRouteTableId.
+	// Reference to a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDRef *v1.Reference `json:"drgRouteTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteTable to populate drgRouteTableId.
+	// Selector for a DrgRouteTable in networkconnectivity to populate drgRouteTableId.
 	// +kubebuilder:validation:Optional
 	DrgRouteTableIDSelector *v1.Selector `json:"drgRouteTableIdSelector,omitempty" tf:"-"`
 
@@ -185,26 +185,26 @@ type DrgAttachmentParameters struct {
 type NetworkDetailsInitParameters struct {
 
 	// The OCID of the network attached to the DRG.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Reference to a Vcn to populate id.
+	// Reference to a Vcn in networking to populate id.
 	// +kubebuilder:validation:Optional
 	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate id.
+	// Selector for a Vcn in networking to populate id.
 	// +kubebuilder:validation:Optional
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// (Updatable) This is the OCID of the route table that is used to route the traffic as it enters a VCN through this attachment.
-	// +crossplane:generate:reference:type=RouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.RouteTable
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// Reference to a RouteTable to populate routeTableId.
+	// Reference to a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDRef *v1.Reference `json:"routeTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a RouteTable to populate routeTableId.
+	// Selector for a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
@@ -245,28 +245,28 @@ type NetworkDetailsObservation struct {
 type NetworkDetailsParameters struct {
 
 	// The OCID of the network attached to the DRG.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Reference to a Vcn to populate id.
+	// Reference to a Vcn in networking to populate id.
 	// +kubebuilder:validation:Optional
 	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate id.
+	// Selector for a Vcn in networking to populate id.
 	// +kubebuilder:validation:Optional
 	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// (Updatable) This is the OCID of the route table that is used to route the traffic as it enters a VCN through this attachment.
-	// +crossplane:generate:reference:type=RouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.RouteTable
 	// +kubebuilder:validation:Optional
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// Reference to a RouteTable to populate routeTableId.
+	// Reference to a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDRef *v1.Reference `json:"routeTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a RouteTable to populate routeTableId.
+	// Selector for a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 

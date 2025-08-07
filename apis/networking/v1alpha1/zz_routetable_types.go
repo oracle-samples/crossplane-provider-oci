@@ -28,14 +28,14 @@ type RouteRulesInitParameters struct {
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// (Updatable) The OCID for the route rule's target. For information about the type of targets you can specify, see Route Tables.
-	// +crossplane:generate:reference:type=NATGateway
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NatGateway
 	NetworkEntityID *string `json:"networkEntityId,omitempty" tf:"network_entity_id,omitempty"`
 
-	// Reference to a NATGateway to populate networkEntityId.
+	// Reference to a NatGateway in networking to populate networkEntityId.
 	// +kubebuilder:validation:Optional
 	NetworkEntityIDRef *v1.Reference `json:"networkEntityIdRef,omitempty" tf:"-"`
 
-	// Selector for a NATGateway to populate networkEntityId.
+	// Selector for a NatGateway in networking to populate networkEntityId.
 	// +kubebuilder:validation:Optional
 	NetworkEntityIDSelector *v1.Selector `json:"networkEntityIdSelector,omitempty" tf:"-"`
 
@@ -83,15 +83,15 @@ type RouteRulesParameters struct {
 	DestinationType *string `json:"destinationType,omitempty" tf:"destination_type,omitempty"`
 
 	// (Updatable) The OCID for the route rule's target. For information about the type of targets you can specify, see Route Tables.
-	// +crossplane:generate:reference:type=NATGateway
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NatGateway
 	// +kubebuilder:validation:Optional
 	NetworkEntityID *string `json:"networkEntityId,omitempty" tf:"network_entity_id,omitempty"`
 
-	// Reference to a NATGateway to populate networkEntityId.
+	// Reference to a NatGateway in networking to populate networkEntityId.
 	// +kubebuilder:validation:Optional
 	NetworkEntityIDRef *v1.Reference `json:"networkEntityIdRef,omitempty" tf:"-"`
 
-	// Selector for a NATGateway to populate networkEntityId.
+	// Selector for a NatGateway in networking to populate networkEntityId.
 	// +kubebuilder:validation:Optional
 	NetworkEntityIDSelector *v1.Selector `json:"networkEntityIdSelector,omitempty" tf:"-"`
 
@@ -129,14 +129,14 @@ type RouteTableInitParameters struct {
 	RouteRules []RouteRulesInitParameters `json:"routeRules,omitempty" tf:"route_rules,omitempty"`
 
 	// The OCID of the VCN the route table belongs to.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
@@ -207,15 +207,15 @@ type RouteTableParameters struct {
 	RouteRules []RouteRulesParameters `json:"routeRules,omitempty" tf:"route_rules,omitempty"`
 
 	// The OCID of the VCN the route table belongs to.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }

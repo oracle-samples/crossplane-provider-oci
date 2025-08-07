@@ -178,7 +178,8 @@ spec:
                       the VCN's default set of DHCP options.
                     type: string
                   dhcpOptionsIdRef:
-                    description: Reference to a DHCPOptions to populate dhcpOptionsId.
+                    description: Reference to a DhcpOptions in networking to populate
+                      dhcpOptionsId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -212,7 +213,8 @@ spec:
                     - name
                     type: object
                   dhcpOptionsIdSelector:
-                    description: Selector for a DHCPOptions to populate dhcpOptionsId.
+                    description: Selector for a DhcpOptions in networking to populate
+                      dhcpOptionsId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -306,7 +308,8 @@ spec:
                       VCN's default route table.
                     type: string
                   routeTableIdRef:
-                    description: Reference to a RouteTable to populate routeTableId.
+                    description: Reference to a RouteTable in networking to populate
+                      routeTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -340,7 +343,8 @@ spec:
                     - name
                     type: object
                   routeTableIdSelector:
-                    description: Selector for a RouteTable to populate routeTableId.
+                    description: Selector for a RouteTable in networking to populate
+                      routeTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -380,7 +384,8 @@ spec:
                         type: object
                     type: object
                   securityListIdRefs:
-                    description: References to SecurityList to populate securityListIds.
+                    description: References to SecurityList in networking to populate
+                      securityListIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -417,7 +422,8 @@ spec:
                       type: object
                     type: array
                   securityListIdSelector:
-                    description: Selector for a list of SecurityList to populate securityListIds.
+                    description: Selector for a list of SecurityList in networking
+                      to populate securityListIds.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -470,7 +476,7 @@ spec:
                     description: The OCID of the VCN to contain the subnet.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -504,7 +510,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -662,7 +668,8 @@ spec:
                       the VCN's default set of DHCP options.
                     type: string
                   dhcpOptionsIdRef:
-                    description: Reference to a DHCPOptions to populate dhcpOptionsId.
+                    description: Reference to a DhcpOptions in networking to populate
+                      dhcpOptionsId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -696,7 +703,8 @@ spec:
                     - name
                     type: object
                   dhcpOptionsIdSelector:
-                    description: Selector for a DHCPOptions to populate dhcpOptionsId.
+                    description: Selector for a DhcpOptions in networking to populate
+                      dhcpOptionsId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -790,7 +798,8 @@ spec:
                       VCN's default route table.
                     type: string
                   routeTableIdRef:
-                    description: Reference to a RouteTable to populate routeTableId.
+                    description: Reference to a RouteTable in networking to populate
+                      routeTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -824,7 +833,8 @@ spec:
                     - name
                     type: object
                   routeTableIdSelector:
-                    description: Selector for a RouteTable to populate routeTableId.
+                    description: Selector for a RouteTable in networking to populate
+                      routeTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -864,7 +874,8 @@ spec:
                         type: object
                     type: object
                   securityListIdRefs:
-                    description: References to SecurityList to populate securityListIds.
+                    description: References to SecurityList in networking to populate
+                      securityListIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -901,7 +912,8 @@ spec:
                       type: object
                     type: array
                   securityListIdSelector:
-                    description: Selector for a list of SecurityList to populate securityListIds.
+                    description: Selector for a list of SecurityList in networking
+                      to populate securityListIds.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -954,7 +966,7 @@ spec:
                     description: The OCID of the VCN to contain the subnet.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -988,7 +1000,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-

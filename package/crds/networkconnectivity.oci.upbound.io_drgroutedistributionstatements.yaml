@@ -82,7 +82,8 @@ spec:
                     description: The OCID of the route distribution.
                     type: string
                   drgRouteDistributionIdRef:
-                    description: Reference to a DrgRouteDistribution to populate drgRouteDistributionId.
+                    description: Reference to a DrgRouteDistribution in networkconnectivity
+                      to populate drgRouteDistributionId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -116,7 +117,8 @@ spec:
                     - name
                     type: object
                   drgRouteDistributionIdSelector:
-                    description: Selector for a DrgRouteDistribution to populate drgRouteDistributionId.
+                    description: Selector for a DrgRouteDistribution in networkconnectivity
+                      to populate drgRouteDistributionId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -209,7 +211,8 @@ spec:
                     description: The OCID of the route distribution.
                     type: string
                   drgRouteDistributionIdRef:
-                    description: Reference to a DrgRouteDistribution to populate drgRouteDistributionId.
+                    description: Reference to a DrgRouteDistribution in networkconnectivity
+                      to populate drgRouteDistributionId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -243,7 +246,8 @@ spec:
                     - name
                     type: object
                   drgRouteDistributionIdSelector:
-                    description: Selector for a DrgRouteDistribution to populate drgRouteDistributionId.
+                    description: Selector for a DrgRouteDistribution in networkconnectivity
+                      to populate drgRouteDistributionId.
                     properties:
                       matchControllerRef:
                         description: |-

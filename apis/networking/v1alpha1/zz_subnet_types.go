@@ -34,14 +34,14 @@ type SubnetInitParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options.
-	// +crossplane:generate:reference:type=DHCPOptions
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.DhcpOptions
 	DHCPOptionsID *string `json:"dhcpOptionsId,omitempty" tf:"dhcp_options_id,omitempty"`
 
-	// Reference to a DHCPOptions to populate dhcpOptionsId.
+	// Reference to a DhcpOptions in networking to populate dhcpOptionsId.
 	// +kubebuilder:validation:Optional
 	DHCPOptionsIDRef *v1.Reference `json:"dhcpOptionsIdRef,omitempty" tf:"-"`
 
-	// Selector for a DHCPOptions to populate dhcpOptionsId.
+	// Selector for a DhcpOptions in networking to populate dhcpOptionsId.
 	// +kubebuilder:validation:Optional
 	DHCPOptionsIDSelector *v1.Selector `json:"dhcpOptionsIdSelector,omitempty" tf:"-"`
 
@@ -72,41 +72,41 @@ type SubnetInitParameters struct {
 	ProhibitPublicIPOnVnic *bool `json:"prohibitPublicIpOnVnic,omitempty" tf:"prohibit_public_ip_on_vnic,omitempty"`
 
 	// (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table.
-	// +crossplane:generate:reference:type=RouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.RouteTable
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// Reference to a RouteTable to populate routeTableId.
+	// Reference to a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDRef *v1.Reference `json:"routeTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a RouteTable to populate routeTableId.
+	// Selector for a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
-	// References to SecurityList to populate securityListIds.
+	// References to SecurityList in networking to populate securityListIds.
 	// +kubebuilder:validation:Optional
 	SecurityListIDRefs []v1.Reference `json:"securityListIdRefs,omitempty" tf:"-"`
 
-	// Selector for a list of SecurityList to populate securityListIds.
+	// Selector for a list of SecurityList in networking to populate securityListIds.
 	// +kubebuilder:validation:Optional
 	SecurityListIDSelector *v1.Selector `json:"securityListIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet.
-	// +crossplane:generate:reference:type=SecurityList
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.SecurityList
 	// +crossplane:generate:reference:refFieldName=SecurityListIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityListIDSelector
 	// +listType=set
 	SecurityListIds []*string `json:"securityListIds,omitempty" tf:"security_list_ids,omitempty"`
 
 	// The OCID of the VCN to contain the subnet.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
@@ -207,15 +207,15 @@ type SubnetParameters struct {
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options.
-	// +crossplane:generate:reference:type=DHCPOptions
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.DhcpOptions
 	// +kubebuilder:validation:Optional
 	DHCPOptionsID *string `json:"dhcpOptionsId,omitempty" tf:"dhcp_options_id,omitempty"`
 
-	// Reference to a DHCPOptions to populate dhcpOptionsId.
+	// Reference to a DhcpOptions in networking to populate dhcpOptionsId.
 	// +kubebuilder:validation:Optional
 	DHCPOptionsIDRef *v1.Reference `json:"dhcpOptionsIdRef,omitempty" tf:"-"`
 
-	// Selector for a DHCPOptions to populate dhcpOptionsId.
+	// Selector for a DhcpOptions in networking to populate dhcpOptionsId.
 	// +kubebuilder:validation:Optional
 	DHCPOptionsIDSelector *v1.Selector `json:"dhcpOptionsIdSelector,omitempty" tf:"-"`
 
@@ -254,28 +254,28 @@ type SubnetParameters struct {
 	ProhibitPublicIPOnVnic *bool `json:"prohibitPublicIpOnVnic,omitempty" tf:"prohibit_public_ip_on_vnic,omitempty"`
 
 	// (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table.
-	// +crossplane:generate:reference:type=RouteTable
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.RouteTable
 	// +kubebuilder:validation:Optional
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// Reference to a RouteTable to populate routeTableId.
+	// Reference to a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDRef *v1.Reference `json:"routeTableIdRef,omitempty" tf:"-"`
 
-	// Selector for a RouteTable to populate routeTableId.
+	// Selector for a RouteTable in networking to populate routeTableId.
 	// +kubebuilder:validation:Optional
 	RouteTableIDSelector *v1.Selector `json:"routeTableIdSelector,omitempty" tf:"-"`
 
-	// References to SecurityList to populate securityListIds.
+	// References to SecurityList in networking to populate securityListIds.
 	// +kubebuilder:validation:Optional
 	SecurityListIDRefs []v1.Reference `json:"securityListIdRefs,omitempty" tf:"-"`
 
-	// Selector for a list of SecurityList to populate securityListIds.
+	// Selector for a list of SecurityList in networking to populate securityListIds.
 	// +kubebuilder:validation:Optional
 	SecurityListIDSelector *v1.Selector `json:"securityListIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated with the subnet, but the rules are applied to the individual VNICs in the subnet.
-	// +crossplane:generate:reference:type=SecurityList
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.SecurityList
 	// +crossplane:generate:reference:refFieldName=SecurityListIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityListIDSelector
 	// +kubebuilder:validation:Optional
@@ -283,15 +283,15 @@ type SubnetParameters struct {
 	SecurityListIds []*string `json:"securityListIds,omitempty" tf:"security_list_ids,omitempty"`
 
 	// The OCID of the VCN to contain the subnet.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }

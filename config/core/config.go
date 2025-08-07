@@ -31,29 +31,29 @@ func Configure(p *config.Provider) {
 		// This resource reside inside a compartment. By defining it as a reference to Compartment
 		// object, we can build cross resource referencing.
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 			// RefFieldName:      "compartmentIdRef",
 			// SelectorFieldName: "compartmentIdSelector",
 		}
 
 		r.References["create_vnic_details.subnet_id"] = config.Reference{
-			Type: "Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 
 		r.References["create_vnic_details.nsg_ids"] = config.Reference{
-			Type: "NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 
 		r.References["create_vnic_details.vlan_id"] = config.Reference{
-			Type: "Vlan",
+			TerraformName: "oci_core_vlan",
 		}
 
 		r.References["dedicated_vm_host_id"] = config.Reference{
-			Type: "DedicatedVMHost",
+			TerraformName: "oci_core_dedicated_vm_host",
 		}
 
 		r.References["source_details.source_id"] = config.Reference{
-			Type: "Image",
+			TerraformName: "oci_core_image",
 		}
 
 		// r.LateInitializer = config.LateInitializer{
@@ -82,7 +82,7 @@ func Configure(p *config.Provider) {
 		// r.ShortGroup = "compute"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 			// SelectorFieldName: "compartmentIdSelector",
 		}
 
@@ -94,25 +94,25 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 			// RefFieldName:      "vcnIdRef",
 			// SelectorFieldName: "vcnIdSelector",
 		}
 		r.References["route_table_id"] = config.Reference{
-			Type: "RouteTable",
+			TerraformName: "oci_core_route_table",
 		}
 
 		r.References["security_list_ids"] = config.Reference{
-			Type:              "SecurityList", // how to add array
+			TerraformName:      "oci_core_security_list", // how to add array
 			RefFieldName:      "SecurityListIDRefs",
 			SelectorFieldName: "SecurityListIDSelector",
 		}
 		r.References["dhcp_options_id"] = config.Reference{
-			Type: "DHCPOptions", // how to add array
+			TerraformName: "oci_core_dhcp_options", // how to add array
 		}
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 	})
@@ -130,11 +130,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 	})
@@ -145,11 +145,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 	})
@@ -160,11 +160,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 	})
 
@@ -174,11 +174,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 		// TODO: these need more modification to work (likely custom Selectors/Extractors?)
@@ -198,7 +198,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["network_security_group_id"] = config.Reference{
-			Type: "NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 
 	})
@@ -209,15 +209,15 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 		r.References["route_rules.network_entity_id"] = config.Reference{
-			Type: "NATGateway",
+			TerraformName: "oci_core_nat_gateway",
 		}
 
 		// r.References["route_rules.network_entity_id"] = config.Reference{
@@ -232,11 +232,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 	})
@@ -247,11 +247,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 	})
 
@@ -261,7 +261,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -271,16 +271,16 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 		r.References["drg_route_table_id"] = config.Reference{
-			Type: "DrgRouteTable",
+			TerraformName: "oci_core_drg_route_table",
 		}
 		r.References["network_details.route_table_id"] = config.Reference{
-			Type: "RouteTable",
+			TerraformName: "oci_core_route_table",
 		}
 		r.References["network_details.id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 	})
 
@@ -290,16 +290,16 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["network_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 		r.References["drg_route_table_id"] = config.Reference{
-			Type: "DrgRouteTable",
+			TerraformName: "oci_core_drg_route_table",
 		}
 	})
 
@@ -309,7 +309,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 	})
 
@@ -319,7 +319,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 	})
 
@@ -329,10 +329,10 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_route_distribution_id"] = config.Reference{
-			Type: "DrgRouteDistribution",
+			TerraformName: "oci_core_drg_route_distribution",
 		}
 		r.References["drg_attachment_id"] = config.Reference{
-			Type: "DrgAttachment",
+			TerraformName: "oci_core_drg_attachment",
 		}
 	})
 
@@ -342,10 +342,10 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 		r.References["import_drg_route_distribution_id"] = config.Reference{
-			Type: "DrgRouteDistribution",
+			TerraformName: "oci_core_drg_route_distribution",
 		}
 	})
 
@@ -355,10 +355,10 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["drg_route_table_id"] = config.Reference{
-			Type: "DrgRouteTable",
+			TerraformName: "oci_core_drg_route_table",
 		}
 		r.References["next_hop_drg_attachment_id"] = config.Reference{
-			Type: "DrgAttachment",
+			TerraformName: "oci_core_drg_attachment",
 		}
 	})
 
@@ -368,10 +368,10 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["vlan_id"] = config.Reference{
-			Type: "Vlan",
+			TerraformName: "oci_core_vlan",
 		}
 		r.References["vnic_id"] = config.Reference{
-			Type: "VnicAttachment",
+			TerraformName: "oci_core_vnic_attachment",
 		}
 	})
 
@@ -381,13 +381,13 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["private_ip_id"] = config.Reference{
-			Type: "PrivateIP",
+			TerraformName: "oci_core_private_ip",
 		}
 		r.References["public_ip_pool_id"] = config.Reference{
-			Type: "PublicIPPool",
+			TerraformName: "oci_core_public_ip_pool",
 		}
 	})
 
@@ -397,7 +397,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -407,7 +407,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["public_ip_pool_id"] = config.Reference{
-			Type: "PublicIPPool",
+			TerraformName: "oci_core_public_ip_pool",
 		}
 		// Data Source seems not supported at this moment for ByoipId
 	})
@@ -418,13 +418,13 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 		r.References["peer_drg_id"] = config.Reference{
-			Type: "RemotePeeringConnection",
+			TerraformName: "oci_core_remote_peering_connection",
 		}
 	})
 
@@ -434,7 +434,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 	})
@@ -445,7 +445,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 	})
@@ -455,7 +455,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -465,15 +465,15 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["cpe_id"] = config.Reference{
-			Type: "Cpe",
+			TerraformName: "oci_core_cpe",
 		}
 
 		r.References["drg_id"] = config.Reference{
-			Type: "Drg",
+			TerraformName: "oci_core_drg",
 		}
 
 	})
@@ -484,11 +484,11 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 	})
@@ -498,7 +498,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.Kind = "ByoipRange"
 		r.References["byoip_range_id"] = config.Reference{
-			Type: "ByoipRange",
+			TerraformName: "oci_core_byoip_range",
 		}
 	})
 
@@ -507,10 +507,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["vcn_id"] = config.Reference{
-			Type: "Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 	})
 
@@ -519,7 +519,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -528,10 +528,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["volume_id"] = config.Reference{
-			Type: "Volume",
+			TerraformName: "oci_core_volume",
 		}
 	})
 
@@ -540,7 +540,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -549,10 +549,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["asset_id"] = config.Reference{
-			Type: "Volume",
+			TerraformName: "oci_core_volume",
 		}
 		r.References["policy_id"] = config.Reference{
-			Type: "VolumeBackupPolicy",
+			TerraformName: "oci_core_volume_backup_policy",
 		}
 	})
 
@@ -561,10 +561,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["volume_group_id"] = config.Reference{
-			Type: "VolumeGroup",
+			TerraformName: "oci_core_volume_group",
 		}
 	})
 
@@ -573,10 +573,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["source_details.volume_ids"] = config.Reference{
-			Type: "Volume",
+			TerraformName: "oci_core_volume",
 		}
 	})
 
@@ -585,10 +585,10 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["instance_id"] = config.Reference{
-			Type: "Instance",
+			TerraformName: "oci_core_instance",
 		}
 		r.References["volume_id"] = config.Reference{
-			Type: "Volume",
+			TerraformName: "oci_core_volume",
 		}
 	})
 	p.AddResourceConfigurator("oci_core_vnic_attachment", func(r *config.Resource) {
@@ -596,7 +596,7 @@ func Configure(p *config.Provider) {
 		// we need to override the default group that terrajet generated for
 		r.Version = "v1alpha1"
 		r.References["instance_id"] = config.Reference{
-			Type: "Instance",
+			TerraformName: "oci_core_instance",
 		}
 	})
 

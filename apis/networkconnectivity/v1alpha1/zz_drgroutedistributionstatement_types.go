@@ -19,14 +19,14 @@ type DrgRouteDistributionStatementInitParameters struct {
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The OCID of the route distribution.
-	// +crossplane:generate:reference:type=DrgRouteDistribution
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteDistribution
 	DrgRouteDistributionID *string `json:"drgRouteDistributionId,omitempty" tf:"drg_route_distribution_id,omitempty"`
 
-	// Reference to a DrgRouteDistribution to populate drgRouteDistributionId.
+	// Reference to a DrgRouteDistribution in networkconnectivity to populate drgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	DrgRouteDistributionIDRef *v1.Reference `json:"drgRouteDistributionIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteDistribution to populate drgRouteDistributionId.
+	// Selector for a DrgRouteDistribution in networkconnectivity to populate drgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	DrgRouteDistributionIDSelector *v1.Selector `json:"drgRouteDistributionIdSelector,omitempty" tf:"-"`
 
@@ -68,15 +68,15 @@ type DrgRouteDistributionStatementParameters struct {
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The OCID of the route distribution.
-	// +crossplane:generate:reference:type=DrgRouteDistribution
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteDistribution
 	// +kubebuilder:validation:Optional
 	DrgRouteDistributionID *string `json:"drgRouteDistributionId,omitempty" tf:"drg_route_distribution_id,omitempty"`
 
-	// Reference to a DrgRouteDistribution to populate drgRouteDistributionId.
+	// Reference to a DrgRouteDistribution in networkconnectivity to populate drgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	DrgRouteDistributionIDRef *v1.Reference `json:"drgRouteDistributionIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteDistribution to populate drgRouteDistributionId.
+	// Selector for a DrgRouteDistribution in networkconnectivity to populate drgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	DrgRouteDistributionIDSelector *v1.Selector `json:"drgRouteDistributionIdSelector,omitempty" tf:"-"`
 

@@ -45,14 +45,14 @@ type ServiceGatewayInitParameters struct {
 	Services []ServicesInitParameters `json:"services,omitempty" tf:"services,omitempty"`
 
 	// The OCID of the VCN.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
@@ -133,15 +133,15 @@ type ServiceGatewayParameters struct {
 	Services []ServicesParameters `json:"services,omitempty" tf:"services,omitempty"`
 
 	// The OCID of the VCN.
-	// +crossplane:generate:reference:type=Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }

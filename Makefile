@@ -76,6 +76,23 @@ GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/generator $(foreach pkg,$(SUBPACKAGE_LIST
 endif
 
 # ====================================================================================
+# Override build target for sub-packages
+# This overrides the default build target from golang.mk when SUBPACKAGES is set
+
+ifneq ($(SUBPACKAGES),monolith)
+# Override the build target for sub-package builds
+build: $(UP)
+	@$(INFO) Building sub-packages: $(SUBPACKAGES)
+	@for pkg in $(SUBPACKAGE_LIST); do \
+		$(MAKE) build.subpackage.$$pkg PLATFORMS="$(PLATFORMS)" || exit 1; \
+	done
+	@$(OK) Built sub-packages: $(SUBPACKAGES)
+
+# Also override go.build for consistency
+go.build: build
+endif
+
+# ====================================================================================
 # Setup Kubernetes tools
 
 KIND_VERSION = v0.29.0
@@ -135,7 +152,10 @@ kustomize-crds: output.init
 	@$(INFO) Preparing package directory with CRDs...
 	@rm -fr $(OUTPUT_DIR)/package || $(FAIL)
 	@cp -R package $(OUTPUT_DIR) || $(FAIL)
-	@$(OK) Package directory prepared
+	@# Ensure CRDs are copied to the output package directory
+	@mkdir -p $(OUTPUT_DIR)/package/crds || $(FAIL)
+	@cp -R package/crds/* $(OUTPUT_DIR)/package/crds/ 2>/dev/null || true
+	@$(OK) Package directory prepared with CRDs
 
 
 # ====================================================================================
@@ -279,14 +299,10 @@ build.subpackage.%:
 		GOOS=$$(echo $$platform | cut -d_ -f1); \
 		GOARCH=$$(echo $$platform | cut -d_ -f2); \
 		echo "  Building for $$GOOS/$$GOARCH..."; \
-		if [ "$*" = "config" ]; then \
-			output_name="provider-family-oci"; \
-		else \
-			output_name="provider-oci-$*"; \
-		fi; \
-		mkdir -p $(GO_OUT_DIR)/$${GOOS}_$${GOARCH}; \
+		output_name="$*"; \
+		mkdir -p $(OUTPUT_DIR)/bin/$${GOOS}_$${GOARCH}; \
 		CGO_ENABLED=0 GOOS=$$GOOS GOARCH=$$GOARCH $(GO) build -ldflags '$(GO_LDFLAGS)' \
-			-o $(GO_OUT_DIR)/$${GOOS}_$${GOARCH}/$$output_name$(BINARY_EXT) \
+			-o $(OUTPUT_DIR)/bin/$${GOOS}_$${GOARCH}/$$output_name$(BINARY_EXT) \
 			$(GO_PROJECT)/cmd/provider/$*/ || exit 1; \
 	done
 	@if [ "$*" = "config" ]; then \
@@ -353,12 +369,12 @@ debug-subpackages:
 	@echo "GO_STATIC_PACKAGES: $(GO_STATIC_PACKAGES)"
 
 # Build sub-packages for current platform only (faster for development)
-# Usage: make build.current SUBPACKAGES="compute,networking"
-build.current:
+# Usage: make build.dev SUBPACKAGES="compute,networking"
+build.dev:
 	@CURRENT_PLATFORM=$$(go env GOOS)_$$(go env GOARCH); \
 	$(MAKE) build PLATFORMS="$$CURRENT_PLATFORM" SUBPACKAGES="$(SUBPACKAGES)"
 
-.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages build.current
+.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages build.dev
 
 # ====================================================================================
 # Special Targets
@@ -384,8 +400,8 @@ Sub-package Build Support:
 Sub-package Architecture:
     generate.resolve      Transform resolver references for sub-package support
     build.complete        Complete workflow: generate → resolve → build
-    build.current         Build sub-packages for current platform only (faster for development)
-                          Example: make build.current SUBPACKAGES="compute,networking"
+    build.dev             Build sub-packages for current platform only (faster for development)
+                          Example: make build.dev SUBPACKAGES="compute,networking"
 
 Sub-package Targets:
     build.subpackage.%    Build a specific sub-package binary
@@ -402,6 +418,14 @@ Available sub-packages:
     identity, objectstorage, loadbalancer, networkloadbalancer, dns, kms, functions,
     logging, monitoring, events, streaming, filestorage, artifacts, vault, ons,
     certificatesmanagement, networkfirewall, servicemesh, healthchecks
+
+Batch Processing:
+    batch-process         Process sub-packages with up xpkg batch command (internal use)
+    build-subpackages     Build sub-package xpkg files without pushing to registry
+                          Example: make build-subpackages SUBPACKAGES_FOR_BATCH="config,networking" PLATFORMS=linux_arm64
+    publish-subpackages   Build and push sub-packages to registry
+                          Example: make publish-subpackages SUBPACKAGES_FOR_BATCH="config,networking" PLATFORMS=linux_arm64
+                          Note: PLATFORMS must match what was used in the build step
 
 endef
 # The reason CROSSPLANE_MAKE_HELP is used instead of CROSSPLANE_HELP is because the crossplane
@@ -490,14 +514,25 @@ endif
 BUILD_ONLY ?= false
 STORE_PACKAGES ?= ""
 XPKG_CLEANUP_EXAMPLES_VERSION ?= v0.12.1
-SUBPACKAGES_FOR_BATCH ?= config,networking,containerengine
+# Default sub-packages for batch processing
+# Override with: make publish-subpackages SUBPACKAGES_FOR_BATCH="config,networking,containerengine"
+SUBPACKAGES_FOR_BATCH ?= config
 
 # The batch processing target - creates filtered sub-packages with proper CRDs
-batch-process: $(UP)
+batch-process: $(UP) kustomize-crds
 	@rm -rf $(WORK_DIR)/xpkg-cleaned-examples
 	@GOOS=$(HOSTOS) GOARCH=$(TARGETARCH) go run github.com/upbound/uptest/cmd/cleanupexamples@$(XPKG_CLEANUP_EXAMPLES_VERSION) $(ROOT_DIR)/examples $(WORK_DIR)/xpkg-cleaned-examples || $(FAIL)
 	@$(INFO) Batch processing smaller provider packages for: "$(SUBPACKAGES_FOR_BATCH)"
-	@mkdir -p "$(XPKG_OUTPUT_DIR)/$(PLATFORM)" && \
+	@# Build dynamic CRD group overrides based on SUBPACKAGES_FOR_BATCH
+	@CRD_OVERRIDES="--crd-group-override monolith=*"; \
+	for pkg in $$(echo "$(SUBPACKAGES_FOR_BATCH)" | tr ',' ' '); do \
+		if [ "$$pkg" = "config" ]; then \
+			CRD_OVERRIDES="$$CRD_OVERRIDES --crd-group-override config=$(PROVIDER_AUTH_GROUP)"; \
+		else \
+			CRD_OVERRIDES="$$CRD_OVERRIDES --crd-group-override $$pkg=$$pkg"; \
+		fi; \
+	done; \
+	mkdir -p "$(XPKG_OUTPUT_DIR)/$(PLATFORM)" && \
 	$(UP) xpkg batch --smaller-providers "$(SUBPACKAGES_FOR_BATCH)" \
 		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
 		--platform $(BATCH_PLATFORMS) \
@@ -513,9 +548,7 @@ batch-process: $(UP)
 		--auth-ext $(XPKG_DIR)/auth.yaml \
 		--crd-root $(XPKG_DIR)/crds \
 		--ignore $(XPKG_IGNORE) \
-		--crd-group-override monolith=* --crd-group-override config=$(CONFIG_CRD_GROUP) \
-		--crd-group-override networking=networking.oci.upbound.io \
-		--crd-group-override containerengine=containerengine.oci.upbound.io \
+		$$CRD_OVERRIDES \
 		--package-metadata-template $(XPKG_DIR)/crossplane.yaml.tmpl \
 		--template-var XpkgRegOrg=$(CONFIG_DEPENDENCY_REG_ORG) --template-var DepConstraint="$(DEP_CONSTRAINT)" --template-var ProviderName=$(PROVIDER_NAME) --template-var ProviderAuthGroup=$(PROVIDER_AUTH_GROUP) \
 		--concurrency $(CONCURRENCY) \
@@ -524,23 +557,18 @@ batch-process: $(UP)
 	@rm -rf $(WORK_DIR)/xpkg-cleaned-examples
 
 # Build specific sub-packages using batch processing
-# Usage: make build-subpackages SUBPACKAGES_FOR_BATCH="config,networking"
+# Usage: make build-subpackages SUBPACKAGES_FOR_BATCH="config,networking" PLATFORMS=linux_arm64
 build-subpackages: build
-	@$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=true
-
-# Build sub-package binaries before batch processing
-build-subpackage-binaries:
-	@$(INFO) Building sub-package binaries for batch processing
-	@SUBPACKAGE_LIST=$$(echo "$(SUBPACKAGES_FOR_BATCH)" | tr ',' ' '); \
-	for service in $$SUBPACKAGE_LIST; do \
-		$(INFO) Building binary for service: $$service; \
-		$(MAKE) build SUBPACKAGES=$$service || exit 1; \
-	done
-	@$(OK) Built all sub-package binaries for batch processing
+	@# Convert PLATFORMS to comma-separated format for batch processing
+	@BATCH_PLATFORMS_OVERRIDE=$$(echo "$(PLATFORMS)" | tr ' ' ','); \
+	$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=true BATCH_PLATFORMS="$$BATCH_PLATFORMS_OVERRIDE"
 
 # Build and push sub-packages using batch processing  
-# Usage: make publish-subpackages SUBPACKAGES_FOR_BATCH="config,networking,containerengine"
-publish-subpackages: build-subpackage-binaries
-	@$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=false
+# Usage: make publish-subpackages SUBPACKAGES_FOR_BATCH="config,networking,containerengine" PLATFORMS=linux_arm64
+# Note: PLATFORMS must match what was used in the build step
+publish-subpackages: build kustomize-crds
+	@# Convert PLATFORMS to comma-separated format for batch processing
+	@BATCH_PLATFORMS_OVERRIDE=$$(echo "$(PLATFORMS)" | tr ' ' ','); \
+	$(MAKE) batch-process SUBPACKAGES_FOR_BATCH="$(SUBPACKAGES_FOR_BATCH)" BUILD_ONLY=false BATCH_PLATFORMS="$$BATCH_PLATFORMS_OVERRIDE"
 
-.PHONY: batch-process build-subpackages build-subpackage-binaries publish-subpackages
+.PHONY: batch-process build-subpackages publish-subpackages

@@ -21,6 +21,7 @@ import (
 
 	"github.com/oracle/provider-oci/apis"
 	"github.com/oracle/provider-oci/config"
+	resolverapis "github.com/oracle/provider-oci/internal/apis"
 	"github.com/oracle/provider-oci/internal/clients"
 	"github.com/oracle/provider-oci/internal/controller"
 )
@@ -66,6 +67,7 @@ func main() {
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
 	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add Oci APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(apis.AddToSchemes), "Cannot register the OCI APIs with the API resolver's runtime scheme")
 	o := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  log,

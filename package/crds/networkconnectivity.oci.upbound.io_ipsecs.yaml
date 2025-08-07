@@ -157,7 +157,8 @@ spec:
                     description: The OCID of the Cpe object.
                     type: string
                   cpeIdRef:
-                    description: Reference to a Cpe to populate cpeId.
+                    description: Reference to a Cpe in networkconnectivity to populate
+                      cpeId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -191,7 +192,8 @@ spec:
                     - name
                     type: object
                   cpeIdSelector:
-                    description: Selector for a Cpe to populate cpeId.
+                    description: Selector for a Cpe in networkconnectivity to populate
+                      cpeId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -258,7 +260,8 @@ spec:
                     description: The OCID of the DRG.
                     type: string
                   drgIdRef:
-                    description: Reference to a Drg to populate drgId.
+                    description: Reference to a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -292,7 +295,8 @@ spec:
                     - name
                     type: object
                   drgIdSelector:
-                    description: Selector for a Drg to populate drgId.
+                    description: Selector for a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -460,7 +464,8 @@ spec:
                     description: The OCID of the Cpe object.
                     type: string
                   cpeIdRef:
-                    description: Reference to a Cpe to populate cpeId.
+                    description: Reference to a Cpe in networkconnectivity to populate
+                      cpeId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -494,7 +499,8 @@ spec:
                     - name
                     type: object
                   cpeIdSelector:
-                    description: Selector for a Cpe to populate cpeId.
+                    description: Selector for a Cpe in networkconnectivity to populate
+                      cpeId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -561,7 +567,8 @@ spec:
                     description: The OCID of the DRG.
                     type: string
                   drgIdRef:
-                    description: Reference to a Drg to populate drgId.
+                    description: Reference to a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -595,7 +602,8 @@ spec:
                     - name
                     type: object
                   drgIdSelector:
-                    description: Selector for a Drg to populate drgId.
+                    description: Selector for a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       matchControllerRef:
                         description: |-

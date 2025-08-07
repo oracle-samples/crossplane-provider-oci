@@ -109,7 +109,8 @@ spec:
                     description: The OCID of the network security group.
                     type: string
                   networkSecurityGroupIdRef:
-                    description: Reference to a NetworkSecurityGroup to populate networkSecurityGroupId.
+                    description: Reference to a NetworkSecurityGroup in networking
+                      to populate networkSecurityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -143,7 +144,8 @@ spec:
                     - name
                     type: object
                   networkSecurityGroupIdSelector:
-                    description: Selector for a NetworkSecurityGroup to populate networkSecurityGroupId.
+                    description: Selector for a NetworkSecurityGroup in networking
+                      to populate networkSecurityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -329,7 +331,8 @@ spec:
                     description: The OCID of the network security group.
                     type: string
                   networkSecurityGroupIdRef:
-                    description: Reference to a NetworkSecurityGroup to populate networkSecurityGroupId.
+                    description: Reference to a NetworkSecurityGroup in networking
+                      to populate networkSecurityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -363,7 +366,8 @@ spec:
                     - name
                     type: object
                   networkSecurityGroupIdSelector:
-                    description: Selector for a NetworkSecurityGroup to populate networkSecurityGroupId.
+                    description: Selector for a NetworkSecurityGroup in networking
+                      to populate networkSecurityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-

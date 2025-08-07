@@ -186,7 +186,8 @@ spec:
                       the public IP to.
                     type: string
                   privateIpIdRef:
-                    description: Reference to a PrivateIP to populate privateIpId.
+                    description: Reference to a PrivateIp in networking to populate
+                      privateIpId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -220,7 +221,8 @@ spec:
                     - name
                     type: object
                   privateIpIdSelector:
-                    description: Selector for a PrivateIP to populate privateIpId.
+                    description: Selector for a PrivateIp in networking to populate
+                      privateIpId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -263,7 +265,8 @@ spec:
                     description: The OCID of the public IP pool.
                     type: string
                   publicIpPoolIdRef:
-                    description: Reference to a PublicIPPool to populate publicIpPoolId.
+                    description: Reference to a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -297,7 +300,8 @@ spec:
                     - name
                     type: object
                   publicIpPoolIdSelector:
-                    description: Selector for a PublicIPPool to populate publicIpPoolId.
+                    description: Selector for a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -463,7 +467,8 @@ spec:
                       the public IP to.
                     type: string
                   privateIpIdRef:
-                    description: Reference to a PrivateIP to populate privateIpId.
+                    description: Reference to a PrivateIp in networking to populate
+                      privateIpId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -497,7 +502,8 @@ spec:
                     - name
                     type: object
                   privateIpIdSelector:
-                    description: Selector for a PrivateIP to populate privateIpId.
+                    description: Selector for a PrivateIp in networking to populate
+                      privateIpId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -540,7 +546,8 @@ spec:
                     description: The OCID of the public IP pool.
                     type: string
                   publicIpPoolIdRef:
-                    description: Reference to a PublicIPPool to populate publicIpPoolId.
+                    description: Reference to a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -574,7 +581,8 @@ spec:
                     - name
                     type: object
                   publicIpPoolIdSelector:
-                    description: Selector for a PublicIPPool to populate publicIpPoolId.
+                    description: Selector for a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -87,7 +87,8 @@ spec:
                       tenancy
                     type: string
                   publicIpPoolIdRef:
-                    description: Reference to a PublicIPPool to populate publicIpPoolId.
+                    description: Reference to a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -121,7 +122,8 @@ spec:
                     - name
                     type: object
                   publicIpPoolIdSelector:
-                    description: Selector for a PublicIPPool to populate publicIpPoolId.
+                    description: Selector for a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -187,7 +189,8 @@ spec:
                       tenancy
                     type: string
                   publicIpPoolIdRef:
-                    description: Reference to a PublicIPPool to populate publicIpPoolId.
+                    description: Reference to a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -221,7 +224,8 @@ spec:
                     - name
                     type: object
                   publicIpPoolIdSelector:
-                    description: Selector for a PublicIPPool to populate publicIpPoolId.
+                    description: Selector for a PublicIpPool in networking to populate
+                      publicIpPoolId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -196,7 +196,7 @@ spec:
                     description: The OCID of the VCN.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -230,7 +230,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -406,7 +406,7 @@ spec:
                     description: The OCID of the VCN.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -440,7 +440,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-

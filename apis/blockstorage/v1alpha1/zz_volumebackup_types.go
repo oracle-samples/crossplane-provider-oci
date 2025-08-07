@@ -48,14 +48,14 @@ type VolumeBackupInitParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The OCID of the volume that needs to be backed up.**Note: To create the resource either volume_id or source_details is required to be set.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 
-	// Reference to a Volume to populate volumeId.
+	// Reference to a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDRef *v1.Reference `json:"volumeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate volumeId.
+	// Selector for a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDSelector *v1.Selector `json:"volumeIdSelector,omitempty" tf:"-"`
 }
@@ -168,15 +168,15 @@ type VolumeBackupParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The OCID of the volume that needs to be backed up.**Note: To create the resource either volume_id or source_details is required to be set.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	// +kubebuilder:validation:Optional
 	VolumeID *string `json:"volumeId,omitempty" tf:"volume_id,omitempty"`
 
-	// Reference to a Volume to populate volumeId.
+	// Reference to a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDRef *v1.Reference `json:"volumeIdRef,omitempty" tf:"-"`
 
-	// Selector for a Volume to populate volumeId.
+	// Selector for a Volume in blockstorage to populate volumeId.
 	// +kubebuilder:validation:Optional
 	VolumeIDSelector *v1.Selector `json:"volumeIdSelector,omitempty" tf:"-"`
 }

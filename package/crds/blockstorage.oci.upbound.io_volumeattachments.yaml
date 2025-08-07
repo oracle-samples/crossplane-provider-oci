@@ -98,7 +98,7 @@ spec:
                     description: The OCID of the instance.
                     type: string
                   instanceIdRef:
-                    description: Reference to a Instance to populate instanceId.
+                    description: Reference to a Instance in compute to populate instanceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -132,7 +132,7 @@ spec:
                     - name
                     type: object
                   instanceIdSelector:
-                    description: Selector for a Instance to populate instanceId.
+                    description: Selector for a Instance in compute to populate instanceId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -202,7 +202,8 @@ spec:
                     description: The OCID of the volume.
                     type: string
                   volumeIdRef:
-                    description: Reference to a Volume to populate volumeId.
+                    description: Reference to a Volume in blockstorage to populate
+                      volumeId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -236,7 +237,8 @@ spec:
                     - name
                     type: object
                   volumeIdSelector:
-                    description: Selector for a Volume to populate volumeId.
+                    description: Selector for a Volume in blockstorage to populate
+                      volumeId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -313,7 +315,7 @@ spec:
                     description: The OCID of the instance.
                     type: string
                   instanceIdRef:
-                    description: Reference to a Instance to populate instanceId.
+                    description: Reference to a Instance in compute to populate instanceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -347,7 +349,7 @@ spec:
                     - name
                     type: object
                   instanceIdSelector:
-                    description: Selector for a Instance to populate instanceId.
+                    description: Selector for a Instance in compute to populate instanceId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -417,7 +419,8 @@ spec:
                     description: The OCID of the volume.
                     type: string
                   volumeIdRef:
-                    description: Reference to a Volume to populate volumeId.
+                    description: Reference to a Volume in blockstorage to populate
+                      volumeId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -451,7 +454,8 @@ spec:
                     - name
                     type: object
                   volumeIdSelector:
-                    description: Selector for a Volume to populate volumeId.
+                    description: Selector for a Volume in blockstorage to populate
+                      volumeId.
                     properties:
                       matchControllerRef:
                         description: |-

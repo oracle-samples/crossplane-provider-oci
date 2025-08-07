@@ -175,7 +175,8 @@ spec:
                     description: The OCID of the DRG.
                     type: string
                   drgIdRef:
-                    description: Reference to a Drg to populate drgId.
+                    description: Reference to a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -209,7 +210,8 @@ spec:
                     - name
                     type: object
                   drgIdSelector:
-                    description: Selector for a Drg to populate drgId.
+                    description: Selector for a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -253,7 +255,8 @@ spec:
                       to the DRG attachment.
                     type: string
                   drgRouteTableIdRef:
-                    description: Reference to a DrgRouteTable to populate drgRouteTableId.
+                    description: Reference to a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -287,7 +290,8 @@ spec:
                     - name
                     type: object
                   drgRouteTableIdSelector:
-                    description: Selector for a DrgRouteTable to populate drgRouteTableId.
+                    description: Selector for a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -363,7 +367,7 @@ spec:
                       tunnel, or remote peering connection) attached to the DRG.
                     type: string
                   networkIdRef:
-                    description: Reference to a Vcn to populate networkId.
+                    description: Reference to a Vcn in networking to populate networkId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -397,7 +401,7 @@ spec:
                     - name
                     type: object
                   networkIdSelector:
-                    description: Selector for a Vcn to populate networkId.
+                    description: Selector for a Vcn in networking to populate networkId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -562,7 +566,8 @@ spec:
                     description: The OCID of the DRG.
                     type: string
                   drgIdRef:
-                    description: Reference to a Drg to populate drgId.
+                    description: Reference to a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -596,7 +601,8 @@ spec:
                     - name
                     type: object
                   drgIdSelector:
-                    description: Selector for a Drg to populate drgId.
+                    description: Selector for a Drg in networkconnectivity to populate
+                      drgId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -640,7 +646,8 @@ spec:
                       to the DRG attachment.
                     type: string
                   drgRouteTableIdRef:
-                    description: Reference to a DrgRouteTable to populate drgRouteTableId.
+                    description: Reference to a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -674,7 +681,8 @@ spec:
                     - name
                     type: object
                   drgRouteTableIdSelector:
-                    description: Selector for a DrgRouteTable to populate drgRouteTableId.
+                    description: Selector for a DrgRouteTable in networkconnectivity
+                      to populate drgRouteTableId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -750,7 +758,7 @@ spec:
                       tunnel, or remote peering connection) attached to the DRG.
                     type: string
                   networkIdRef:
-                    description: Reference to a Vcn to populate networkId.
+                    description: Reference to a Vcn in networking to populate networkId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -784,7 +792,7 @@ spec:
                     - name
                     type: object
                   networkIdSelector:
-                    description: Selector for a Vcn to populate networkId.
+                    description: Selector for a Vcn in networking to populate networkId.
                     properties:
                       matchControllerRef:
                         description: |-

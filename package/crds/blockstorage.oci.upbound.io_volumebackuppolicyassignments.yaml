@@ -80,7 +80,8 @@ spec:
                       the policy to.
                     type: string
                   assetIdRef:
-                    description: Reference to a Volume to populate assetId.
+                    description: Reference to a Volume in blockstorage to populate
+                      assetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -114,7 +115,8 @@ spec:
                     - name
                     type: object
                   assetIdSelector:
-                    description: Selector for a Volume to populate assetId.
+                    description: Selector for a Volume in blockstorage to populate
+                      assetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -158,7 +160,8 @@ spec:
                       the volume.
                     type: string
                   policyIdRef:
-                    description: Reference to a VolumeBackupPolicy to populate policyId.
+                    description: Reference to a VolumeBackupPolicy in blockstorage
+                      to populate policyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -192,7 +195,8 @@ spec:
                     - name
                     type: object
                   policyIdSelector:
-                    description: Selector for a VolumeBackupPolicy to populate policyId.
+                    description: Selector for a VolumeBackupPolicy in blockstorage
+                      to populate policyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -258,7 +262,8 @@ spec:
                       the policy to.
                     type: string
                   assetIdRef:
-                    description: Reference to a Volume to populate assetId.
+                    description: Reference to a Volume in blockstorage to populate
+                      assetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -292,7 +297,8 @@ spec:
                     - name
                     type: object
                   assetIdSelector:
-                    description: Selector for a Volume to populate assetId.
+                    description: Selector for a Volume in blockstorage to populate
+                      assetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -336,7 +342,8 @@ spec:
                       the volume.
                     type: string
                   policyIdRef:
-                    description: Reference to a VolumeBackupPolicy to populate policyId.
+                    description: Reference to a VolumeBackupPolicy in blockstorage
+                      to populate policyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -370,7 +377,8 @@ spec:
                     - name
                     type: object
                   policyIdSelector:
-                    description: Selector for a VolumeBackupPolicy to populate policyId.
+                    description: Selector for a VolumeBackupPolicy in blockstorage
+                      to populate policyId.
                     properties:
                       matchControllerRef:
                         description: |-

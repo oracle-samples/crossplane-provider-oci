@@ -205,7 +205,8 @@ spec:
                       up.
                     type: string
                   volumeGroupIdRef:
-                    description: Reference to a VolumeGroup to populate volumeGroupId.
+                    description: Reference to a VolumeGroup in blockstorage to populate
+                      volumeGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -239,7 +240,8 @@ spec:
                     - name
                     type: object
                   volumeGroupIdSelector:
-                    description: Selector for a VolumeGroup to populate volumeGroupId.
+                    description: Selector for a VolumeGroup in blockstorage to populate
+                      volumeGroupId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -423,7 +425,8 @@ spec:
                       up.
                     type: string
                   volumeGroupIdRef:
-                    description: Reference to a VolumeGroup to populate volumeGroupId.
+                    description: Reference to a VolumeGroup in blockstorage to populate
+                      volumeGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -457,7 +460,8 @@ spec:
                     - name
                     type: object
                   volumeGroupIdSelector:
-                    description: Selector for a VolumeGroup to populate volumeGroupId.
+                    description: Selector for a VolumeGroup in blockstorage to populate
+                      volumeGroupId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -245,15 +245,15 @@ type VolumeGroupSourceDetailsInitParameters struct {
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
 	// OCIDs for the volumes used to create this volume group.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	// +listType=set
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 
-	// References to Volume to populate volumeIds.
+	// References to Volume in blockstorage to populate volumeIds.
 	// +kubebuilder:validation:Optional
 	VolumeIdsRefs []v1.Reference `json:"volumeIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Volume to populate volumeIds.
+	// Selector for a list of Volume in blockstorage to populate volumeIds.
 	// +kubebuilder:validation:Optional
 	VolumeIdsSelector *v1.Selector `json:"volumeIdsSelector,omitempty" tf:"-"`
 }
@@ -296,16 +296,16 @@ type VolumeGroupSourceDetailsParameters struct {
 	VolumeGroupReplicaID *string `json:"volumeGroupReplicaId,omitempty" tf:"volume_group_replica_id,omitempty"`
 
 	// OCIDs for the volumes used to create this volume group.
-	// +crossplane:generate:reference:type=Volume
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/blockstorage/v1alpha1.Volume
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	VolumeIds []*string `json:"volumeIds,omitempty" tf:"volume_ids,omitempty"`
 
-	// References to Volume to populate volumeIds.
+	// References to Volume in blockstorage to populate volumeIds.
 	// +kubebuilder:validation:Optional
 	VolumeIdsRefs []v1.Reference `json:"volumeIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Volume to populate volumeIds.
+	// Selector for a list of Volume in blockstorage to populate volumeIds.
 	// +kubebuilder:validation:Optional
 	VolumeIdsSelector *v1.Selector `json:"volumeIdsSelector,omitempty" tf:"-"`
 }

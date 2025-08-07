@@ -23,14 +23,14 @@ type DrgRouteTableInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG the DRG route table belongs to.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
@@ -39,14 +39,14 @@ type DrgRouteTableInitParameters struct {
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The OCID of the import route distribution used to specify how incoming route advertisements through referenced attachments are inserted into the DRG route table.
-	// +crossplane:generate:reference:type=DrgRouteDistribution
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteDistribution
 	ImportDrgRouteDistributionID *string `json:"importDrgRouteDistributionId,omitempty" tf:"import_drg_route_distribution_id,omitempty"`
 
-	// Reference to a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// Reference to a DrgRouteDistribution in networkconnectivity to populate importDrgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	ImportDrgRouteDistributionIDRef *v1.Reference `json:"importDrgRouteDistributionIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// Selector for a DrgRouteDistribution in networkconnectivity to populate importDrgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	ImportDrgRouteDistributionIDSelector *v1.Selector `json:"importDrgRouteDistributionIdSelector,omitempty" tf:"-"`
 
@@ -107,15 +107,15 @@ type DrgRouteTableParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The OCID of the DRG the DRG route table belongs to.
-	// +crossplane:generate:reference:type=Drg
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.Drg
 	// +kubebuilder:validation:Optional
 	DrgID *string `json:"drgId,omitempty" tf:"drg_id,omitempty"`
 
-	// Reference to a Drg to populate drgId.
+	// Reference to a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDRef *v1.Reference `json:"drgIdRef,omitempty" tf:"-"`
 
-	// Selector for a Drg to populate drgId.
+	// Selector for a Drg in networkconnectivity to populate drgId.
 	// +kubebuilder:validation:Optional
 	DrgIDSelector *v1.Selector `json:"drgIdSelector,omitempty" tf:"-"`
 
@@ -125,15 +125,15 @@ type DrgRouteTableParameters struct {
 	FreeformTags map[string]*string `json:"freeformTags,omitempty" tf:"freeform_tags,omitempty"`
 
 	// (Updatable) The OCID of the import route distribution used to specify how incoming route advertisements through referenced attachments are inserted into the DRG route table.
-	// +crossplane:generate:reference:type=DrgRouteDistribution
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1.DrgRouteDistribution
 	// +kubebuilder:validation:Optional
 	ImportDrgRouteDistributionID *string `json:"importDrgRouteDistributionId,omitempty" tf:"import_drg_route_distribution_id,omitempty"`
 
-	// Reference to a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// Reference to a DrgRouteDistribution in networkconnectivity to populate importDrgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	ImportDrgRouteDistributionIDRef *v1.Reference `json:"importDrgRouteDistributionIdRef,omitempty" tf:"-"`
 
-	// Selector for a DrgRouteDistribution to populate importDrgRouteDistributionId.
+	// Selector for a DrgRouteDistribution in networkconnectivity to populate importDrgRouteDistributionId.
 	// +kubebuilder:validation:Optional
 	ImportDrgRouteDistributionIDSelector *v1.Selector `json:"importDrgRouteDistributionIdSelector,omitempty" tf:"-"`
 
