@@ -90,7 +90,6 @@ func GetProvider() *ujconfig.Provider {
 		filestorage.Configure,
 		events.Configure,
 		vault.Configure,
-		events.Configure,
 		streaming.Configure,
 	} {
 		configure(pc)

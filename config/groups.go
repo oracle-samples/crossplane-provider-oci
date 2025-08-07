@@ -17,8 +17,6 @@
 package config
 
 import (
-	"strings"
-
 	"github.com/crossplane/upjet/pkg/config"
 )
 
@@ -423,29 +421,6 @@ var GroupMap = map[string]GroupKindCalculator{
 		return "loadbalancer", "SslCipherSuite"
 	},
 
-	// Service Mesh Service
-	"oci_service_mesh_access_policy": func(name string) (string, string) {
-		return "servicemesh", "AccessPolicy"
-	},
-	"oci_service_mesh_ingress_gateway": func(name string) (string, string) {
-		return "servicemesh", "IngressGateway"
-	},
-	"oci_service_mesh_ingress_gateway_route_table": func(name string) (string, string) {
-		return "servicemesh", "IngressGatewayRouteTable"
-	},
-	"oci_service_mesh_mesh": func(name string) (string, string) {
-		return "servicemesh", "Mesh"
-	},
-	"oci_service_mesh_virtual_deployment": func(name string) (string, string) {
-		return "servicemesh", "VirtualDeployment"
-	},
-	"oci_service_mesh_virtual_service": func(name string) (string, string) {
-		return "servicemesh", "VirtualService"
-	},
-	"oci_service_mesh_virtual_service_route_table": func(name string) (string, string) {
-		return "servicemesh", "VirtualServiceRouteTable"
-	},
-
 	// Certificates Management Service
 	"oci_certificates_management_certificate_authority": func(name string) (string, string) {
 		return "certificatesmanagement", "CertificateAuthority"
@@ -491,29 +466,6 @@ var GroupMap = map[string]GroupKindCalculator{
 	"oci_vault_secret": func(name string) (string, string) {
 		return "vault", "Secret"
 	},
-}
-
-// convertToKind converts terraform resource name to a proper Kind name
-// Example: oci_core_instance -> Instance, oci_dns_tsig_key -> TsigKey
-func convertToKind(resourceName string) string {
-	// Remove oci_ prefix and service prefix
-	parts := strings.Split(resourceName, "_")
-	if len(parts) < 3 {
-		return resourceName
-	}
-	
-	// Skip oci_ and service prefix, use the rest
-	kindParts := parts[2:]
-	
-	// Convert each part to title case
-	var titleParts []string
-	for _, part := range kindParts {
-		if len(part) > 0 {
-			titleParts = append(titleParts, strings.Title(strings.ToLower(part)))
-		}
-	}
-	
-	return strings.Join(titleParts, "")
 }
 
 // GroupKindOverrides applies the GroupMap during provider configuration

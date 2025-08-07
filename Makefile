@@ -351,17 +351,6 @@ test.subpackage.%:
 	fi
 	@$(OK) Testing sub-package $*
 
-# Generate CRDs for specific sub-packages
-# Usage: make generate.subpackage.crds SUBPACKAGES="compute,networking"
-generate.subpackage.crds:
-	@$(INFO) Generating CRDs for sub-packages: $(SUBPACKAGES)
-	@if [ "$(SUBPACKAGES)" = "monolith" ]; then \
-		echo "Error: SUBPACKAGES must specify service names, not 'monolith'"; \
-		exit 1; \
-	fi
-	@# This target will be implemented when the generator supports sub-package CRD generation
-	@$(OK) Generating CRDs for sub-packages: $(SUBPACKAGES)
-
 # Debug target to verify SUBPACKAGES configuration
 debug-subpackages:
 	@echo "SUBPACKAGES: $(SUBPACKAGES)"
@@ -374,7 +363,7 @@ build.dev:
 	@CURRENT_PLATFORM=$$(go env GOOS)_$$(go env GOARCH); \
 	$(MAKE) build PLATFORMS="$$CURRENT_PLATFORM" SUBPACKAGES="$(SUBPACKAGES)"
 
-.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% generate.subpackage.crds debug-subpackages build.dev
+.PHONY: build.subpackage.% package.subpackage.% test.subpackage.% debug-subpackages build.dev
 
 # ====================================================================================
 # Special Targets
@@ -410,14 +399,12 @@ Sub-package Targets:
                           Example: make package.subpackage.networking
     test.subpackage.%     Run tests for a specific sub-package
                           Example: make test.subpackage.blockstorage
-    generate.subpackage.crds  Generate CRDs for specified sub-packages
-                          Example: make generate.subpackage.crds SUBPACKAGES="compute,networking"
 
 Available sub-packages:
     config, compute, networking, blockstorage, networkconnectivity, containerengine,
     identity, objectstorage, loadbalancer, networkloadbalancer, dns, kms, functions,
     logging, monitoring, events, streaming, filestorage, artifacts, vault, ons,
-    certificatesmanagement, networkfirewall, servicemesh, healthchecks
+    certificatesmanagement, networkfirewall, healthchecks
 
 Batch Processing:
     batch-process         Process sub-packages with up xpkg batch command (internal use)
