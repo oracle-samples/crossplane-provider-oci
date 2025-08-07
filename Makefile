@@ -465,31 +465,6 @@ healthchecks:Health Checks
 endef
 export SERVICE_DISPLAY_NAMES
 
-# Generate package metadata for a specific service
-# Usage: make generate.xpkg SERVICE=compute
-generate.xpkg:
-	@if [ -z "$(SERVICE)" ]; then \
-		echo "Error: SERVICE must be specified. Example: make generate.xpkg SERVICE=compute"; \
-		exit 1; \
-	fi
-	@go run cmd/xpkg-gen/main.go \
-		-service=$(SERVICE) \
-		-template=$(XPKG_DIR)/crossplane.yaml.tmpl \
-		-output=$(XPKG_OUTPUT_DIR) \
-		-version=$(VERSION) \
-		-registry=$(XPKG_REG_ORGS) \
-		-dep-constraint="$(DEP_CONSTRAINT)"
-	@$(OK) Generated package metadata for $(SERVICE)
-
-# Generate all package metadata files
-generate.xpkg.all:
-	@for service in config compute networking blockstorage networkconnectivity containerengine identity objectstorage loadbalancer networkloadbalancer dns kms functions logging monitoring events streaming filestorage artifacts vault ons certificatesmanagement networkfirewall servicemesh healthchecks; do \
-		$(MAKE) generate.xpkg SERVICE=$$service || exit 1; \
-	done
-	@$(OK) Generated package metadata for all services
-
-.PHONY: generate.xpkg generate.xpkg.all
-
 # ====================================================================================
 # Batch Processing with up xpkg batch
 
