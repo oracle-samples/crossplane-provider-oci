@@ -1,0 +1,30 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: DrgAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/drgattachment
+  labels:
+    testing.upbound.io/example-name: test_drg_attachment
+  name: test-drg-attachment
+spec:
+  forProvider:
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.drg_attachment_display_name}
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    drgRouteTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg_route_table
+    freeformTags:
+      Department: Finance
+    networkDetails:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_vcn
+      routeTableIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_route_table
+      type: ${var.drg_attachment_network_details_type}
+      vcnRouteType: ${var.drg_attachment_network_details_vcn_route_type}

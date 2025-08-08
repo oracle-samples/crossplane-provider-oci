@@ -78,7 +78,8 @@ spec:
                       to.  Example: example_backend_set'
                     type: string
                   backendsetNameRef:
-                    description: Reference to a BackendSet to populate backendsetName.
+                    description: Reference to a BackendSet in loadbalancer to populate
+                      backendsetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                     - name
                     type: object
                   backendsetNameSelector:
-                    description: Selector for a BackendSet to populate backendsetName.
+                    description: Selector for a BackendSet in loadbalancer to populate
+                      backendsetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -171,7 +173,8 @@ spec:
                       backend set and servers.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -205,7 +208,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -286,7 +290,8 @@ spec:
                       to.  Example: example_backend_set'
                     type: string
                   backendsetNameRef:
-                    description: Reference to a BackendSet to populate backendsetName.
+                    description: Reference to a BackendSet in loadbalancer to populate
+                      backendsetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -320,7 +325,8 @@ spec:
                     - name
                     type: object
                   backendsetNameSelector:
-                    description: Selector for a BackendSet to populate backendsetName.
+                    description: Selector for a BackendSet in loadbalancer to populate
+                      backendsetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -379,7 +385,8 @@ spec:
                       backend set and servers.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -413,7 +420,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-

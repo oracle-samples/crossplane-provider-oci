@@ -1,0 +1,26 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: IpsecConnectionTunnelManagement
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/ipsecconnectiontunnelmanagement
+  labels:
+    testing.upbound.io/example-name: test_ip_sec_connection_tunnel
+  name: test-ip-sec-connection-tunnel
+spec:
+  forProvider:
+    bgpSessionInfo:
+    - customerBgpAsn: ${var.ip_sec_connection_tunnel_management_bgp_session_info_customer_bgp_asn}
+      customerInterfaceIp: ${var.ip_sec_connection_tunnel_management_bgp_session_info_customer_interface_ip}
+      oracleInterfaceIp: ${var.ip_sec_connection_tunnel_management_bgp_session_info_oracle_interface_ip}
+    displayName: ${var.ip_sec_connection_tunnel_management_display_name}
+    encryptionDomainConfig:
+    - cpeTrafficSelector: ${var.ip_sec_connection_tunnel_management_encryption_domain_config_cpe_traffic_selector}
+      oracleTrafficSelector: ${var.ip_sec_connection_tunnel_management_encryption_domain_config_oracle_traffic_selector}
+    ikeVersion: V1
+    ipsecId: ${oci_core_ipsec.test_ipsec.id}
+    routing: ${var.ip_sec_connection_tunnel_management_routing}
+    sharedSecretSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    tunnelId: ${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels[0].id}

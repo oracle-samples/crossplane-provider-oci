@@ -1,0 +1,21 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: Cpe
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/cpe
+  labels:
+    testing.upbound.io/example-name: test_cpe
+  name: test-cpe
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    cpeDeviceShapeId: ${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.cpe_display_name}
+    freeformTags:
+      Department: Finance
+    ipAddress: ${var.cpe_ip_address}
+    isPrivate: ${var.cpe_is_private}

@@ -43,10 +43,10 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = GroupName
 		r.Kind = KindLoadBalancer
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["subnet_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 
 	})
@@ -56,7 +56,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetLBHostnameIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_backend_set", func(r *config.Resource) {
@@ -65,7 +65,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetBackendSetIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_rule_set", func(r *config.Resource) {
@@ -74,7 +74,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetRuleSetIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_backend", func(r *config.Resource) {
@@ -83,10 +83,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetBackendIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 		r.References["backendset_name"] = config.Reference{
-			Type: KindBackendSet,
+			TerraformName: "oci_load_balancer_backend_set",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_certificate", func(r *config.Resource) {
@@ -95,7 +95,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetCertificateIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_load_balancer_routing_policy", func(r *config.Resource) {
@@ -104,10 +104,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetRoutingPolicyIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 		r.References["rules.actions.backend_set_name"] = config.Reference{
-			Type: KindBackendSet,
+			TerraformName: "oci_load_balancer_backend_set",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_path_route_set", func(r *config.Resource) {
@@ -116,10 +116,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetPathRouteSetIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 		r.References["path_routes.backend_set_name"] = config.Reference{
-			Type: KindBackendSet,
+			TerraformName: "oci_load_balancer_backend_set",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_listener", func(r *config.Resource) {
@@ -128,29 +128,29 @@ func Configure(p *config.Provider) {
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = GetPathRouteSetIDFunc
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 		r.References["default_backend_set_name"] = config.Reference{
-			Type: KindBackendSet,
+			TerraformName: "oci_load_balancer_backend_set",
 		}
 		r.References["hostname_names"] = config.Reference{
-			Type: KindLBHostname,
+			TerraformName: "oci_load_balancer_hostname",
 		}
 		r.References["path_route_set_name"] = config.Reference{
-			Type: KindPathRouteSet,
+			TerraformName: "oci_load_balancer_path_route_set",
 		}
 		r.References["routing_policy_name"] = config.Reference{
-			Type: KindRoutingPolicy,
+			TerraformName: "oci_load_balancer_load_balancer_routing_policy",
 		}
 		r.References["rule_set_names"] = config.Reference{
-			Type: KindRuleSet,
+			TerraformName: "oci_load_balancer_rule_set",
 		}
 	})
 	p.AddResourceConfigurator("oci_load_balancer_ssl_cipher_suite", func(r *config.Resource) {
 		r.ShortGroup = GroupName
 		r.Kind = KindSSLCipherSuite
 		r.References[ParamLoadBalancerID] = config.Reference{
-			Type: KindLoadBalancer,
+			TerraformName: "oci_load_balancer_load_balancer",
 		}
 	})
 }

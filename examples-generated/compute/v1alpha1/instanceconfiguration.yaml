@@ -1,0 +1,315 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: InstanceConfiguration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/instanceconfiguration
+  labels:
+    testing.upbound.io/example-name: test_instance_configuration
+  name: test-instance-configuration
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.instance_configuration_display_name}
+    freeformTags:
+      Department: Finance
+    instanceDetails:
+    - blockVolumes:
+      - attachDetails:
+        - device: ${var.instance_configuration_instance_details_block_volumes_attach_details_device}
+          displayName: ${var.instance_configuration_instance_details_block_volumes_attach_details_display_name}
+          isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_block_volumes_attach_details_is_pv_encryption_in_transit_enabled}
+          isReadOnly: ${var.instance_configuration_instance_details_block_volumes_attach_details_is_read_only}
+          isShareable: ${var.instance_configuration_instance_details_block_volumes_attach_details_is_shareable}
+          type: ${var.instance_configuration_instance_details_block_volumes_attach_details_type}
+          useChap: ${var.instance_configuration_instance_details_block_volumes_attach_details_use_chap}
+        createDetails:
+        - autotunePolicies:
+          - autotuneType: ${var.instance_configuration_instance_details_block_volumes_create_details_autotune_policies_autotune_type}
+            maxVpusPerGb: ${var.instance_configuration_instance_details_block_volumes_create_details_autotune_policies_max_vpus_per_gb}
+          availabilityDomain: ${var.instance_configuration_instance_details_block_volumes_create_details_availability_domain}
+          backupPolicyId: ${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}
+          blockVolumeReplicas:
+          - availabilityDomain: ${var.instance_configuration_instance_details_block_volumes_create_details_block_volume_replicas_availability_domain}
+            displayName: ${var.instance_configuration_instance_details_block_volumes_create_details_block_volume_replicas_display_name}
+          clusterPlacementGroupId: ${var.cluster_placement_group_id}
+          compartmentId: ${var.compartment_id}
+          definedTags:
+            Operations.CostCenter: "42"
+          displayName: ${var.instance_configuration_instance_details_block_volumes_create_details_display_name}
+          freeformTags:
+            Department: Finance
+          is_reservations_enabled: ${var.instance_configuration_instance_details_block_volumes_create_details_is_reservations_enabled}
+          isAutoTuneEnabled: ${var.instance_configuration_instance_details_block_volumes_create_details_is_auto_tune_enabled}
+          kmsKeyId: ${oci_kms_key.test_key.id}
+          sizeInGbs: ${var.instance_configuration_instance_details_block_volumes_create_details_size_in_gbs}
+          sourceDetails:
+          - id: ${var.instance_configuration_instance_details_block_volumes_create_details_source_details_id}
+            type: ${var.instance_configuration_instance_details_block_volumes_create_details_source_details_type}
+          vpusPerGb: ${var.instance_configuration_instance_details_block_volumes_create_details_vpus_per_gb}
+          xrcKmsKeyId: ${oci_kms_key.test_key.id}
+        volumeId: ${oci_core_volume.test_volume.id}
+      instanceType: ${var.instance_configuration_instance_details_instance_type}
+      launchDetails:
+      - agentConfig:
+        - areAllPluginsDisabled: ${var.instance_configuration_instance_details_launch_details_agent_config_are_all_plugins_disabled}
+          isManagementDisabled: ${var.instance_configuration_instance_details_launch_details_agent_config_is_management_disabled}
+          isMonitoringDisabled: ${var.instance_configuration_instance_details_launch_details_agent_config_is_monitoring_disabled}
+          pluginsConfig:
+          - desiredState: ${var.instance_configuration_instance_details_launch_details_agent_config_plugins_config_desired_state}
+            name: ${var.instance_configuration_instance_details_launch_details_agent_config_plugins_config_name}
+        availabilityConfig:
+        - isLiveMigrationPreferred: ${var.instance_configuration_instance_details_launch_details_availability_config_is_live_migration_preferred}
+          recoveryAction: ${var.instance_configuration_instance_details_launch_details_availability_config_recovery_action}
+        availabilityDomain: ${var.instance_configuration_instance_details_launch_details_availability_domain}
+        capacityReservationId: ${oci_core_capacity_reservation.test_capacity_reservation.id}
+        clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+        compartmentId: ${var.compartment_id}
+        createVnicDetails:
+        - assignIpv6Ip: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_ipv6ip}
+          assignPrivateDnsRecord: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_private_dns_record}
+          assignPublicIp: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_public_ip}
+          definedTags:
+            Operations.CostCenter: "42"
+          displayName: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_display_name}
+          freeformTags:
+            Department: Finance
+          hostnameLabel: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_hostname_label}
+          ipv6addressIpv6SubnetCidrPairDetails:
+          - ipv6address: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address}
+            ipv6subnetCidr: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr}
+          nsgIds: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_nsg_ids}
+          privateIp: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_private_ip}
+          securityAttributes: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_security_attributes}
+          skipSourceDestCheck: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_skip_source_dest_check}
+          subnetId: ${oci_core_subnet.test_subnet.id}
+        dedicatedVmHostId: ${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}
+        definedTags:
+          Operations.CostCenter: "42"
+        displayName: ${var.instance_configuration_instance_details_launch_details_display_name}
+        extendedMetadata: ${var.instance_configuration_instance_details_launch_details_extended_metadata}
+        faultDomain: ${var.instance_configuration_instance_details_launch_details_fault_domain}
+        freeformTags:
+          Department: Finance
+        instanceOptions:
+        - areLegacyImdsEndpointsDisabled: ${var.instance_configuration_instance_details_launch_details_instance_options_are_legacy_imds_endpoints_disabled}
+        ipxeScript: ${var.instance_configuration_instance_details_launch_details_ipxe_script}
+        isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_launch_details_is_pv_encryption_in_transit_enabled}
+        launchMode: ${var.instance_configuration_instance_details_launch_details_launch_mode}
+        launchOptions:
+        - bootVolumeType: ${var.instance_configuration_instance_details_launch_details_launch_options_boot_volume_type}
+          firmware: ${var.instance_configuration_instance_details_launch_details_launch_options_firmware}
+          isConsistentVolumeNamingEnabled: ${var.instance_configuration_instance_details_launch_details_launch_options_is_consistent_volume_naming_enabled}
+          isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_launch_details_launch_options_is_pv_encryption_in_transit_enabled}
+          networkType: ${var.instance_configuration_instance_details_launch_details_launch_options_network_type}
+          remoteDataVolumeType: ${var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type}
+        licensingConfigs:
+        - licenseType: ${var.instance_configuration_instance_details_launch_details_licensing_configs_license_type}
+          type: ${var.instance_configuration_instance_details_launch_details_licensing_configs_type}
+        metadata: ${var.instance_configuration_instance_details_launch_details_metadata}
+        platformConfig:
+        - areVirtualInstructionsEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_are_virtual_instructions_enabled}
+          configMap: ${var.instance_configuration_instance_details_launch_details_platform_config_config_map}
+          isAccessControlServiceEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_access_control_service_enabled}
+          isInputOutputMemoryManagementUnitEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_input_output_memory_management_unit_enabled}
+          isMeasuredBootEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_measured_boot_enabled}
+          isMemoryEncryptionEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_memory_encryption_enabled}
+          isSecureBootEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_secure_boot_enabled}
+          isSymmetricMultiThreadingEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_symmetric_multi_threading_enabled}
+          isTrustedPlatformModuleEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_is_trusted_platform_module_enabled}
+          numaNodesPerSocket: ${var.instance_configuration_instance_details_launch_details_platform_config_numa_nodes_per_socket}
+          percentageOfCoresEnabled: ${var.instance_configuration_instance_details_launch_details_platform_config_percentage_of_cores_enabled}
+          type: ${var.instance_configuration_instance_details_launch_details_platform_config_type}
+        preemptibleInstanceConfig:
+        - preemptionAction:
+          - preserveBootVolume: ${var.instance_configuration_instance_details_launch_details_preemptible_instance_config_preemption_action_preserve_boot_volume}
+            type: ${var.instance_configuration_instance_details_launch_details_preemptible_instance_config_preemption_action_type}
+        preferredMaintenanceAction: ${var.instance_configuration_instance_details_launch_details_preferred_maintenance_action}
+        securityAttributes: ${var.instance_configuration_instance_details_launch_details_security_attributes}
+        shape: ${var.instance_configuration_instance_details_launch_details_shape}
+        shapeConfig:
+        - baselineOcpuUtilization: ${var.instance_configuration_instance_details_launch_details_shape_config_baseline_ocpu_utilization}
+          memoryInGbs: ${var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs}
+          nvmes: ${var.instance_configuration_instance_details_launch_details_shape_config_nvmes}
+          ocpus: ${var.instance_configuration_instance_details_launch_details_shape_config_ocpus}
+          vcpus: ${var.instance_configuration_instance_details_launch_details_shape_config_vcpus}
+        sourceDetails:
+        - bootVolumeId: ${oci_core_boot_volume.test_boot_volume.id}
+          bootVolumeSizeInGbs: ${var.instance_configuration_instance_details_launch_details_source_details_boot_volume_size_in_gbs}
+          bootVolumeVpusPerGb: ${var.instance_configuration_instance_details_launch_details_source_details_boot_volume_vpus_per_gb}
+          imageId: ${oci_core_image.test_image.id}
+          instanceSourceImageFilterDetails:
+          - compartmentId: ${var.compartment_id}
+            definedTagsFilter: ${var.instance_configuration_instance_details_launch_details_source_details_instance_source_image_filter_details_defined_tags_filter}
+            operatingSystem: ${var.instance_configuration_instance_details_launch_details_source_details_instance_source_image_filter_details_operating_system}
+            operatingSystemVersion: ${var.instance_configuration_instance_details_launch_details_source_details_instance_source_image_filter_details_operating_system_version}
+          kmsKeyId: ${oci_kms_key.test_key.id}
+          sourceType: ${var.instance_configuration_instance_details_launch_details_source_details_source_type}
+      options:
+      - blockVolumes:
+        - attachDetails:
+          - device: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_device}
+            displayName: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_display_name}
+            isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_is_pv_encryption_in_transit_enabled}
+            isReadOnly: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_is_read_only}
+            isShareable: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_is_shareable}
+            type: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_type}
+            useChap: ${var.instance_configuration_instance_details_options_block_volumes_attach_details_use_chap}
+          createDetails:
+          - autotunePolicies:
+            - autotuneType: ${var.instance_configuration_instance_details_options_block_volumes_create_details_autotune_policies_autotune_type}
+              maxVpusPerGb: ${var.instance_configuration_instance_details_options_block_volumes_create_details_autotune_policies_max_vpus_per_gb}
+            availabilityDomain: ${var.instance_configuration_instance_details_options_block_volumes_create_details_availability_domain}
+            backupPolicyId: ${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}
+            clusterPlacementGroupId: ${var.cluster_placement_group_id}
+            compartmentId: ${var.compartment_id}
+            definedTags:
+              Operations.CostCenter: "42"
+            displayName: ${var.instance_configuration_instance_details_options_block_volumes_create_details_display_name}
+            freeformTags:
+              Department: Finance
+            is_reservations_enabled: ${var.instance_configuration_instance_details_options_block_volumes_create_details_is_reservations_enabled}
+            isAutoTuneEnabled: ${var.instance_configuration_instance_details_options_block_volumes_create_details_is_auto_tune_enabled}
+            kmsKeyId: ${oci_kms_key.test_key.id}
+            sizeInGbs: ${var.instance_configuration_instance_details_options_block_volumes_create_details_size_in_gbs}
+            sourceDetails:
+            - id: ${var.instance_configuration_instance_details_options_block_volumes_create_details_source_details_id}
+              type: ${var.instance_configuration_instance_details_options_block_volumes_create_details_source_details_type}
+            vpusPerGb: ${var.instance_configuration_instance_details_options_block_volumes_create_details_vpus_per_gb}
+            xrcKmsKeyId: ${oci_kms_key.test_key.id}
+          volumeId: ${oci_core_volume.test_volume.id}
+        launchDetails:
+        - agentConfig:
+          - areAllPluginsDisabled: ${var.instance_configuration_instance_details_options_launch_details_agent_config_are_all_plugins_disabled}
+            isManagementDisabled: ${var.instance_configuration_instance_details_options_launch_details_agent_config_is_management_disabled}
+            isMonitoringDisabled: ${var.instance_configuration_instance_details_options_launch_details_agent_config_is_monitoring_disabled}
+            pluginsConfig:
+            - desiredState: ${var.instance_configuration_instance_details_options_launch_details_agent_config_plugins_config_desired_state}
+              name: ${var.instance_configuration_instance_details_options_launch_details_agent_config_plugins_config_name}
+          availabilityConfig:
+          - recoveryAction: ${var.instance_configuration_instance_details_options_launch_details_availability_config_recovery_action}
+          availabilityDomain: ${var.instance_configuration_instance_details_options_launch_details_availability_domain}
+          capacityReservationId: ${oci_core_capacity_reservation.test_capacity_reservation.id}
+          clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+          compartmentId: ${var.compartment_id}
+          createVnicDetails:
+          - assignIpv6Ip: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_assign_ipv6ip}
+            assignPrivateDnsRecord: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_assign_private_dns_record}
+            assignPublicIp: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_assign_public_ip}
+            definedTags:
+              Operations.CostCenter: "42"
+            displayName: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_display_name}
+            freeformTags:
+              Department: Finance
+            hostnameLabel: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_hostname_label}
+            ipv6addressIpv6SubnetCidrPairDetails:
+            - ipv6address: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address}
+              ipv6subnetCidr: ${var.instance_configuration_instance_details_launch_details_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr}
+            nsgIds: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_nsg_ids}
+            privateIp: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_private_ip}
+            securityAttributes: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_security_attributes}
+            skipSourceDestCheck: ${var.instance_configuration_instance_details_options_launch_details_create_vnic_details_skip_source_dest_check}
+            subnetId: ${oci_core_subnet.test_subnet.id}
+          dedicatedVmHostId: ${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}
+          definedTags:
+            Operations.CostCenter: "42"
+          displayName: ${var.instance_configuration_instance_details_options_launch_details_display_name}
+          extendedMetadata: ${var.instance_configuration_instance_details_options_launch_details_extended_metadata}
+          faultDomain: ${var.instance_configuration_instance_details_options_launch_details_fault_domain}
+          freeformTags:
+            Department: Finance
+          instanceOptions:
+          - areLegacyImdsEndpointsDisabled: ${var.instance_configuration_instance_details_options_launch_details_instance_options_are_legacy_imds_endpoints_disabled}
+          ipxeScript: ${var.instance_configuration_instance_details_options_launch_details_ipxe_script}
+          isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_options_launch_details_is_pv_encryption_in_transit_enabled}
+          launchMode: ${var.instance_configuration_instance_details_options_launch_details_launch_mode}
+          launchOptions:
+          - bootVolumeType: ${var.instance_configuration_instance_details_options_launch_details_launch_options_boot_volume_type}
+            firmware: ${var.instance_configuration_instance_details_options_launch_details_launch_options_firmware}
+            isConsistentVolumeNamingEnabled: ${var.instance_configuration_instance_details_options_launch_details_launch_options_is_consistent_volume_naming_enabled}
+            isPvEncryptionInTransitEnabled: ${var.instance_configuration_instance_details_options_launch_details_launch_options_is_pv_encryption_in_transit_enabled}
+            networkType: ${var.instance_configuration_instance_details_options_launch_details_launch_options_network_type}
+            remoteDataVolumeType: ${var.instance_configuration_instance_details_options_launch_details_launch_options_remote_data_volume_type}
+          licensingConfigs:
+          - licenseType: ${var.instance_configuration_instance_details_options_launch_details_licensing_configs_license_type}
+            type: ${var.instance_configuration_instance_details_options_launch_details_licensing_configs_type}
+          metadata: ${var.instance_configuration_instance_details_options_launch_details_metadata}
+          platformConfig:
+          - areVirtualInstructionsEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_are_virtual_instructions_enabled}
+            isAccessControlServiceEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_access_control_service_enabled}
+            isInputOutputMemoryManagementUnitEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_input_output_memory_management_unit_enabled}
+            isMeasuredBootEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_measured_boot_enabled}
+            isMemoryEncryptionEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_memory_encryption_enabled}
+            isSecureBootEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_secure_boot_enabled}
+            isSymmetricMultiThreadingEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_symmetric_multi_threading_enabled}
+            isTrustedPlatformModuleEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_is_trusted_platform_module_enabled}
+            numaNodesPerSocket: ${var.instance_configuration_instance_details_options_launch_details_platform_config_numa_nodes_per_socket}
+            percentageOfCoresEnabled: ${var.instance_configuration_instance_details_options_launch_details_platform_config_percentage_of_cores_enabled}
+            type: ${var.instance_configuration_instance_details_options_launch_details_platform_config_type}
+          preemptibleInstanceConfig:
+          - preemptionAction:
+            - preserveBootVolume: ${var.instance_configuration_instance_details_options_launch_details_preemptible_instance_config_preemption_action_preserve_boot_volume}
+              type: ${var.instance_configuration_instance_details_options_launch_details_preemptible_instance_config_preemption_action_type}
+          preferredMaintenanceAction: ${var.instance_configuration_instance_details_options_launch_details_preferred_maintenance_action}
+          securityAttributes: ${var.instance_configuration_instance_details_options_launch_details_security_attributes}
+          shape: ${var.instance_configuration_instance_details_options_launch_details_shape}
+          shapeConfig:
+          - baselineOcpuUtilization: ${var.instance_configuration_instance_details_options_launch_details_shape_config_baseline_ocpu_utilization}
+            memoryInGbs: ${var.instance_configuration_instance_details_options_launch_details_shape_config_memory_in_gbs}
+            nvmes: ${var.instance_configuration_instance_details_options_launch_details_shape_config_nvmes}
+            ocpus: ${var.instance_configuration_instance_details_options_launch_details_shape_config_ocpus}
+            vcpus: ${var.instance_configuration_instance_details_options_launch_details_shape_config_vcpus}
+          sourceDetails:
+          - bootVolumeId: ${oci_core_boot_volume.test_boot_volume.id}
+            bootVolumeSizeInGbs: ${var.instance_configuration_instance_details_options_launch_details_source_details_boot_volume_size_in_gbs}
+            bootVolumeVpusPerGb: ${var.instance_configuration_instance_details_options_launch_details_source_details_boot_volume_vpus_per_gb}
+            imageId: ${oci_core_image.test_image.id}
+            instanceSourceImageFilterDetails:
+            - compartmentId: ${var.compartment_id}
+              definedTagsFilter: ${var.instance_configuration_instance_details_options_launch_details_source_details_instance_source_image_filter_details_defined_tags_filter}
+              operatingSystem: ${var.instance_configuration_instance_details_options_launch_details_source_details_instance_source_image_filter_details_operating_system}
+              operatingSystemVersion: ${var.instance_configuration_instance_details_options_launch_details_source_details_instance_source_image_filter_details_operating_system_version}
+            sourceType: ${var.instance_configuration_instance_details_options_launch_details_source_details_source_type}
+        secondaryVnics:
+        - createVnicDetails:
+          - assignIpv6Ip: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_ipv6ip}
+            assignPrivateDnsRecord: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_assign_private_dns_record}
+            assignPublicIp: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_assign_public_ip}
+            definedTags:
+              Operations.CostCenter: "42"
+            displayName: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_display_name}
+            freeformTags:
+              Department: Finance
+            hostnameLabel: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_hostname_label}
+            ipv6addressIpv6SubnetCidrPairDetails:
+            - ipv6address: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address}
+              ipv6subnetCidr: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr}
+            nsgIds: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_nsg_ids}
+            privateIp: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_private_ip}
+            securityAttributes: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_security_attributes}
+            skipSourceDestCheck: ${var.instance_configuration_instance_details_options_secondary_vnics_create_vnic_details_skip_source_dest_check}
+            subnetId: ${oci_core_subnet.test_subnet.id}
+          displayName: ${var.instance_configuration_instance_details_options_secondary_vnics_display_name}
+          nicIndex: ${var.instance_configuration_instance_details_options_secondary_vnics_nic_index}
+      secondaryVnics:
+      - createVnicDetails:
+        - assignPrivateDnsRecord: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_private_dns_record}
+          assignPublicIp: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_assign_public_ip}
+          definedTags:
+            Operations.CostCenter: "42"
+          displayName: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_display_name}
+          freeformTags:
+            Department: Finance
+          hostnameLabel: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_hostname_label}
+          nsgIds: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_nsg_ids}
+          privateIp: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_private_ip}
+          securityAttributes: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_security_attributes}
+          skipSourceDestCheck: ${var.instance_configuration_instance_details_secondary_vnics_create_vnic_details_skip_source_dest_check}
+          subnetId: ${oci_core_subnet.test_subnet.id}
+        displayName: ${var.instance_configuration_instance_details_secondary_vnics_display_name}
+        nicIndex: ${var.instance_configuration_instance_details_secondary_vnics_nic_index}
+    instanceId: ${oci_core_instance.test_instance.id}
+    source: ${var.instance_configuration_source}

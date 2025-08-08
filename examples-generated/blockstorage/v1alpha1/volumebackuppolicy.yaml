@@ -1,0 +1,30 @@
+apiVersion: blockstorage.oci.upbound.io/v1alpha1
+kind: VolumeBackupPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blockstorage/v1alpha1/volumebackuppolicy
+  labels:
+    testing.upbound.io/example-name: test_volume_backup_policy
+  name: test-volume-backup-policy
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    destinationRegion: ${var.volume_backup_policy_destination_region}
+    displayName: ${var.volume_backup_policy_display_name}
+    freeformTags:
+      Department: Finance
+    schedules:
+    - backupType: ${var.volume_backup_policy_schedules_backup_type}
+      dayOfMonth: ${var.volume_backup_policy_schedules_day_of_month}
+      dayOfWeek: ${var.volume_backup_policy_schedules_day_of_week}
+      hourOfDay: ${var.volume_backup_policy_schedules_hour_of_day}
+      month: ${var.volume_backup_policy_schedules_month}
+      offsetSeconds: ${var.volume_backup_policy_schedules_offset_seconds}
+      offsetType: ${var.volume_backup_policy_schedules_offset_type}
+      period: ${var.volume_backup_policy_schedules_period}
+      retentionSeconds: ${var.volume_backup_policy_schedules_retention_seconds}
+      timeZone: ${var.volume_backup_policy_schedules_time_zone}

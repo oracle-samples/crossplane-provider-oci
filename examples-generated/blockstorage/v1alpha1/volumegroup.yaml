@@ -1,0 +1,32 @@
+apiVersion: blockstorage.oci.upbound.io/v1alpha1
+kind: VolumeGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blockstorage/v1alpha1/volumegroup
+  labels:
+    testing.upbound.io/example-name: test_volume_group
+  name: test-volume-group
+spec:
+  forProvider:
+    availabilityDomain: ${var.volume_group_availability_domain}
+    backupPolicyId: ${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}
+    clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.volume_group_display_name}
+    freeformTags:
+      Department: Finance
+    sourceDetails:
+    - type: volumeIds
+      volumeIdsRefs:
+      - name: example
+    volumeGroupReplicas:
+    - availabilityDomain: ${var.volume_group_volume_group_replicas_availability_domain}
+      displayName: ${var.volume_group_volume_group_replicas_display_name}
+      xrrKmsKeyId: ${oci_kms_key.test_key.id}
+    volumeIds:
+    - ${var.volume_group_source_id}
+    xrcKmsKeyId: ${oci_kms_key.test_key.id}

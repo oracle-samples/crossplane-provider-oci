@@ -24,10 +24,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["stream_pool_id"] = config.Reference{
-			Type: "StreamPool",
+			TerraformName: "oci_streaming_stream_pool",
 		}
 	})
 
@@ -36,19 +36,19 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["custom_encryption_key.kms_key_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
+			TerraformName: "oci_kms_key",
 		}
 		r.References["private_endpoint_settings.nsg_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 		r.References["private_endpoint_settings.subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 		r.References["private_endpoint_settings.private_endpoint_ip"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.PrivateIP",
+			TerraformName: "oci_core_private_ip",
 		}
 	})
 
@@ -57,10 +57,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["stream_pool_id"] = config.Reference{
-			Type: "StreamPool",
+			TerraformName: "oci_streaming_stream_pool",
 		}
 	})
 }

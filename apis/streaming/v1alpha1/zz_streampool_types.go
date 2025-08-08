@@ -98,39 +98,39 @@ type KafkaSettingsParameters struct {
 type PrivateEndpointSettingsInitParameters struct {
 
 	// The optional list of network security groups to be used with the private endpoint of the stream pool. That value cannot be changed.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The optional private IP you want to be associated with your private stream pool. That parameter can only be specified when the subnetId parameter is set. It cannot be changed. The private IP needs to be part of the CIDR range of the specified subnetId or the creation will fail. If not specified a random IP inside the subnet will be chosen. After the stream pool is created, a custom FQDN, pointing to this private IP, is created. The FQDN is then used to access the service instead of the private IP.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.PrivateIP
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PrivateIp
 	PrivateEndpointIP *string `json:"privateEndpointIp,omitempty" tf:"private_endpoint_ip,omitempty"`
 
-	// Reference to a PrivateIP in core to populate privateEndpointIp.
+	// Reference to a PrivateIp in networking to populate privateEndpointIp.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPRef *v1.Reference `json:"privateEndpointIpRef,omitempty" tf:"-"`
 
-	// Selector for a PrivateIP in core to populate privateEndpointIp.
+	// Selector for a PrivateIp in networking to populate privateEndpointIp.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPSelector *v1.Selector `json:"privateEndpointIpSelector,omitempty" tf:"-"`
 
 	// If specified, the stream pool will be private and only accessible from inside that subnet. Producing-to and consuming-from a stream inside a private stream pool can also only be done from inside the subnet. That value cannot be changed.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
@@ -151,42 +151,42 @@ type PrivateEndpointSettingsObservation struct {
 type PrivateEndpointSettingsParameters struct {
 
 	// The optional list of network security groups to be used with the private endpoint of the stream pool. That value cannot be changed.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The optional private IP you want to be associated with your private stream pool. That parameter can only be specified when the subnetId parameter is set. It cannot be changed. The private IP needs to be part of the CIDR range of the specified subnetId or the creation will fail. If not specified a random IP inside the subnet will be chosen. After the stream pool is created, a custom FQDN, pointing to this private IP, is created. The FQDN is then used to access the service instead of the private IP.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.PrivateIP
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.PrivateIp
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIP *string `json:"privateEndpointIp,omitempty" tf:"private_endpoint_ip,omitempty"`
 
-	// Reference to a PrivateIP in core to populate privateEndpointIp.
+	// Reference to a PrivateIp in networking to populate privateEndpointIp.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPRef *v1.Reference `json:"privateEndpointIpRef,omitempty" tf:"-"`
 
-	// Selector for a PrivateIP in core to populate privateEndpointIp.
+	// Selector for a PrivateIp in networking to populate privateEndpointIp.
 	// +kubebuilder:validation:Optional
 	PrivateEndpointIPSelector *v1.Selector `json:"privateEndpointIpSelector,omitempty" tf:"-"`
 
 	// If specified, the stream pool will be private and only accessible from inside that subnet. Producing-to and consuming-from a stream inside a private stream pool can also only be done from inside the subnet. That value cannot be changed.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }

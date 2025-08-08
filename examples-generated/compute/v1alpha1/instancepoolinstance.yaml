@@ -1,0 +1,12 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: InstancePoolInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/instancepoolinstance
+  labels:
+    testing.upbound.io/example-name: test_instance_pool_instance
+  name: test-instance-pool-instance
+spec:
+  forProvider:
+    instanceId: ${oci_core_instance.test_instance.id}
+    instancePoolId: ${oci_core_instance_pool.test_instance_pool.id}

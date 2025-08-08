@@ -308,14 +308,14 @@ type RuleSetInitParameters struct {
 	Items []ItemsInitParameters `json:"items,omitempty" tf:"items,omitempty"`
 
 	// The OCID of the specified load balancer.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -345,15 +345,15 @@ type RuleSetParameters struct {
 	Items []ItemsParameters `json:"items,omitempty" tf:"items,omitempty"`
 
 	// The OCID of the specified load balancer.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	// +kubebuilder:validation:Optional
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 

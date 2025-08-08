@@ -41,7 +41,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -52,14 +52,14 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 	p.AddResourceConfigurator("oci_identity_policy", func(r *config.Resource) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -70,7 +70,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["tag_namespace_id"] = config.Reference{
-			Type: "TagNamespace",
+			TerraformName: "oci_identity_tag_namespace",
 		}
 	})
 
@@ -81,7 +81,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 }

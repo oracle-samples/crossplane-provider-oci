@@ -1,0 +1,48 @@
+apiVersion: filestorage.oci.upbound.io/v1alpha1
+kind: MountTarget
+metadata:
+  annotations:
+    meta.upbound.io/example-id: filestorage/v1alpha1/mounttarget
+  labels:
+    testing.upbound.io/example-name: test_mount_target
+  name: test-mount-target
+spec:
+  forProvider:
+    availabilityDomain: ${var.mount_target_availability_domain}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.mount_target_display_name}
+    freeformTags:
+      Department: Finance
+    hostnameLabel: ${var.mount_target_hostname_label}
+    idmapType: ${var.mount_target_idmap_type}
+    ipAddress: ${var.mount_target_ip_address}
+    isLockOverride: ${var.mount_target_is_lock_override}
+    kerberos:
+    - backupKeyTabSecretVersion: ${var.mount_target_kerberos_backup_key_tab_secret_version}
+      currentKeyTabSecretVersion: ${var.mount_target_kerberos_current_key_tab_secret_version}
+      isKerberosEnabled: ${var.mount_target_kerberos_is_kerberos_enabled}
+      kerberosRealm: ${var.mount_target_kerberos_kerberos_realm}
+      keyTabSecretId: ${oci_vault_secret.test_secret.id}
+    ldapIdmap:
+    - cacheLifetimeSeconds: ${var.mount_target_ldap_idmap_cache_lifetime_seconds}
+      cacheRefreshIntervalSeconds: ${var.mount_target_ldap_idmap_cache_refresh_interval_seconds}
+      groupSearchBase: ${var.mount_target_ldap_idmap_group_search_base}
+      negativeCacheLifetimeSeconds: ${var.mount_target_ldap_idmap_negative_cache_lifetime_seconds}
+      outboundConnector1Id: ${oci_file_storage_outbound_connector1.test_outbound_connector1.id}
+      outboundConnector2Id: ${oci_file_storage_outbound_connector2.test_outbound_connector2.id}
+      schemaType: ${var.mount_target_ldap_idmap_schema_type}
+      userSearchBase: ${var.mount_target_ldap_idmap_user_search_base}
+    locks:
+    - message: ${var.mount_target_locks_message}
+      relatedResourceId: ${oci_cloud_guard_resource.test_resource.id}
+      timeCreated: ${var.mount_target_locks_time_created}
+      type: ${var.mount_target_locks_type}
+    nsgIds: ${var.mount_target_nsg_ids}
+    requestedThroughput: ${var.mount_target_requested_throughput}
+    subnetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_subnet

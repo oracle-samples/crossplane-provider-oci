@@ -78,7 +78,8 @@ spec:
                       to.
                     type: string
                   applicationIdRef:
-                    description: Reference to a Application to populate applicationId.
+                    description: Reference to a Application in functions to populate
+                      applicationId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                     - name
                     type: object
                   applicationIdSelector:
-                    description: Selector for a Application to populate applicationId.
+                    description: Selector for a Application in functions to populate
+                      applicationId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -268,7 +270,8 @@ spec:
                       to.
                     type: string
                   applicationIdRef:
-                    description: Reference to a Application to populate applicationId.
+                    description: Reference to a Application in functions to populate
+                      applicationId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -302,7 +305,8 @@ spec:
                     - name
                     type: object
                   applicationIdSelector:
-                    description: Selector for a Application to populate applicationId.
+                    description: Selector for a Application in functions to populate
+                      applicationId.
                     properties:
                       matchControllerRef:
                         description: |-

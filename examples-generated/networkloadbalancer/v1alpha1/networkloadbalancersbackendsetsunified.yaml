@@ -1,0 +1,47 @@
+apiVersion: networkloadbalancer.oci.upbound.io/v1alpha1
+kind: NetworkLoadBalancersBackendSetsUnified
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkloadbalancer/v1alpha1/networkloadbalancersbackendsetsunified
+  labels:
+    testing.upbound.io/example-name: test_network_load_balancers_backend_sets_unified
+  name: test-network-load-balancers-backend-sets-unified
+spec:
+  forProvider:
+    areOperationallyActiveBackendsPreferred: ${var.network_load_balancers_backend_sets_unified_are_operationally_active_backends_preferred}
+    backends:
+    - ipAddress: ${var.network_load_balancers_backend_sets_unified_backends_ip_address}
+      isBackup: ${var.network_load_balancers_backend_sets_unified_backends_is_backup}
+      isDrain: ${var.network_load_balancers_backend_sets_unified_backends_is_drain}
+      isOffline: ${var.network_load_balancers_backend_sets_unified_backends_is_offline}
+      name: ${var.network_load_balancers_backend_sets_unified_backends_name}
+      port: ${var.network_load_balancers_backend_sets_unified_backends_port}
+      targetId: ${oci_cloud_guard_target.test_target.id}
+      weight: ${var.network_load_balancers_backend_sets_unified_backends_weight}
+    healthChecker:
+    - dns:
+      - domainName: ${oci_identity_domain.test_domain.name}
+        queryClass: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_query_class}
+        queryType: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_query_type}
+        rcodes: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_rcodes}
+        transportProtocol: ${var.network_load_balancers_backend_sets_unified_health_checker_dns_transport_protocol}
+      intervalInMillis: ${var.network_load_balancers_backend_sets_unified_health_checker_interval_in_millis}
+      port: ${var.network_load_balancers_backend_sets_unified_health_checker_port}
+      protocol: ${var.network_load_balancers_backend_sets_unified_health_checker_protocol}
+      requestData: ${var.network_load_balancers_backend_sets_unified_health_checker_request_data}
+      responseBodyRegex: ${var.network_load_balancers_backend_sets_unified_health_checker_response_body_regex}
+      responseData: ${var.network_load_balancers_backend_sets_unified_health_checker_response_data}
+      retries: ${var.network_load_balancers_backend_sets_unified_health_checker_retries}
+      returnCode: ${var.network_load_balancers_backend_sets_unified_health_checker_return_code}
+      timeoutInMillis: ${var.network_load_balancers_backend_sets_unified_health_checker_timeout_in_millis}
+      urlPath: ${var.network_load_balancers_backend_sets_unified_health_checker_url_path}
+    ipVersion: ${var.network_load_balancers_backend_sets_unified_ip_version}
+    isFailOpen: ${var.network_load_balancers_backend_sets_unified_is_fail_open}
+    isInstantFailoverEnabled: ${var.network_load_balancers_backend_sets_unified_is_instant_failover_enabled}
+    isInstantFailoverTcpResetEnabled: ${var.network_load_balancers_backend_sets_unified_is_instant_failover_tcp_reset_enabled}
+    isPreserveSource: ${var.network_load_balancers_backend_sets_unified_is_preserve_source}
+    name: ${var.network_load_balancers_backend_sets_unified_name}
+    networkLoadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_load_balancer
+    policy: ${var.network_load_balancers_backend_sets_unified_policy}

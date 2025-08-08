@@ -34,27 +34,27 @@ type ResolverEndpointInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The OCID of the target resolver.
-	// +crossplane:generate:reference:type=Resolver
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.Resolver
 	ResolverID *string `json:"resolverId,omitempty" tf:"resolver_id,omitempty"`
 
-	// Reference to a Resolver to populate resolverId.
+	// Reference to a Resolver in dns to populate resolverId.
 	// +kubebuilder:validation:Optional
 	ResolverIDRef *v1.Reference `json:"resolverIdRef,omitempty" tf:"-"`
 
-	// Selector for a Resolver to populate resolverId.
+	// Selector for a Resolver in dns to populate resolverId.
 	// +kubebuilder:validation:Optional
 	ResolverIDSelector *v1.Selector `json:"resolverIdSelector,omitempty" tf:"-"`
 
@@ -62,14 +62,14 @@ type ResolverEndpointInitParameters struct {
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
@@ -152,29 +152,29 @@ type ResolverEndpointParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the resolver endpoint is a part of.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The OCID of the target resolver.
-	// +crossplane:generate:reference:type=Resolver
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.Resolver
 	// +kubebuilder:validation:Optional
 	ResolverID *string `json:"resolverId,omitempty" tf:"resolver_id,omitempty"`
 
-	// Reference to a Resolver to populate resolverId.
+	// Reference to a Resolver in dns to populate resolverId.
 	// +kubebuilder:validation:Optional
 	ResolverIDRef *v1.Reference `json:"resolverIdRef,omitempty" tf:"-"`
 
-	// Selector for a Resolver to populate resolverId.
+	// Selector for a Resolver in dns to populate resolverId.
 	// +kubebuilder:validation:Optional
 	ResolverIDSelector *v1.Selector `json:"resolverIdSelector,omitempty" tf:"-"`
 
@@ -183,15 +183,15 @@ type ResolverEndpointParameters struct {
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }

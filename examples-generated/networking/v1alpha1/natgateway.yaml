@@ -1,0 +1,24 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: NatGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/natgateway
+  labels:
+    testing.upbound.io/example-name: test_nat_gateway
+  name: test-nat-gateway
+spec:
+  forProvider:
+    blockTraffic: ${var.nat_gateway_block_traffic}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.nat_gateway_display_name}
+    freeformTags:
+      Department: Finance
+    publicIpId: ${oci_core_public_ip.test_public_ip.id}
+    routeTableId: ${oci_core_route_table.test_route_table.id}
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

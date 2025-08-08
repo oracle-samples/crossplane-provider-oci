@@ -45,14 +45,14 @@ type SubscriptionInitParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The OCID of the topic for the subscription.
-	// +crossplane:generate:reference:type=NotificationTopic
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/ons/v1alpha1.NotificationTopic
 	TopicID *string `json:"topicId,omitempty" tf:"topic_id,omitempty"`
 
-	// Reference to a NotificationTopic to populate topicId.
+	// Reference to a NotificationTopic in ons to populate topicId.
 	// +kubebuilder:validation:Optional
 	TopicIDRef *v1.Reference `json:"topicIdRef,omitempty" tf:"-"`
 
-	// Selector for a NotificationTopic to populate topicId.
+	// Selector for a NotificationTopic in ons to populate topicId.
 	// +kubebuilder:validation:Optional
 	TopicIDSelector *v1.Selector `json:"topicIdSelector,omitempty" tf:"-"`
 }
@@ -133,15 +133,15 @@ type SubscriptionParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The OCID of the topic for the subscription.
-	// +crossplane:generate:reference:type=NotificationTopic
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/ons/v1alpha1.NotificationTopic
 	// +kubebuilder:validation:Optional
 	TopicID *string `json:"topicId,omitempty" tf:"topic_id,omitempty"`
 
-	// Reference to a NotificationTopic to populate topicId.
+	// Reference to a NotificationTopic in ons to populate topicId.
 	// +kubebuilder:validation:Optional
 	TopicIDRef *v1.Reference `json:"topicIdRef,omitempty" tf:"-"`
 
-	// Selector for a NotificationTopic to populate topicId.
+	// Selector for a NotificationTopic in ons to populate topicId.
 	// +kubebuilder:validation:Optional
 	TopicIDSelector *v1.Selector `json:"topicIdSelector,omitempty" tf:"-"`
 }
