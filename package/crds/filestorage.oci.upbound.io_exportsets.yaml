@@ -103,7 +103,8 @@ spec:
                       export set is associated with
                     type: string
                   mountTargetIdRef:
-                    description: Reference to a StorageMountTarget to populate mountTargetId.
+                    description: Reference to a MountTarget in filestorage to populate
+                      mountTargetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -137,7 +138,8 @@ spec:
                     - name
                     type: object
                   mountTargetIdSelector:
-                    description: Selector for a StorageMountTarget to populate mountTargetId.
+                    description: Selector for a MountTarget in filestorage to populate
+                      mountTargetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -220,7 +222,8 @@ spec:
                       export set is associated with
                     type: string
                   mountTargetIdRef:
-                    description: Reference to a StorageMountTarget to populate mountTargetId.
+                    description: Reference to a MountTarget in filestorage to populate
+                      mountTargetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -254,7 +257,8 @@ spec:
                     - name
                     type: object
                   mountTargetIdSelector:
-                    description: Selector for a StorageMountTarget to populate mountTargetId.
+                    description: Selector for a MountTarget in filestorage to populate
+                      mountTargetId.
                     properties:
                       matchControllerRef:
                         description: |-

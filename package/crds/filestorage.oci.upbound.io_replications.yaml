@@ -208,7 +208,8 @@ spec:
                     description: The OCID of the source file system.
                     type: string
                   sourceIdRef:
-                    description: Reference to a StorageFileSystem to populate sourceId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      sourceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -242,7 +243,8 @@ spec:
                     - name
                     type: object
                   sourceIdSelector:
-                    description: Selector for a StorageFileSystem to populate sourceId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      sourceId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -285,7 +287,8 @@ spec:
                     description: The OCID of the target file system.
                     type: string
                   targetIdRef:
-                    description: Reference to a StorageFileSystem to populate targetId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      targetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -319,7 +322,8 @@ spec:
                     - name
                     type: object
                   targetIdSelector:
-                    description: Selector for a StorageFileSystem to populate targetId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      targetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -507,7 +511,8 @@ spec:
                     description: The OCID of the source file system.
                     type: string
                   sourceIdRef:
-                    description: Reference to a StorageFileSystem to populate sourceId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      sourceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -541,7 +546,8 @@ spec:
                     - name
                     type: object
                   sourceIdSelector:
-                    description: Selector for a StorageFileSystem to populate sourceId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      sourceId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -584,7 +590,8 @@ spec:
                     description: The OCID of the target file system.
                     type: string
                   targetIdRef:
-                    description: Reference to a StorageFileSystem to populate targetId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      targetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -618,7 +625,8 @@ spec:
                     - name
                     type: object
                   targetIdSelector:
-                    description: Selector for a StorageFileSystem to populate targetId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      targetId.
                     properties:
                       matchControllerRef:
                         description: |-

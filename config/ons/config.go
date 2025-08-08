@@ -27,7 +27,7 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -38,10 +38,10 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["topic_id"] = config.Reference{
-			Type: "NotificationTopic",
+			TerraformName: "oci_ons_notification_topic",
 		}
 	})
 }

@@ -139,7 +139,7 @@ spec:
                     description: (Updatable) OCID of a log group to work with.
                     type: string
                   logGroupIdRef:
-                    description: Reference to a LogGroup to populate logGroupId.
+                    description: Reference to a LogGroup in logging to populate logGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -173,7 +173,7 @@ spec:
                     - name
                     type: object
                   logGroupIdSelector:
-                    description: Selector for a LogGroup to populate logGroupId.
+                    description: Selector for a LogGroup in logging to populate logGroupId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -300,7 +300,7 @@ spec:
                     description: (Updatable) OCID of a log group to work with.
                     type: string
                   logGroupIdRef:
-                    description: Reference to a LogGroup to populate logGroupId.
+                    description: Reference to a LogGroup in logging to populate logGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -334,7 +334,7 @@ spec:
                     - name
                     type: object
                   logGroupIdSelector:
-                    description: Selector for a LogGroup to populate logGroupId.
+                    description: Selector for a LogGroup in logging to populate logGroupId.
                     properties:
                       matchControllerRef:
                         description: |-

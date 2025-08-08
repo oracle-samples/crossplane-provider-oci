@@ -132,7 +132,8 @@ spec:
                     description: The OCID of this export's export set.
                     type: string
                   exportSetIdRef:
-                    description: Reference to a StorageExportSet to populate exportSetId.
+                    description: Reference to a ExportSet in filestorage to populate
+                      exportSetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -166,7 +167,8 @@ spec:
                     - name
                     type: object
                   exportSetIdSelector:
-                    description: Selector for a StorageExportSet to populate exportSetId.
+                    description: Selector for a ExportSet in filestorage to populate
+                      exportSetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -209,7 +211,8 @@ spec:
                     description: The OCID of this export's file system.
                     type: string
                   fileSystemIdRef:
-                    description: Reference to a StorageFileSystem to populate fileSystemId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -243,7 +246,8 @@ spec:
                     - name
                     type: object
                   fileSystemIdSelector:
-                    description: Selector for a StorageFileSystem to populate fileSystemId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -395,7 +399,8 @@ spec:
                     description: The OCID of this export's export set.
                     type: string
                   exportSetIdRef:
-                    description: Reference to a StorageExportSet to populate exportSetId.
+                    description: Reference to a ExportSet in filestorage to populate
+                      exportSetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -429,7 +434,8 @@ spec:
                     - name
                     type: object
                   exportSetIdSelector:
-                    description: Selector for a StorageExportSet to populate exportSetId.
+                    description: Selector for a ExportSet in filestorage to populate
+                      exportSetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -472,7 +478,8 @@ spec:
                     description: The OCID of this export's file system.
                     type: string
                   fileSystemIdRef:
-                    description: Reference to a StorageFileSystem to populate fileSystemId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -506,7 +513,8 @@ spec:
                     - name
                     type: object
                   fileSystemIdSelector:
-                    description: Selector for a StorageFileSystem to populate fileSystemId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       matchControllerRef:
                         description: |-

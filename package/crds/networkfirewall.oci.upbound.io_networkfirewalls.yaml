@@ -208,8 +208,8 @@ spec:
                     description: (Updatable) The OCID of the Network Firewall Policy.
                     type: string
                   networkFirewallPolicyIdRef:
-                    description: Reference to a FirewallNetworkFirewallPolicy to populate
-                      networkFirewallPolicyId.
+                    description: Reference to a NetworkFirewallPolicy in networkfirewall
+                      to populate networkFirewallPolicyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -243,8 +243,8 @@ spec:
                     - name
                     type: object
                   networkFirewallPolicyIdSelector:
-                    description: Selector for a FirewallNetworkFirewallPolicy to populate
-                      networkFirewallPolicyId.
+                    description: Selector for a NetworkFirewallPolicy in networkfirewall
+                      to populate networkFirewallPolicyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -516,8 +516,8 @@ spec:
                     description: (Updatable) The OCID of the Network Firewall Policy.
                     type: string
                   networkFirewallPolicyIdRef:
-                    description: Reference to a FirewallNetworkFirewallPolicy to populate
-                      networkFirewallPolicyId.
+                    description: Reference to a NetworkFirewallPolicy in networkfirewall
+                      to populate networkFirewallPolicyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -551,8 +551,8 @@ spec:
                     - name
                     type: object
                   networkFirewallPolicyIdSelector:
-                    description: Selector for a FirewallNetworkFirewallPolicy to populate
-                      networkFirewallPolicyId.
+                    description: Selector for a NetworkFirewallPolicy in networkfirewall
+                      to populate networkFirewallPolicyId.
                     properties:
                       matchControllerRef:
                         description: |-

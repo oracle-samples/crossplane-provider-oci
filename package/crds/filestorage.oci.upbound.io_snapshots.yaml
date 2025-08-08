@@ -88,7 +88,8 @@ spec:
                     description: The OCID of the file system to take a snapshot of.
                     type: string
                   fileSystemIdRef:
-                    description: Reference to a StorageFileSystem to populate fileSystemId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -122,7 +123,8 @@ spec:
                     - name
                     type: object
                   fileSystemIdSelector:
-                    description: Selector for a StorageFileSystem to populate fileSystemId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -228,7 +230,8 @@ spec:
                     description: The OCID of the file system to take a snapshot of.
                     type: string
                   fileSystemIdRef:
-                    description: Reference to a StorageFileSystem to populate fileSystemId.
+                    description: Reference to a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -262,7 +265,8 @@ spec:
                     - name
                     type: object
                   fileSystemIdSelector:
-                    description: Selector for a StorageFileSystem to populate fileSystemId.
+                    description: Selector for a FileSystem in filestorage to populate
+                      fileSystemId.
                     properties:
                       matchControllerRef:
                         description: |-

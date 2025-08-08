@@ -40,14 +40,14 @@ type BackendSetInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The OCID of the network load balancer to update.
-	// +crossplane:generate:reference:type=LoadBalancerNetworkLoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkloadbalancer/v1alpha1.NetworkLoadBalancer
 	NetworkLoadBalancerID *string `json:"networkLoadBalancerId,omitempty" tf:"network_load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// Reference to a NetworkLoadBalancer in networkloadbalancer to populate networkLoadBalancerId.
 	// +kubebuilder:validation:Optional
 	NetworkLoadBalancerIDRef *v1.Reference `json:"networkLoadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// Selector for a NetworkLoadBalancer in networkloadbalancer to populate networkLoadBalancerId.
 	// +kubebuilder:validation:Optional
 	NetworkLoadBalancerIDSelector *v1.Selector `json:"networkLoadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -128,15 +128,15 @@ type BackendSetParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The OCID of the network load balancer to update.
-	// +crossplane:generate:reference:type=LoadBalancerNetworkLoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkloadbalancer/v1alpha1.NetworkLoadBalancer
 	// +kubebuilder:validation:Optional
 	NetworkLoadBalancerID *string `json:"networkLoadBalancerId,omitempty" tf:"network_load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// Reference to a NetworkLoadBalancer in networkloadbalancer to populate networkLoadBalancerId.
 	// +kubebuilder:validation:Optional
 	NetworkLoadBalancerIDRef *v1.Reference `json:"networkLoadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancerNetworkLoadBalancer to populate networkLoadBalancerId.
+	// Selector for a NetworkLoadBalancer in networkloadbalancer to populate networkLoadBalancerId.
 	// +kubebuilder:validation:Optional
 	NetworkLoadBalancerIDSelector *v1.Selector `json:"networkLoadBalancerIdSelector,omitempty" tf:"-"`
 

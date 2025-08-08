@@ -44,7 +44,7 @@ func (mg *NetworkFirewall) ResolveReferences( // ResolveReferences of this Netwo
 	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("networkfirewall.oci.upbound.io", "v1alpha1", "FirewallNetworkFirewallPolicy", "FirewallNetworkFirewallPolicyList")
+		m, l, err = apisresolver.GetManagedResource("networkfirewall.oci.upbound.io", "v1alpha1", "NetworkFirewallPolicy", "NetworkFirewallPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -101,7 +101,7 @@ func (mg *NetworkFirewall) ResolveReferences( // ResolveReferences of this Netwo
 	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("networkfirewall.oci.upbound.io", "v1alpha1", "FirewallNetworkFirewallPolicy", "FirewallNetworkFirewallPolicyList")
+		m, l, err = apisresolver.GetManagedResource("networkfirewall.oci.upbound.io", "v1alpha1", "NetworkFirewallPolicy", "NetworkFirewallPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

@@ -208,8 +208,8 @@ spec:
                     description: The OCID of the network load balancer to update.
                     type: string
                   networkLoadBalancerIdRef:
-                    description: Reference to a LoadBalancerNetworkLoadBalancer to
-                      populate networkLoadBalancerId.
+                    description: Reference to a NetworkLoadBalancer in networkloadbalancer
+                      to populate networkLoadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -243,8 +243,8 @@ spec:
                     - name
                     type: object
                   networkLoadBalancerIdSelector:
-                    description: Selector for a LoadBalancerNetworkLoadBalancer to
-                      populate networkLoadBalancerId.
+                    description: Selector for a NetworkLoadBalancer in networkloadbalancer
+                      to populate networkLoadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -435,8 +435,8 @@ spec:
                     description: The OCID of the network load balancer to update.
                     type: string
                   networkLoadBalancerIdRef:
-                    description: Reference to a LoadBalancerNetworkLoadBalancer to
-                      populate networkLoadBalancerId.
+                    description: Reference to a NetworkLoadBalancer in networkloadbalancer
+                      to populate networkLoadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -470,8 +470,8 @@ spec:
                     - name
                     type: object
                   networkLoadBalancerIdSelector:
-                    description: Selector for a LoadBalancerNetworkLoadBalancer to
-                      populate networkLoadBalancerId.
+                    description: Selector for a NetworkLoadBalancer in networkloadbalancer
+                      to populate networkLoadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-

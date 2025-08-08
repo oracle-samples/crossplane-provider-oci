@@ -111,7 +111,8 @@ spec:
                     description: The OCID of the tag namespace.
                     type: string
                   tagNamespaceIdRef:
-                    description: Reference to a TagNamespace to populate tagNamespaceId.
+                    description: Reference to a TagNamespace in identity to populate
+                      tagNamespaceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -145,7 +146,8 @@ spec:
                     - name
                     type: object
                   tagNamespaceIdSelector:
-                    description: Selector for a TagNamespace to populate tagNamespaceId.
+                    description: Selector for a TagNamespace in identity to populate
+                      tagNamespaceId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -254,7 +256,8 @@ spec:
                     description: The OCID of the tag namespace.
                     type: string
                   tagNamespaceIdRef:
-                    description: Reference to a TagNamespace to populate tagNamespaceId.
+                    description: Reference to a TagNamespace in identity to populate
+                      tagNamespaceId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -288,7 +291,8 @@ spec:
                     - name
                     type: object
                   tagNamespaceIdSelector:
-                    description: Selector for a TagNamespace to populate tagNamespaceId.
+                    description: Selector for a TagNamespace in identity to populate
+                      tagNamespaceId.
                     properties:
                       matchControllerRef:
                         description: |-

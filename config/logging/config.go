@@ -23,7 +23,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 	})
@@ -31,7 +31,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["log_group_id"] = config.Reference{
-			Type: "LogGroup",
+			TerraformName: "oci_logging_log_group",
 		}
 
 	})
@@ -39,17 +39,17 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 	p.AddResourceConfigurator("oci_logging_unified_agent_configuration", func(r *config.Resource) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["service_configuration.destination.log_object_id"] = config.Reference{
-			Type: "Log",
+			TerraformName: "oci_logging_log",
 		}
 
 	})

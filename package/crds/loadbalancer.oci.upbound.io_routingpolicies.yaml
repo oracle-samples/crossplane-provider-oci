@@ -83,7 +83,8 @@ spec:
                       policy rule list to.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -117,7 +118,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -176,8 +178,8 @@ spec:
                                   backendSetForImages'
                                 type: string
                               backendSetNameRef:
-                                description: Reference to a BackendSet to populate
-                                  backendSetName.
+                                description: Reference to a BackendSet in loadbalancer
+                                  to populate backendSetName.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -211,8 +213,8 @@ spec:
                                 - name
                                 type: object
                               backendSetNameSelector:
-                                description: Selector for a BackendSet to populate
-                                  backendSetName.
+                                description: Selector for a BackendSet in loadbalancer
+                                  to populate backendSetName.
                                 properties:
                                   matchControllerRef:
                                     description: |-
@@ -293,7 +295,8 @@ spec:
                       policy rule list to.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -327,7 +330,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -386,8 +390,8 @@ spec:
                                   backendSetForImages'
                                 type: string
                               backendSetNameRef:
-                                description: Reference to a BackendSet to populate
-                                  backendSetName.
+                                description: Reference to a BackendSet in loadbalancer
+                                  to populate backendSetName.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -421,8 +425,8 @@ spec:
                                 - name
                                 type: object
                               backendSetNameSelector:
-                                description: Selector for a BackendSet to populate
-                                  backendSetName.
+                                description: Selector for a BackendSet in loadbalancer
+                                  to populate backendSetName.
                                 properties:
                                   matchControllerRef:
                                     description: |-

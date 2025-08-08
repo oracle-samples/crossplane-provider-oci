@@ -25,14 +25,14 @@ type ExportSetInitParameters struct {
 	MaxFsStatFiles *string `json:"maxFsStatFiles,omitempty" tf:"max_fs_stat_files,omitempty"`
 
 	// (Updatable) The OCID of the mount target that the export set is associated with
-	// +crossplane:generate:reference:type=StorageMountTarget
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.MountTarget
 	MountTargetID *string `json:"mountTargetId,omitempty" tf:"mount_target_id,omitempty"`
 
-	// Reference to a StorageMountTarget to populate mountTargetId.
+	// Reference to a MountTarget in filestorage to populate mountTargetId.
 	// +kubebuilder:validation:Optional
 	MountTargetIDRef *v1.Reference `json:"mountTargetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageMountTarget to populate mountTargetId.
+	// Selector for a MountTarget in filestorage to populate mountTargetId.
 	// +kubebuilder:validation:Optional
 	MountTargetIDSelector *v1.Selector `json:"mountTargetIdSelector,omitempty" tf:"-"`
 }
@@ -85,15 +85,15 @@ type ExportSetParameters struct {
 	MaxFsStatFiles *string `json:"maxFsStatFiles,omitempty" tf:"max_fs_stat_files,omitempty"`
 
 	// (Updatable) The OCID of the mount target that the export set is associated with
-	// +crossplane:generate:reference:type=StorageMountTarget
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.MountTarget
 	// +kubebuilder:validation:Optional
 	MountTargetID *string `json:"mountTargetId,omitempty" tf:"mount_target_id,omitempty"`
 
-	// Reference to a StorageMountTarget to populate mountTargetId.
+	// Reference to a MountTarget in filestorage to populate mountTargetId.
 	// +kubebuilder:validation:Optional
 	MountTargetIDRef *v1.Reference `json:"mountTargetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageMountTarget to populate mountTargetId.
+	// Selector for a MountTarget in filestorage to populate mountTargetId.
 	// +kubebuilder:validation:Optional
 	MountTargetIDSelector *v1.Selector `json:"mountTargetIdSelector,omitempty" tf:"-"`
 }

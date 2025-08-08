@@ -25,19 +25,19 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["actions.actions.function_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/functions/v1alpha1.Function",
+			TerraformName: "oci_functions_function",
 		}
 
 		r.References["actions.actions.stream_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/streaming/v1alpha1.Stream",
+			TerraformName: "oci_streaming_stream",
 		}
 
 		r.References["actions.actions.topic_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/ons/v1alpha1.NotificationTopic",
+			TerraformName: "oci_ons_notification_topic",
 		}
 	})
 }

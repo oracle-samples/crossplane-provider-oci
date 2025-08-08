@@ -104,7 +104,8 @@ spec:
                       example_backend_set'
                     type: string
                   defaultBackendSetNameRef:
-                    description: Reference to a BackendSet to populate defaultBackendSetName.
+                    description: Reference to a BackendSet in loadbalancer to populate
+                      defaultBackendSetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -138,7 +139,8 @@ spec:
                     - name
                     type: object
                   defaultBackendSetNameSelector:
-                    description: Selector for a BackendSet to populate defaultBackendSetName.
+                    description: Selector for a BackendSet in loadbalancer to populate
+                      defaultBackendSetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -183,7 +185,8 @@ spec:
                       type: string
                     type: array
                   hostnameNamesRefs:
-                    description: References to LBHostname to populate hostnameNames.
+                    description: References to LBHostname in loadbalancer to populate
+                      hostnameNames.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -220,7 +223,8 @@ spec:
                       type: object
                     type: array
                   hostnameNamesSelector:
-                    description: Selector for a list of LBHostname to populate hostnameNames.
+                    description: Selector for a list of LBHostname in loadbalancer
+                      to populate hostnameNames.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -263,7 +267,8 @@ spec:
                     description: The OCID of the load balancer on which to add a listener.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -297,7 +302,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -346,7 +352,8 @@ spec:
                       instead.
                     type: string
                   pathRouteSetNameRef:
-                    description: Reference to a PathRouteSet to populate pathRouteSetName.
+                    description: Reference to a PathRouteSet in loadbalancer to populate
+                      pathRouteSetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -380,7 +387,8 @@ spec:
                     - name
                     type: object
                   pathRouteSetNameSelector:
-                    description: Selector for a PathRouteSet to populate pathRouteSetName.
+                    description: Selector for a PathRouteSet in loadbalancer to populate
+                      pathRouteSetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -433,7 +441,8 @@ spec:
                       to this listener''s traffic.  Example: example_routing_policy'
                     type: string
                   routingPolicyNameRef:
-                    description: Reference to a RoutingPolicy to populate routingPolicyName.
+                    description: Reference to a RoutingPolicy in loadbalancer to populate
+                      routingPolicyName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -467,7 +476,8 @@ spec:
                     - name
                     type: object
                   routingPolicyNameSelector:
-                    description: Selector for a RoutingPolicy to populate routingPolicyName.
+                    description: Selector for a RoutingPolicy in loadbalancer to populate
+                      routingPolicyName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -513,7 +523,8 @@ spec:
                       type: string
                     type: array
                   ruleSetNamesRefs:
-                    description: References to RuleSet to populate ruleSetNames.
+                    description: References to RuleSet in loadbalancer to populate
+                      ruleSetNames.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -550,7 +561,8 @@ spec:
                       type: object
                     type: array
                   ruleSetNamesSelector:
-                    description: Selector for a list of RuleSet to populate ruleSetNames.
+                    description: Selector for a list of RuleSet in loadbalancer to
+                      populate ruleSetNames.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -697,7 +709,8 @@ spec:
                       example_backend_set'
                     type: string
                   defaultBackendSetNameRef:
-                    description: Reference to a BackendSet to populate defaultBackendSetName.
+                    description: Reference to a BackendSet in loadbalancer to populate
+                      defaultBackendSetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -731,7 +744,8 @@ spec:
                     - name
                     type: object
                   defaultBackendSetNameSelector:
-                    description: Selector for a BackendSet to populate defaultBackendSetName.
+                    description: Selector for a BackendSet in loadbalancer to populate
+                      defaultBackendSetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -776,7 +790,8 @@ spec:
                       type: string
                     type: array
                   hostnameNamesRefs:
-                    description: References to LBHostname to populate hostnameNames.
+                    description: References to LBHostname in loadbalancer to populate
+                      hostnameNames.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -813,7 +828,8 @@ spec:
                       type: object
                     type: array
                   hostnameNamesSelector:
-                    description: Selector for a list of LBHostname to populate hostnameNames.
+                    description: Selector for a list of LBHostname in loadbalancer
+                      to populate hostnameNames.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -856,7 +872,8 @@ spec:
                     description: The OCID of the load balancer on which to add a listener.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -890,7 +907,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -939,7 +957,8 @@ spec:
                       instead.
                     type: string
                   pathRouteSetNameRef:
-                    description: Reference to a PathRouteSet to populate pathRouteSetName.
+                    description: Reference to a PathRouteSet in loadbalancer to populate
+                      pathRouteSetName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -973,7 +992,8 @@ spec:
                     - name
                     type: object
                   pathRouteSetNameSelector:
-                    description: Selector for a PathRouteSet to populate pathRouteSetName.
+                    description: Selector for a PathRouteSet in loadbalancer to populate
+                      pathRouteSetName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1026,7 +1046,8 @@ spec:
                       to this listener''s traffic.  Example: example_routing_policy'
                     type: string
                   routingPolicyNameRef:
-                    description: Reference to a RoutingPolicy to populate routingPolicyName.
+                    description: Reference to a RoutingPolicy in loadbalancer to populate
+                      routingPolicyName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1060,7 +1081,8 @@ spec:
                     - name
                     type: object
                   routingPolicyNameSelector:
-                    description: Selector for a RoutingPolicy to populate routingPolicyName.
+                    description: Selector for a RoutingPolicy in loadbalancer to populate
+                      routingPolicyName.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -1106,7 +1128,8 @@ spec:
                       type: string
                     type: array
                   ruleSetNamesRefs:
-                    description: References to RuleSet to populate ruleSetNames.
+                    description: References to RuleSet in loadbalancer to populate
+                      ruleSetNames.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -1143,7 +1166,8 @@ spec:
                       type: object
                     type: array
                   ruleSetNamesSelector:
-                    description: Selector for a list of RuleSet to populate ruleSetNames.
+                    description: Selector for a list of RuleSet in loadbalancer to
+                      populate ruleSetNames.
                     properties:
                       matchControllerRef:
                         description: |-

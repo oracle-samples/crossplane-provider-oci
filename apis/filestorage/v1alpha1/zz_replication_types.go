@@ -47,26 +47,26 @@ type ReplicationInitParameters struct {
 	ReplicationInterval *string `json:"replicationInterval,omitempty" tf:"replication_interval,omitempty"`
 
 	// The OCID of the source file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate sourceId.
+	// Reference to a FileSystem in filestorage to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate sourceId.
+	// Selector for a FileSystem in filestorage to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the target file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate targetId.
+	// Reference to a FileSystem in filestorage to populate targetId.
 	// +kubebuilder:validation:Optional
 	TargetIDRef *v1.Reference `json:"targetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate targetId.
+	// Selector for a FileSystem in filestorage to populate targetId.
 	// +kubebuilder:validation:Optional
 	TargetIDSelector *v1.Selector `json:"targetIdSelector,omitempty" tf:"-"`
 }
@@ -226,28 +226,28 @@ type ReplicationParameters struct {
 	ReplicationInterval *string `json:"replicationInterval,omitempty" tf:"replication_interval,omitempty"`
 
 	// The OCID of the source file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	// +kubebuilder:validation:Optional
 	SourceID *string `json:"sourceId,omitempty" tf:"source_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate sourceId.
+	// Reference to a FileSystem in filestorage to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDRef *v1.Reference `json:"sourceIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate sourceId.
+	// Selector for a FileSystem in filestorage to populate sourceId.
 	// +kubebuilder:validation:Optional
 	SourceIDSelector *v1.Selector `json:"sourceIdSelector,omitempty" tf:"-"`
 
 	// The OCID of the target file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	// +kubebuilder:validation:Optional
 	TargetID *string `json:"targetId,omitempty" tf:"target_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate targetId.
+	// Reference to a FileSystem in filestorage to populate targetId.
 	// +kubebuilder:validation:Optional
 	TargetIDRef *v1.Reference `json:"targetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate targetId.
+	// Selector for a FileSystem in filestorage to populate targetId.
 	// +kubebuilder:validation:Optional
 	TargetIDSelector *v1.Selector `json:"targetIdSelector,omitempty" tf:"-"`
 }

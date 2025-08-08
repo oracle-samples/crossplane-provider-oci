@@ -132,10 +132,10 @@ func Configure(p *config.Provider) {
 			TerraformName: "oci_identity_compartment",
 		}
 		r.References["view_id"] = config.Reference{
-			Type: "View",
+			TerraformName: "oci_dns_view",
 		}
 		r.References["tsig_key_id"] = config.Reference{
-			Type: "TsigKey",
+			TerraformName: "oci_dns_tsig_key",
 		}
 	})
 }

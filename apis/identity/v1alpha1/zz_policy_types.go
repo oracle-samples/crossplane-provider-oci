@@ -16,14 +16,14 @@ import (
 type PolicyInitParameters struct {
 
 	// The OCID of the compartment containing the policy (either the tenancy or another compartment).
-	// +crossplane:generate:reference:type=Compartment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// Reference to a Compartment to populate compartmentId.
+	// Reference to a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
 	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
 
-	// Selector for a Compartment to populate compartmentId.
+	// Selector for a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
@@ -95,15 +95,15 @@ type PolicyObservation struct {
 type PolicyParameters struct {
 
 	// The OCID of the compartment containing the policy (either the tenancy or another compartment).
-	// +crossplane:generate:reference:type=Compartment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
-	// Reference to a Compartment to populate compartmentId.
+	// Reference to a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
 	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
 
-	// Selector for a Compartment to populate compartmentId.
+	// Selector for a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
 	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
 

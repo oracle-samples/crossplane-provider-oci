@@ -29,11 +29,11 @@ func Configure(p *config.Provider) {
 		r.Kind = "CertificateAuthority"
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["kms_key_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
+			TerraformName: "oci_kms_key",
 		}
 	})
 }

@@ -16,14 +16,14 @@ import (
 type FunctionInitParameters struct {
 
 	// The OCID of the application this function belongs to.
-	// +crossplane:generate:reference:type=Application
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/functions/v1alpha1.Application
 	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
-	// Reference to a Application to populate applicationId.
+	// Reference to a Application in functions to populate applicationId.
 	// +kubebuilder:validation:Optional
 	ApplicationIDRef *v1.Reference `json:"applicationIdRef,omitempty" tf:"-"`
 
-	// Selector for a Application to populate applicationId.
+	// Selector for a Application in functions to populate applicationId.
 	// +kubebuilder:validation:Optional
 	ApplicationIDSelector *v1.Selector `json:"applicationIdSelector,omitempty" tf:"-"`
 
@@ -130,15 +130,15 @@ type FunctionObservation struct {
 type FunctionParameters struct {
 
 	// The OCID of the application this function belongs to.
-	// +crossplane:generate:reference:type=Application
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/functions/v1alpha1.Application
 	// +kubebuilder:validation:Optional
 	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
-	// Reference to a Application to populate applicationId.
+	// Reference to a Application in functions to populate applicationId.
 	// +kubebuilder:validation:Optional
 	ApplicationIDRef *v1.Reference `json:"applicationIdRef,omitempty" tf:"-"`
 
-	// Selector for a Application to populate applicationId.
+	// Selector for a Application in functions to populate applicationId.
 	// +kubebuilder:validation:Optional
 	ApplicationIDSelector *v1.Selector `json:"applicationIdSelector,omitempty" tf:"-"`
 

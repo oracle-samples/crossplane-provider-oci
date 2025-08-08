@@ -23,14 +23,14 @@ type SnapshotInitParameters struct {
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	FileSystemID *string `json:"fileSystemId,omitempty" tf:"file_system_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate fileSystemId.
+	// Reference to a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDRef *v1.Reference `json:"fileSystemIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate fileSystemId.
+	// Selector for a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 
@@ -164,15 +164,15 @@ type SnapshotParameters struct {
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// The OCID of the file system to take a snapshot of.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	// +kubebuilder:validation:Optional
 	FileSystemID *string `json:"fileSystemId,omitempty" tf:"file_system_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate fileSystemId.
+	// Reference to a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDRef *v1.Reference `json:"fileSystemIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate fileSystemId.
+	// Selector for a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 

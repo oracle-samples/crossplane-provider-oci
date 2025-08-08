@@ -73,14 +73,14 @@ type NetworkFirewallInitParameters struct {
 	NATConfiguration []NATConfigurationInitParameters `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
 
 	// (Updatable) The OCID of the Network Firewall Policy.
-	// +crossplane:generate:reference:type=FirewallNetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkfirewall/v1alpha1.NetworkFirewallPolicy
 	NetworkFirewallPolicyID *string `json:"networkFirewallPolicyId,omitempty" tf:"network_firewall_policy_id,omitempty"`
 
-	// Reference to a FirewallNetworkFirewallPolicy to populate networkFirewallPolicyId.
+	// Reference to a NetworkFirewallPolicy in networkfirewall to populate networkFirewallPolicyId.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyIDRef *v1.Reference `json:"networkFirewallPolicyIdRef,omitempty" tf:"-"`
 
-	// Selector for a FirewallNetworkFirewallPolicy to populate networkFirewallPolicyId.
+	// Selector for a NetworkFirewallPolicy in networkfirewall to populate networkFirewallPolicyId.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyIDSelector *v1.Selector `json:"networkFirewallPolicyIdSelector,omitempty" tf:"-"`
 
@@ -205,15 +205,15 @@ type NetworkFirewallParameters struct {
 	NATConfiguration []NATConfigurationParameters `json:"natConfiguration,omitempty" tf:"nat_configuration,omitempty"`
 
 	// (Updatable) The OCID of the Network Firewall Policy.
-	// +crossplane:generate:reference:type=FirewallNetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networkfirewall/v1alpha1.NetworkFirewallPolicy
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyID *string `json:"networkFirewallPolicyId,omitempty" tf:"network_firewall_policy_id,omitempty"`
 
-	// Reference to a FirewallNetworkFirewallPolicy to populate networkFirewallPolicyId.
+	// Reference to a NetworkFirewallPolicy in networkfirewall to populate networkFirewallPolicyId.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyIDRef *v1.Reference `json:"networkFirewallPolicyIdRef,omitempty" tf:"-"`
 
-	// Selector for a FirewallNetworkFirewallPolicy to populate networkFirewallPolicyId.
+	// Selector for a NetworkFirewallPolicy in networkfirewall to populate networkFirewallPolicyId.
 	// +kubebuilder:validation:Optional
 	NetworkFirewallPolicyIDSelector *v1.Selector `json:"networkFirewallPolicyIdSelector,omitempty" tf:"-"`
 

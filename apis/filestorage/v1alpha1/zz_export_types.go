@@ -19,26 +19,26 @@ type ExportInitParameters struct {
 	ExportOptions []ExportOptionsInitParameters `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
 	// The OCID of this export's export set.
-	// +crossplane:generate:reference:type=StorageExportSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.ExportSet
 	ExportSetID *string `json:"exportSetId,omitempty" tf:"export_set_id,omitempty"`
 
-	// Reference to a StorageExportSet to populate exportSetId.
+	// Reference to a ExportSet in filestorage to populate exportSetId.
 	// +kubebuilder:validation:Optional
 	ExportSetIDRef *v1.Reference `json:"exportSetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageExportSet to populate exportSetId.
+	// Selector for a ExportSet in filestorage to populate exportSetId.
 	// +kubebuilder:validation:Optional
 	ExportSetIDSelector *v1.Selector `json:"exportSetIdSelector,omitempty" tf:"-"`
 
 	// The OCID of this export's file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	FileSystemID *string `json:"fileSystemId,omitempty" tf:"file_system_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate fileSystemId.
+	// Reference to a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDRef *v1.Reference `json:"fileSystemIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate fileSystemId.
+	// Selector for a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 
@@ -182,28 +182,28 @@ type ExportParameters struct {
 	ExportOptions []ExportOptionsParameters `json:"exportOptions,omitempty" tf:"export_options,omitempty"`
 
 	// The OCID of this export's export set.
-	// +crossplane:generate:reference:type=StorageExportSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.ExportSet
 	// +kubebuilder:validation:Optional
 	ExportSetID *string `json:"exportSetId,omitempty" tf:"export_set_id,omitempty"`
 
-	// Reference to a StorageExportSet to populate exportSetId.
+	// Reference to a ExportSet in filestorage to populate exportSetId.
 	// +kubebuilder:validation:Optional
 	ExportSetIDRef *v1.Reference `json:"exportSetIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageExportSet to populate exportSetId.
+	// Selector for a ExportSet in filestorage to populate exportSetId.
 	// +kubebuilder:validation:Optional
 	ExportSetIDSelector *v1.Selector `json:"exportSetIdSelector,omitempty" tf:"-"`
 
 	// The OCID of this export's file system.
-	// +crossplane:generate:reference:type=StorageFileSystem
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/filestorage/v1alpha1.FileSystem
 	// +kubebuilder:validation:Optional
 	FileSystemID *string `json:"fileSystemId,omitempty" tf:"file_system_id,omitempty"`
 
-	// Reference to a StorageFileSystem to populate fileSystemId.
+	// Reference to a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDRef *v1.Reference `json:"fileSystemIdRef,omitempty" tf:"-"`
 
-	// Selector for a StorageFileSystem to populate fileSystemId.
+	// Selector for a FileSystem in filestorage to populate fileSystemId.
 	// +kubebuilder:validation:Optional
 	FileSystemIDSelector *v1.Selector `json:"fileSystemIdSelector,omitempty" tf:"-"`
 
