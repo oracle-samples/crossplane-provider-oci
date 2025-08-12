@@ -56,21 +56,19 @@ export SERVICE_DISPLAY_NAMES
 # This creates a base image that up xpkg batch can use as a template
 build.family.image:
 	@$(INFO) Building family base image for platform: $(PLATFORM)
-	@# Use existing build/Dockerfile.provider with config binary  
-	@PLATFORM_ARCH=$$(echo "$(PLATFORM)" | cut -d_ -f2); \
-	mkdir -p $(OUTPUT_DIR)/family-image; \
-	cp $(OUTPUT_DIR)/bin/$(PLATFORM)/config $(OUTPUT_DIR)/family-image/provider || { \
+	@# Use the proper imagelight.mk build system for consistency
+	@PLATFORM_OS=$$(echo "$(PLATFORM)" | cut -d_ -f1); \
+	PLATFORM_ARCH=$$(echo "$(PLATFORM)" | cut -d_ -f2); \
+	mkdir -p $(OUTPUT_DIR)/bin/$$PLATFORM_OS'_'$$PLATFORM_ARCH; \
+	cp $(OUTPUT_DIR)/bin/$(PLATFORM)/config $(OUTPUT_DIR)/bin/$$PLATFORM_OS'_'$$PLATFORM_ARCH/provider || { \
 		echo "Error: config binary not found at $(OUTPUT_DIR)/bin/$(PLATFORM)/config"; \
 		echo "Make sure to build the config sub-package first"; \
 		exit 1; \
 	}; \
-	docker build -f build/Dockerfile.provider \
-		--build-arg BINARY=provider \
-		--build-arg TERRAFORM_VERSION=$(TERRAFORM_VERSION) \
-		--build-arg TERRAFORM_PROVIDER_SOURCE=$(TERRAFORM_PROVIDER_SOURCE) \
-		--build-arg TERRAFORM_PROVIDER_VERSION=$(TERRAFORM_PROVIDER_VERSION) \
-		-t $(BUILD_REGISTRY)/$(PROJECT_NAME)-$$PLATFORM_ARCH:latest \
-		$(OUTPUT_DIR)/family-image
+	$(MAKE) -C cluster/images/provider-oci \
+		IMAGE_PLATFORMS=$$PLATFORM_OS/$$PLATFORM_ARCH \
+		IMAGE=$(BUILD_REGISTRY)/$(PROJECT_NAME)-$$PLATFORM_ARCH:latest \
+		img.build
 	@$(OK) Built family base image for platform: $(PLATFORM)
 
 # ====================================================================================
