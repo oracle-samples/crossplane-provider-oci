@@ -66,6 +66,9 @@ build.family.image:
 	}; \
 	docker build -f build/Dockerfile.provider \
 		--build-arg BINARY=provider \
+		--build-arg TERRAFORM_VERSION=$(TERRAFORM_VERSION) \
+		--build-arg TERRAFORM_PROVIDER_SOURCE=$(TERRAFORM_PROVIDER_SOURCE) \
+		--build-arg TERRAFORM_PROVIDER_VERSION=$(TERRAFORM_PROVIDER_VERSION) \
 		-t $(BUILD_REGISTRY)/$(PROJECT_NAME)-$$PLATFORM_ARCH:latest \
 		$(OUTPUT_DIR)/family-image
 	@$(OK) Built family base image for platform: $(PLATFORM)
