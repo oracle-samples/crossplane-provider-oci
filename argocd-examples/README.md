@@ -12,7 +12,7 @@ Create OKE clusters using ArgoCD and Crossplane.
 
 ### 1. Build and Publish Providers
 
-Replace `myusername` with your registry username:
+This builds, packages, and pushes providers to your registry. Ensure you're logged in (`docker login`):
 
 ```bash
 make generate
@@ -52,15 +52,23 @@ kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -
 
 ### 5. Update Repository and Registry URLs
 
-Replace with your forked repository and registry:
+Update git repository URL (safe to use sed):
 
 ```bash
-# Update git repository URLs
-sed -i 's|repoURL: https://github.com/.*|repoURL: https://github.com/YOUR-USERNAME/YOUR-REPO|g' argocd-examples/argocd/applications/*.yaml
-
-# Update package registry URLs  
-find argocd-examples/crossplane/providers -name "*.yaml" -exec sed -i 's|package: .*|package: docker.io/myusername/provider-family-oci:v0.0.1-test|g' {} \;
+# Update git repository URLs (macOS: use -i '' for in-place editing)
+sed -i '' 's|repoURL: https://github.com/.*|repoURL: https://github.com/YOUR-USERNAME/YOUR-REPO|g' argocd-examples/argocd/applications/*.yaml
 ```
+
+Manually edit these files to update:
+
+**ArgoCD Applications** (`argocd-examples/argocd/applications/*.yaml`):
+- `targetRevision: YOUR-BRANCH` (e.g., main, master, or your feature branch)
+
+**Provider Configs** (`argocd-examples/crossplane/providers/oci-sub-packages/*.yaml`):
+- `package:` field in each provider file with your registry/version:
+  - `provider-family-oci.yaml`: `docker.io/myusername/provider-family-oci:v0.0.1-test`
+  - `provider-oci-containerengine.yaml`: `docker.io/myusername/provider-oci-containerengine:v0.0.1-test`
+  - etc. for each service provider
 
 ### 6. Customize Cluster Configuration
 
@@ -82,7 +90,19 @@ kubectl apply -f argocd-examples/argocd/applications/oke-platform.yaml
 kubectl apply -f argocd-examples/argocd/applications/oke-claims.yaml
 ```
 
-### 8. Monitor
+### 8. Access ArgoCD UI (Optional)
+
+```bash
+# Port-forward to access ArgoCD UI
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# Get admin password (in another terminal)
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+Access UI at https://localhost:8080 (username: `admin`, password from above command)
+
+### 9. Monitor
 
 ```bash
 kubectl get clusterclaims

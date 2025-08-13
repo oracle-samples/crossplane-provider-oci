@@ -165,6 +165,9 @@ spec:
               kubeconfigCommand:
                 description: Command to generate kubeconfig
                 type: string
+              region:
+                description: OCI region where the cluster is deployed
+                type: string
               ready:
                 description: Whether the cluster is ready for use
                 type: boolean

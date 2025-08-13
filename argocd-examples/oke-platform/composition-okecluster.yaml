@@ -135,6 +135,11 @@ spec:
     - type: FromCompositeFieldPath
       fromFieldPath: status.internetGatewayId
       toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
 
   # Private Route Table
   - name: private-route-table
@@ -169,6 +174,11 @@ spec:
     - type: FromCompositeFieldPath
       fromFieldPath: status.natGatewayId
       toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
 
   # Security List for OKE
   - name: oke-security-list
@@ -275,6 +285,11 @@ spec:
     - type: ToCompositeFieldPath
       fromFieldPath: status.atProvider.id
       toFieldPath: status.clusterSubnetId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
 
   # Node Subnet (Private)
   - name: node-subnet
@@ -317,6 +332,11 @@ spec:
     - type: ToCompositeFieldPath
       fromFieldPath: status.atProvider.id
       toFieldPath: status.nodeSubnetId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
 
   # Service/LB Subnet (Private)
   - name: service-subnet
@@ -438,16 +458,14 @@ spec:
       fromFieldPath: status.atProvider.endpoints[0].privateEndpoint
       toFieldPath: status.clusterEndpoint
 
-    # Generate kubeconfig command
-    - type: CombineToComposite
-      combine:
-        variables:
-        - fromFieldPath: status.atProvider.id
-        - fromFieldPath: spec.region
-        strategy: string
-        string:
-          fmt: "oci ce cluster create-kubeconfig --cluster-id %s --file $HOME/.kube/config --region %s --token-version 2.0.0 --kube-endpoint PRIVATE_ENDPOINT"
-      toFieldPath: status.kubeconfigCommand
+    # Note: Clients can access spec.region directly from the claim/XR
+    # For kubeconfig generation, use: 
+    # oci ce cluster create-kubeconfig --cluster-id $(kubectl get claim NAME -o jsonpath='{.status.clusterId}') --region $(kubectl get claim NAME -o jsonpath='{.spec.region}')
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
 
   # Node Pool
   - name: node-pool
@@ -521,3 +539,8 @@ spec:
     - type: ToCompositeFieldPath
       fromFieldPath: status.atProvider.id
       toFieldPath: status.nodePoolId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"

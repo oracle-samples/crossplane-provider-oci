@@ -10,9 +10,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/davidcv5/crossplane-gitops
-    targetRevision: sub-package
-    path: oke-platform
+    repoURL: https://github.com/oracle-samples/crossplane-provider-oci
+    targetRevision: sub-package-provider
+    path: argocd-examples/oke-platform
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system

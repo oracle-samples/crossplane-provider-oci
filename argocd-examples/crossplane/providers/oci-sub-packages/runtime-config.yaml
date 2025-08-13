@@ -22,8 +22,8 @@ spec:
                 - --debug
               resources:
                 limits:
-                  cpu: 500m
-                  memory: 512Mi
+                  cpu: 1
+                  memory: 1Gi
                 requests:
                   cpu: 100m
                   memory: 128Mi
