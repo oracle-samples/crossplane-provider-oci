@@ -271,6 +271,10 @@ spec:
       - type: string
         string:
           fmt: "%s-cluster-subnet"
+    # Export cluster subnet ID to status for endpoint configuration
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.clusterSubnetId
 
   # Node Subnet (Private)
   - name: node-subnet
@@ -355,19 +359,21 @@ spec:
   # OKE Cluster
   - name: oke-cluster
     base:
+      dependsOn:
+      - name: vcn
+      - name: cluster-subnet
       apiVersion: containerengine.oci.upbound.io/v1alpha1
       kind: Cluster
       spec:
         forProvider:
+          vcnId: ""  # Will be patched from composite status
           type: "BASIC_CLUSTER"
           kubernetesVersion: "v1.33.1"
 
           # Cluster endpoint configuration
           endpointConfig:
           - isPublicIpEnabled: false
-            subnetIdSelector:
-              matchLabels:
-                type: cluster
+            subnetId: ""  # Will be patched from composite status
 
           # Cluster pod network options
           clusterPodNetworkOptions:
@@ -415,6 +421,12 @@ spec:
     - type: FromCompositeFieldPath
       fromFieldPath: status.vcnId
       toFieldPath: spec.forProvider.vcnId
+      policy:
+        fromFieldPath: Required
+    # Provide cluster subnet ID for endpoint configuration
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.clusterSubnetId
+      toFieldPath: spec.forProvider.endpointConfig[0].subnetId
       policy:
         fromFieldPath: Required
 
@@ -509,9 +521,3 @@ spec:
     - type: ToCompositeFieldPath
       fromFieldPath: status.atProvider.id
       toFieldPath: status.nodePoolId
-
-    # Add readiness check to ensure subnet is ready before creating NodePool
-    readinessChecks:
-    - type: MatchString
-      fieldPath: status.nodeSubnetId
-      matchString: "ocid1.subnet"
