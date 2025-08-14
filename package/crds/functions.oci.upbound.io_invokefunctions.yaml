@@ -92,7 +92,8 @@ spec:
                     description: The OCID of this function.
                     type: string
                   functionIdRef:
-                    description: Reference to a Function to populate functionId.
+                    description: Reference to a Function in functions to populate
+                      functionId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -126,7 +127,8 @@ spec:
                     - name
                     type: object
                   functionIdSelector:
-                    description: Selector for a Function to populate functionId.
+                    description: Selector for a Function in functions to populate
+                      functionId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -224,7 +226,8 @@ spec:
                     description: The OCID of this function.
                     type: string
                   functionIdRef:
-                    description: Reference to a Function to populate functionId.
+                    description: Reference to a Function in functions to populate
+                      functionId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -258,7 +261,8 @@ spec:
                     - name
                     type: object
                   functionIdSelector:
-                    description: Selector for a Function to populate functionId.
+                    description: Selector for a Function in functions to populate
+                      functionId.
                     properties:
                       matchControllerRef:
                         description: |-

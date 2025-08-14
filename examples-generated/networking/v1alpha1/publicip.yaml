@@ -1,0 +1,25 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: PublicIp
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/publicip
+  labels:
+    testing.upbound.io/example-name: test_public_ip
+  name: test-public-ip
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.public_ip_display_name}
+    freeformTags:
+      Department: Finance
+    lifetime: ${var.public_ip_lifetime}
+    privateIpIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_private_ip
+    publicIpPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_public_ip_pool

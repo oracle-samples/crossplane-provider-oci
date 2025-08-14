@@ -1,0 +1,22 @@
+apiVersion: networkloadbalancer.oci.upbound.io/v1alpha1
+kind: Backend
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkloadbalancer/v1alpha1/backend
+  labels:
+    testing.upbound.io/example-name: test_backend
+  name: test-backend
+spec:
+  forProvider:
+    backendSetName: ${var.backend_set_name}
+    ipAddress: ${var.backend_ip_address}
+    isBackup: ${var.backend_is_backup}
+    isDrain: ${var.backend_is_drain}
+    isOffline: ${var.backend_is_offline}
+    name: ${var.backend_name}
+    networkLoadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_load_balancer
+    port: ${var.backend_port}
+    targetId: ${oci_cloud_guard_target.test_target.id}
+    weight: ${var.backend_weight}

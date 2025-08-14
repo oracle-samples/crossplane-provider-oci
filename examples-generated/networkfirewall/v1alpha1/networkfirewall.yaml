@@ -1,0 +1,30 @@
+apiVersion: networkfirewall.oci.upbound.io/v1alpha1
+kind: NetworkFirewall
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkfirewall/v1alpha1/networkfirewall
+  labels:
+    testing.upbound.io/example-name: test_network_firewall
+  name: test-network-firewall
+spec:
+  forProvider:
+    availabilityDomain: ${var.network_firewall_availability_domain}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.network_firewall_display_name}
+    freeformTags:
+      Department: Finance
+    ipv4address: ${var.network_firewall_ipv4address}
+    ipv6address: ${var.network_firewall_ipv6address}
+    natConfiguration:
+    - mustEnablePrivateNat: ${var.network_firewall_nat_configuration_must_enable_private_nat}
+    networkFirewallPolicyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_firewall_policy
+    networkSecurityGroupIds: ${var.network_firewall_network_security_group_ids}
+    subnetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_subnet

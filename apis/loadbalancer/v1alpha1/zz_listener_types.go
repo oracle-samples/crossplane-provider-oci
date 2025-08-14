@@ -58,38 +58,38 @@ type ListenerInitParameters struct {
 	ConnectionConfiguration []ConnectionConfigurationInitParameters `json:"connectionConfiguration,omitempty" tf:"connection_configuration,omitempty"`
 
 	// (Updatable) The name of the associated backend set.  Example: example_backend_set
-	// +crossplane:generate:reference:type=BackendSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.BackendSet
 	DefaultBackendSetName *string `json:"defaultBackendSetName,omitempty" tf:"default_backend_set_name,omitempty"`
 
-	// Reference to a BackendSet to populate defaultBackendSetName.
+	// Reference to a BackendSet in loadbalancer to populate defaultBackendSetName.
 	// +kubebuilder:validation:Optional
 	DefaultBackendSetNameRef *v1.Reference `json:"defaultBackendSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a BackendSet to populate defaultBackendSetName.
+	// Selector for a BackendSet in loadbalancer to populate defaultBackendSetName.
 	// +kubebuilder:validation:Optional
 	DefaultBackendSetNameSelector *v1.Selector `json:"defaultBackendSetNameSelector,omitempty" tf:"-"`
 
 	// (Updatable) An array of hostname resource names.
-	// +crossplane:generate:reference:type=LBHostname
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LBHostname
 	HostnameNames []*string `json:"hostnameNames,omitempty" tf:"hostname_names,omitempty"`
 
-	// References to LBHostname to populate hostnameNames.
+	// References to LBHostname in loadbalancer to populate hostnameNames.
 	// +kubebuilder:validation:Optional
 	HostnameNamesRefs []v1.Reference `json:"hostnameNamesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of LBHostname to populate hostnameNames.
+	// Selector for a list of LBHostname in loadbalancer to populate hostnameNames.
 	// +kubebuilder:validation:Optional
 	HostnameNamesSelector *v1.Selector `json:"hostnameNamesSelector,omitempty" tf:"-"`
 
 	// The OCID of the load balancer on which to add a listener.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -97,14 +97,14 @@ type ListenerInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) Deprecated. Please use routingPolicies instead.
-	// +crossplane:generate:reference:type=PathRouteSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.PathRouteSet
 	PathRouteSetName *string `json:"pathRouteSetName,omitempty" tf:"path_route_set_name,omitempty"`
 
-	// Reference to a PathRouteSet to populate pathRouteSetName.
+	// Reference to a PathRouteSet in loadbalancer to populate pathRouteSetName.
 	// +kubebuilder:validation:Optional
 	PathRouteSetNameRef *v1.Reference `json:"pathRouteSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a PathRouteSet to populate pathRouteSetName.
+	// Selector for a PathRouteSet in loadbalancer to populate pathRouteSetName.
 	// +kubebuilder:validation:Optional
 	PathRouteSetNameSelector *v1.Selector `json:"pathRouteSetNameSelector,omitempty" tf:"-"`
 
@@ -115,26 +115,26 @@ type ListenerInitParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// (Updatable) The name of the routing policy applied to this listener's traffic.  Example: example_routing_policy
-	// +crossplane:generate:reference:type=RoutingPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.RoutingPolicy
 	RoutingPolicyName *string `json:"routingPolicyName,omitempty" tf:"routing_policy_name,omitempty"`
 
-	// Reference to a RoutingPolicy to populate routingPolicyName.
+	// Reference to a RoutingPolicy in loadbalancer to populate routingPolicyName.
 	// +kubebuilder:validation:Optional
 	RoutingPolicyNameRef *v1.Reference `json:"routingPolicyNameRef,omitempty" tf:"-"`
 
-	// Selector for a RoutingPolicy to populate routingPolicyName.
+	// Selector for a RoutingPolicy in loadbalancer to populate routingPolicyName.
 	// +kubebuilder:validation:Optional
 	RoutingPolicyNameSelector *v1.Selector `json:"routingPolicyNameSelector,omitempty" tf:"-"`
 
 	// (Updatable) The names of the rule sets to apply to the listener.  Example: ["example_rule_set"]
-	// +crossplane:generate:reference:type=RuleSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.RuleSet
 	RuleSetNames []*string `json:"ruleSetNames,omitempty" tf:"rule_set_names,omitempty"`
 
-	// References to RuleSet to populate ruleSetNames.
+	// References to RuleSet in loadbalancer to populate ruleSetNames.
 	// +kubebuilder:validation:Optional
 	RuleSetNamesRefs []v1.Reference `json:"ruleSetNamesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RuleSet to populate ruleSetNames.
+	// Selector for a list of RuleSet in loadbalancer to populate ruleSetNames.
 	// +kubebuilder:validation:Optional
 	RuleSetNamesSelector *v1.Selector `json:"ruleSetNamesSelector,omitempty" tf:"-"`
 
@@ -189,41 +189,41 @@ type ListenerParameters struct {
 	ConnectionConfiguration []ConnectionConfigurationParameters `json:"connectionConfiguration,omitempty" tf:"connection_configuration,omitempty"`
 
 	// (Updatable) The name of the associated backend set.  Example: example_backend_set
-	// +crossplane:generate:reference:type=BackendSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.BackendSet
 	// +kubebuilder:validation:Optional
 	DefaultBackendSetName *string `json:"defaultBackendSetName,omitempty" tf:"default_backend_set_name,omitempty"`
 
-	// Reference to a BackendSet to populate defaultBackendSetName.
+	// Reference to a BackendSet in loadbalancer to populate defaultBackendSetName.
 	// +kubebuilder:validation:Optional
 	DefaultBackendSetNameRef *v1.Reference `json:"defaultBackendSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a BackendSet to populate defaultBackendSetName.
+	// Selector for a BackendSet in loadbalancer to populate defaultBackendSetName.
 	// +kubebuilder:validation:Optional
 	DefaultBackendSetNameSelector *v1.Selector `json:"defaultBackendSetNameSelector,omitempty" tf:"-"`
 
 	// (Updatable) An array of hostname resource names.
-	// +crossplane:generate:reference:type=LBHostname
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LBHostname
 	// +kubebuilder:validation:Optional
 	HostnameNames []*string `json:"hostnameNames,omitempty" tf:"hostname_names,omitempty"`
 
-	// References to LBHostname to populate hostnameNames.
+	// References to LBHostname in loadbalancer to populate hostnameNames.
 	// +kubebuilder:validation:Optional
 	HostnameNamesRefs []v1.Reference `json:"hostnameNamesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of LBHostname to populate hostnameNames.
+	// Selector for a list of LBHostname in loadbalancer to populate hostnameNames.
 	// +kubebuilder:validation:Optional
 	HostnameNamesSelector *v1.Selector `json:"hostnameNamesSelector,omitempty" tf:"-"`
 
 	// The OCID of the load balancer on which to add a listener.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	// +kubebuilder:validation:Optional
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -232,15 +232,15 @@ type ListenerParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Updatable) Deprecated. Please use routingPolicies instead.
-	// +crossplane:generate:reference:type=PathRouteSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.PathRouteSet
 	// +kubebuilder:validation:Optional
 	PathRouteSetName *string `json:"pathRouteSetName,omitempty" tf:"path_route_set_name,omitempty"`
 
-	// Reference to a PathRouteSet to populate pathRouteSetName.
+	// Reference to a PathRouteSet in loadbalancer to populate pathRouteSetName.
 	// +kubebuilder:validation:Optional
 	PathRouteSetNameRef *v1.Reference `json:"pathRouteSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a PathRouteSet to populate pathRouteSetName.
+	// Selector for a PathRouteSet in loadbalancer to populate pathRouteSetName.
 	// +kubebuilder:validation:Optional
 	PathRouteSetNameSelector *v1.Selector `json:"pathRouteSetNameSelector,omitempty" tf:"-"`
 
@@ -253,28 +253,28 @@ type ListenerParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// (Updatable) The name of the routing policy applied to this listener's traffic.  Example: example_routing_policy
-	// +crossplane:generate:reference:type=RoutingPolicy
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.RoutingPolicy
 	// +kubebuilder:validation:Optional
 	RoutingPolicyName *string `json:"routingPolicyName,omitempty" tf:"routing_policy_name,omitempty"`
 
-	// Reference to a RoutingPolicy to populate routingPolicyName.
+	// Reference to a RoutingPolicy in loadbalancer to populate routingPolicyName.
 	// +kubebuilder:validation:Optional
 	RoutingPolicyNameRef *v1.Reference `json:"routingPolicyNameRef,omitempty" tf:"-"`
 
-	// Selector for a RoutingPolicy to populate routingPolicyName.
+	// Selector for a RoutingPolicy in loadbalancer to populate routingPolicyName.
 	// +kubebuilder:validation:Optional
 	RoutingPolicyNameSelector *v1.Selector `json:"routingPolicyNameSelector,omitempty" tf:"-"`
 
 	// (Updatable) The names of the rule sets to apply to the listener.  Example: ["example_rule_set"]
-	// +crossplane:generate:reference:type=RuleSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.RuleSet
 	// +kubebuilder:validation:Optional
 	RuleSetNames []*string `json:"ruleSetNames,omitempty" tf:"rule_set_names,omitempty"`
 
-	// References to RuleSet to populate ruleSetNames.
+	// References to RuleSet in loadbalancer to populate ruleSetNames.
 	// +kubebuilder:validation:Optional
 	RuleSetNamesRefs []v1.Reference `json:"ruleSetNamesRefs,omitempty" tf:"-"`
 
-	// Selector for a list of RuleSet to populate ruleSetNames.
+	// Selector for a list of RuleSet in loadbalancer to populate ruleSetNames.
 	// +kubebuilder:validation:Optional
 	RuleSetNamesSelector *v1.Selector `json:"ruleSetNamesSelector,omitempty" tf:"-"`
 

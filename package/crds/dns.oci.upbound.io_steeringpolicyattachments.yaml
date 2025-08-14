@@ -88,7 +88,8 @@ spec:
                     description: The OCID of the attached steering policy.
                     type: string
                   steeringPolicyIdRef:
-                    description: Reference to a SteeringPolicy to populate steeringPolicyId.
+                    description: Reference to a SteeringPolicy in dns to populate
+                      steeringPolicyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -122,7 +123,8 @@ spec:
                     - name
                     type: object
                   steeringPolicyIdSelector:
-                    description: Selector for a SteeringPolicy to populate steeringPolicyId.
+                    description: Selector for a SteeringPolicy in dns to populate
+                      steeringPolicyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -165,7 +167,7 @@ spec:
                     description: The OCID of the attached zone.
                     type: string
                   zoneIdRef:
-                    description: Reference to a Zone to populate zoneId.
+                    description: Reference to a Zone in dns to populate zoneId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -199,7 +201,7 @@ spec:
                     - name
                     type: object
                   zoneIdSelector:
-                    description: Selector for a Zone to populate zoneId.
+                    description: Selector for a Zone in dns to populate zoneId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -265,7 +267,8 @@ spec:
                     description: The OCID of the attached steering policy.
                     type: string
                   steeringPolicyIdRef:
-                    description: Reference to a SteeringPolicy to populate steeringPolicyId.
+                    description: Reference to a SteeringPolicy in dns to populate
+                      steeringPolicyId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -299,7 +302,8 @@ spec:
                     - name
                     type: object
                   steeringPolicyIdSelector:
-                    description: Selector for a SteeringPolicy to populate steeringPolicyId.
+                    description: Selector for a SteeringPolicy in dns to populate
+                      steeringPolicyId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -342,7 +346,7 @@ spec:
                     description: The OCID of the attached zone.
                     type: string
                   zoneIdRef:
-                    description: Reference to a Zone to populate zoneId.
+                    description: Reference to a Zone in dns to populate zoneId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -376,7 +380,7 @@ spec:
                     - name
                     type: object
                   zoneIdSelector:
-                    description: Selector for a Zone to populate zoneId.
+                    description: Selector for a Zone in dns to populate zoneId.
                     properties:
                       matchControllerRef:
                         description: |-

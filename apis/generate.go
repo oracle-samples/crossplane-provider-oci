@@ -16,6 +16,8 @@ Copyright 2021 Upbound Inc.
 //go:generate bash -c "find . -type d -empty -delete"
 //go:generate bash -c "find ../internal/controller -iname 'zz_*' -delete"
 //go:generate bash -c "find ../internal/controller -type d -empty -delete"
+//go:generate bash -c "find ../cmd/provider -name 'zz_*' -type f -delete"
+//go:generate bash -c "find ../cmd/provider -type d -maxdepth 1 -mindepth 1 -empty -delete"
 //go:generate rm -rf ../examples-generated
 
 // Generate documentation from Terraform docs.
@@ -30,10 +32,15 @@ Copyright 2021 Upbound Inc.
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
 
+// Transform generated resolvers to use runtime resolution (removes cross-package imports)
+//go:generate go run github.com/crossplane/upjet/cmd/resolver -g oci.upbound.io -a github.com/oracle/provider-oci/internal/apis -s
+
 package apis
 
 import (
 	_ "sigs.k8s.io/controller-tools/cmd/controller-gen" //nolint:typecheck
 
 	_ "github.com/crossplane/crossplane-tools/cmd/angryjet" //nolint:typecheck
+
+	_ "github.com/crossplane/upjet/cmd/resolver" //nolint:typecheck
 )

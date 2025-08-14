@@ -62,14 +62,14 @@ type LogInitParameters struct {
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
 	// (Updatable) OCID of a log group to work with.
-	// +crossplane:generate:reference:type=LogGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/logging/v1alpha1.LogGroup
 	LogGroupID *string `json:"logGroupId,omitempty" tf:"log_group_id,omitempty"`
 
-	// Reference to a LogGroup to populate logGroupId.
+	// Reference to a LogGroup in logging to populate logGroupId.
 	// +kubebuilder:validation:Optional
 	LogGroupIDRef *v1.Reference `json:"logGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a LogGroup to populate logGroupId.
+	// Selector for a LogGroup in logging to populate logGroupId.
 	// +kubebuilder:validation:Optional
 	LogGroupIDSelector *v1.Selector `json:"logGroupIdSelector,omitempty" tf:"-"`
 
@@ -152,15 +152,15 @@ type LogParameters struct {
 	IsEnabled *bool `json:"isEnabled,omitempty" tf:"is_enabled,omitempty"`
 
 	// (Updatable) OCID of a log group to work with.
-	// +crossplane:generate:reference:type=LogGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/logging/v1alpha1.LogGroup
 	// +kubebuilder:validation:Optional
 	LogGroupID *string `json:"logGroupId,omitempty" tf:"log_group_id,omitempty"`
 
-	// Reference to a LogGroup to populate logGroupId.
+	// Reference to a LogGroup in logging to populate logGroupId.
 	// +kubebuilder:validation:Optional
 	LogGroupIDRef *v1.Reference `json:"logGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a LogGroup to populate logGroupId.
+	// Selector for a LogGroup in logging to populate logGroupId.
 	// +kubebuilder:validation:Optional
 	LogGroupIDSelector *v1.Selector `json:"logGroupIdSelector,omitempty" tf:"-"`
 

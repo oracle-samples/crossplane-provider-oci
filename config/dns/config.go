@@ -29,7 +29,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -40,7 +40,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -51,7 +51,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -62,13 +62,13 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["resolver_id"] = config.Reference{
-			Type: "Resolver",
+			TerraformName: "oci_dns_resolver",
 		}
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 		r.References["nsg_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 	})
 
@@ -79,10 +79,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["health_check_monitor_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/healthchecks/v1alpha1.HTTPMonitor",
+			TerraformName: "oci_health_checks_http_monitor",
 		}
 	})
 
@@ -93,10 +93,10 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["steering_policy_id"] = config.Reference{
-			Type: "SteeringPolicy",
+			TerraformName: "oci_dns_steering_policy",
 		}
 		r.References["zone_id"] = config.Reference{
-			Type: "Zone",
+			TerraformName: "oci_dns_zone",
 		}
 	})
 
@@ -107,7 +107,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -118,7 +118,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -129,13 +129,13 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["view_id"] = config.Reference{
-			Type: "View",
+			TerraformName: "oci_dns_view",
 		}
 		r.References["tsig_key_id"] = config.Reference{
-			Type: "TsigKey",
+			TerraformName: "oci_dns_tsig_key",
 		}
 	})
 }

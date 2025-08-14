@@ -36,14 +36,14 @@ type TagInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The OCID of the tag namespace.
-	// +crossplane:generate:reference:type=TagNamespace
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.TagNamespace
 	TagNamespaceID *string `json:"tagNamespaceId,omitempty" tf:"tag_namespace_id,omitempty"`
 
-	// Reference to a TagNamespace to populate tagNamespaceId.
+	// Reference to a TagNamespace in identity to populate tagNamespaceId.
 	// +kubebuilder:validation:Optional
 	TagNamespaceIDRef *v1.Reference `json:"tagNamespaceIdRef,omitempty" tf:"-"`
 
-	// Selector for a TagNamespace to populate tagNamespaceId.
+	// Selector for a TagNamespace in identity to populate tagNamespaceId.
 	// +kubebuilder:validation:Optional
 	TagNamespaceIDSelector *v1.Selector `json:"tagNamespaceIdSelector,omitempty" tf:"-"`
 
@@ -120,15 +120,15 @@ type TagParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The OCID of the tag namespace.
-	// +crossplane:generate:reference:type=TagNamespace
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/identity/v1alpha1.TagNamespace
 	// +kubebuilder:validation:Optional
 	TagNamespaceID *string `json:"tagNamespaceId,omitempty" tf:"tag_namespace_id,omitempty"`
 
-	// Reference to a TagNamespace to populate tagNamespaceId.
+	// Reference to a TagNamespace in identity to populate tagNamespaceId.
 	// +kubebuilder:validation:Optional
 	TagNamespaceIDRef *v1.Reference `json:"tagNamespaceIdRef,omitempty" tf:"-"`
 
-	// Selector for a TagNamespace to populate tagNamespaceId.
+	// Selector for a TagNamespace in identity to populate tagNamespaceId.
 	// +kubebuilder:validation:Optional
 	TagNamespaceIDSelector *v1.Selector `json:"tagNamespaceIdSelector,omitempty" tf:"-"`
 

@@ -28,11 +28,11 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 	})
 
@@ -44,7 +44,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["network_load_balancer_id"] = config.Reference{
-			Type: "LoadBalancerNetworkLoadBalancer",
+			TerraformName: "oci_network_load_balancer_network_load_balancer",
 		}
 	})
 
@@ -56,7 +56,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["network_load_balancer_id"] = config.Reference{
-			Type: "LoadBalancerNetworkLoadBalancer",
+			TerraformName: "oci_network_load_balancer_network_load_balancer",
 		}
 	})
 
@@ -68,7 +68,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["network_load_balancer_id"] = config.Reference{
-			Type: "LoadBalancerNetworkLoadBalancer",
+			TerraformName: "oci_network_load_balancer_network_load_balancer",
 		}
 	})
 
@@ -80,7 +80,7 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["network_load_balancer_id"] = config.Reference{
-			Type: "LoadBalancerNetworkLoadBalancer",
+			TerraformName: "oci_network_load_balancer_network_load_balancer",
 		}
 	})
 }

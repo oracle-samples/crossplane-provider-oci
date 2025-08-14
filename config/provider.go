@@ -23,6 +23,7 @@ import (
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/oracle/provider-oci/config/artifacts"
+	"github.com/oracle/provider-oci/hack"
 	"github.com/oracle/provider-oci/config/certificatesmanagement"
 	"github.com/oracle/provider-oci/config/containerengine"
 	"github.com/oracle/provider-oci/config/core"
@@ -58,10 +59,15 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+		ujconfig.WithRootGroup("oci.upbound.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithDefaultResourceOptions(
+			GroupKindOverrides(),
 			ExternalNameConfigurations(),
-		))
+		),
+		ujconfig.WithFeaturesPackage("internal/features"),
+		ujconfig.WithMainTemplate(hack.MainTemplate),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
@@ -84,7 +90,6 @@ func GetProvider() *ujconfig.Provider {
 		filestorage.Configure,
 		events.Configure,
 		vault.Configure,
-		events.Configure,
 		streaming.Configure,
 	} {
 		configure(pc)

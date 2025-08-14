@@ -1,0 +1,29 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: RouteTable
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/routetable
+  labels:
+    testing.upbound.io/example-name: test_route_table
+  name: test-route-table
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.route_table_display_name}
+    freeformTags:
+      Department: Finance
+    routeRules:
+    - cidrBlock: ${var.route_table_route_rules_cidr_block}
+      description: ${var.route_table_route_rules_description}
+      destination: ${var.route_table_route_rules_destination}
+      destinationType: ${var.route_table_route_rules_destination_type}
+      networkEntityIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_internet_gateway
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

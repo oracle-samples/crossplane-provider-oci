@@ -188,7 +188,8 @@ spec:
                     description: The OCID of the topic for the subscription.
                     type: string
                   topicIdRef:
-                    description: Reference to a NotificationTopic to populate topicId.
+                    description: Reference to a NotificationTopic in ons to populate
+                      topicId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -222,7 +223,8 @@ spec:
                     - name
                     type: object
                   topicIdSelector:
-                    description: Selector for a NotificationTopic to populate topicId.
+                    description: Selector for a NotificationTopic in ons to populate
+                      topicId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -390,7 +392,8 @@ spec:
                     description: The OCID of the topic for the subscription.
                     type: string
                   topicIdRef:
-                    description: Reference to a NotificationTopic to populate topicId.
+                    description: Reference to a NotificationTopic in ons to populate
+                      topicId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -424,7 +427,8 @@ spec:
                     - name
                     type: object
                   topicIdSelector:
-                    description: Selector for a NotificationTopic to populate topicId.
+                    description: Selector for a NotificationTopic in ons to populate
+                      topicId.
                     properties:
                       matchControllerRef:
                         description: |-

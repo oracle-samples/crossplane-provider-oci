@@ -1,0 +1,39 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: VirtualCircuit
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/virtualcircuit
+  labels:
+    testing.upbound.io/example-name: test_virtual_circuit
+  name: test-virtual-circuit
+spec:
+  forProvider:
+    bandwidthShapeName: ${var.virtual_circuit_bandwidth_shape_name}
+    bgpAdminState: ${var.virtual_circuit_bgp_admin_state}
+    compartmentId: ${var.compartment_id}
+    crossConnectMappings:
+    - bgpMd5AuthKey: ${var.virtual_circuit_cross_connect_mappings_bgp_md5auth_key}
+      crossConnectOrCrossConnectGroupId: ${oci_core_cross_connect_or_cross_connect_group.test_cross_connect_or_cross_connect_group.id}
+      customerBgpPeeringIp: ${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip}
+      customerBgpPeeringIpv6: ${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ipv6}
+      oracleBgpPeeringIp: ${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip}
+      oracleBgpPeeringIpv6: ${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ipv6}
+      vlan: ${var.virtual_circuit_cross_connect_mappings_vlan}
+    customerAsn: ${var.virtual_circuit_customer_asn}
+    customerBgpAsn: ${var.virtual_circuit_customer_bgp_asn}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.virtual_circuit_display_name}
+    freeformTags:
+      Department: Finance
+    gatewayId: ${oci_core_gateway.test_gateway.id}
+    ipMtu: ${var.virtual_circuit_ip_mtu}
+    isBfdEnabled: ${var.virtual_circuit_is_bfd_enabled}
+    isTransportMode: ${var.virtual_circuit_is_transport_mode}
+    providerServiceId: ${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}
+    providerServiceKeyName: ${var.virtual_circuit_provider_service_key_name}
+    publicPrefixes:
+    - cidrBlock: ${var.virtual_circuit_public_prefixes_cidr_block}
+    region: ${var.virtual_circuit_region}
+    routingPolicy: ${var.virtual_circuit_routing_policy}
+    type: ${var.virtual_circuit_type}

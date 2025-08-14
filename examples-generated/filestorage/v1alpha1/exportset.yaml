@@ -1,0 +1,16 @@
+apiVersion: filestorage.oci.upbound.io/v1alpha1
+kind: ExportSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: filestorage/v1alpha1/exportset
+  labels:
+    testing.upbound.io/example-name: test_export_set
+  name: test-export-set
+spec:
+  forProvider:
+    displayName: ${var.export_set_name}
+    maxFsStatBytes: 23843202333
+    maxFsStatFiles: 223442
+    mountTargetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_mount_target

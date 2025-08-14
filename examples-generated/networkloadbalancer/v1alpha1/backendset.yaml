@@ -1,0 +1,38 @@
+apiVersion: networkloadbalancer.oci.upbound.io/v1alpha1
+kind: BackendSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkloadbalancer/v1alpha1/backendset
+  labels:
+    testing.upbound.io/example-name: test_backend_set
+  name: test-backend-set
+spec:
+  forProvider:
+    areOperationallyActiveBackendsPreferred: ${var.backend_set_are_operationally_active_backends_preferred}
+    healthChecker:
+    - dns:
+      - domainName: ${oci_identity_domain.test_domain.name}
+        queryClass: ${var.backend_set_health_checker_dns_query_class}
+        queryType: ${var.backend_set_health_checker_dns_query_type}
+        rcodes: ${var.backend_set_health_checker_dns_rcodes}
+        transportProtocol: ${var.backend_set_health_checker_dns_transport_protocol}
+      intervalInMillis: ${var.backend_set_health_checker_interval_in_millis}
+      port: ${var.backend_set_health_checker_port}
+      protocol: ${var.backend_set_health_checker_protocol}
+      requestData: ${var.backend_set_health_checker_request_data}
+      responseBodyRegex: ${var.backend_set_health_checker_response_body_regex}
+      responseData: ${var.backend_set_health_checker_response_data}
+      retries: ${var.backend_set_health_checker_retries}
+      returnCode: ${var.backend_set_health_checker_return_code}
+      timeoutInMillis: ${var.backend_set_health_checker_timeout_in_millis}
+      urlPath: ${var.backend_set_health_checker_url_path}
+    ipVersion: ${var.backend_set_ip_version}
+    isFailOpen: ${var.backend_set_is_fail_open}
+    isInstantFailoverEnabled: ${var.backend_set_is_instant_failover_enabled}
+    isInstantFailoverTcpResetEnabled: ${var.backend_set_is_instant_failover_tcp_reset_enabled}
+    isPreserveSource: ${var.backend_set_is_preserve_source}
+    name: ${var.backend_set_name}
+    networkLoadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_load_balancer
+    policy: ${var.backend_set_policy}

@@ -190,7 +190,7 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup in core
+                          description: References to NetworkSecurityGroup in networking
                             to populate nsgIds.
                           items:
                             description: A Reference to a named object.
@@ -229,7 +229,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            in core to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -273,7 +273,8 @@ spec:
                             place the Cluster endpoint.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet in core to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -307,7 +308,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet in core to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -598,8 +600,8 @@ spec:
                             type: object
                           type: array
                         serviceLbSubnetIdSelector:
-                          description: Selector for a list of Subnet in core to populate
-                            serviceLbSubnetIds.
+                          description: Selector for a list of Subnet in networking
+                            to populate serviceLbSubnetIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -645,7 +647,8 @@ spec:
                             type: string
                           type: array
                         serviceLbSubnetIdsRef:
-                          description: References to Subnet in core to populate serviceLbSubnetIds.
+                          description: References to Subnet in networking to populate
+                            serviceLbSubnetIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -691,7 +694,7 @@ spec:
                       to create the cluster.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn in core to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -725,7 +728,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn in core to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -895,7 +898,7 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup in core
+                          description: References to NetworkSecurityGroup in networking
                             to populate nsgIds.
                           items:
                             description: A Reference to a named object.
@@ -934,7 +937,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            in core to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -978,7 +981,8 @@ spec:
                             place the Cluster endpoint.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet in core to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -1012,7 +1016,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet in core to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1303,8 +1308,8 @@ spec:
                             type: object
                           type: array
                         serviceLbSubnetIdSelector:
-                          description: Selector for a list of Subnet in core to populate
-                            serviceLbSubnetIds.
+                          description: Selector for a list of Subnet in networking
+                            to populate serviceLbSubnetIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -1350,7 +1355,8 @@ spec:
                             type: string
                           type: array
                         serviceLbSubnetIdsRef:
-                          description: References to Subnet in core to populate serviceLbSubnetIds.
+                          description: References to Subnet in networking to populate
+                            serviceLbSubnetIds.
                           items:
                             description: A Reference to a named object.
                             properties:
@@ -1396,7 +1402,7 @@ spec:
                       to create the cluster.
                     type: string
                   vcnIdRef:
-                    description: Reference to a Vcn in core to populate vcnId.
+                    description: Reference to a Vcn in networking to populate vcnId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1430,7 +1436,7 @@ spec:
                     - name
                     type: object
                   vcnIdSelector:
-                    description: Selector for a Vcn in core to populate vcnId.
+                    description: Selector for a Vcn in networking to populate vcnId.
                     properties:
                       matchControllerRef:
                         description: |-

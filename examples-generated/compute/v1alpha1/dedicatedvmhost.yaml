@@ -1,0 +1,22 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: DedicatedVmHost
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/dedicatedvmhost
+  labels:
+    testing.upbound.io/example-name: test_dedicated_vm_host
+  name: test-dedicated-vm-host
+spec:
+  forProvider:
+    availabilityDomain: ${var.dedicated_vm_host_availability_domain}
+    compartmentId: ${var.compartment_id}
+    dedicatedVmHostShape: ${var.dedicated_vm_host_dedicated_vm_host_shape}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.dedicated_vm_host_display_name}
+    faultDomain: ${var.dedicated_vm_host_fault_domain}
+    freeformTags:
+      Department: Finance
+    placementConstraintDetails:
+    - computeBareMetalHostId: ${oci_core_compute_bare_metal_host.test_compute_bare_metal_host.id}
+      type: ${var.dedicated_vm_host_placement_constraint_details_type}

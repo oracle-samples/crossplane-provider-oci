@@ -27,7 +27,7 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 	})
 
@@ -38,10 +38,10 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 	})
 
@@ -52,7 +52,7 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["mount_target_id"] = config.Reference{
-			Type: "StorageMountTarget",
+			TerraformName: "oci_file_storage_mount_target",
 		}
 	})
 
@@ -63,10 +63,10 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["export_set_id"] = config.Reference{
-			Type: "StorageExportSet",
+			TerraformName: "oci_file_storage_export_set",
 		}
 		r.References["file_system_id"] = config.Reference{
-			Type: "StorageFileSystem",
+			TerraformName: "oci_file_storage_file_system",
 		}
 	})
 
@@ -76,15 +76,15 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["source_id"] = config.Reference{
-			Type: "StorageFileSystem",
+			TerraformName: "oci_file_storage_file_system",
 		}
 
 		r.References["target_id"] = config.Reference{
-			Type: "StorageFileSystem",
+			TerraformName: "oci_file_storage_file_system",
 		}
 	})
 
@@ -95,7 +95,7 @@ func Configure(p *config.Provider) {
 		// words it is not simply the name of the resource.
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["file_system_id"] = config.Reference{
-			Type: "StorageFileSystem",
+			TerraformName: "oci_file_storage_file_system",
 		}
 	})
 }

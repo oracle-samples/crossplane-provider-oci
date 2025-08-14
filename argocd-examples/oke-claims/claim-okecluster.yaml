@@ -1,0 +1,41 @@
+apiVersion: oke.crossplane.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: test-oke-cluster
+  # ArgoCD will deploy to default namespace as specified in the app
+spec:
+  # OCI Compartment where resources will be created
+  compartmentId: "ocid1.compartment.oc1..aaaaaaaahkmcqkcdnvjxdykdiai4ncm5f4o3n3gmtbpy6cnvey2nspef6k5a"
+
+  # Network configuration
+  network:
+    name: "test" # Name prefix for all network resources (no hyphens for DNS labels)
+    vcnCidr: "10.0.0.0/16" # VCN CIDR block
+    clusterSubnetCidr: "10.0.1.0/24" # Subnet for OKE cluster endpoint
+    nodeSubnetCidr: "10.0.2.0/24" # Subnet for worker nodes
+    serviceSubnetCidr: "10.0.3.0/24" # Subnet for load balancers
+
+  # Cluster configuration
+  cluster:
+    name: "testcluster"
+    kubernetesVersion: "v1.33.1"
+    type: "BASIC_CLUSTER" # Basic cluster for POC
+    isPublicEndpoint: false # Private cluster endpoint (recommended)
+    podsCidr: "10.244.0.0/16" # Pod networking CIDR
+    servicesCidr: "10.96.0.0/16" # Service networking CIDR
+
+  # Node pool configuration
+  nodePool:
+    name: "workernodes"
+    nodeShape: "VM.Standard.E4.Flex" # Flexible compute shape
+    nodeCount: 1 # Number of worker nodes (minimal for POC)
+    memoryInGbs: 16 # Memory per worker node
+    ocpus: 2 # OCPUs per worker node
+    availabilityDomain: "ekzo:US-ASHBURN-AD-1" # Update for your region/AD
+    # Get OKE-compatible image OCID from: oci ce node-pool-options get --node-pool-option-id all
+    nodeImageId: "ocid1.image.oc1.iad.aaaaaaaaxknreyk2vq3ftndzpirs3s32s7sviagmyleugk5uu23ug7vrpyrq" # Replace with actual OKE node image OCID
+    # SSH public key for node access (optional - commented out for POC)
+    # sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC... your-ssh-public-key-here"
+
+  # OCI region
+  region: "us-ashburn-1"

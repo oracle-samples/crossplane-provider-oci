@@ -1,0 +1,22 @@
+apiVersion: networkloadbalancer.oci.upbound.io/v1alpha1
+kind: Listener
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkloadbalancer/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: test_listener
+  name: test-listener
+spec:
+  forProvider:
+    defaultBackendSetName: ${var.backend_set_name}
+    ipVersion: ${var.listener_ip_version}
+    isPpv2Enabled: ${var.listener_is_ppv2enabled}
+    l3ipIdleTimeout: ${var.listener_l3ip_idle_timeout}
+    name: ${var.listener_name}
+    networkLoadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_load_balancer
+    port: ${var.listener_port}
+    protocol: ${var.listener_protocol}
+    tcpIdleTimeout: ${var.listener_tcp_idle_timeout}
+    udpIdleTimeout: ${var.listener_udp_idle_timeout}

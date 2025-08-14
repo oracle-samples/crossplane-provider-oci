@@ -1,0 +1,63 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: SecurityList
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/securitylist
+  labels:
+    testing.upbound.io/example-name: test_security_list
+  name: test-security-list
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.security_list_display_name}
+    egressSecurityRules:
+    - description: ${var.security_list_egress_security_rules_description}
+      destination: ${var.security_list_egress_security_rules_destination}
+      destinationType: ${var.security_list_egress_security_rules_destination_type}
+      icmpOptions:
+      - code: ${var.security_list_egress_security_rules_icmp_options_code}
+        type: ${var.security_list_egress_security_rules_icmp_options_type}
+      protocol: ${var.security_list_egress_security_rules_protocol}
+      stateless: ${var.security_list_egress_security_rules_stateless}
+      tcpOptions:
+      - max: ${var.security_list_egress_security_rules_tcp_options_destination_port_range_max}
+        min: ${var.security_list_egress_security_rules_tcp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.security_list_egress_security_rules_tcp_options_source_port_range_max}
+          min: ${var.security_list_egress_security_rules_tcp_options_source_port_range_min}
+      udpOptions:
+      - max: ${var.security_list_egress_security_rules_udp_options_destination_port_range_max}
+        min: ${var.security_list_egress_security_rules_udp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.security_list_egress_security_rules_udp_options_source_port_range_max}
+          min: ${var.security_list_egress_security_rules_udp_options_source_port_range_min}
+    freeformTags:
+      Department: Finance
+    ingressSecurityRules:
+    - description: ${var.security_list_ingress_security_rules_description}
+      icmpOptions:
+      - code: ${var.security_list_ingress_security_rules_icmp_options_code}
+        type: ${var.security_list_ingress_security_rules_icmp_options_type}
+      protocol: ${var.security_list_ingress_security_rules_protocol}
+      source: ${var.security_list_ingress_security_rules_source}
+      sourceType: ${var.security_list_ingress_security_rules_source_type}
+      stateless: ${var.security_list_ingress_security_rules_stateless}
+      tcpOptions:
+      - max: ${var.security_list_ingress_security_rules_tcp_options_destination_port_range_max}
+        min: ${var.security_list_ingress_security_rules_tcp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.security_list_ingress_security_rules_tcp_options_source_port_range_max}
+          min: ${var.security_list_ingress_security_rules_tcp_options_source_port_range_min}
+      udpOptions:
+      - max: ${var.security_list_ingress_security_rules_udp_options_destination_port_range_max}
+        min: ${var.security_list_ingress_security_rules_udp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.security_list_ingress_security_rules_udp_options_source_port_range_max}
+          min: ${var.security_list_ingress_security_rules_udp_options_source_port_range_min}
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

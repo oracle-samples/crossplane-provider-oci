@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  # Resource tracking configuration
+  application.resourceTrackingMethod: annotation
+
+  # Exclude ProviderConfigUsage to prevent unnecessary reconciliation
+  resource.exclusions: |
+    - apiGroups:
+      - "*"
+      kinds:
+      - ProviderConfigUsage
+
+  # Ignore differences for resolved references to prevent sync flapping
+  resource.customizations.ignoreDifferences.containerengine.oci.upbound.io_Cluster: |
+    jqPathExpressions:
+    - .spec.forProvider.vcnId
+    - .spec.forProvider.endpointConfig[0].subnetId
+    - .spec.forProvider.options[0].serviceLbSubnetIds
+    - .status.atProvider
+  
+  resource.customizations.ignoreDifferences.networking.oci.upbound.io_Subnet: |
+    jqPathExpressions:
+    - .spec.forProvider.vcnId
+    - .status.atProvider
+  
+  resource.customizations.ignoreDifferences.containerengine.oci.upbound.io_NodePool: |
+    jqPathExpressions:
+    - .spec.forProvider.clusterId
+    - .spec.forProvider.nodeConfigDetails[0].placementConfigs[0].subnetId
+    - .status.atProvider
+
+  # Custom health checks for Crossplane resources
+  resource.customizations: |
+    "*.upbound.io/*":
+      health.lua: |
+        health_status = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" then
+                if condition.status == "True" then
+                  health_status.status = "Healthy"
+                  health_status.message = "Resource is ready"
+                  return health_status
+                else
+                  health_status.status = "Progressing"
+                  health_status.message = "Waiting for resource to be ready"
+                  return health_status
+                end
+              end
+            end
+          end
+        end
+        health_status.status = "Progressing"
+        health_status.message = "Waiting for resource status"
+        return health_status
+    "*.oci.upbound.io/*":
+      health.lua: |
+        health_status = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" then
+                if condition.status == "True" then
+                  health_status.status = "Healthy"
+                  health_status.message = "Resource is ready"
+                  return health_status
+                else
+                  health_status.status = "Progressing"
+                  health_status.message = "Waiting for resource to be ready"
+                  return health_status
+                end
+              end
+            end
+          end
+        end
+        health_status.status = "Progressing"
+        health_status.message = "Waiting for resource status"
+        return health_status
+    "oci.upbound.io/ProviderConfig":
+      health.lua: |
+        health_status = {}
+        -- ProviderConfig doesn't have conditions, just check if it exists and has spec
+        if obj.spec ~= nil then
+          health_status.status = "Healthy"
+          health_status.message = "ProviderConfig is configured"
+          return health_status
+        end
+        health_status.status = "Progressing"
+        health_status.message = "ProviderConfig not properly configured"
+        return health_status
+    "oke.crossplane.io/*":
+      health.lua: |
+        health_status = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" then
+                if condition.status == "True" then
+                  health_status.status = "Healthy"
+                  health_status.message = "Resource is ready"
+                  return health_status
+                else
+                  health_status.status = "Progressing"
+                  health_status.message = condition.message or "Waiting for resource to be ready"
+                  return health_status
+                end
+              end
+            end
+          end
+        end
+        health_status.status = "Progressing"
+        health_status.message = "Waiting for resource status"
+        return health_status
+
+  # Resource update ignores (preserve production settings)
+  resource.customizations.ignoreResourceUpdates.ConfigMap: |
+    jqPathExpressions:
+      # Ignore the cluster-autoscaler status
+      - '.metadata.annotations."cluster-autoscaler.kubernetes.io/last-updated"'
+      # Ignore the annotation of the legacy Leases election
+      - '.metadata.annotations."control-plane.alpha.kubernetes.io/leader"'
+  
+  resource.customizations.ignoreResourceUpdates.Endpoints: |
+    jsonPointers:
+      - /metadata
+      - /subsets
+  
+  resource.customizations.ignoreResourceUpdates.all: |
+    jsonPointers:
+      - /status
+  
+  resource.customizations.ignoreResourceUpdates.apps_ReplicaSet: |
+    jqPathExpressions:
+      - '.metadata.annotations."deployment.kubernetes.io/desired-replicas"'
+      - '.metadata.annotations."deployment.kubernetes.io/max-replicas"'
+      - '.metadata.annotations."rollout.argoproj.io/desired-replicas"'
+  
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Application: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+      - '.metadata.annotations."argocd.argoproj.io/refresh"'
+      - '.metadata.annotations."argocd.argoproj.io/hydrate"'
+      - '.operation'
+  
+  resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout: |
+    jqPathExpressions:
+      - '.metadata.annotations."notified.notifications.argoproj.io"'
+  
+  resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler: |
+    jqPathExpressions:
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
+      - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
+  
+  resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice: |
+    jsonPointers:
+      - /metadata
+      - /endpoints
+      - /ports

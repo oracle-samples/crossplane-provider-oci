@@ -1,0 +1,546 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: okecluster
+  labels:
+    provider: oci
+    service: containerengine
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: oke.crossplane.io/v1alpha1
+    kind: Cluster
+
+  resources:
+  # VCN (Virtual Cloud Network)
+  - name: vcn
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: Vcn
+      spec:
+        forProvider:
+          cidrBlocks: ["10.0.0.0/16"]
+          dnsLabel: "okecluster"
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.vcnCidr
+      toFieldPath: spec.forProvider.cidrBlocks[0]
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.dnsLabel
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.vcnId
+
+  # Internet Gateway
+  - name: internet-gateway
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: InternetGateway
+      metadata:
+        labels:
+          crossplane.io/name: internet-gateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          enabled: true
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-igw"
+    # Export IGW ID to status for route table reference
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.internetGatewayId
+
+  # NAT Gateway
+  - name: nat-gateway
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: NatGateway
+      metadata:
+        labels:
+          crossplane.io/name: nat-gateway
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          blockTraffic: false
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-natgw"
+    # Export NAT GW ID to status for route table reference
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.natGatewayId
+
+  # Public Route Table
+  - name: public-route-table
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: RouteTable
+      metadata:
+        labels:
+          type: public
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          routeRules:
+          - description: "Default route to Internet Gateway"
+            destinationType: "CIDR_BLOCK"
+            destination: "0.0.0.0/0"
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-public-rt"
+    # Wire Internet Gateway to route table
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.internetGatewayId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
+
+  # Private Route Table
+  - name: private-route-table
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: RouteTable
+      metadata:
+        labels:
+          type: private
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          routeRules:
+          - description: "Default route to NAT Gateway"
+            destinationType: "CIDR_BLOCK"
+            destination: "0.0.0.0/0"
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-private-rt"
+    # Wire NAT Gateway to route table
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.natGatewayId
+      toFieldPath: spec.forProvider.routeRules[0].networkEntityId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
+
+  # Security List for OKE
+  - name: oke-security-list
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: SecurityList
+      metadata:
+        labels:
+          name: oke
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+
+          # Ingress rules
+          ingressSecurityRules:
+          # Allow all traffic within VCN
+          - description: "Allow all traffic within VCN"
+            protocol: "all"
+            source: "10.0.0.0/16"
+            stateless: false
+
+          # Allow SSH from anywhere (you may want to restrict this)
+          - description: "Allow SSH traffic"
+            protocol: "6"
+            source: "0.0.0.0/0"
+            stateless: false
+            tcpOptions:
+            - min: 22
+              max: 22
+
+          # Allow Kubernetes API access
+          - description: "Allow Kubernetes API traffic"
+            protocol: "6"
+            source: "0.0.0.0/0"
+            stateless: false
+            tcpOptions:
+            - min: 6443
+              max: 6443
+
+          # Egress rules
+          egressSecurityRules:
+          # Allow all outbound traffic
+          - description: "Allow all outbound traffic"
+            protocol: "all"
+            destination: "0.0.0.0/0"
+            stateless: false
+
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-oke-seclist"
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.vcnCidr
+      toFieldPath: spec.forProvider.ingressSecurityRules[0].source
+
+  # Cluster Subnet (Private)
+  - name: cluster-subnet
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: Subnet
+      metadata:
+        labels:
+          type: cluster
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          cidrBlock: "10.0.1.0/24"
+          dnsLabel: "cluster"
+          prohibitInternetIngress: true
+          routeTableIdSelector:
+            matchLabels:
+              type: private
+          securityListIdSelector:
+            matchLabels:
+              name: oke
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.clusterSubnetCidr
+      toFieldPath: spec.forProvider.cidrBlock
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-cluster-subnet"
+    # Export cluster subnet ID to status for endpoint configuration
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.clusterSubnetId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
+
+  # Node Subnet (Private)
+  - name: node-subnet
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: Subnet
+      metadata:
+        labels:
+          type: nodes
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          cidrBlock: "10.0.2.0/24"
+          dnsLabel: "nodes"
+          prohibitInternetIngress: true
+          routeTableIdSelector:
+            matchLabels:
+              type: private
+          securityListIdSelector:
+            matchLabels:
+              name: oke
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.nodeSubnetCidr
+      toFieldPath: spec.forProvider.cidrBlock
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-node-subnet"
+    # Capture the node subnet ID in XR status
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nodeSubnetId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
+
+  # Service/LB Subnet (Private)
+  - name: service-subnet
+    base:
+      apiVersion: networking.oci.upbound.io/v1alpha1
+      kind: Subnet
+      metadata:
+        labels:
+          type: services
+      spec:
+        forProvider:
+          vcnIdSelector:
+            matchControllerRef: true
+          cidrBlock: "10.0.3.0/24"
+          dnsLabel: "services"
+          prohibitInternetIngress: true
+          routeTableIdSelector:
+            matchLabels:
+              type: private
+          securityListIdSelector:
+            matchLabels:
+              name: oke
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.serviceSubnetCidr
+      toFieldPath: spec.forProvider.cidrBlock
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.network.name
+      toFieldPath: spec.forProvider.displayName
+      transforms:
+      - type: string
+        string:
+          fmt: "%s-service-subnet"
+
+  # OKE Cluster
+  - name: oke-cluster
+    base:
+      dependsOn:
+      - name: vcn
+      - name: cluster-subnet
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
+      kind: Cluster
+      spec:
+        forProvider:
+          vcnId: ""  # Will be patched from composite status
+          type: "BASIC_CLUSTER"
+          kubernetesVersion: "v1.33.1"
+
+          # Cluster endpoint configuration
+          endpointConfig:
+          - isPublicIpEnabled: false
+            subnetId: ""  # Will be patched from composite status
+
+          # Cluster pod network options
+          clusterPodNetworkOptions:
+          - cniType: "FLANNEL_OVERLAY"
+
+          # Cluster options
+          options:
+          - addOns:
+            - isKubernetesDashboardEnabled: false
+              isTillerEnabled: false
+            admissionControllerOptions:
+            - isPodSecurityPolicyEnabled: false
+            kubernetesNetworkConfig:
+            - podsCidr: "10.244.0.0/16"
+              servicesCidr: "10.96.0.0/16"
+            serviceLbSubnetIdSelector:
+              matchLabels:
+                type: services
+
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.name
+      toFieldPath: spec.forProvider.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.kubernetesVersion
+      toFieldPath: spec.forProvider.kubernetesVersion
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.type
+      toFieldPath: spec.forProvider.type
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.isPublicEndpoint
+      toFieldPath: spec.forProvider.endpointConfig[0].isPublicIpEnabled
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.podsCidr
+      toFieldPath: spec.forProvider.options[0].kubernetesNetworkConfig[0].podsCidr
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.servicesCidr
+      toFieldPath: spec.forProvider.options[0].kubernetesNetworkConfig[0].servicesCidr
+    # Provide VCN ID directly from composition status
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.vcnId
+      toFieldPath: spec.forProvider.vcnId
+      policy:
+        fromFieldPath: Required
+    # Provide cluster subnet ID for endpoint configuration
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.clusterSubnetId
+      toFieldPath: spec.forProvider.endpointConfig[0].subnetId
+      policy:
+        fromFieldPath: Required
+
+    # Map cluster information to status
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.clusterId
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.endpoints[0].privateEndpoint
+      toFieldPath: status.clusterEndpoint
+
+    # Note: Clients can access spec.region directly from the claim/XR
+    # For kubeconfig generation, use: 
+    # oci ce cluster create-kubeconfig --cluster-id $(kubectl get claim NAME -o jsonpath='{.status.clusterId}') --region $(kubectl get claim NAME -o jsonpath='{.spec.region}')
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"
+
+  # Node Pool
+  - name: node-pool
+    base:
+      apiVersion: containerengine.oci.upbound.io/v1alpha1
+      kind: NodePool
+      spec:
+        forProvider:
+          clusterIdSelector:
+            matchControllerRef: true
+          nodeShape: "VM.Standard.E4.Flex"
+          # Initialize structures that will be patched
+          nodeShapeConfig:
+          - memoryInGbs: 16
+            ocpus: 2
+          nodeConfigDetails:
+          - size: 1  # Start with 1 node
+            placementConfigs:
+            - availabilityDomain: ""  # Will be patched
+              # Try without selector to see if structure is preserved
+              subnetId: ""  # Will need to be patched
+          nodeSourceDetails:
+          - sourceType: "IMAGE"
+            imageId: ""  # Will be patched
+
+        providerConfigRef:
+          name: default
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.compartmentId
+      toFieldPath: spec.forProvider.compartmentId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.name
+      toFieldPath: spec.forProvider.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.nodeShape
+      toFieldPath: spec.forProvider.nodeShape
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.memoryInGbs
+      toFieldPath: spec.forProvider.nodeShapeConfig[0].memoryInGbs
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.ocpus
+      toFieldPath: spec.forProvider.nodeShapeConfig[0].ocpus
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.nodeCount
+      toFieldPath: spec.forProvider.nodeConfigDetails[0].size
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.availabilityDomain
+      toFieldPath: spec.forProvider.nodeConfigDetails[0].placementConfigs[0].availabilityDomain
+    # Patch the node subnet ID from XR status
+    - type: FromCompositeFieldPath
+      fromFieldPath: status.nodeSubnetId
+      toFieldPath: spec.forProvider.nodeConfigDetails[0].placementConfigs[0].subnetId
+      policy:
+        fromFieldPath: Required
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.nodePool.nodeImageId
+      toFieldPath: spec.forProvider.nodeSourceDetails[0].imageId
+    # SSH key - Commented out for POC. For production, consider:
+    # 1. Using Crossplane functions with EnvironmentConfig
+    # 2. Creating nodes without SSH access and using kubectl exec
+    # 3. Using OCI Bastion service for secure access
+    # - type: FromCompositeFieldPath
+    #   fromFieldPath: spec.nodePool.sshPublicKey
+    #   toFieldPath: spec.forProvider.sshPublicKey
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.cluster.kubernetesVersion
+      toFieldPath: spec.forProvider.kubernetesVersion
+
+    # Map node pool information to status
+    - type: ToCompositeFieldPath
+      fromFieldPath: status.atProvider.id
+      toFieldPath: status.nodePoolId
+    readinessChecks:
+    - type: MatchCondition
+      matchCondition:
+        type: Ready
+        status: "True"

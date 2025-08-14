@@ -28,23 +28,23 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["vcn_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn",
+			TerraformName: "oci_core_vcn",
 		}
 
 		r.References["endpoint_config.nsg_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 
 		r.References["endpoint_config.subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 
 		r.References["options.service_lb_subnet_ids"] = config.Reference{
-			Type:              "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName:      "oci_core_subnet",
 			RefFieldName:      "ServiceLBSubnetIdsRef",
 			SelectorFieldName: "ServiceLBSubnetIDSelector",
 		}
@@ -59,23 +59,23 @@ func Configure(p *config.Provider) {
 		r.ExternalName = config.IdentifierFromProvider
 
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 
 		r.References["cluster_id"] = config.Reference{
-			Type: "Cluster",
+			TerraformName: "oci_containerengine_cluster",
 		}
 
 		r.References["cluster_id"] = config.Reference{
-			Type: "Cluster",
+			TerraformName: "oci_containerengine_cluster",
 		}
 
 		r.References["node_config_details.nsg_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 
 		r.References["node_config_details.placement_configs.subnet_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 
 		r.LateInitializer = config.LateInitializer{

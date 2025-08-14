@@ -1,0 +1,23 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: RemotePeeringConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/remotepeeringconnection
+  labels:
+    testing.upbound.io/example-name: test_remote_peering_connection
+  name: test-remote-peering-connection
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.remote_peering_connection_display_name}
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    freeformTags:
+      Department: Finance
+    peerId: ${oci_core_remote_peering_connection.test_remote_peering_connection2.id}
+    peerRegionName: ${var.remote_peering_connection_peer_region_name}

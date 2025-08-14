@@ -91,14 +91,14 @@ type LoadBalancerInitParameters struct {
 	ShapeDetails []ShapeDetailsInitParameters `json:"shapeDetails,omitempty" tf:"shape_details,omitempty"`
 
 	// An array of subnet OCIDs.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate subnetIds.
+	// References to Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsRefs []v1.Reference `json:"subnetIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnet in core to populate subnetIds.
+	// Selector for a list of Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
 }
@@ -253,15 +253,15 @@ type LoadBalancerParameters struct {
 	ShapeDetails []ShapeDetailsParameters `json:"shapeDetails,omitempty" tf:"shape_details,omitempty"`
 
 	// An array of subnet OCIDs.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate subnetIds.
+	// References to Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsRefs []v1.Reference `json:"subnetIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnet in core to populate subnetIds.
+	// Selector for a list of Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
 }

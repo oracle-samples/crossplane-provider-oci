@@ -223,14 +223,14 @@ type ZoneInitParameters struct {
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
-	// +crossplane:generate:reference:type=View
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.View
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 
-	// Reference to a View to populate viewId.
+	// Reference to a View in dns to populate viewId.
 	// +kubebuilder:validation:Optional
 	ViewIDRef *v1.Reference `json:"viewIdRef,omitempty" tf:"-"`
 
-	// Selector for a View to populate viewId.
+	// Selector for a View in dns to populate viewId.
 	// +kubebuilder:validation:Optional
 	ViewIDSelector *v1.Selector `json:"viewIdSelector,omitempty" tf:"-"`
 
@@ -351,15 +351,15 @@ type ZoneParameters struct {
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
-	// +crossplane:generate:reference:type=View
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/dns/v1alpha1.View
 	// +kubebuilder:validation:Optional
 	ViewID *string `json:"viewId,omitempty" tf:"view_id,omitempty"`
 
-	// Reference to a View to populate viewId.
+	// Reference to a View in dns to populate viewId.
 	// +kubebuilder:validation:Optional
 	ViewIDRef *v1.Reference `json:"viewIdRef,omitempty" tf:"-"`
 
-	// Selector for a View to populate viewId.
+	// Selector for a View in dns to populate viewId.
 	// +kubebuilder:validation:Optional
 	ViewIDSelector *v1.Selector `json:"viewIdSelector,omitempty" tf:"-"`
 

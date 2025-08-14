@@ -58,14 +58,14 @@ type BackendSetInitParameters struct {
 	LBCookieSessionPersistenceConfiguration []LBCookieSessionPersistenceConfigurationInitParameters `json:"lbCookieSessionPersistenceConfiguration,omitempty" tf:"lb_cookie_session_persistence_configuration,omitempty"`
 
 	// The OCID of the load balancer on which to add a backend set.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -131,15 +131,15 @@ type BackendSetParameters struct {
 	LBCookieSessionPersistenceConfiguration []LBCookieSessionPersistenceConfigurationParameters `json:"lbCookieSessionPersistenceConfiguration,omitempty" tf:"lb_cookie_session_persistence_configuration,omitempty"`
 
 	// The OCID of the load balancer on which to add a backend set.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	// +kubebuilder:validation:Optional
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 

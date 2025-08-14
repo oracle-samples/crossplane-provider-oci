@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- claim-okecluster.yaml
+
+# Common labels for OKE claims
+commonLabels:
+  app.kubernetes.io/part-of: oke-claims
+  app.kubernetes.io/managed-by: argocd
+
+# Add sync-wave annotation - claims deploy after platform
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "30"
