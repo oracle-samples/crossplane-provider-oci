@@ -1,0 +1,35 @@
+name: Publish Non-Family Provider
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version string to use while publishing the packages"
+        default: ''
+        required: false
+        type: string
+      go-version:
+        description: 'Go version to use if building needs to be done'
+        default: '1.24'
+        required: false
+        type: string
+      registry_org:
+        description: "The organization to publish to in the targeted registries."
+        required: false
+        type: string
+        default: "joekr"
+
+jobs:
+  publish-provider-packages:
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider-non-family.yml@main
+    with:
+      repository: provider-oci
+      version: ${{ github.event.inputs.version }}
+      go-version: ${{ github.event.inputs.go-version }}
+      cleanup-disk: true
+      runs-on: ubuntu-latest
+      mirror: false
+      mirror-registry: false
+      registry_org: ${{ github.event.inputs.registry_org}}
+    secrets:
+      GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
