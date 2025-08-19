@@ -1,0 +1,139 @@
+name: Publish Provider Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      subpackages:
+        description: 'Subpackages to be built individually (e.g. config containerengine)'
+        default: 'config,objectstorage,identity,networkloadbalancer,loadbalancer,containerengine,networking,certificatesmanagement,kms'
+        required: true
+
+      version:
+        description: "Version string to use while publishing the packages (e.g. v1.0.0-alpha.1)"
+        default: ''
+        required: false
+      platform:
+        type: choice
+        description: "Platform string to use while building and publishing the packages (e.g. linux_amd64 linux_arm64)"
+        default: 'linux_amd64'
+        options: 
+        - linux_amd64
+        - linux_arm64
+        required: true
+      go-version:
+        description: 'Go version to use if building needs to be done'
+        default: '1.24'
+        required: false
+      size:
+        description: "Number of smaller provider packages to build and push with each build job"
+        default: '30'
+        required: true
+env:
+  # Common versions
+  DOCKER_BUILDX_VERSION: 'v0.20.1'
+  UP_VERSION: 'v0.37.1'
+
+  # Registry/Org names
+  CROSSPLANE_REGORG: 'ghcr.io/${{ github.repository_owner }}' # xpkg.crossplane.io/crossplane-contrib
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    outputs:
+      indices: ${{ steps.calc.outputs.indices }}
+    steps:
+      - id: calc
+        run: |
+          python3 -c "import math; print(f'indices={list(range(0, math.ceil(len(\"${{ inputs.subpackages }}\".split(',')) / int(\"${{ inputs.size }}\"))))}')" >> "$GITHUB_OUTPUT"
+
+  publish-artifacts:
+    strategy:
+      matrix:
+        index: ${{ fromJSON(needs.index.outputs.indices) }}
+
+    needs: index
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup Disk
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+        if: true
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          tool-cache: true
+          large-packages: false
+          swap-storage: false
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
+        with:
+          platforms: all
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
+        with:
+          version: ${{ env.DOCKER_BUILDX_VERSION }}
+          install: true
+
+      - name: Login to GHCR using PAT
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+        with:
+          submodules: true
+
+      - name: Fetch History
+        run: git fetch --prune --unshallow
+
+      - name: Setup Go
+        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - name: Find the Go Build Cache
+        id: go_cache
+        run: |
+          echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT && \
+          echo "mod_cache=$(make go.mod.cachedir)" >> $GITHUB_OUTPUT
+
+      - name: Cache the Go Build Cache
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+        with:
+          path: ${{ steps.go_cache.outputs.cache }}
+          key: ${{ runner.os }}-build-publish-artifacts-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-build-publish-artifacts-
+
+      - name: Cache Go Dependencies
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+        with:
+          path: ${{ steps.go_cache.outputs.mod_cache }}
+          key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-pkg-
+
+      - name: Vendor Dependencies
+        run: make vendor vendor.check
+
+      - name: Calculate packages to build & push
+        id: packages
+        run: |
+          echo target=$(python3 -c "print(' '.join(\"${{ inputs.subpackages }}\".split(',')[int(\"${{ matrix.index }}\") * int(\"${{ inputs.size }}\"): (int(\"${{ matrix.index }}\")+1) * int(\"${{ inputs.size }}\")]))") >> "$GITHUB_OUTPUT"
+
+      - name: Build Artifacts
+        id: build_artifacts
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+          make generate
+          make SUBPACKAGES="${{ inputs.subpackages }}" PLATFORMS=${{ inputs.platform }} build
+        env:
+          # We're using docker buildx, which doesn't actually load the images it
+          # builds by default. Specifying --load does so.
+          BUILD_ARGS: "--load"
+
+      - name: Publish Artifacts
+        run: |
+          make SUBPACKAGES_FOR_BATCH="${{ inputs.subpackages }}" XPKG_REG_ORGS="${{ env.CROSSPLANE_REGORG }}" VERSION=${{ inputs.version }} BATCH_PLATFORMS=${{ inputs.platform }} publish-subpackages
