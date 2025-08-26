@@ -466,6 +466,17 @@ var GroupMap = map[string]GroupKindCalculator{
 	"oci_vault_secret": func(name string) (string, string) {
 		return "vault", "Secret"
 	},
+
+	// Database Service
+	"oci_database_autonomous_container_database": func(name string) (string, string) {
+		return "database", "AutonomousContainerDatabase"
+	},
+	"oci_database_autonomous_database": func(name string) (string, string) {
+		return "database", "AutonomousDatabase"
+	},
+	"oci_database_db_system": func(name string) (string, string) {
+		return "database", "DbSystem"
+	},
 }
 
 // GroupKindOverrides applies the GroupMap during provider configuration

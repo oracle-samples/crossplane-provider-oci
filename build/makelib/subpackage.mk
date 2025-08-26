@@ -46,6 +46,7 @@ certificatesmanagement:Certificates Management
 networkfirewall:Network Firewall
 servicemesh:Service Mesh
 healthchecks:Health Checks
+database:Database
 endef
 export SERVICE_DISPLAY_NAMES
 

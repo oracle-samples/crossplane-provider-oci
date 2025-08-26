@@ -27,6 +27,7 @@ import (
 	"github.com/oracle/provider-oci/config/certificatesmanagement"
 	"github.com/oracle/provider-oci/config/containerengine"
 	"github.com/oracle/provider-oci/config/core"
+	"github.com/oracle/provider-oci/config/database"
 	"github.com/oracle/provider-oci/config/dns"
 	"github.com/oracle/provider-oci/config/events"
 	"github.com/oracle/provider-oci/config/filestorage"
@@ -91,6 +92,7 @@ func GetProvider() *ujconfig.Provider {
 		events.Configure,
 		vault.Configure,
 		streaming.Configure,
+		database.Configure,
 	} {
 		configure(pc)
 	}
