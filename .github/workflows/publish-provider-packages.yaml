@@ -53,17 +53,6 @@ jobs:
     needs: index
     runs-on: ubuntu-latest
     steps:
-      - name: Cleanup Disk
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
-        if: true
-        with:
-          android: true
-          dotnet: true
-          haskell: true
-          tool-cache: true
-          large-packages: false
-          swap-storage: false
-
       - name: Setup QEMU
         uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
         with:
