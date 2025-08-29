@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oke-platform
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "25"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/oracle-samples/crossplane-provider-oci
+    targetRevision: sub-package-provider
+    path: argocd-examples/oke-platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+    - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+  # Ensure OKE providers are healthy before syncing
+  ignoreDifferences:
+  - group: apiextensions.crossplane.io
+    kind: CompositeResourceDefinition
+    jsonPointers:
+    - /status
+  - group: apiextensions.crossplane.io
+    kind: Composition
+    jsonPointers:
+    - /status

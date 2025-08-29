@@ -110,8 +110,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   nsgIdsRefs:
-                    description: References to NetworkSecurityGroup in core to populate
-                      nsgIds.
+                    description: References to NetworkSecurityGroup in networking
+                      to populate nsgIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -148,7 +148,7 @@ spec:
                       type: object
                     type: array
                   nsgIdsSelector:
-                    description: Selector for a list of NetworkSecurityGroup in core
+                    description: Selector for a list of NetworkSecurityGroup in networking
                       to populate nsgIds.
                     properties:
                       matchControllerRef:
@@ -192,7 +192,7 @@ spec:
                     description: The OCID of the target resolver.
                     type: string
                   resolverIdRef:
-                    description: Reference to a Resolver to populate resolverId.
+                    description: Reference to a Resolver in dns to populate resolverId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -226,7 +226,7 @@ spec:
                     - name
                     type: object
                   resolverIdSelector:
-                    description: Selector for a Resolver to populate resolverId.
+                    description: Selector for a Resolver in dns to populate resolverId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -274,7 +274,7 @@ spec:
                       the resolver is attached to.
                     type: string
                   subnetIdRef:
-                    description: Reference to a Subnet in core to populate subnetId.
+                    description: Reference to a Subnet in networking to populate subnetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -308,7 +308,7 @@ spec:
                     - name
                     type: object
                   subnetIdSelector:
-                    description: Selector for a Subnet in core to populate subnetId.
+                    description: Selector for a Subnet in networking to populate subnetId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -397,8 +397,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   nsgIdsRefs:
-                    description: References to NetworkSecurityGroup in core to populate
-                      nsgIds.
+                    description: References to NetworkSecurityGroup in networking
+                      to populate nsgIds.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -435,7 +435,7 @@ spec:
                       type: object
                     type: array
                   nsgIdsSelector:
-                    description: Selector for a list of NetworkSecurityGroup in core
+                    description: Selector for a list of NetworkSecurityGroup in networking
                       to populate nsgIds.
                     properties:
                       matchControllerRef:
@@ -479,7 +479,7 @@ spec:
                     description: The OCID of the target resolver.
                     type: string
                   resolverIdRef:
-                    description: Reference to a Resolver to populate resolverId.
+                    description: Reference to a Resolver in dns to populate resolverId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -513,7 +513,7 @@ spec:
                     - name
                     type: object
                   resolverIdSelector:
-                    description: Selector for a Resolver to populate resolverId.
+                    description: Selector for a Resolver in dns to populate resolverId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -561,7 +561,7 @@ spec:
                       the resolver is attached to.
                     type: string
                   subnetIdRef:
-                    description: Reference to a Subnet in core to populate subnetId.
+                    description: Reference to a Subnet in networking to populate subnetId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -595,7 +595,7 @@ spec:
                     - name
                     type: object
                   subnetIdSelector:
-                    description: Selector for a Subnet in core to populate subnetId.
+                    description: Selector for a Subnet in networking to populate subnetId.
                     properties:
                       matchControllerRef:
                         description: |-

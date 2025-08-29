@@ -1,0 +1,15 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: PublicIpPoolCapacity
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/publicippoolcapacity
+  labels:
+    testing.upbound.io/example-name: test_public_ip_pool_capacity
+  name: test-public-ip-pool-capacity
+spec:
+  forProvider:
+    byoipId: ${var.byoip_id}
+    cidrBlock: ${var.cidr_block}
+    publicIpPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

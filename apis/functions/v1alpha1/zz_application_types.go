@@ -46,15 +46,15 @@ type ApplicationInitParameters struct {
 	ImagePolicyConfig []ImagePolicyConfigInitParameters `json:"imagePolicyConfig,omitempty" tf:"image_policy_config,omitempty"`
 
 	// (Updatable) The OCIDs of the Network Security Groups to add the application to.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate networkSecurityGroupIds.
+	// References to NetworkSecurityGroup in networking to populate networkSecurityGroupIds.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsRefs []v1.Reference `json:"networkSecurityGroupIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate networkSecurityGroupIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate networkSecurityGroupIds.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsSelector *v1.Selector `json:"networkSecurityGroupIdsSelector,omitempty" tf:"-"`
 
@@ -62,14 +62,14 @@ type ApplicationInitParameters struct {
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// The OCIDs of the subnets in which to run functions in the application.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate subnetIds.
+	// References to Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsRefs []v1.Reference `json:"subnetIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnet in core to populate subnetIds.
+	// Selector for a list of Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
 
@@ -171,16 +171,16 @@ type ApplicationParameters struct {
 	ImagePolicyConfig []ImagePolicyConfigParameters `json:"imagePolicyConfig,omitempty" tf:"image_policy_config,omitempty"`
 
 	// (Updatable) The OCIDs of the Network Security Groups to add the application to.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NetworkSecurityGroupIds []*string `json:"networkSecurityGroupIds,omitempty" tf:"network_security_group_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate networkSecurityGroupIds.
+	// References to NetworkSecurityGroup in networking to populate networkSecurityGroupIds.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsRefs []v1.Reference `json:"networkSecurityGroupIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate networkSecurityGroupIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate networkSecurityGroupIds.
 	// +kubebuilder:validation:Optional
 	NetworkSecurityGroupIdsSelector *v1.Selector `json:"networkSecurityGroupIdsSelector,omitempty" tf:"-"`
 
@@ -189,15 +189,15 @@ type ApplicationParameters struct {
 	Shape *string `json:"shape,omitempty" tf:"shape,omitempty"`
 
 	// The OCIDs of the subnets in which to run functions in the application.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate subnetIds.
+	// References to Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsRefs []v1.Reference `json:"subnetIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of Subnet in core to populate subnetIds.
+	// Selector for a list of Subnet in networking to populate subnetIds.
 	// +kubebuilder:validation:Optional
 	SubnetIdsSelector *v1.Selector `json:"subnetIdsSelector,omitempty" tf:"-"`
 

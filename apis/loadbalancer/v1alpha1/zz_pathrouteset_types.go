@@ -35,14 +35,14 @@ type PathMatchTypeParameters struct {
 type PathRouteSetInitParameters struct {
 
 	// The OCID of the load balancer to add the path route set to.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -71,15 +71,15 @@ type PathRouteSetObservation struct {
 type PathRouteSetParameters struct {
 
 	// The OCID of the load balancer to add the path route set to.
-	// +crossplane:generate:reference:type=LoadBalancer
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.LoadBalancer
 	// +kubebuilder:validation:Optional
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
-	// Reference to a LoadBalancer to populate loadBalancerId.
+	// Reference to a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
-	// Selector for a LoadBalancer to populate loadBalancerId.
+	// Selector for a LoadBalancer in loadbalancer to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
 	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
@@ -95,14 +95,14 @@ type PathRouteSetParameters struct {
 type PathRoutesInitParameters struct {
 
 	// (Updatable) The name of the target backend set for requests where the incoming URI matches the specified path.  Example: example_backend_set
-	// +crossplane:generate:reference:type=BackendSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.BackendSet
 	BackendSetName *string `json:"backendSetName,omitempty" tf:"backend_set_name,omitempty"`
 
-	// Reference to a BackendSet to populate backendSetName.
+	// Reference to a BackendSet in loadbalancer to populate backendSetName.
 	// +kubebuilder:validation:Optional
 	BackendSetNameRef *v1.Reference `json:"backendSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a BackendSet to populate backendSetName.
+	// Selector for a BackendSet in loadbalancer to populate backendSetName.
 	// +kubebuilder:validation:Optional
 	BackendSetNameSelector *v1.Selector `json:"backendSetNameSelector,omitempty" tf:"-"`
 
@@ -128,15 +128,15 @@ type PathRoutesObservation struct {
 type PathRoutesParameters struct {
 
 	// (Updatable) The name of the target backend set for requests where the incoming URI matches the specified path.  Example: example_backend_set
-	// +crossplane:generate:reference:type=BackendSet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1.BackendSet
 	// +kubebuilder:validation:Optional
 	BackendSetName *string `json:"backendSetName,omitempty" tf:"backend_set_name,omitempty"`
 
-	// Reference to a BackendSet to populate backendSetName.
+	// Reference to a BackendSet in loadbalancer to populate backendSetName.
 	// +kubebuilder:validation:Optional
 	BackendSetNameRef *v1.Reference `json:"backendSetNameRef,omitempty" tf:"-"`
 
-	// Selector for a BackendSet to populate backendSetName.
+	// Selector for a BackendSet in loadbalancer to populate backendSetName.
 	// +kubebuilder:validation:Optional
 	BackendSetNameSelector *v1.Selector `json:"backendSetNameSelector,omitempty" tf:"-"`
 

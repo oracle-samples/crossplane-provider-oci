@@ -1,0 +1,46 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: {{ .Name }}
+{{ if ne .Service "monolith" }}
+  labels:
+    pkg.crossplane.io/provider-family: provider-family-{{ .ProviderName }}
+{{ end }}
+  annotations:
+    meta.crossplane.io/maintainer: Crossplane Maintainers <info@crossplane.io>
+    meta.crossplane.io/source: github.com/oracle/provider-{{ .ProviderName }}
+    meta.crossplane.io/license: Apache-2.0
+    meta.crossplane.io/description: |
+      Oracle Cloud Infrastructure (OCI) provider to manage {{ .ServiceDisplayName }}
+      services in Kubernetes using Crossplane.
+    meta.crossplane.io/readme: |
+      {{ if eq .Service "monolith" }}
+      ⚠️ **Deprecation Notice:** The monolithic package is deprecated in favor of the OCI family
+      provider packages. Please consider switching to the [family provider packages](https://docs.crossplane.io/latest/concepts/providers/)
+      for better resource isolation and reduced memory footprint.
+      
+      {{ end }}
+      The OCI provider for Crossplane enables infrastructure management for [Oracle Cloud
+      Infrastructure](https://www.oracle.com/cloud/) services.
+      {{ if eq .Service "config" }}
+      
+      This is the OCI family provider package that provides authentication configuration
+      and ProviderConfig management for all OCI service providers. This package must be
+      installed before any OCI service provider packages.
+      {{ else if ne .Service "monolith" }}
+      
+      This sub-package provides support for the OCI {{ .ServiceDisplayName }} service.
+      It requires the provider-family-oci package to be installed for authentication.
+      {{ end }}
+    friendly-name.meta.crossplane.io: OCI Provider ({{ .ServiceDisplayName }})
+spec:
+{{ if ne .Service "monolith" }}
+  crossplane:
+    version: ">=v1.14.0"
+{{ end }}
+  package: {{ .XpkgRegOrg }}/{{ .Name }}:v{{ .Version }}
+{{ if and (ne .Service "config") (ne .Service "monolith") }}
+  dependsOn:
+    - provider: {{ .XpkgRegOrg }}/provider-family-{{ .ProviderName }}
+      version: "{{ .DepConstraint }}"
+{{ end }}

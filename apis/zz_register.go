@@ -11,12 +11,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	v1alpha1 "github.com/oracle/provider-oci/apis/artifacts/v1alpha1"
+	v1alpha1blockstorage "github.com/oracle/provider-oci/apis/blockstorage/v1alpha1"
 	v1alpha1certificatesmanagement "github.com/oracle/provider-oci/apis/certificatesmanagement/v1alpha1"
+	v1alpha1compute "github.com/oracle/provider-oci/apis/compute/v1alpha1"
 	v1alpha1containerengine "github.com/oracle/provider-oci/apis/containerengine/v1alpha1"
-	v1alpha1core "github.com/oracle/provider-oci/apis/core/v1alpha1"
 	v1alpha1dns "github.com/oracle/provider-oci/apis/dns/v1alpha1"
 	v1alpha1events "github.com/oracle/provider-oci/apis/events/v1alpha1"
-	v1alpha1file "github.com/oracle/provider-oci/apis/file/v1alpha1"
+	v1alpha1filestorage "github.com/oracle/provider-oci/apis/filestorage/v1alpha1"
 	v1alpha1functions "github.com/oracle/provider-oci/apis/functions/v1alpha1"
 	v1alpha1healthchecks "github.com/oracle/provider-oci/apis/healthchecks/v1alpha1"
 	v1alpha1identity "github.com/oracle/provider-oci/apis/identity/v1alpha1"
@@ -24,7 +25,10 @@ import (
 	v1alpha1loadbalancer "github.com/oracle/provider-oci/apis/loadbalancer/v1alpha1"
 	v1alpha1logging "github.com/oracle/provider-oci/apis/logging/v1alpha1"
 	v1alpha1monitoring "github.com/oracle/provider-oci/apis/monitoring/v1alpha1"
-	v1alpha1network "github.com/oracle/provider-oci/apis/network/v1alpha1"
+	v1alpha1networkconnectivity "github.com/oracle/provider-oci/apis/networkconnectivity/v1alpha1"
+	v1alpha1networkfirewall "github.com/oracle/provider-oci/apis/networkfirewall/v1alpha1"
+	v1alpha1networking "github.com/oracle/provider-oci/apis/networking/v1alpha1"
+	v1alpha1networkloadbalancer "github.com/oracle/provider-oci/apis/networkloadbalancer/v1alpha1"
 	v1alpha1objectstorage "github.com/oracle/provider-oci/apis/objectstorage/v1alpha1"
 	v1alpha1ons "github.com/oracle/provider-oci/apis/ons/v1alpha1"
 	v1alpha1streaming "github.com/oracle/provider-oci/apis/streaming/v1alpha1"
@@ -37,12 +41,13 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1blockstorage.SchemeBuilder.AddToScheme,
 		v1alpha1certificatesmanagement.SchemeBuilder.AddToScheme,
+		v1alpha1compute.SchemeBuilder.AddToScheme,
 		v1alpha1containerengine.SchemeBuilder.AddToScheme,
-		v1alpha1core.SchemeBuilder.AddToScheme,
 		v1alpha1dns.SchemeBuilder.AddToScheme,
 		v1alpha1events.SchemeBuilder.AddToScheme,
-		v1alpha1file.SchemeBuilder.AddToScheme,
+		v1alpha1filestorage.SchemeBuilder.AddToScheme,
 		v1alpha1functions.SchemeBuilder.AddToScheme,
 		v1alpha1healthchecks.SchemeBuilder.AddToScheme,
 		v1alpha1identity.SchemeBuilder.AddToScheme,
@@ -50,7 +55,10 @@ func init() {
 		v1alpha1loadbalancer.SchemeBuilder.AddToScheme,
 		v1alpha1logging.SchemeBuilder.AddToScheme,
 		v1alpha1monitoring.SchemeBuilder.AddToScheme,
-		v1alpha1network.SchemeBuilder.AddToScheme,
+		v1alpha1networkconnectivity.SchemeBuilder.AddToScheme,
+		v1alpha1networkfirewall.SchemeBuilder.AddToScheme,
+		v1alpha1networking.SchemeBuilder.AddToScheme,
+		v1alpha1networkloadbalancer.SchemeBuilder.AddToScheme,
 		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
 		v1alpha1ons.SchemeBuilder.AddToScheme,
 		v1alpha1streaming.SchemeBuilder.AddToScheme,

@@ -108,14 +108,14 @@ type ClusterInitParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The OCID of the virtual cloud network (VCN) in which to create the cluster.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn in core to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn in core to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
@@ -243,15 +243,15 @@ type ClusterParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The OCID of the virtual cloud network (VCN) in which to create the cluster.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Vcn
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Vcn
 	// +kubebuilder:validation:Optional
 	VcnID *string `json:"vcnId,omitempty" tf:"vcn_id,omitempty"`
 
-	// Reference to a Vcn in core to populate vcnId.
+	// Reference to a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDRef *v1.Reference `json:"vcnIdRef,omitempty" tf:"-"`
 
-	// Selector for a Vcn in core to populate vcnId.
+	// Selector for a Vcn in networking to populate vcnId.
 	// +kubebuilder:validation:Optional
 	VcnIDSelector *v1.Selector `json:"vcnIdSelector,omitempty" tf:"-"`
 }
@@ -281,27 +281,27 @@ type EndpointConfigInitParameters struct {
 	IsPublicIPEnabled *bool `json:"isPublicIpEnabled,omitempty" tf:"is_public_ip_enabled,omitempty"`
 
 	// A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see NetworkSecurityGroup.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The OCID of the regional subnet in which to place the Cluster endpoint.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
@@ -326,29 +326,29 @@ type EndpointConfigParameters struct {
 	IsPublicIPEnabled *bool `json:"isPublicIpEnabled,omitempty" tf:"is_public_ip_enabled,omitempty"`
 
 	// A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see NetworkSecurityGroup.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.NetworkSecurityGroup
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	NsgIds []*string `json:"nsgIds,omitempty" tf:"nsg_ids,omitempty"`
 
-	// References to NetworkSecurityGroup in core to populate nsgIds.
+	// References to NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsRefs []v1.Reference `json:"nsgIdsRefs,omitempty" tf:"-"`
 
-	// Selector for a list of NetworkSecurityGroup in core to populate nsgIds.
+	// Selector for a list of NetworkSecurityGroup in networking to populate nsgIds.
 	// +kubebuilder:validation:Optional
 	NsgIdsSelector *v1.Selector `json:"nsgIdsSelector,omitempty" tf:"-"`
 
 	// The OCID of the regional subnet in which to place the Cluster endpoint.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
-	// Reference to a Subnet in core to populate subnetId.
+	// Reference to a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDRef *v1.Reference `json:"subnetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Subnet in core to populate subnetId.
+	// Selector for a Subnet in networking to populate subnetId.
 	// +kubebuilder:validation:Optional
 	SubnetIDSelector *v1.Selector `json:"subnetIdSelector,omitempty" tf:"-"`
 }
@@ -657,17 +657,17 @@ type OptionsInitParameters struct {
 	// (Updatable) Configuration to be applied to load balancers created by Kubernetes services
 	ServiceLBConfig []ServiceLBConfigInitParameters `json:"serviceLbConfig,omitempty" tf:"service_lb_config,omitempty"`
 
-	// Selector for a list of Subnet in core to populate serviceLbSubnetIds.
+	// Selector for a list of Subnet in networking to populate serviceLbSubnetIds.
 	// +kubebuilder:validation:Optional
 	ServiceLBSubnetIDSelector *v1.Selector `json:"serviceLbSubnetIdSelector,omitempty" tf:"-"`
 
 	// The OCIDs of the subnets used for Kubernetes services load balancers.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +crossplane:generate:reference:refFieldName=ServiceLBSubnetIdsRef
 	// +crossplane:generate:reference:selectorFieldName=ServiceLBSubnetIDSelector
 	ServiceLBSubnetIds []*string `json:"serviceLbSubnetIds,omitempty" tf:"service_lb_subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate serviceLbSubnetIds.
+	// References to Subnet in networking to populate serviceLbSubnetIds.
 	// +kubebuilder:validation:Optional
 	ServiceLBSubnetIdsRef []v1.Reference `json:"serviceLbSubnetIdsRef,omitempty" tf:"-"`
 }
@@ -736,18 +736,18 @@ type OptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceLBConfig []ServiceLBConfigParameters `json:"serviceLbConfig,omitempty" tf:"service_lb_config,omitempty"`
 
-	// Selector for a list of Subnet in core to populate serviceLbSubnetIds.
+	// Selector for a list of Subnet in networking to populate serviceLbSubnetIds.
 	// +kubebuilder:validation:Optional
 	ServiceLBSubnetIDSelector *v1.Selector `json:"serviceLbSubnetIdSelector,omitempty" tf:"-"`
 
 	// The OCIDs of the subnets used for Kubernetes services load balancers.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/networking/v1alpha1.Subnet
 	// +crossplane:generate:reference:refFieldName=ServiceLBSubnetIdsRef
 	// +crossplane:generate:reference:selectorFieldName=ServiceLBSubnetIDSelector
 	// +kubebuilder:validation:Optional
 	ServiceLBSubnetIds []*string `json:"serviceLbSubnetIds,omitempty" tf:"service_lb_subnet_ids,omitempty"`
 
-	// References to Subnet in core to populate serviceLbSubnetIds.
+	// References to Subnet in networking to populate serviceLbSubnetIds.
 	// +kubebuilder:validation:Optional
 	ServiceLBSubnetIdsRef []v1.Reference `json:"serviceLbSubnetIdsRef,omitempty" tf:"-"`
 }

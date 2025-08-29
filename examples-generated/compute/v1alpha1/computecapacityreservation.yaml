@@ -1,0 +1,29 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: ComputeCapacityReservation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/computecapacityreservation
+  labels:
+    testing.upbound.io/example-name: test_compute_capacity_reservation
+  name: test-compute-capacity-reservation
+spec:
+  forProvider:
+    availabilityDomain: ${var.compute_capacity_reservation_availability_domain}
+    compartmentId: ${var.compartment_id}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.compute_capacity_reservation_display_name}
+    freeformTags:
+      Department: Finance
+    instanceReservationConfigs:
+    - clusterConfig:
+      - hpcIslandId: ${oci_core_hpc_island.test_hpc_island.id}
+        networkBlockIds: ${var.compute_capacity_reservation_instance_reservation_configs_cluster_config_network_block_ids}
+      clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+      faultDomain: ${var.compute_capacity_reservation_instance_reservation_configs_fault_domain}
+      instanceShape: ${var.compute_capacity_reservation_instance_reservation_configs_instance_shape}
+      instanceShapeConfig:
+      - memoryInGbs: ${var.compute_capacity_reservation_instance_reservation_configs_instance_shape_config_memory_in_gbs}
+        ocpus: ${var.compute_capacity_reservation_instance_reservation_configs_instance_shape_config_ocpus}
+      reservedCount: ${var.compute_capacity_reservation_instance_reservation_configs_reserved_count}
+    isDefaultReservation: ${var.compute_capacity_reservation_is_default_reservation}

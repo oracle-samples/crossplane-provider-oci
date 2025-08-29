@@ -1,0 +1,101 @@
+apiVersion: networkloadbalancer.oci.upbound.io/v1alpha1
+kind: NetworkLoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkloadbalancer/v1alpha1/networkloadbalancer
+  labels:
+    testing.upbound.io/example-name: test_network_load_balancer
+  name: test-network-load-balancer
+spec:
+  forProvider:
+    assignedIpv6: ${var.network_load_balancer_assigned_ipv6}
+    assignedPrivateIpv4: ${var.network_load_balancer_assigned_private_ipv4}
+    backend_sets:
+    - backends:
+      - ip_address: ${var.network_load_balancer_backend_sets_backends_ip_address}
+        is_backup: ${var.network_load_balancer_backend_sets_backends_is_backup}
+        is_drain: ${var.network_load_balancer_backend_sets_backends_is_drain}
+        is_offline: ${var.network_load_balancer_backend_sets_backends_is_offline}
+        name: ${var.network_load_balancer_backend_sets_backends_name}
+        port: ${var.network_load_balancer_backend_sets_backends_port}
+        target_id: ${oci_cloud_guard_target.test_target.id}
+        weight: ${var.network_load_balancer_backend_sets_backends_weight}
+      health_checker:
+      - interval_in_millis: ${var.network_load_balancer_backend_sets_health_checker_interval_in_millis}
+        port: ${var.network_load_balancer_backend_sets_health_checker_port}
+        protocol: ${var.network_load_balancer_backend_sets_health_checker_protocol}
+        request_data: ${var.network_load_balancer_backend_sets_health_checker_request_data}
+        response_body_regex: ${var.network_load_balancer_backend_sets_health_checker_response_body_regex}
+        response_data: ${var.network_load_balancer_backend_sets_health_checker_response_data}
+        retries: ${var.network_load_balancer_backend_sets_health_checker_retries}
+        return_code: ${var.network_load_balancer_backend_sets_health_checker_return_code}
+        timeout_in_millis: ${var.network_load_balancer_backend_sets_health_checker_timeout_in_millis}
+        url_path: ${var.network_load_balancer_backend_sets_health_checker_url_path}
+      ip_version: ${var.network_load_balancer_backend_sets_ip_version}
+      is_fail_open: ${var.network_load_balancer_backend_sets_is_fail_open}
+      is_instant_failover_enabled: ${var.network_load_balancer_backend_sets_is_instant_failover_enabled}
+      is_preserve_source: ${var.network_load_balancer_backend_sets_is_preserve_source}
+      policy: ${var.network_load_balancer_backend_sets_policy}
+    - are_operationally_active_backends_preferred: ${var.network_load_balancer_backend_sets_are_operationally_active_backends_preferred}
+      backends:
+      - ip_address: ${var.network_load_balancer_backend_sets_backends_ip_address}
+        is_backup: ${var.network_load_balancer_backend_sets_backends_is_backup}
+        is_drain: ${var.network_load_balancer_backend_sets_backends_is_drain}
+        is_offline: ${var.network_load_balancer_backend_sets_backends_is_offline}
+        name: ${var.network_load_balancer_backend_sets_backends_name}
+        port: ${var.network_load_balancer_backend_sets_backends_port}
+        target_id: ${oci_cloud_guard_target.test_target.id}
+        weight: ${var.network_load_balancer_backend_sets_backends_weight}
+      health_checker:
+      - dns:
+        - domain_name: ${oci_identity_domain.test_domain.name}
+          query_class: ${var.network_load_balancer_backend_sets_health_checker_dns_query_class}
+          query_type: ${var.network_load_balancer_backend_sets_health_checker_dns_query_type}
+          rcodes: ${var.network_load_balancer_backend_sets_health_checker_dns_rcodes}
+          transport_protocol: ${var.network_load_balancer_backend_sets_health_checker_dns_transport_protocol}
+        interval_in_millis: ${var.network_load_balancer_backend_sets_health_checker_interval_in_millis}
+        port: ${var.network_load_balancer_backend_sets_health_checker_port}
+        protocol: ${var.network_load_balancer_backend_sets_health_checker_protocol}
+        request_data: ${var.network_load_balancer_backend_sets_health_checker_request_data}
+        response_body_regex: ${var.network_load_balancer_backend_sets_health_checker_response_body_regex}
+        response_data: ${var.network_load_balancer_backend_sets_health_checker_response_data}
+        retries: ${var.network_load_balancer_backend_sets_health_checker_retries}
+        return_code: ${var.network_load_balancer_backend_sets_health_checker_return_code}
+        timeout_in_millis: ${var.network_load_balancer_backend_sets_health_checker_timeout_in_millis}
+        url_path: ${var.network_load_balancer_backend_sets_health_checker_url_path}
+      ip_version: ${var.network_load_balancer_backend_sets_ip_version}
+      is_fail_open: ${var.network_load_balancer_backend_sets_is_fail_open}
+      is_instant_failover_enabled: ${var.network_load_balancer_backend_sets_is_instant_failover_enabled}
+      is_instant_failover_tcp_reset_enabled: ${var.network_load_balancer_backend_sets_is_instant_failover_tcp_reset_enabled}
+      is_preserve_source: ${var.network_load_balancer_backend_sets_is_preserve_source}
+      policy: ${var.network_load_balancer_backend_sets_policy}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.network_load_balancer_display_name}
+    freeformTags:
+      Department: Finance
+    isPreserveSourceDestination: ${var.network_load_balancer_is_preserve_source_destination}
+    isPrivate: ${var.network_load_balancer_is_private}
+    isSymmetricHashEnabled: ${var.network_load_balancer_is_symmetric_hash_enabled}
+    listeners:
+    - default_backend_set_name: ${var.backend_set_name}
+      ip_version: ${var.network_load_balancer_listeners_ip_version}
+      is_ppv2enabled: ${var.network_load_balancer_listeners_is_ppv2enabled}
+      l3ip_idle_timeout: ${var.network_load_balancer_listeners_l3ip_idle_timeout}
+      name: ${var.network_load_balancer_listeners_name}
+      port: ${var.network_load_balancer_listeners_port}
+      protocol: ${var.network_load_balancer_listeners_protocol}
+      tcp_idle_timeout: ${var.network_load_balancer_listeners_tcp_idle_timeout}
+      udp_idle_timeout: ${var.network_load_balancer_listeners_udp_idle_timeout}
+    networkSecurityGroupIds: ${var.network_load_balancer_network_security_group_ids}
+    nlbIpVersion: ${var.network_load_balancer_nlb_ip_version}
+    reservedIps:
+    - id: ${var.network_load_balancer_reserved_ips_id}
+    securityAttributes: ${var.network_load_balancer_security_attributes}
+    subnetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_subnet
+    subnetIpv6Cidr: ${var.network_load_balancer_subnet_ipv6cidr}

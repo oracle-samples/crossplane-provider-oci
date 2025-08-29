@@ -25,14 +25,14 @@ type InvokeFunctionInitParameters struct {
 	FnInvokeType *string `json:"fnInvokeType,omitempty" tf:"fn_invoke_type,omitempty"`
 
 	// The OCID of this function.
-	// +crossplane:generate:reference:type=Function
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/functions/v1alpha1.Function
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
-	// Reference to a Function to populate functionId.
+	// Reference to a Function in functions to populate functionId.
 	// +kubebuilder:validation:Optional
 	FunctionIDRef *v1.Reference `json:"functionIdRef,omitempty" tf:"-"`
 
-	// Selector for a Function to populate functionId.
+	// Selector for a Function in functions to populate functionId.
 	// +kubebuilder:validation:Optional
 	FunctionIDSelector *v1.Selector `json:"functionIdSelector,omitempty" tf:"-"`
 
@@ -98,15 +98,15 @@ type InvokeFunctionParameters struct {
 	FnInvokeType *string `json:"fnInvokeType,omitempty" tf:"fn_invoke_type,omitempty"`
 
 	// The OCID of this function.
-	// +crossplane:generate:reference:type=Function
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/functions/v1alpha1.Function
 	// +kubebuilder:validation:Optional
 	FunctionID *string `json:"functionId,omitempty" tf:"function_id,omitempty"`
 
-	// Reference to a Function to populate functionId.
+	// Reference to a Function in functions to populate functionId.
 	// +kubebuilder:validation:Optional
 	FunctionIDRef *v1.Reference `json:"functionIdRef,omitempty" tf:"-"`
 
-	// Selector for a Function to populate functionId.
+	// Selector for a Function in functions to populate functionId.
 	// +kubebuilder:validation:Optional
 	FunctionIDSelector *v1.Selector `json:"functionIdSelector,omitempty" tf:"-"`
 

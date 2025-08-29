@@ -1,0 +1,561 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: dedicatedvmhosts.compute.oci.upbound.io
+spec:
+  group: compute.oci.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - oci
+    kind: DedicatedVmHost
+    listKind: DedicatedVmHostList
+    plural: dedicatedvmhosts
+    singular: dedicatedvmhost
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DedicatedVmHost is the Schema for the DedicatedVmHosts API. Provides
+          the Dedicated Vm Host resource in Oracle Cloud Infrastructure Core service
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DedicatedVmHostSpec defines the desired state of DedicatedVmHost
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  availabilityDomain:
+                    description: 'The availability domain of the dedicated virtual
+                      machine host.  Example: Uocm:PHX-AD-1'
+                    type: string
+                  compartmentId:
+                    description: (Updatable) The OCID of the compartment.
+                    type: string
+                  dedicatedVmHostShape:
+                    description: The dedicated virtual machine host shape. The shape
+                      determines the number of CPUs and other resources available
+                      for VM instances launched on the dedicated virtual machine host.
+                    type: string
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  displayName:
+                    description: (Updatable) A user-friendly name. Does not have to
+                      be unique, and it's changeable. Avoid entering confidential
+                      information.
+                    type: string
+                  faultDomain:
+                    description: The fault domain for the dedicated virtual machine
+                      host's assigned instances. For more information, see Fault Domains.
+                      If you do not specify the fault domain, the system selects one
+                      for you. To change the fault domain for a dedicated virtual
+                      machine host, delete it and create a new dedicated virtual machine
+                      host in the preferred fault domain.
+                    type: string
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
+                    items:
+                      properties:
+                        computeBareMetalHostId:
+                          description: The OCID of the compute bare metal host.
+                          type: string
+                        type:
+                          description: Determines the type of targeted launch.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  availabilityDomain:
+                    description: 'The availability domain of the dedicated virtual
+                      machine host.  Example: Uocm:PHX-AD-1'
+                    type: string
+                  compartmentId:
+                    description: (Updatable) The OCID of the compartment.
+                    type: string
+                  dedicatedVmHostShape:
+                    description: The dedicated virtual machine host shape. The shape
+                      determines the number of CPUs and other resources available
+                      for VM instances launched on the dedicated virtual machine host.
+                    type: string
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  displayName:
+                    description: (Updatable) A user-friendly name. Does not have to
+                      be unique, and it's changeable. Avoid entering confidential
+                      information.
+                    type: string
+                  faultDomain:
+                    description: The fault domain for the dedicated virtual machine
+                      host's assigned instances. For more information, see Fault Domains.
+                      If you do not specify the fault domain, the system selects one
+                      for you. To change the fault domain for a dedicated virtual
+                      machine host, delete it and create a new dedicated virtual machine
+                      host in the preferred fault domain.
+                    type: string
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
+                    items:
+                      properties:
+                        computeBareMetalHostId:
+                          description: The OCID of the compute bare metal host.
+                          type: string
+                        type:
+                          description: Determines the type of targeted launch.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.availabilityDomain is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.availabilityDomain)
+                || (has(self.initProvider) && has(self.initProvider.availabilityDomain))'
+            - message: spec.forProvider.compartmentId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.compartmentId)
+                || (has(self.initProvider) && has(self.initProvider.compartmentId))'
+            - message: spec.forProvider.dedicatedVmHostShape is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.dedicatedVmHostShape)
+                || (has(self.initProvider) && has(self.initProvider.dedicatedVmHostShape))'
+          status:
+            description: DedicatedVmHostStatus defines the observed state of DedicatedVmHost.
+            properties:
+              atProvider:
+                properties:
+                  availabilityDomain:
+                    description: 'The availability domain of the dedicated virtual
+                      machine host.  Example: Uocm:PHX-AD-1'
+                    type: string
+                  capacityBins:
+                    description: A list of total and remaining CPU & memory per capacity
+                      bucket.
+                    items:
+                      properties:
+                        capacityIndex:
+                          description: Zero-based index for the corresponding capacity
+                            bucket.
+                          type: number
+                        remainingMemoryInGbs:
+                          description: The remaining memory of the capacity bucket,
+                            in GBs.
+                          type: number
+                        remainingOcpus:
+                          description: The available OCPUs of the capacity bucket.
+                          type: number
+                        supportedShapes:
+                          description: List of VMI shapes supported on each capacity
+                            bucket.
+                          items:
+                            type: string
+                          type: array
+                        totalMemoryInGbs:
+                          description: The total memory of the capacity bucket, in
+                            GBs.
+                          type: number
+                        totalOcpus:
+                          description: The total OCPUs of the capacity bucket.
+                          type: number
+                      type: object
+                    type: array
+                  compartmentId:
+                    description: (Updatable) The OCID of the compartment.
+                    type: string
+                  computeBareMetalHostId:
+                    description: The OCID of the compute bare metal host.
+                    type: string
+                  dedicatedVmHostShape:
+                    description: The dedicated virtual machine host shape. The shape
+                      determines the number of CPUs and other resources available
+                      for VM instances launched on the dedicated virtual machine host.
+                    type: string
+                  definedTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Defined tags for this resource. Each
+                      key is predefined and scoped to a namespace. For more information,
+                      see Resource Tags.  Example: {"Operations.CostCenter": "42"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  displayName:
+                    description: (Updatable) A user-friendly name. Does not have to
+                      be unique, and it's changeable. Avoid entering confidential
+                      information.
+                    type: string
+                  faultDomain:
+                    description: The fault domain for the dedicated virtual machine
+                      host's assigned instances. For more information, see Fault Domains.
+                      If you do not specify the fault domain, the system selects one
+                      for you. To change the fault domain for a dedicated virtual
+                      machine host, delete it and create a new dedicated virtual machine
+                      host in the preferred fault domain.
+                    type: string
+                  freeformTags:
+                    additionalProperties:
+                      type: string
+                    description: '(Updatable) Free-form tags for this resource. Each
+                      tag is a simple key-value pair with no predefined name, type,
+                      or namespace. For more information, see Resource Tags.  Example:
+                      {"Department": "Finance"}'
+                    type: object
+                    x-kubernetes-map-type: granular
+                  id:
+                    description: The OCID of the dedicated VM host.
+                    type: string
+                  placementConstraintDetails:
+                    description: Generic placement details field which is overloaded
+                      with bare metal host id or host group id based on the resource
+                      we are targeting to launch.
+                    items:
+                      properties:
+                        computeBareMetalHostId:
+                          description: The OCID of the compute bare metal host.
+                          type: string
+                        type:
+                          description: Determines the type of targeted launch.
+                          type: string
+                      type: object
+                    type: array
+                  remainingMemoryInGbs:
+                    description: The remaining memory of the capacity bucket, in GBs.
+                    type: number
+                  remainingOcpus:
+                    description: The available OCPUs of the capacity bucket.
+                    type: number
+                  state:
+                    description: The current state of the dedicated VM host.
+                    type: string
+                  timeCreated:
+                    description: 'The date and time the dedicated VM host was created,
+                      in the format defined by RFC3339.  Example: 2016-08-25T21:10:29.600Z'
+                    type: string
+                  totalMemoryInGbs:
+                    description: The total memory of the capacity bucket, in GBs.
+                    type: number
+                  totalOcpus:
+                    description: The total OCPUs of the capacity bucket.
+                    type: number
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

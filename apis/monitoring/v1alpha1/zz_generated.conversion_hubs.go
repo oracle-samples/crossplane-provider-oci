@@ -8,3 +8,9 @@ package v1alpha1
 
 // Hub marks this type as a conversion hub.
 func (tr *Alarm) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CaptureFilter) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Vtap) Hub() {}

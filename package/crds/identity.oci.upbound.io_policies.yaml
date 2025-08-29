@@ -78,7 +78,8 @@ spec:
                       (either the tenancy or another compartment).
                     type: string
                   compartmentIdRef:
-                    description: Reference to a Compartment to populate compartmentId.
+                    description: Reference to a Compartment in identity to populate
+                      compartmentId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                     - name
                     type: object
                   compartmentIdSelector:
-                    description: Selector for a Compartment to populate compartmentId.
+                    description: Selector for a Compartment in identity to populate
+                      compartmentId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -210,7 +212,8 @@ spec:
                       (either the tenancy or another compartment).
                     type: string
                   compartmentIdRef:
-                    description: Reference to a Compartment to populate compartmentId.
+                    description: Reference to a Compartment in identity to populate
+                      compartmentId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -244,7 +247,8 @@ spec:
                     - name
                     type: object
                   compartmentIdSelector:
-                    description: Selector for a Compartment to populate compartmentId.
+                    description: Selector for a Compartment in identity to populate
+                      compartmentId.
                     properties:
                       matchControllerRef:
                         description: |-

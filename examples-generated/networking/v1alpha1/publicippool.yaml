@@ -1,0 +1,18 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: PublicIpPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/publicippool
+  labels:
+    testing.upbound.io/example-name: test_public_ip_pool
+  name: test-public-ip-pool
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.public_ip_pool_display_name}
+    freeformTags:
+      Department: Finance

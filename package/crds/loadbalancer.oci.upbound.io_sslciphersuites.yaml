@@ -82,7 +82,8 @@ spec:
                     description: The OCID of the associated load balancer.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -116,7 +117,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -181,7 +183,8 @@ spec:
                     description: The OCID of the associated load balancer.
                     type: string
                   loadBalancerIdRef:
-                    description: Reference to a LoadBalancer to populate loadBalancerId.
+                    description: Reference to a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -215,7 +218,8 @@ spec:
                     - name
                     type: object
                   loadBalancerIdSelector:
-                    description: Selector for a LoadBalancer to populate loadBalancerId.
+                    description: Selector for a LoadBalancer in loadbalancer to populate
+                      loadBalancerId.
                     properties:
                       matchControllerRef:
                         description: |-

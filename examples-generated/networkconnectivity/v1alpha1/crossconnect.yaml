@@ -1,0 +1,29 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: CrossConnect
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/crossconnect
+  labels:
+    testing.upbound.io/example-name: test_cross_connect
+  name: test-cross-connect
+spec:
+  forProvider:
+    compartmentId: ${var.compartment_id}
+    crossConnectGroupId: ${oci_core_cross_connect_group.test_cross_connect_group.id}
+    customerReferenceName: ${var.cross_connect_customer_reference_name}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.cross_connect_display_name}
+    farCrossConnectOrCrossConnectGroupId: ${oci_core_cross_connect_group.test_cross_connect_group.id}
+    freeformTags:
+      Department: Finance
+    locationName: ${var.cross_connect_location_name}
+    macsecProperties:
+    - encryptionCipher: ${var.cross_connect_macsec_properties_encryption_cipher}
+      isUnprotectedTrafficAllowed: ${var.cross_connect_macsec_properties_is_unprotected_traffic_allowed}
+      primaryKey:
+      - connectivityAssociationKeySecretId: ${oci_vault_secret.test_secret.id}
+        connectivityAssociationNameSecretId: ${oci_vault_secret.test_secret.id}
+      state: ${var.cross_connect_macsec_properties_state}
+    nearCrossConnectOrCrossConnectGroupId: ${oci_core_cross_connect_group.test_cross_connect_group.id}
+    portSpeedShapeName: ${var.cross_connect_port_speed_shape_name}

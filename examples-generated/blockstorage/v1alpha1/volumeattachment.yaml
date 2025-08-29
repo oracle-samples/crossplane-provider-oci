@@ -1,0 +1,25 @@
+apiVersion: blockstorage.oci.upbound.io/v1alpha1
+kind: VolumeAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blockstorage/v1alpha1/volumeattachment
+  labels:
+    testing.upbound.io/example-name: test_volume_attachment
+  name: test-volume-attachment
+spec:
+  forProvider:
+    attachmentType: ${var.volume_attachment_attachment_type}
+    device: ${var.volume_attachment_device}
+    displayName: ${var.volume_attachment_display_name}
+    encryptionInTransitType: ${var.volume_attachment_encryption_in_transit_type}
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_instance
+    isAgentAutoIscsiLoginEnabled: ${var.volume_attachment_is_agent_auto_iscsi_login_enabled}
+    isPvEncryptionInTransitEnabled: ${var.volume_attachment_is_pv_encryption_in_transit_enabled}
+    isReadOnly: ${var.volume_attachment_is_read_only}
+    isShareable: ${var.volume_attachment_is_shareable}
+    useChap: ${var.volume_attachment_use_chap}
+    volumeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_volume

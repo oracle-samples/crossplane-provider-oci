@@ -1,0 +1,17 @@
+apiVersion: blockstorage.oci.upbound.io/v1alpha1
+kind: VolumeBackupPolicyAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blockstorage/v1alpha1/volumebackuppolicyassignment
+  labels:
+    testing.upbound.io/example-name: test_volume_backup_policy_assignment
+  name: test-volume-backup-policy-assignment
+spec:
+  forProvider:
+    assetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_volume
+    policyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_volume_backup_policy
+    xrcKmsKeyId: ${oci_kms_key.test_key.id}

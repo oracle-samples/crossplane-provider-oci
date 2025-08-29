@@ -1,0 +1,19 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: DrgRouteDistributionStatement
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/drgroutedistributionstatement
+  labels:
+    testing.upbound.io/example-name: test_drg_route_distribution_statement
+  name: test-drg-route-distribution-statement
+spec:
+  forProvider:
+    action: ${var.drg_route_distribution_statement_statements_action}
+    drgRouteDistributionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg_route_distribution
+    matchCriteria:
+    - attachmentType: ${var.drg_route_distribution_statement_statements_match_criteria_attachment_type}
+      drgAttachmentId: ${oci_core_drg_attachment.test_drg_attachment.id}
+      matchType: ${var.drg_route_distribution_statement_statements_match_criteria_match_type}
+    priority: ${var.drg_route_distribution_statement_statements_priority}

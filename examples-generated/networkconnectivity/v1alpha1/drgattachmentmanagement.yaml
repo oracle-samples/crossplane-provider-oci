@@ -1,0 +1,24 @@
+apiVersion: networkconnectivity.oci.upbound.io/v1alpha1
+kind: DrgAttachmentManagement
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1alpha1/drgattachmentmanagement
+  labels:
+    testing.upbound.io/example-name: test_drg_rpc_attachment
+  name: test-drg-rpc-attachment
+spec:
+  forProvider:
+    attachmentType: REMOTE_PEERING_CONNECTION
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    displayName: MyTestDrgAttachmentForRpc
+    drgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg
+    drgRouteTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_drg_route_table
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_rpc

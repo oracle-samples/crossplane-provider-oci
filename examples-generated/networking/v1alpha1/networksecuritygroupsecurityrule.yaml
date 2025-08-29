@@ -1,0 +1,38 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: NetworkSecurityGroupSecurityRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/networksecuritygroupsecurityrule
+  labels:
+    testing.upbound.io/example-name: test_network_security_group_security_rule
+  name: test-network-security-group-security-rule
+spec:
+  forProvider:
+    description: ${var.network_security_group_security_rule_description}
+    destination: ${var.network_security_group_security_rule_destination}
+    destinationType: ${var.network_security_group_security_rule_destination_type}
+    direction: ${var.network_security_group_security_rule_direction}
+    icmpOptions:
+    - code: ${var.network_security_group_security_rule_icmp_options_code}
+      type: ${var.network_security_group_security_rule_icmp_options_type}
+    networkSecurityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_network_security_group
+    protocol: ${var.network_security_group_security_rule_protocol}
+    source: ${var.network_security_group_security_rule_source}
+    sourceType: ${var.network_security_group_security_rule_source_type}
+    stateless: ${var.network_security_group_security_rule_stateless}
+    tcpOptions:
+    - destinationPortRange:
+      - max: ${var.network_security_group_security_rule_tcp_options_destination_port_range_max}
+        min: ${var.network_security_group_security_rule_tcp_options_destination_port_range_min}
+      sourcePortRange:
+      - max: ${var.network_security_group_security_rule_tcp_options_source_port_range_max}
+        min: ${var.network_security_group_security_rule_tcp_options_source_port_range_min}
+    udpOptions:
+    - destinationPortRange:
+      - max: ${var.network_security_group_security_rule_udp_options_destination_port_range_max}
+        min: ${var.network_security_group_security_rule_udp_options_destination_port_range_min}
+      sourcePortRange:
+      - max: ${var.network_security_group_security_rule_udp_options_source_port_range_max}
+        min: ${var.network_security_group_security_rule_udp_options_source_port_range_min}

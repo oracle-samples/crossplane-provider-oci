@@ -1,0 +1,173 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: clusters.oke.crossplane.io
+spec:
+  group: oke.crossplane.io
+  names:
+    kind: Cluster
+    plural: clusters
+  claimNames:
+    kind: ClusterClaim
+    plural: clusterclaims
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              compartmentId:
+                type: string
+                description: The OCI Compartment OCID to deploy resources into
+              
+              network:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name prefix for network resources
+                  vcnCidr:
+                    type: string
+                    description: CIDR block for the VCN
+                    default: "10.0.0.0/16"
+                  clusterSubnetCidr:
+                    type: string
+                    description: CIDR block for OKE cluster subnet
+                    default: "10.0.1.0/24"
+                  nodeSubnetCidr:
+                    type: string
+                    description: CIDR block for worker node subnet
+                    default: "10.0.2.0/24"
+                  serviceSubnetCidr:
+                    type: string
+                    description: CIDR block for load balancer subnet
+                    default: "10.0.3.0/24"
+                required:
+                - name
+              
+              cluster:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the OKE cluster
+                  kubernetesVersion:
+                    type: string
+                    description: The Kubernetes version to use
+                    default: "v1.33.1"
+                  type:
+                    type: string
+                    description: The cluster type
+                    default: "ENHANCED_CLUSTER"
+                    enum:
+                    - "BASIC_CLUSTER"
+                    - "ENHANCED_CLUSTER"
+                  isPublicEndpoint:
+                    type: boolean
+                    description: Whether the cluster endpoint should be publicly accessible
+                    default: false
+                  podsCidr:
+                    type: string
+                    description: CIDR block for pod networking
+                    default: "10.244.0.0/16"
+                  servicesCidr:
+                    type: string
+                    description: CIDR block for service networking
+                    default: "10.96.0.0/16"
+                required:
+                - name
+              
+              nodePool:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the node pool
+                  nodeShape:
+                    type: string
+                    description: The compute shape for worker nodes
+                    default: "VM.Standard.E4.Flex"
+                  nodeCount:
+                    type: integer
+                    description: The number of worker nodes
+                    default: 3
+                    minimum: 1
+                    maximum: 50
+                  memoryInGbs:
+                    type: integer
+                    description: Memory in GB for each worker node
+                    default: 16
+                    minimum: 4
+                    maximum: 512
+                  ocpus:
+                    type: integer
+                    description: Number of OCPUs for each worker node
+                    default: 2
+                    minimum: 1
+                    maximum: 64
+                  availabilityDomain:
+                    type: string
+                    description: The availability domain for the node pool
+                  nodeImageId:
+                    type: string
+                    description: The OCID of the image to use for worker nodes
+                  sshPublicKey:
+                    type: string
+                    description: SSH public key for node access (optional for POC)
+                required:
+                - name
+                - availabilityDomain
+                - nodeImageId
+              
+              region:
+                type: string
+                description: OCI region for the deployment
+                default: "us-ashburn-1"
+                
+            required:
+            - compartmentId
+            - network
+            - cluster
+            - nodePool
+            
+          status:
+            type: object
+            properties:
+              vcnId:
+                description: VCN OCID
+                type: string
+              internetGatewayId:
+                description: Internet Gateway OCID
+                type: string
+              natGatewayId:
+                description: NAT Gateway OCID
+                type: string
+              clusterId:
+                description: OKE Cluster OCID
+                type: string
+              clusterEndpoint:
+                description: Kubernetes API endpoint
+                type: string
+              nodePoolId:
+                description: Node Pool OCID
+                type: string
+              nodeSubnetId:
+                description: Node Subnet OCID
+                type: string
+              clusterSubnetId:
+                description: Cluster Subnet OCID
+                type: string
+              kubeconfigCommand:
+                description: Command to generate kubeconfig
+                type: string
+              region:
+                description: OCI region where the cluster is deployed
+                type: string
+              ready:
+                description: Whether the cluster is ready for use
+                type: boolean

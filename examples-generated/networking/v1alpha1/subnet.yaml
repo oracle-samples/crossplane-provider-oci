@@ -1,0 +1,37 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: Subnet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/subnet
+  labels:
+    testing.upbound.io/example-name: test_subnet
+  name: test-subnet
+spec:
+  forProvider:
+    availabilityDomain: ${var.subnet_availability_domain}
+    cidrBlock: ${var.subnet_cidr_block}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    dhcpOptionsIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_dhcp_options
+    displayName: ${var.subnet_display_name}
+    dnsLabel: ${var.subnet_dns_label}
+    freeformTags:
+      Department: Finance
+    ipv6cidrBlock: ${var.subnet_ipv6cidr_block}
+    ipv6cidrBlocks: ${var.subnet_ipv6cidr_blocks}
+    prohibitInternetIngress: ${var.subnet_prohibit_internet_ingress}
+    prohibitPublicIpOnVnic: ${var.subnet_prohibit_public_ip_on_vnic}
+    routeTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_route_table
+    securityListIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

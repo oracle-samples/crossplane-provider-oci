@@ -1,0 +1,67 @@
+# OCI Provider Authentication Configuration
+version: '2023-01-30'
+discriminant: spec.credentials.source
+sources:
+- name: Secret
+  docs: |
+    # Using OCI API Key Authentication
+    
+    This method uses traditional OCI API keys for authentication. You'll need to:
+    
+    1. Generate an API signing key pair
+    2. Upload the public key to your OCI user
+    3. Create a Kubernetes secret with your credentials
+    
+    ## Generate API Key
+    ```bash
+    openssl genrsa -out oci_api_key.pem 2048
+    openssl rsa -pubout -in oci_api_key.pem -out oci_api_key_public.pem
+    ```
+    
+    ## Upload Public Key
+    1. Sign in to the OCI Console
+    2. Navigate to Identity & Security > Users
+    3. Select your user
+    4. Click "Add API Key"
+    5. Upload the public key file
+    
+    ## Create Secret
+    ```bash
+    kubectl create secret generic oci-credentials \
+      --from-literal=tenancy=<your-tenancy-ocid> \
+      --from-literal=user=<your-user-ocid> \
+      --from-literal=fingerprint=<your-key-fingerprint> \
+      --from-literal=privateKey="$(cat oci_api_key.pem)" \
+      --from-literal=region=<your-region>
+    ```
+  showFields:
+  - spec.credentials.secretRef.namespace
+  - spec.credentials.secretRef.name
+  - spec.credentials.secretRef.key
+- name: InstancePrincipal
+  docs: |
+    # Using OCI Instance Principal Authentication
+    
+    Instance Principal authentication allows OCI compute instances to authenticate
+    to OCI services without storing credentials. This is the recommended approach
+    when running the provider on OCI compute instances.
+    
+    ## Prerequisites
+    1. The provider must be running on an OCI compute instance
+    2. The instance must have a dynamic group membership
+    3. IAM policies must grant the dynamic group necessary permissions
+    
+    ## Setup Dynamic Group
+    1. In OCI Console, navigate to Identity & Security > Dynamic Groups
+    2. Create a dynamic group with matching rules for your instances
+    3. Example rule: `instance.compartment.id = '<compartment-ocid>'`
+    
+    ## Create IAM Policy
+    ```
+    Allow dynamic-group <dynamic-group-name> to manage all-resources in compartment <compartment-name>
+    ```
+    
+    ## Configure Provider
+    Set the credential source to "InstancePrincipal" with no additional configuration needed.
+  showFields:
+  - spec.credentials.source

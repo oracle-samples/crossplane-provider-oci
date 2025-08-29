@@ -1,0 +1,42 @@
+apiVersion: blockstorage.oci.upbound.io/v1alpha1
+kind: Volume
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blockstorage/v1alpha1/volume
+  labels:
+    testing.upbound.io/example-name: test_volume
+  name: test-volume
+spec:
+  forProvider:
+    autotunePolicies:
+    - autotuneType: ${var.volume_autotune_policies_autotune_type}
+      maxVpusPerGb: ${var.volume_autotune_policies_max_vpus_per_gb}
+    availabilityDomain: ${var.volume_availability_domain}
+    backupPolicyId: ${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}
+    blockVolumeReplicas:
+    - availabilityDomain: ${var.volume_block_volume_replicas_availability_domain}
+      displayName: ${var.volume_block_volume_replicas_display_name}
+      xrrKmsKeyId: ${oci_kms_key.test_key.id}
+    blockVolumeReplicasDeletion: true
+    clusterPlacementGroupId: ${oci_identity_group.test_group.id}
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.volume_display_name}
+    freeformTags:
+      Department: Finance
+    isAutoTuneEnabled: ${var.volume_is_auto_tune_enabled}
+    isReservationsEnabled: ${var.volume_is_reservations_enabled}
+    kmsKeyId: ${oci_kms_key.test_key.id}
+    sizeInGbs: ${var.volume_size_in_gbs}
+    sizeInMbs: ${var.volume_size_in_mbs}
+    sourceDetails:
+    - changeBlockSizeInBytes: ${var.volume_source_details_change_block_size_in_bytes}
+      firstBackupId: ${oci_database_backup.test_backup.id}
+      id: ${var.volume_source_details_id}
+      secondBackupId: ${oci_database_backup.test_backup.id}
+      type: ${var.volume_source_details_type}
+    vpusPerGb: ${var.volume_vpus_per_gb}
+    xrcKmsKeyId: ${oci_kms_key.test_key.id}

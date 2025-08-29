@@ -24,19 +24,19 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["compartment_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/identity/v1alpha1.Compartment",
+			TerraformName: "oci_identity_compartment",
 		}
 		r.References["subnet_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.Subnet",
+			TerraformName: "oci_core_subnet",
 		}
 		r.References["network_security_group_ids"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/core/v1alpha1.NetworkSecurityGroup",
+			TerraformName: "oci_core_network_security_group",
 		}
 		r.References["kms_key_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/kms/v1alpha1.Key",
+			TerraformName: "oci_kms_key",
 		}
 		r.References["domain_id"] = config.Reference{
-			Type: "github.com/oracle/provider-oci/apis/dns/v1alpha1.Domain",
+			TerraformName: "oci_dns_zone",
 		}
 	})
 
@@ -44,7 +44,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["application_id"] = config.Reference{
-			Type: "Application",
+			TerraformName: "oci_functions_application",
 		}
 	})
 
@@ -52,7 +52,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1alpha1"
 		r.ExternalName = config.IdentifierFromProvider
 		r.References["function_id"] = config.Reference{
-			Type: "Function",
+			TerraformName: "oci_functions_function",
 		}
 	})
 }

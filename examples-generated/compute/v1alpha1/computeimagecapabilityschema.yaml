@@ -1,0 +1,23 @@
+apiVersion: compute.oci.upbound.io/v1alpha1
+kind: ComputeImageCapabilitySchema
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/computeimagecapabilityschema
+  labels:
+    testing.upbound.io/example-name: test_compute_image_capability_schema
+  name: test-compute-image-capability-schema
+spec:
+  forProvider:
+    compartmentId: ${var.compartment_id}
+    computeGlobalImageCapabilitySchemaVersionName: ${var.compute_image_capability_schema_compute_global_image_capability_schema_version_name}
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.compute_image_capability_schema_display_name}
+    freeformTags:
+      Department: Finance
+    imageId: ${oci_core_image.test_image.id}
+    schemaData:
+    - default_value: ${var.compute_image_capability_schema_schema_data_default_value}
+      descriptor_type: ${var.compute_image_capability_schema_schema_data_descriptor_type}
+      source: ${var.compute_image_capability_schema_schema_data_source}
+      values: ${var.compute_image_capability_schema_schema_data_values}

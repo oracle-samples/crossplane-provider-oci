@@ -1,0 +1,21 @@
+apiVersion: networking.oci.upbound.io/v1alpha1
+kind: NetworkSecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networking/v1alpha1/networksecuritygroup
+  labels:
+    testing.upbound.io/example-name: test_network_security_group
+  name: test-network-security-group
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.network_security_group_display_name}
+    freeformTags:
+      Department: Finance
+    vcnIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_vcn

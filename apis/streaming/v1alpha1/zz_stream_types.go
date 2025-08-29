@@ -45,14 +45,14 @@ type StreamInitParameters struct {
 	RetentionInHours *float64 `json:"retentionInHours,omitempty" tf:"retention_in_hours,omitempty"`
 
 	// (Updatable) The OCID of the stream pool that contains the stream.
-	// +crossplane:generate:reference:type=StreamPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/streaming/v1alpha1.StreamPool
 	StreamPoolID *string `json:"streamPoolId,omitempty" tf:"stream_pool_id,omitempty"`
 
-	// Reference to a StreamPool to populate streamPoolId.
+	// Reference to a StreamPool in streaming to populate streamPoolId.
 	// +kubebuilder:validation:Optional
 	StreamPoolIDRef *v1.Reference `json:"streamPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a StreamPool to populate streamPoolId.
+	// Selector for a StreamPool in streaming to populate streamPoolId.
 	// +kubebuilder:validation:Optional
 	StreamPoolIDSelector *v1.Selector `json:"streamPoolIdSelector,omitempty" tf:"-"`
 }
@@ -136,15 +136,15 @@ type StreamParameters struct {
 	RetentionInHours *float64 `json:"retentionInHours,omitempty" tf:"retention_in_hours,omitempty"`
 
 	// (Updatable) The OCID of the stream pool that contains the stream.
-	// +crossplane:generate:reference:type=StreamPool
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/streaming/v1alpha1.StreamPool
 	// +kubebuilder:validation:Optional
 	StreamPoolID *string `json:"streamPoolId,omitempty" tf:"stream_pool_id,omitempty"`
 
-	// Reference to a StreamPool to populate streamPoolId.
+	// Reference to a StreamPool in streaming to populate streamPoolId.
 	// +kubebuilder:validation:Optional
 	StreamPoolIDRef *v1.Reference `json:"streamPoolIdRef,omitempty" tf:"-"`
 
-	// Selector for a StreamPool to populate streamPoolId.
+	// Selector for a StreamPool in streaming to populate streamPoolId.
 	// +kubebuilder:validation:Optional
 	StreamPoolIDSelector *v1.Selector `json:"streamPoolIdSelector,omitempty" tf:"-"`
 }

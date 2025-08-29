@@ -292,7 +292,7 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup in core
+                          description: References to NetworkSecurityGroup in networking
                             to populate nsgIds.
                           items:
                             description: A Reference to a named object.
@@ -331,7 +331,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            in core to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -382,7 +382,7 @@ spec:
                             used to access the service instead of the private IP.
                           type: string
                         privateEndpointIpRef:
-                          description: Reference to a PrivateIP in core to populate
+                          description: Reference to a PrivateIp in networking to populate
                             privateEndpointIp.
                           properties:
                             name:
@@ -417,7 +417,7 @@ spec:
                           - name
                           type: object
                         privateEndpointIpSelector:
-                          description: Selector for a PrivateIP in core to populate
+                          description: Selector for a PrivateIp in networking to populate
                             privateEndpointIp.
                           properties:
                             matchControllerRef:
@@ -465,7 +465,8 @@ spec:
                             cannot be changed.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet in core to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -499,7 +500,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet in core to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -773,7 +775,7 @@ spec:
                           type: array
                           x-kubernetes-list-type: set
                         nsgIdsRefs:
-                          description: References to NetworkSecurityGroup in core
+                          description: References to NetworkSecurityGroup in networking
                             to populate nsgIds.
                           items:
                             description: A Reference to a named object.
@@ -812,7 +814,7 @@ spec:
                           type: array
                         nsgIdsSelector:
                           description: Selector for a list of NetworkSecurityGroup
-                            in core to populate nsgIds.
+                            in networking to populate nsgIds.
                           properties:
                             matchControllerRef:
                               description: |-
@@ -863,7 +865,7 @@ spec:
                             used to access the service instead of the private IP.
                           type: string
                         privateEndpointIpRef:
-                          description: Reference to a PrivateIP in core to populate
+                          description: Reference to a PrivateIp in networking to populate
                             privateEndpointIp.
                           properties:
                             name:
@@ -898,7 +900,7 @@ spec:
                           - name
                           type: object
                         privateEndpointIpSelector:
-                          description: Selector for a PrivateIP in core to populate
+                          description: Selector for a PrivateIp in networking to populate
                             privateEndpointIp.
                           properties:
                             matchControllerRef:
@@ -946,7 +948,8 @@ spec:
                             cannot be changed.
                           type: string
                         subnetIdRef:
-                          description: Reference to a Subnet in core to populate subnetId.
+                          description: Reference to a Subnet in networking to populate
+                            subnetId.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -980,7 +983,8 @@ spec:
                           - name
                           type: object
                         subnetIdSelector:
-                          description: Selector for a Subnet in core to populate subnetId.
+                          description: Selector for a Subnet in networking to populate
+                            subnetId.
                           properties:
                             matchControllerRef:
                               description: |-

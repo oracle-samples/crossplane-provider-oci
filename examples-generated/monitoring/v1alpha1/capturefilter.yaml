@@ -1,0 +1,68 @@
+apiVersion: monitoring.oci.upbound.io/v1alpha1
+kind: CaptureFilter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1alpha1/capturefilter
+  labels:
+    testing.upbound.io/example-name: test_capture_filter
+  name: test-capture-filter
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.capture_filter_display_name}
+    filterType: ${var.capture_filter_filter_type}
+    flowLogCaptureFilterRules:
+    - destinationCidr: ${var.capture_filter_flow_log_capture_filter_rules_destination_cidr}
+      flowLogType: ${var.capture_filter_flow_log_capture_filter_rules_flow_log_type}
+      icmpOptions:
+      - code: ${var.capture_filter_flow_log_capture_filter_rules_icmp_options_code}
+        type: ${var.capture_filter_flow_log_capture_filter_rules_icmp_options_type}
+      isEnabled: ${var.capture_filter_flow_log_capture_filter_rules_is_enabled}
+      priority: ${var.capture_filter_flow_log_capture_filter_rules_priority}
+      protocol: ${var.capture_filter_flow_log_capture_filter_rules_protocol}
+      ruleAction: ${var.capture_filter_flow_log_capture_filter_rules_rule_action}
+      samplingRate: ${var.capture_filter_flow_log_capture_filter_rules_sampling_rate}
+      sourceCidr: ${var.capture_filter_flow_log_capture_filter_rules_source_cidr}
+      tcpOptions:
+      - destinationPortRange:
+        - max: ${var.capture_filter_flow_log_capture_filter_rules_tcp_options_destination_port_range_max}
+          min: ${var.capture_filter_flow_log_capture_filter_rules_tcp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.capture_filter_flow_log_capture_filter_rules_tcp_options_source_port_range_max}
+          min: ${var.capture_filter_flow_log_capture_filter_rules_tcp_options_source_port_range_min}
+      udpOptions:
+      - destinationPortRange:
+        - max: ${var.capture_filter_flow_log_capture_filter_rules_udp_options_destination_port_range_max}
+          min: ${var.capture_filter_flow_log_capture_filter_rules_udp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.capture_filter_flow_log_capture_filter_rules_udp_options_source_port_range_max}
+          min: ${var.capture_filter_flow_log_capture_filter_rules_udp_options_source_port_range_min}
+    freeformTags:
+      Department: Finance
+    vtapCaptureFilterRules:
+    - destinationCidr: ${var.capture_filter_vtap_capture_filter_rules_destination_cidr}
+      icmpOptions:
+      - code: ${var.capture_filter_vtap_capture_filter_rules_icmp_options_code}
+        type: ${var.capture_filter_vtap_capture_filter_rules_icmp_options_type}
+      protocol: ${var.capture_filter_vtap_capture_filter_rules_protocol}
+      ruleAction: ${var.capture_filter_vtap_capture_filter_rules_rule_action}
+      sourceCidr: ${var.capture_filter_vtap_capture_filter_rules_source_cidr}
+      tcpOptions:
+      - destinationPortRange:
+        - max: ${var.capture_filter_vtap_capture_filter_rules_tcp_options_destination_port_range_max}
+          min: ${var.capture_filter_vtap_capture_filter_rules_tcp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.capture_filter_vtap_capture_filter_rules_tcp_options_source_port_range_max}
+          min: ${var.capture_filter_vtap_capture_filter_rules_tcp_options_source_port_range_min}
+      trafficDirection: ${var.capture_filter_vtap_capture_filter_rules_traffic_direction}
+      udpOptions:
+      - destinationPortRange:
+        - max: ${var.capture_filter_vtap_capture_filter_rules_udp_options_destination_port_range_max}
+          min: ${var.capture_filter_vtap_capture_filter_rules_udp_options_destination_port_range_min}
+        sourcePortRange:
+        - max: ${var.capture_filter_vtap_capture_filter_rules_udp_options_source_port_range_max}
+          min: ${var.capture_filter_vtap_capture_filter_rules_udp_options_source_port_range_min}
