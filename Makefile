@@ -228,6 +228,9 @@ build.complete: generate.resolve build
 go.cachedir:
 	@go env GOCACHE
 
+go.mod.cachedir:
+	@go env GOMODCACHE
+
 # Generate a coverage report for cobertura applying exclusions on
 # - generated file
 cobertura:
