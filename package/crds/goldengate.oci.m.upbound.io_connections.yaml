@@ -270,12 +270,6 @@ spec:
                       connection.
                     items:
                       properties:
-                        apiKey:
-                          description: '(Updatable) API key for the AI model connection.
-                            Deprecated: This field is deprecated and replaced by "apiKeySecretId".
-                            This change follows the GoldenGate "Plain Text Fields
-                            in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate'
-                          type: string
                         apiKeySecretId:
                           description: (Updatable) API key secret OCID for the AI
                             model connection.
@@ -361,6 +355,21 @@ spec:
                                   - IfNotPresent
                                   type: string
                               type: object
+                          type: object
+                        apiKeySecretRef:
+                          description: '(Updatable) API key for the AI model connection.
+                            Deprecated: This field is deprecated and replaced by "apiKeySecretId".
+                            This change follows the GoldenGate "Plain Text Fields
+                            in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate'
+                          properties:
+                            key:
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
                           type: object
                         authType:
                           description: (Updatable) Authentication type used by the
@@ -4659,12 +4668,6 @@ spec:
                       connection.
                     items:
                       properties:
-                        apiKey:
-                          description: '(Updatable) API key for the AI model connection.
-                            Deprecated: This field is deprecated and replaced by "apiKeySecretId".
-                            This change follows the GoldenGate "Plain Text Fields
-                            in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate'
-                          type: string
                         apiKeySecretId:
                           description: (Updatable) API key secret OCID for the AI
                             model connection.
@@ -4750,6 +4753,21 @@ spec:
                                   - IfNotPresent
                                   type: string
                               type: object
+                          type: object
+                        apiKeySecretRef:
+                          description: '(Updatable) API key for the AI model connection.
+                            Deprecated: This field is deprecated and replaced by "apiKeySecretId".
+                            This change follows the GoldenGate "Plain Text Fields
+                            in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate'
+                          properties:
+                            key:
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
                           type: object
                         authType:
                           description: (Updatable) Authentication type used by the
@@ -8935,12 +8953,6 @@ spec:
                       connection.
                     items:
                       properties:
-                        apiKey:
-                          description: '(Updatable) API key for the AI model connection.
-                            Deprecated: This field is deprecated and replaced by "apiKeySecretId".
-                            This change follows the GoldenGate "Plain Text Fields
-                            in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate'
-                          type: string
                         apiKeySecretId:
                           description: (Updatable) API key secret OCID for the AI
                             model connection.

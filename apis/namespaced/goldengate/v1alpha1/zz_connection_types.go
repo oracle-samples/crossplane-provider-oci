@@ -45,9 +45,6 @@ type AdditionalAttributesParameters struct {
 
 type AuthDetailsInitParameters struct {
 
-	// (Updatable) API key for the AI model connection. Deprecated: This field is deprecated and replaced by "apiKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	APIKey *string `json:"apiKey,omitempty" tf:"api_key,omitempty"`
-
 	// (Updatable) API key secret OCID for the AI model connection.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/namespaced/vault/v1alpha1.Secret
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -60,6 +57,9 @@ type AuthDetailsInitParameters struct {
 	// Selector for a Secret in vault to populate apiKeySecretId.
 	// +kubebuilder:validation:Optional
 	APIKeySecretIDSelector *v1.NamespacedSelector `json:"apiKeySecretIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) API key for the AI model connection. Deprecated: This field is deprecated and replaced by "apiKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	APIKeySecretRef *v1.LocalSecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// (Updatable) Authentication type used by the AI model connection.
 	AuthType *string `json:"authType,omitempty" tf:"auth_type,omitempty"`
@@ -92,9 +92,6 @@ type AuthDetailsInitParameters struct {
 
 type AuthDetailsObservation struct {
 
-	// (Updatable) API key for the AI model connection. Deprecated: This field is deprecated and replaced by "apiKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	APIKey *string `json:"apiKey,omitempty" tf:"api_key,omitempty"`
-
 	// (Updatable) API key secret OCID for the AI model connection.
 	APIKeySecretID *string `json:"apiKeySecretId,omitempty" tf:"api_key_secret_id,omitempty"`
 
@@ -119,10 +116,6 @@ type AuthDetailsObservation struct {
 
 type AuthDetailsParameters struct {
 
-	// (Updatable) API key for the AI model connection. Deprecated: This field is deprecated and replaced by "apiKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	// +kubebuilder:validation:Optional
-	APIKey *string `json:"apiKey,omitempty" tf:"api_key,omitempty"`
-
 	// (Updatable) API key secret OCID for the AI model connection.
 	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/namespaced/vault/v1alpha1.Secret
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -136,6 +129,10 @@ type AuthDetailsParameters struct {
 	// Selector for a Secret in vault to populate apiKeySecretId.
 	// +kubebuilder:validation:Optional
 	APIKeySecretIDSelector *v1.NamespacedSelector `json:"apiKeySecretIdSelector,omitempty" tf:"-"`
+
+	// (Updatable) API key for the AI model connection. Deprecated: This field is deprecated and replaced by "apiKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// +kubebuilder:validation:Optional
+	APIKeySecretRef *v1.LocalSecretKeySelector `json:"apiKeySecretRef,omitempty" tf:"-"`
 
 	// (Updatable) Authentication type used by the AI model connection.
 	// +kubebuilder:validation:Optional
