@@ -66,7 +66,7 @@ spec:
                       instance.
                     type: string
                   connectivityType:
-                    description: Connectivity type of the digital twin instance
+                    description: (Updatable)
                     type: string
                   definedTags:
                     additionalProperties:
@@ -382,7 +382,7 @@ spec:
                       instance.
                     type: string
                   connectivityType:
-                    description: Connectivity type of the digital twin instance
+                    description: (Updatable)
                     type: string
                   definedTags:
                     additionalProperties:
@@ -750,7 +750,7 @@ spec:
                       instance.
                     type: string
                   connectivityType:
-                    description: Connectivity type of the digital twin instance
+                    description: (Updatable)
                     type: string
                   definedTags:
                     additionalProperties:

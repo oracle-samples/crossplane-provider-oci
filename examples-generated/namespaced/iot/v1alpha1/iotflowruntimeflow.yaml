@@ -1,0 +1,15 @@
+apiVersion: iot.oci.m.upbound.io/v1alpha1
+kind: IotFlowRuntimeFlow
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iot/v1alpha1/iotflowruntimeflow
+  labels:
+    testing.upbound.io/example-name: test_iot_flow_runtime_flow
+  name: test-iot-flow-runtime-flow
+  namespace: upbound-system
+spec:
+  forProvider:
+    flowsDocument: ${var.iot_flow_runtime_flow_flows_document}
+    iotFlowRuntimeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_iot_flow_runtime

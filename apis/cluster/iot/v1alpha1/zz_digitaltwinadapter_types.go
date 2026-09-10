@@ -257,6 +257,9 @@ type InboundRoutesInitParameters struct {
 	// (Updatable) A boolean expression used to determine whether the following transformation should be processed for the incoming payload. This expression is typically based on fields defined at the inbound Envelope and is evaluated before applying the payloadMapping.
 	Condition *string `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// (Updatable) JSON Path string to override the context root before delegating to the adapter of the target digital twin instance.
+	ContentRoot *string `json:"contentRoot,omitempty" tf:"content_root,omitempty"`
+
 	// (Updatable) A short description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -266,12 +269,18 @@ type InboundRoutesInitParameters struct {
 
 	// (Updatable) Reference payload structure template received from IoT device. This payload must specify its content type using the dataFormat property.
 	ReferencePayload []InboundRoutesReferencePayloadInitParameters `json:"referencePayload,omitempty" tf:"reference_payload,omitempty"`
+
+	// (Updatable) Optional. JQ expression to map the target resource, which is externalKey of digital twin instance, the incoming data belongs to.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type InboundRoutesObservation struct {
 
 	// (Updatable) A boolean expression used to determine whether the following transformation should be processed for the incoming payload. This expression is typically based on fields defined at the inbound Envelope and is evaluated before applying the payloadMapping.
 	Condition *string `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// (Updatable) JSON Path string to override the context root before delegating to the adapter of the target digital twin instance.
+	ContentRoot *string `json:"contentRoot,omitempty" tf:"content_root,omitempty"`
 
 	// (Updatable) A short description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -282,6 +291,9 @@ type InboundRoutesObservation struct {
 
 	// (Updatable) Reference payload structure template received from IoT device. This payload must specify its content type using the dataFormat property.
 	ReferencePayload []InboundRoutesReferencePayloadObservation `json:"referencePayload,omitempty" tf:"reference_payload,omitempty"`
+
+	// (Updatable) Optional. JQ expression to map the target resource, which is externalKey of digital twin instance, the incoming data belongs to.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type InboundRoutesParameters struct {
@@ -289,6 +301,10 @@ type InboundRoutesParameters struct {
 	// (Updatable) A boolean expression used to determine whether the following transformation should be processed for the incoming payload. This expression is typically based on fields defined at the inbound Envelope and is evaluated before applying the payloadMapping.
 	// +kubebuilder:validation:Optional
 	Condition *string `json:"condition" tf:"condition,omitempty"`
+
+	// (Updatable) JSON Path string to override the context root before delegating to the adapter of the target digital twin instance.
+	// +kubebuilder:validation:Optional
+	ContentRoot *string `json:"contentRoot,omitempty" tf:"content_root,omitempty"`
 
 	// (Updatable) A short description of the resource.
 	// +kubebuilder:validation:Optional
@@ -302,6 +318,10 @@ type InboundRoutesParameters struct {
 	// (Updatable) Reference payload structure template received from IoT device. This payload must specify its content type using the dataFormat property.
 	// +kubebuilder:validation:Optional
 	ReferencePayload []InboundRoutesReferencePayloadParameters `json:"referencePayload,omitempty" tf:"reference_payload,omitempty"`
+
+	// (Updatable) Optional. JQ expression to map the target resource, which is externalKey of digital twin instance, the incoming data belongs to.
+	// +kubebuilder:validation:Optional
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type InboundRoutesReferencePayloadInitParameters struct {

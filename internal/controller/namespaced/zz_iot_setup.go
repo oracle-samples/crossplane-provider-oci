@@ -19,6 +19,10 @@ import (
 	iotdomainconfiguredataaccess "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomainconfiguredataaccess"
 	iotdomaingroup "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomaingroup"
 	iotdomaingroupconfiguredataaccess "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomaingroupconfiguredataaccess"
+	iotflowruntime "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntime"
+	iotflowruntimeactivate "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimeactivate"
+	iotflowruntimedeactivate "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimedeactivate"
+	iotflowruntimeflow "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimeflow"
 )
 
 // Setup_iot creates all controllers with the supplied logger and adds them to
@@ -35,6 +39,10 @@ func Setup_iot(mgr ctrl.Manager, o controller.Options) error {
 		iotdomainconfiguredataaccess.Setup,
 		iotdomaingroup.Setup,
 		iotdomaingroupconfiguredataaccess.Setup,
+		iotflowruntime.Setup,
+		iotflowruntimeactivate.Setup,
+		iotflowruntimedeactivate.Setup,
+		iotflowruntimeflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -57,6 +65,10 @@ func SetupGated_iot(mgr ctrl.Manager, o controller.Options) error {
 		iotdomainconfiguredataaccess.SetupGated,
 		iotdomaingroup.SetupGated,
 		iotdomaingroupconfiguredataaccess.SetupGated,
+		iotflowruntime.SetupGated,
+		iotflowruntimeactivate.SetupGated,
+		iotflowruntimedeactivate.SetupGated,
+		iotflowruntimeflow.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

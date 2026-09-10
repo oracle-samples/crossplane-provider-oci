@@ -362,13 +362,17 @@ spec:
                         type: object
                     type: object
                   autonomousDatabaseMaintenanceWindow:
-                    description: (Updatable) Autonomous Database maintenance window.
+                    description: (Updatable) Autonomous AI Database maintenance window.
                       The maintenance window can be configured during database creation.
-                      To change the maintenance window of an existing Autonomous Database
-                      Serverless instance, clone the database and specify the maintenance
-                      window for the new cloned instance.
+                      To change the maintenance window of an existing Autonomous AI
+                      Database Serverless instance, clone the database and specify
+                      the maintenance window for the new cloned instance.
                     items:
                       properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
                         dayOfWeek:
                           description: (Updatable) Day of the week.
                           items:
@@ -378,6 +382,10 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
                         maintenanceEndTime:
                           description: (Updatable) The maintenance end time. The value
                             must use the ISO-8601 format "hh:mm".
@@ -393,6 +401,10 @@ spec:
                       Autonomous AI Database Serverless. An EARLY maintenance schedule
                       follows a schedule applying patches prior to the REGULAR schedule.
                       A REGULAR maintenance schedule follows the normal cycle
+                    type: string
+                  availabilityDomain:
+                    description: (Updatable) The AD in which the maintenance will
+                      occur.
                     type: string
                   backupRetentionPeriodInDays:
                     description: (Updatable) Retention period, in days, for long-term
@@ -1101,6 +1113,8 @@ spec:
                       more compute or storage resources, you may upgrade to a full
                       paid production database.
                     type: boolean
+                  isDisableAdUpdateSchedule:
+                    type: boolean
                   isDisableDbVersionUpgradeSchedule:
                     type: boolean
                   isDisconnectPeer:
@@ -1139,6 +1153,8 @@ spec:
                       backups are replicated across regions for Cross-Region ADB or
                       Backup-Based DR between Primary and Standby. If false, the backups
                       taken on the Primary are not replicated to the Standby database.
+                    type: boolean
+                  isScheduleAdUpdateToEarliest:
                     type: boolean
                   isScheduleDbVersionUpgradeToEarliest:
                     type: boolean
@@ -1383,6 +1399,41 @@ spec:
                       rotation of KMS key. It is only applicable on dedicated databases
                       i.e. where is_dedicated is true.
                     type: boolean
+                  scheduledMaintenanceWindow:
+                    description: Autonomous AI Database maintenance window. The maintenance
+                      window can be configured during database creation. To change
+                      the maintenance window of an existing Autonomous AI Database
+                      Serverless instance, clone the database and specify the maintenance
+                      window for the new cloned instance.
+                    items:
+                      properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
+                        dayOfWeek:
+                          description: (Updatable) Day of the week.
+                          items:
+                            properties:
+                              name:
+                                description: (Updatable) Name of the day of the week.
+                                type: string
+                            type: object
+                          type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
+                        maintenanceEndTime:
+                          description: (Updatable) The maintenance end time. The value
+                            must use the ISO-8601 format "hh:mm".
+                          type: string
+                        maintenanceStartTime:
+                          description: (Updatable) The maintenance start time. The
+                            value must use the ISO-8601 format "hh:mm".
+                          type: string
+                      type: object
+                    type: array
                   scheduledOperations:
                     description: (Updatable) The list of scheduled operations. Consists
                       of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -1647,9 +1698,17 @@ spec:
                       (ongoing) refresh operations have start times controlled by
                       the value of the autoRefreshFrequencyInSeconds parameter.
                     type: string
+                  timeScheduledAdUpdate:
+                    description: The date and time to which the Autonomous Database
+                      availability domain update is scheduled.
+                    type: string
                   timeScheduledDbVersionUpgrade:
                     description: The date and time the Autonomous AI Database scheduled
                       to upgrade to 26ai.
+                    type: string
+                  timeScheduledMaintenanceWindowUpdate:
+                    description: The date and time at which operation to change Maintenance
+                      Window is scheduled to take place.
                     type: string
                   timestamp:
                     description: (Applicable when source=BACKUP_FROM_TIMESTAMP) The
@@ -2103,13 +2162,17 @@ spec:
                         type: object
                     type: object
                   autonomousDatabaseMaintenanceWindow:
-                    description: (Updatable) Autonomous Database maintenance window.
+                    description: (Updatable) Autonomous AI Database maintenance window.
                       The maintenance window can be configured during database creation.
-                      To change the maintenance window of an existing Autonomous Database
-                      Serverless instance, clone the database and specify the maintenance
-                      window for the new cloned instance.
+                      To change the maintenance window of an existing Autonomous AI
+                      Database Serverless instance, clone the database and specify
+                      the maintenance window for the new cloned instance.
                     items:
                       properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
                         dayOfWeek:
                           description: (Updatable) Day of the week.
                           items:
@@ -2119,6 +2182,10 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
                         maintenanceEndTime:
                           description: (Updatable) The maintenance end time. The value
                             must use the ISO-8601 format "hh:mm".
@@ -2134,6 +2201,10 @@ spec:
                       Autonomous AI Database Serverless. An EARLY maintenance schedule
                       follows a schedule applying patches prior to the REGULAR schedule.
                       A REGULAR maintenance schedule follows the normal cycle
+                    type: string
+                  availabilityDomain:
+                    description: (Updatable) The AD in which the maintenance will
+                      occur.
                     type: string
                   backupRetentionPeriodInDays:
                     description: (Updatable) Retention period, in days, for long-term
@@ -2842,6 +2913,8 @@ spec:
                       more compute or storage resources, you may upgrade to a full
                       paid production database.
                     type: boolean
+                  isDisableAdUpdateSchedule:
+                    type: boolean
                   isDisableDbVersionUpgradeSchedule:
                     type: boolean
                   isDisconnectPeer:
@@ -2880,6 +2953,8 @@ spec:
                       backups are replicated across regions for Cross-Region ADB or
                       Backup-Based DR between Primary and Standby. If false, the backups
                       taken on the Primary are not replicated to the Standby database.
+                    type: boolean
+                  isScheduleAdUpdateToEarliest:
                     type: boolean
                   isScheduleDbVersionUpgradeToEarliest:
                     type: boolean
@@ -3124,6 +3199,41 @@ spec:
                       rotation of KMS key. It is only applicable on dedicated databases
                       i.e. where is_dedicated is true.
                     type: boolean
+                  scheduledMaintenanceWindow:
+                    description: Autonomous AI Database maintenance window. The maintenance
+                      window can be configured during database creation. To change
+                      the maintenance window of an existing Autonomous AI Database
+                      Serverless instance, clone the database and specify the maintenance
+                      window for the new cloned instance.
+                    items:
+                      properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
+                        dayOfWeek:
+                          description: (Updatable) Day of the week.
+                          items:
+                            properties:
+                              name:
+                                description: (Updatable) Name of the day of the week.
+                                type: string
+                            type: object
+                          type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
+                        maintenanceEndTime:
+                          description: (Updatable) The maintenance end time. The value
+                            must use the ISO-8601 format "hh:mm".
+                          type: string
+                        maintenanceStartTime:
+                          description: (Updatable) The maintenance start time. The
+                            value must use the ISO-8601 format "hh:mm".
+                          type: string
+                      type: object
+                    type: array
                   scheduledOperations:
                     description: (Updatable) The list of scheduled operations. Consists
                       of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -3388,9 +3498,17 @@ spec:
                       (ongoing) refresh operations have start times controlled by
                       the value of the autoRefreshFrequencyInSeconds parameter.
                     type: string
+                  timeScheduledAdUpdate:
+                    description: The date and time to which the Autonomous Database
+                      availability domain update is scheduled.
+                    type: string
                   timeScheduledDbVersionUpgrade:
                     description: The date and time the Autonomous AI Database scheduled
                       to upgrade to 26ai.
+                    type: string
+                  timeScheduledMaintenanceWindowUpdate:
+                    description: The date and time at which operation to change Maintenance
+                      Window is scheduled to take place.
                     type: string
                   timestamp:
                     description: (Applicable when source=BACKUP_FROM_TIMESTAMP) The
@@ -3603,6 +3721,10 @@ spec:
                     description: The current amount of storage in use for user and
                       system data, in terabytes (TB).
                     type: number
+                  adScheduledForUpdate:
+                    description: The Availability Domain which is planned for Scheduled
+                      Update
+                    type: string
                   additionalAttributes:
                     additionalProperties:
                       type: string
@@ -3671,13 +3793,17 @@ spec:
                       you will clone to create a new Autonomous AI Database.
                     type: string
                   autonomousDatabaseMaintenanceWindow:
-                    description: (Updatable) Autonomous Database maintenance window.
+                    description: (Updatable) Autonomous AI Database maintenance window.
                       The maintenance window can be configured during database creation.
-                      To change the maintenance window of an existing Autonomous Database
-                      Serverless instance, clone the database and specify the maintenance
-                      window for the new cloned instance.
+                      To change the maintenance window of an existing Autonomous AI
+                      Database Serverless instance, clone the database and specify
+                      the maintenance window for the new cloned instance.
                     items:
                       properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
                         dayOfWeek:
                           description: (Updatable) Day of the week.
                           items:
@@ -3687,6 +3813,10 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
                         maintenanceEndTime:
                           description: (Updatable) The maintenance end time. The value
                             must use the ISO-8601 format "hh:mm".
@@ -3704,8 +3834,8 @@ spec:
                       A REGULAR maintenance schedule follows the normal cycle
                     type: string
                   availabilityDomain:
-                    description: The availability domain where the Autonomous AI Database
-                      Serverless instance is located.
+                    description: (Updatable) The AD in which the maintenance will
+                      occur.
                     type: string
                   availableUpgradeVersions:
                     description: List of Oracle AI Database versions available for
@@ -3720,11 +3850,9 @@ spec:
                     items:
                       properties:
                         manualBackupBucketName:
-                          description: Name of Object Storage bucket to use for storing
-                            manual backups.
+                          description: (Updatable) Name of the day of the week.
                           type: string
                         manualBackupType:
-                          description: The manual backup destination type.
                           type: string
                       type: object
                     type: array
@@ -4310,6 +4438,8 @@ spec:
                       more compute or storage resources, you may upgrade to a full
                       paid production database.
                     type: boolean
+                  isDisableAdUpdateSchedule:
+                    type: boolean
                   isDisableDbVersionUpgradeSchedule:
                     type: boolean
                   isDisconnectPeer:
@@ -4362,6 +4492,8 @@ spec:
                       backups are replicated across regions for Cross-Region ADB or
                       Backup-Based DR between Primary and Standby. If false, the backups
                       taken on the Primary are not replicated to the Standby database.
+                    type: boolean
+                  isScheduleAdUpdateToEarliest:
                     type: boolean
                   isScheduleDbVersionUpgradeToEarliest:
                     type: boolean
@@ -4468,8 +4600,8 @@ spec:
                     items:
                       properties:
                         availabilityDomain:
-                          description: The availability domain where the Autonomous
-                            AI Database Serverless instance is located.
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
                           type: string
                         externalLocationZone:
                           description: The external logical zone where the Autonomous
@@ -4761,6 +4893,41 @@ spec:
                       rotation of KMS key. It is only applicable on dedicated databases
                       i.e. where is_dedicated is true.
                     type: boolean
+                  scheduledMaintenanceWindow:
+                    description: Autonomous AI Database maintenance window. The maintenance
+                      window can be configured during database creation. To change
+                      the maintenance window of an existing Autonomous AI Database
+                      Serverless instance, clone the database and specify the maintenance
+                      window for the new cloned instance.
+                    items:
+                      properties:
+                        availabilityDomain:
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
+                          type: string
+                        dayOfWeek:
+                          description: (Updatable) Day of the week.
+                          items:
+                            properties:
+                              name:
+                                description: (Updatable) Name of the day of the week.
+                                type: string
+                            type: object
+                          type: array
+                        isMaintenanceWindowChangeScheduled:
+                          description: (Updatable) Indicates if the maintenance window
+                            change is scheduled or not for the Autonomous AI Database.
+                          type: boolean
+                        maintenanceEndTime:
+                          description: (Updatable) The maintenance end time. The value
+                            must use the ISO-8601 format "hh:mm".
+                          type: string
+                        maintenanceStartTime:
+                          description: (Updatable) The maintenance start time. The
+                            value must use the ISO-8601 format "hh:mm".
+                          type: string
+                      type: object
+                    type: array
                   scheduledOperations:
                     description: (Updatable) The list of scheduled operations. Consists
                       of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
@@ -4826,8 +4993,8 @@ spec:
                     items:
                       properties:
                         availabilityDomain:
-                          description: The availability domain where the Autonomous
-                            AI Database Serverless instance is located.
+                          description: (Updatable) The AD in which the maintenance
+                            will occur.
                           type: string
                         externalLocationZone:
                           description: The external logical zone where the Autonomous
@@ -4935,9 +5102,17 @@ spec:
                     description: The date and time the Disaster Recovery role was
                       switched for the standby Autonomous AI Database.
                     type: string
+                  timeEarliestAvailableAdUpdate:
+                    description: The earliest date and time to which you can schedule
+                      an Autonomous Database availability domain update.
+                    type: string
                   timeEarliestAvailableDbVersionUpgrade:
                     description: The earliest(min) date and time the Autonomous AI
                       Database can be scheduled to upgrade to 26ai.
+                    type: string
+                  timeLatestAvailableAdUpdate:
+                    description: The latest date and time to which you can schedule
+                      an Autonomous Database availability domain update.
                     type: string
                   timeLatestAvailableDbVersionUpgrade:
                     description: The max date and time the Autonomous AI Database
@@ -4994,9 +5169,17 @@ spec:
                       any database activity, the database will automatically be put
                       into the STOPPED state.
                     type: string
+                  timeScheduledAdUpdate:
+                    description: The date and time to which the Autonomous Database
+                      availability domain update is scheduled.
+                    type: string
                   timeScheduledDbVersionUpgrade:
                     description: The date and time the Autonomous AI Database scheduled
                       to upgrade to 26ai.
+                    type: string
+                  timeScheduledMaintenanceWindowUpdate:
+                    description: The date and time at which operation to change Maintenance
+                      Window is scheduled to take place.
                     type: string
                   timeUndeleted:
                     description: The date and time the Autonomous AI Database was

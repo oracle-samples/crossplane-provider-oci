@@ -1,0 +1,41 @@
+apiVersion: iot.oci.upbound.io/v1alpha1
+kind: IotFlowRuntime
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iot/v1alpha1/iotflowruntime
+  labels:
+    testing.upbound.io/example-name: test_iot_flow_runtime
+  name: test-iot-flow-runtime
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    description: ${var.iot_flow_runtime_description}
+    displayName: ${var.iot_flow_runtime_display_name}
+    freeformTags:
+      Department: Finance
+    iotDomainIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_iot_domain
+    logConfig:
+    - logGroupIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_log_group
+      logId: ${oci_apm_traces_log.test_log.id}
+    networkConfig:
+    - fileStorageMounts:
+      - exportIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_export
+        mountPath: ${var.iot_flow_runtime_network_config_file_storage_mounts_mount_path}
+        mountTargetIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test_mount_target
+      networkSecurityGroupIds: ${var.iot_flow_runtime_network_config_network_security_group_ids}
+      subnetIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test_subnet
+    scale: ${var.iot_flow_runtime_scale}

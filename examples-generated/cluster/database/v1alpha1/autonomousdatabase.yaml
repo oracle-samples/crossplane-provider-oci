@@ -25,11 +25,14 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: test_autonomous_database
     autonomousDatabaseMaintenanceWindow:
-    - dayOfWeek:
+    - availabilityDomain: ${var.autonomous_database_autonomous_database_maintenance_window_availability_domain}
+      dayOfWeek:
       - name: ${var.autonomous_database_autonomous_database_maintenance_window_day_of_week_name}
+      isMaintenanceWindowChangeScheduled: ${var.autonomous_database_autonomous_database_maintenance_window_is_maintenance_window_change_scheduled}
       maintenanceEndTime: ${var.autonomous_database_autonomous_database_maintenance_window_maintenance_end_time}
       maintenanceStartTime: ${var.autonomous_database_autonomous_database_maintenance_window_maintenance_start_time}
     autonomousMaintenanceScheduleType: ${var.autonomous_database_autonomous_maintenance_schedule_type}
+    availabilityDomain: ${var.autonomous_database_availability_domain}
     backupRetentionPeriodInDays: ${var.autonomous_database_backup_retention_period_in_days}
     byolComputeCountLimit: ${var.autonomous_database_byol_compute_count_limit}
     characterSet: ${var.autonomous_database_character_set}

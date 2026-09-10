@@ -250,6 +250,11 @@ spec:
                             based on fields defined at the inbound Envelope and is
                             evaluated before applying the payloadMapping.
                           type: string
+                        contentRoot:
+                          description: (Updatable) JSON Path string to override the
+                            context root before delegating to the adapter of the target
+                            digital twin instance.
+                          type: string
                         description:
                           description: (Updatable) A short description of the resource.
                           type: string
@@ -278,6 +283,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        target:
+                          description: (Updatable) Optional. JQ expression to map
+                            the target resource, which is externalKey of digital twin
+                            instance, the incoming data belongs to.
+                          type: string
                       type: object
                     type: array
                   iotDomainId:
@@ -547,6 +557,11 @@ spec:
                             based on fields defined at the inbound Envelope and is
                             evaluated before applying the payloadMapping.
                           type: string
+                        contentRoot:
+                          description: (Updatable) JSON Path string to override the
+                            context root before delegating to the adapter of the target
+                            digital twin instance.
+                          type: string
                         description:
                           description: (Updatable) A short description of the resource.
                           type: string
@@ -575,6 +590,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        target:
+                          description: (Updatable) Optional. JQ expression to map
+                            the target resource, which is externalKey of digital twin
+                            instance, the incoming data belongs to.
+                          type: string
                       type: object
                     type: array
                   iotDomainId:
@@ -851,6 +871,11 @@ spec:
                             based on fields defined at the inbound Envelope and is
                             evaluated before applying the payloadMapping.
                           type: string
+                        contentRoot:
+                          description: (Updatable) JSON Path string to override the
+                            context root before delegating to the adapter of the target
+                            digital twin instance.
+                          type: string
                         description:
                           description: (Updatable) A short description of the resource.
                           type: string
@@ -879,6 +904,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        target:
+                          description: (Updatable) Optional. JQ expression to map
+                            the target resource, which is externalKey of digital twin
+                            instance, the incoming data belongs to.
+                          type: string
                       type: object
                     type: array
                   iotDomainId:
