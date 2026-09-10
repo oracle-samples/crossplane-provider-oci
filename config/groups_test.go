@@ -70,6 +70,57 @@ func TestGroupMapValidity(t *testing.T) {
 	}
 }
 
+func TestTerraformProviderUpgradeOverrides(t *testing.T) {
+	providers := map[string]*config.Provider{
+		"cluster":    GetProvider(),
+		"namespaced": GetProviderNamespaced(),
+	}
+
+	for scope, provider := range providers {
+		t.Run(scope, func(t *testing.T) {
+			computeCluster := provider.Resources["oci_core_compute_cluster"]
+			for generated, want := range map[string]string{
+				"PlacementConstraintDetailsInitParameters": "ComputeClusterPlacementConstraintDetailsInitParameters",
+				"PlacementConstraintDetailsObservation":    "ComputeClusterPlacementConstraintDetailsObservation",
+				"PlacementConstraintDetailsParameters":     "ComputeClusterPlacementConstraintDetailsParameters",
+			} {
+				if got := computeCluster.OverrideFieldNames[generated]; got != want {
+					t.Errorf("compute cluster field override %q: got %q, want %q", generated, got, want)
+				}
+			}
+
+			blueGreen := provider.Resources["oci_mysql_blue_green_deployment"]
+			for generated, want := range map[string]string{
+				"SSLCACertificateInitParameters": "BlueGreenDeploymentSSLCACertificateInitParameters",
+				"SSLCACertificateObservation":    "BlueGreenDeploymentSSLCACertificateObservation",
+				"SSLCACertificateParameters":     "BlueGreenDeploymentSSLCACertificateParameters",
+			} {
+				if got := blueGreen.OverrideFieldNames[generated]; got != want {
+					t.Errorf("blue/green field override %q: got %q, want %q", generated, got, want)
+				}
+			}
+
+			bdsInstance := provider.Resources["oci_bds_bds_instance"]
+			if got := bdsInstance.References["secret_id"].TerraformName; got != "oci_vault_secret" {
+				t.Errorf("BDS secret reference: got %q, want %q", got, "oci_vault_secret")
+			}
+
+			aiDataPlatform := provider.Resources["oci_ai_data_platform_ai_data_platform"]
+			if !aiDataPlatform.TerraformResource.Schema["vector_db_admin_cred"].Sensitive {
+				t.Error("AI Data Platform vector_db_admin_cred must be sensitive")
+			}
+
+			defaultDrgRouteTable := provider.Resources["oci_core_default_drg_route_table"]
+			if got, want := defaultDrgRouteTable.ShortGroup, "networkconnectivity"; got != want {
+				t.Errorf("default DRG route table group: got %q, want %q", got, want)
+			}
+			if got, want := defaultDrgRouteTable.Kind, "DefaultDrgRouteTable"; got != want {
+				t.Errorf("default DRG route table kind: got %q, want %q", got, want)
+			}
+		})
+	}
+}
+
 // TestServiceGroupings verifies that resources are grouped into expected services
 func TestServiceGroupings(t *testing.T) {
 	expectedGroups := map[string][]string{
@@ -126,6 +177,7 @@ func TestServiceGroupings(t *testing.T) {
 		},
 		"networkconnectivity": {
 			"oci_core_drg",
+			"oci_core_default_drg_route_table",
 			"oci_core_drg_attachment",
 			"oci_core_drg_attachment_management",
 			"oci_core_drg_attachments_list",
