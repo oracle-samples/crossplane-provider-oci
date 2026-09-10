@@ -1,6 +1,8 @@
 package namespaced
 
 import (
+	"github.com/oracle/provider-oci/config/namespaced/aidataplatform"
+	"github.com/oracle/provider-oci/config/namespaced/bds"
 	"github.com/oracle/provider-oci/config/namespaced/budget"
 	"github.com/oracle/provider-oci/config/namespaced/certificatesmanagement"
 	"github.com/oracle/provider-oci/config/namespaced/containerengine"
@@ -9,6 +11,7 @@ import (
 	"github.com/oracle/provider-oci/config/namespaced/dns"
 	"github.com/oracle/provider-oci/config/namespaced/email"
 	"github.com/oracle/provider-oci/config/namespaced/functions"
+	"github.com/oracle/provider-oci/config/namespaced/goldengate"
 	"github.com/oracle/provider-oci/config/namespaced/healthchecks"
 	"github.com/oracle/provider-oci/config/namespaced/identity"
 	"github.com/oracle/provider-oci/config/namespaced/kms"
@@ -26,6 +29,8 @@ import (
 )
 
 func init() {
+	ProviderConfiguration.AddConfig(aidataplatform.Configure)
+	ProviderConfiguration.AddConfig(bds.Configure)
 	ProviderConfiguration.AddConfig(budget.Configure)
 	ProviderConfiguration.AddConfig(certificatesmanagement.Configure)
 	ProviderConfiguration.AddConfig(containerengine.Configure)
@@ -34,6 +39,7 @@ func init() {
 	ProviderConfiguration.AddConfig(dns.Configure)
 	ProviderConfiguration.AddConfig(email.Configure)
 	ProviderConfiguration.AddConfig(functions.Configure)
+	ProviderConfiguration.AddConfig(goldengate.Configure)
 	ProviderConfiguration.AddConfig(healthchecks.Configure)
 	ProviderConfiguration.AddConfig(identity.Configure)
 	ProviderConfiguration.AddConfig(kms.Configure)

@@ -22,6 +22,14 @@ import (
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("oci_mysql_blue_green_deployment", func(r *config.Resource) {
+		r.OverrideFieldNames = map[string]string{
+			"SSLCACertificateInitParameters": "BlueGreenDeploymentSSLCACertificateInitParameters",
+			"SSLCACertificateObservation":    "BlueGreenDeploymentSSLCACertificateObservation",
+			"SSLCACertificateParameters":     "BlueGreenDeploymentSSLCACertificateParameters",
+		}
+	})
+
 	// oci_mysql_mysql_db_system
 	p.AddResourceConfigurator("oci_mysql_mysql_db_system", func(r *config.Resource) {
 

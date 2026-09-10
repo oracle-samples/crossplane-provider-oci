@@ -1,6 +1,8 @@
 package cluster
 
 import (
+	"github.com/oracle/provider-oci/config/cluster/aidataplatform"
+	"github.com/oracle/provider-oci/config/cluster/bds"
 	"github.com/oracle/provider-oci/config/cluster/budget"
 	"github.com/oracle/provider-oci/config/cluster/certificatesmanagement"
 	"github.com/oracle/provider-oci/config/cluster/containerengine"
@@ -9,6 +11,7 @@ import (
 	"github.com/oracle/provider-oci/config/cluster/dns"
 	"github.com/oracle/provider-oci/config/cluster/email"
 	"github.com/oracle/provider-oci/config/cluster/functions"
+	"github.com/oracle/provider-oci/config/cluster/goldengate"
 	"github.com/oracle/provider-oci/config/cluster/healthchecks"
 	"github.com/oracle/provider-oci/config/cluster/identity"
 	"github.com/oracle/provider-oci/config/cluster/kms"
@@ -26,6 +29,8 @@ import (
 )
 
 func init() {
+	ProviderConfiguration.AddConfig(aidataplatform.Configure)
+	ProviderConfiguration.AddConfig(bds.Configure)
 	ProviderConfiguration.AddConfig(budget.Configure)
 	ProviderConfiguration.AddConfig(certificatesmanagement.Configure)
 	ProviderConfiguration.AddConfig(containerengine.Configure)
@@ -34,6 +39,7 @@ func init() {
 	ProviderConfiguration.AddConfig(dns.Configure)
 	ProviderConfiguration.AddConfig(email.Configure)
 	ProviderConfiguration.AddConfig(functions.Configure)
+	ProviderConfiguration.AddConfig(goldengate.Configure)
 	ProviderConfiguration.AddConfig(healthchecks.Configure)
 	ProviderConfiguration.AddConfig(identity.Configure)
 	ProviderConfiguration.AddConfig(kms.Configure)
