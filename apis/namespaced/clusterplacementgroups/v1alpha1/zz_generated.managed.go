@@ -46,3 +46,43 @@ func (mg *ClusterPlacementGroup) SetProviderConfigReference(r *xpv1.ProviderConf
 func (mg *ClusterPlacementGroup) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this HealthDiagnosisStore.
+func (mg *HealthDiagnosisStore) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

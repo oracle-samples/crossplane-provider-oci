@@ -1,0 +1,13 @@
+apiVersion: iot.oci.upbound.io/v1alpha1
+kind: IotFlowRuntimeDeactivate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iot/v1alpha1/iotflowruntimedeactivate
+  labels:
+    testing.upbound.io/example-name: test_iot_flow_runtime_deactivate
+  name: test-iot-flow-runtime-deactivate
+spec:
+  forProvider:
+    iotFlowRuntimeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test_iot_flow_runtime

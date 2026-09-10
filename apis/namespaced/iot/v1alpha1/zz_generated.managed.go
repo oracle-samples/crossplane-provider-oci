@@ -406,3 +406,163 @@ func (mg *IotDomainGroupConfigureDataAccess) SetProviderConfigReference(r *xpv1.
 func (mg *IotDomainGroupConfigureDataAccess) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this IotFlowRuntime.
+func (mg *IotFlowRuntime) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this IotFlowRuntime.
+func (mg *IotFlowRuntime) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this IotFlowRuntime.
+func (mg *IotFlowRuntime) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this IotFlowRuntime.
+func (mg *IotFlowRuntime) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this IotFlowRuntime.
+func (mg *IotFlowRuntime) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this IotFlowRuntime.
+func (mg *IotFlowRuntime) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this IotFlowRuntime.
+func (mg *IotFlowRuntime) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this IotFlowRuntime.
+func (mg *IotFlowRuntime) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

@@ -18,7 +18,7 @@ type DigitalTwinInstanceInitParameters struct {
 	// (Updatable) The OCID of the resource (like VaultSecret, ClientCertificate etc.,) used to authenticate the digital twin instance.
 	AuthID *string `json:"authId,omitempty" tf:"auth_id,omitempty"`
 
-	// Connectivity type of the digital twin instance
+	// (Updatable)
 	ConnectivityType *string `json:"connectivityType,omitempty" tf:"connectivity_type,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -89,7 +89,7 @@ type DigitalTwinInstanceObservation struct {
 	// (Updatable) The OCID of the resource (like VaultSecret, ClientCertificate etc.,) used to authenticate the digital twin instance.
 	AuthID *string `json:"authId,omitempty" tf:"auth_id,omitempty"`
 
-	// Connectivity type of the digital twin instance
+	// (Updatable)
 	ConnectivityType *string `json:"connectivityType,omitempty" tf:"connectivity_type,omitempty"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
@@ -147,7 +147,7 @@ type DigitalTwinInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthID *string `json:"authId,omitempty" tf:"auth_id,omitempty"`
 
-	// Connectivity type of the digital twin instance
+	// (Updatable)
 	// +kubebuilder:validation:Optional
 	ConnectivityType *string `json:"connectivityType,omitempty" tf:"connectivity_type,omitempty"`
 
