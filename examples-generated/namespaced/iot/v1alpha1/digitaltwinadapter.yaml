@@ -30,11 +30,13 @@ spec:
         dataFormat: ${var.digital_twin_adapter_inbound_envelope_reference_payload_data_format}
     inboundRoutes:
     - condition: ${var.digital_twin_adapter_inbound_routes_condition}
+      contentRoot: ${var.digital_twin_adapter_inbound_routes_content_root}
       description: ${var.digital_twin_adapter_inbound_routes_description}
       payloadMapping: ${var.digital_twin_adapter_inbound_routes_payload_mapping}
       referencePayload:
       - data: ${var.digital_twin_adapter_inbound_routes_reference_payload_data}
         dataFormat: ${var.digital_twin_adapter_inbound_routes_reference_payload_data_format}
+      target: ${var.digital_twin_adapter_inbound_routes_target}
     iotDomainIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test_iot_domain

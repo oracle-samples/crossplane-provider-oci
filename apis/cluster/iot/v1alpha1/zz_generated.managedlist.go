@@ -96,3 +96,39 @@ func (l *IotDomainList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this IotFlowRuntimeActivateList.
+func (l *IotFlowRuntimeActivateList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this IotFlowRuntimeDeactivateList.
+func (l *IotFlowRuntimeDeactivateList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this IotFlowRuntimeFlowList.
+func (l *IotFlowRuntimeFlowList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this IotFlowRuntimeList.
+func (l *IotFlowRuntimeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}

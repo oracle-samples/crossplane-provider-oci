@@ -29,6 +29,7 @@ import (
 	visionprivateendpoint "github.com/oracle/provider-oci/internal/controller/namespaced/aivision/visionprivateendpoint"
 	analyticsinstance "github.com/oracle/provider-oci/internal/controller/namespaced/analytics/analyticsinstance"
 	analyticsinstanceprivateaccesschannel "github.com/oracle/provider-oci/internal/controller/namespaced/analytics/analyticsinstanceprivateaccesschannel"
+	analyticsinstanceresourcegroup "github.com/oracle/provider-oci/internal/controller/namespaced/analytics/analyticsinstanceresourcegroup"
 	analyticsinstancevanityurl "github.com/oracle/provider-oci/internal/controller/namespaced/analytics/analyticsinstancevanityurl"
 	announcementsubscription "github.com/oracle/provider-oci/internal/controller/namespaced/announcementsservice/announcementsubscription"
 	announcementsubscriptionsactionschangecompartment "github.com/oracle/provider-oci/internal/controller/namespaced/announcementsservice/announcementsubscriptionsactionschangecompartment"
@@ -67,9 +68,11 @@ import (
 	batchtaskprofile "github.com/oracle/provider-oci/internal/controller/namespaced/batch/batchtaskprofile"
 	autoscalingconfigurationbds "github.com/oracle/provider-oci/internal/controller/namespaced/bds/autoscalingconfiguration"
 	bdscapacityreport "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdscapacityreport"
+	bdscapacityreservation "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdscapacityreservation"
 	bdsclusteradminpasswordresetaction "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsclusteradminpasswordresetaction"
 	bdsinstance "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstance"
 	bdsinstanceapikey "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstanceapikey"
+	bdsinstancebdscapacityreservationconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstancebdscapacityreservationconfiguration"
 	bdsinstancebdscertificateconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstancebdscertificateconfiguration"
 	bdsinstanceexecutebootstrapscriptaction "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstanceexecutebootstrapscriptaction"
 	bdsinstanceidentityconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/bds/bdsinstanceidentityconfiguration"
@@ -138,6 +141,7 @@ import (
 	replicationschedule "github.com/oracle/provider-oci/internal/controller/namespaced/cloudmigrations/replicationschedule"
 	targetasset "github.com/oracle/provider-oci/internal/controller/namespaced/cloudmigrations/targetasset"
 	clusterplacementgroup "github.com/oracle/provider-oci/internal/controller/namespaced/clusterplacementgroups/clusterplacementgroup"
+	healthdiagnosisstore "github.com/oracle/provider-oci/internal/controller/namespaced/clusterplacementgroups/healthdiagnosisstore"
 	appcataloglistingresourceversionagreement "github.com/oracle/provider-oci/internal/controller/namespaced/compute/appcataloglistingresourceversionagreement"
 	appcatalogsubscription "github.com/oracle/provider-oci/internal/controller/namespaced/compute/appcatalogsubscription"
 	clusternetwork "github.com/oracle/provider-oci/internal/controller/namespaced/compute/clusternetwork"
@@ -336,6 +340,9 @@ import (
 	connection "github.com/oracle/provider-oci/internal/controller/namespaced/datacatalog/connection"
 	dataasset "github.com/oracle/provider-oci/internal/controller/namespaced/datacatalog/dataasset"
 	metastore "github.com/oracle/provider-oci/internal/controller/namespaced/datacatalog/metastore"
+	infrastructure "github.com/oracle/provider-oci/internal/controller/namespaced/datacc/infrastructure"
+	vmclusternetworkdatacc "github.com/oracle/provider-oci/internal/controller/namespaced/datacc/vmclusternetwork"
+	vminstance "github.com/oracle/provider-oci/internal/controller/namespaced/datacc/vminstance"
 	application "github.com/oracle/provider-oci/internal/controller/namespaced/dataflow/application"
 	invokerun "github.com/oracle/provider-oci/internal/controller/namespaced/dataflow/invokerun"
 	pool "github.com/oracle/provider-oci/internal/controller/namespaced/dataflow/pool"
@@ -455,6 +462,7 @@ import (
 	oracledbazurevaultassociation "github.com/oracle/provider-oci/internal/controller/namespaced/dbmulticloud/oracledbazurevaultassociation"
 	oracledbgcpidentityconnector "github.com/oracle/provider-oci/internal/controller/namespaced/dbmulticloud/oracledbgcpidentityconnector"
 	oracledbgcpkeyring "github.com/oracle/provider-oci/internal/controller/namespaced/dbmulticloud/oracledbgcpkeyring"
+	instanceddfs "github.com/oracle/provider-oci/internal/controller/namespaced/ddfs/instance"
 	delegationcontrol "github.com/oracle/provider-oci/internal/controller/namespaced/delegateaccesscontrol/delegationcontrol"
 	delegationsubscription "github.com/oracle/provider-oci/internal/controller/namespaced/delegateaccesscontrol/delegationsubscription"
 	occdemandsignal "github.com/oracle/provider-oci/internal/controller/namespaced/demandsignal/occdemandsignal"
@@ -482,9 +490,6 @@ import (
 	drplan "github.com/oracle/provider-oci/internal/controller/namespaced/disasterrecovery/drplan"
 	drplanexecution "github.com/oracle/provider-oci/internal/controller/namespaced/disasterrecovery/drplanexecution"
 	drprotectiongroup "github.com/oracle/provider-oci/internal/controller/namespaced/disasterrecovery/drprotectiongroup"
-	distributedautonomousdatabase "github.com/oracle/provider-oci/internal/controller/namespaced/distributeddatabase/distributedautonomousdatabase"
-	distributeddatabase "github.com/oracle/provider-oci/internal/controller/namespaced/distributeddatabase/distributeddatabase"
-	distributeddatabaseprivateendpoint "github.com/oracle/provider-oci/internal/controller/namespaced/distributeddatabase/distributeddatabaseprivateendpoint"
 	actioncreatezonefromzonefile "github.com/oracle/provider-oci/internal/controller/namespaced/dns/actioncreatezonefromzonefile"
 	record "github.com/oracle/provider-oci/internal/controller/namespaced/dns/record"
 	resolver "github.com/oracle/provider-oci/internal/controller/namespaced/dns/resolver"
@@ -551,6 +556,11 @@ import (
 	agenttool "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/agenttool"
 	dedicatedaicluster "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/dedicatedaicluster"
 	endpointgenerativeai "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/endpoint"
+	generativeaiprivateendpoint "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/generativeaiprivateendpoint"
+	hostedapplication "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/hostedapplication"
+	hostedapplicationiam "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/hostedapplicationiam"
+	hostedapplicationstorage "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/hostedapplicationstorage"
+	hosteddeployment "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/hosteddeployment"
 	importedmodel "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/importedmodel"
 	modelgenerativeai "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/model"
 	projectgenerativeai "github.com/oracle/provider-oci/internal/controller/namespaced/generativeai/project"
@@ -652,6 +662,10 @@ import (
 	iotdomainconfiguredataaccess "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomainconfiguredataaccess"
 	iotdomaingroup "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomaingroup"
 	iotdomaingroupconfiguredataaccess "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotdomaingroupconfiguredataaccess"
+	iotflowruntime "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntime"
+	iotflowruntimeactivate "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimeactivate"
+	iotflowruntimedeactivate "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimedeactivate"
+	iotflowruntimeflow "github.com/oracle/provider-oci/internal/controller/namespaced/iot/iotflowruntimeflow"
 	fleetjms "github.com/oracle/provider-oci/internal/controller/namespaced/jms/fleet"
 	fleetadvancedfeatureconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/jms/fleetadvancedfeatureconfiguration"
 	fleetagentconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/jms/fleetagentconfiguration"
@@ -743,6 +757,7 @@ import (
 	alarmsuppression "github.com/oracle/provider-oci/internal/controller/namespaced/monitoring/alarmsuppression"
 	capturefilter "github.com/oracle/provider-oci/internal/controller/namespaced/monitoring/capturefilter"
 	vtap "github.com/oracle/provider-oci/internal/controller/namespaced/monitoring/vtap"
+	bluegreendeployment "github.com/oracle/provider-oci/internal/controller/namespaced/mysql/bluegreendeployment"
 	mysqlbackup "github.com/oracle/provider-oci/internal/controller/namespaced/mysql/mysqlbackup"
 	mysqlchannel "github.com/oracle/provider-oci/internal/controller/namespaced/mysql/mysqlchannel"
 	mysqlconfiguration "github.com/oracle/provider-oci/internal/controller/namespaced/mysql/mysqlconfiguration"
@@ -776,6 +791,7 @@ import (
 	networkfirewallpolicyservice "github.com/oracle/provider-oci/internal/controller/namespaced/networkfirewall/networkfirewallpolicyservice"
 	networkfirewallpolicytunnelinspectionrule "github.com/oracle/provider-oci/internal/controller/namespaced/networkfirewall/networkfirewallpolicytunnelinspectionrule"
 	defaultdhcpoptions "github.com/oracle/provider-oci/internal/controller/namespaced/networking/defaultdhcpoptions"
+	defaultdrgroutetable "github.com/oracle/provider-oci/internal/controller/namespaced/networking/defaultdrgroutetable"
 	defaultroutetable "github.com/oracle/provider-oci/internal/controller/namespaced/networking/defaultroutetable"
 	defaultsecuritylist "github.com/oracle/provider-oci/internal/controller/namespaced/networking/defaultsecuritylist"
 	dhcpoptions "github.com/oracle/provider-oci/internal/controller/namespaced/networking/dhcpoptions"
@@ -1019,6 +1035,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		visionprivateendpoint.Setup,
 		analyticsinstance.Setup,
 		analyticsinstanceprivateaccesschannel.Setup,
+		analyticsinstanceresourcegroup.Setup,
 		analyticsinstancevanityurl.Setup,
 		announcementsubscription.Setup,
 		announcementsubscriptionsactionschangecompartment.Setup,
@@ -1057,9 +1074,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		batchtaskprofile.Setup,
 		autoscalingconfigurationbds.Setup,
 		bdscapacityreport.Setup,
+		bdscapacityreservation.Setup,
 		bdsclusteradminpasswordresetaction.Setup,
 		bdsinstance.Setup,
 		bdsinstanceapikey.Setup,
+		bdsinstancebdscapacityreservationconfiguration.Setup,
 		bdsinstancebdscertificateconfiguration.Setup,
 		bdsinstanceexecutebootstrapscriptaction.Setup,
 		bdsinstanceidentityconfiguration.Setup,
@@ -1128,6 +1147,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		replicationschedule.Setup,
 		targetasset.Setup,
 		clusterplacementgroup.Setup,
+		healthdiagnosisstore.Setup,
 		appcataloglistingresourceversionagreement.Setup,
 		appcatalogsubscription.Setup,
 		clusternetwork.Setup,
@@ -1326,6 +1346,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connection.Setup,
 		dataasset.Setup,
 		metastore.Setup,
+		infrastructure.Setup,
+		vmclusternetworkdatacc.Setup,
+		vminstance.Setup,
 		application.Setup,
 		invokerun.Setup,
 		pool.Setup,
@@ -1445,6 +1468,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		oracledbazurevaultassociation.Setup,
 		oracledbgcpidentityconnector.Setup,
 		oracledbgcpkeyring.Setup,
+		instanceddfs.Setup,
 		delegationcontrol.Setup,
 		delegationsubscription.Setup,
 		occdemandsignal.Setup,
@@ -1472,9 +1496,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		drplan.Setup,
 		drplanexecution.Setup,
 		drprotectiongroup.Setup,
-		distributedautonomousdatabase.Setup,
-		distributeddatabase.Setup,
-		distributeddatabaseprivateendpoint.Setup,
 		actioncreatezonefromzonefile.Setup,
 		record.Setup,
 		resolver.Setup,
@@ -1541,6 +1562,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		agenttool.Setup,
 		dedicatedaicluster.Setup,
 		endpointgenerativeai.Setup,
+		generativeaiprivateendpoint.Setup,
+		hostedapplication.Setup,
+		hostedapplicationiam.Setup,
+		hostedapplicationstorage.Setup,
+		hosteddeployment.Setup,
 		importedmodel.Setup,
 		modelgenerativeai.Setup,
 		projectgenerativeai.Setup,
@@ -1642,6 +1668,10 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		iotdomainconfiguredataaccess.Setup,
 		iotdomaingroup.Setup,
 		iotdomaingroupconfiguredataaccess.Setup,
+		iotflowruntime.Setup,
+		iotflowruntimeactivate.Setup,
+		iotflowruntimedeactivate.Setup,
+		iotflowruntimeflow.Setup,
 		fleetjms.Setup,
 		fleetadvancedfeatureconfiguration.Setup,
 		fleetagentconfiguration.Setup,
@@ -1733,6 +1763,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		alarmsuppression.Setup,
 		capturefilter.Setup,
 		vtap.Setup,
+		bluegreendeployment.Setup,
 		mysqlbackup.Setup,
 		mysqlchannel.Setup,
 		mysqlconfiguration.Setup,
@@ -1766,6 +1797,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		networkfirewallpolicyservice.Setup,
 		networkfirewallpolicytunnelinspectionrule.Setup,
 		defaultdhcpoptions.Setup,
+		defaultdrgroutetable.Setup,
 		defaultroutetable.Setup,
 		defaultsecuritylist.Setup,
 		dhcpoptions.Setup,
@@ -2015,6 +2047,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		visionprivateendpoint.SetupGated,
 		analyticsinstance.SetupGated,
 		analyticsinstanceprivateaccesschannel.SetupGated,
+		analyticsinstanceresourcegroup.SetupGated,
 		analyticsinstancevanityurl.SetupGated,
 		announcementsubscription.SetupGated,
 		announcementsubscriptionsactionschangecompartment.SetupGated,
@@ -2053,9 +2086,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		batchtaskprofile.SetupGated,
 		autoscalingconfigurationbds.SetupGated,
 		bdscapacityreport.SetupGated,
+		bdscapacityreservation.SetupGated,
 		bdsclusteradminpasswordresetaction.SetupGated,
 		bdsinstance.SetupGated,
 		bdsinstanceapikey.SetupGated,
+		bdsinstancebdscapacityreservationconfiguration.SetupGated,
 		bdsinstancebdscertificateconfiguration.SetupGated,
 		bdsinstanceexecutebootstrapscriptaction.SetupGated,
 		bdsinstanceidentityconfiguration.SetupGated,
@@ -2124,6 +2159,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		replicationschedule.SetupGated,
 		targetasset.SetupGated,
 		clusterplacementgroup.SetupGated,
+		healthdiagnosisstore.SetupGated,
 		appcataloglistingresourceversionagreement.SetupGated,
 		appcatalogsubscription.SetupGated,
 		clusternetwork.SetupGated,
@@ -2322,6 +2358,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connection.SetupGated,
 		dataasset.SetupGated,
 		metastore.SetupGated,
+		infrastructure.SetupGated,
+		vmclusternetworkdatacc.SetupGated,
+		vminstance.SetupGated,
 		application.SetupGated,
 		invokerun.SetupGated,
 		pool.SetupGated,
@@ -2441,6 +2480,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		oracledbazurevaultassociation.SetupGated,
 		oracledbgcpidentityconnector.SetupGated,
 		oracledbgcpkeyring.SetupGated,
+		instanceddfs.SetupGated,
 		delegationcontrol.SetupGated,
 		delegationsubscription.SetupGated,
 		occdemandsignal.SetupGated,
@@ -2468,9 +2508,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		drplan.SetupGated,
 		drplanexecution.SetupGated,
 		drprotectiongroup.SetupGated,
-		distributedautonomousdatabase.SetupGated,
-		distributeddatabase.SetupGated,
-		distributeddatabaseprivateendpoint.SetupGated,
 		actioncreatezonefromzonefile.SetupGated,
 		record.SetupGated,
 		resolver.SetupGated,
@@ -2537,6 +2574,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		agenttool.SetupGated,
 		dedicatedaicluster.SetupGated,
 		endpointgenerativeai.SetupGated,
+		generativeaiprivateendpoint.SetupGated,
+		hostedapplication.SetupGated,
+		hostedapplicationiam.SetupGated,
+		hostedapplicationstorage.SetupGated,
+		hosteddeployment.SetupGated,
 		importedmodel.SetupGated,
 		modelgenerativeai.SetupGated,
 		projectgenerativeai.SetupGated,
@@ -2638,6 +2680,10 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		iotdomainconfiguredataaccess.SetupGated,
 		iotdomaingroup.SetupGated,
 		iotdomaingroupconfiguredataaccess.SetupGated,
+		iotflowruntime.SetupGated,
+		iotflowruntimeactivate.SetupGated,
+		iotflowruntimedeactivate.SetupGated,
+		iotflowruntimeflow.SetupGated,
 		fleetjms.SetupGated,
 		fleetadvancedfeatureconfiguration.SetupGated,
 		fleetagentconfiguration.SetupGated,
@@ -2729,6 +2775,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		alarmsuppression.SetupGated,
 		capturefilter.SetupGated,
 		vtap.SetupGated,
+		bluegreendeployment.SetupGated,
 		mysqlbackup.SetupGated,
 		mysqlchannel.SetupGated,
 		mysqlconfiguration.SetupGated,
@@ -2762,6 +2809,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		networkfirewallpolicyservice.SetupGated,
 		networkfirewallpolicytunnelinspectionrule.SetupGated,
 		defaultdhcpoptions.SetupGated,
+		defaultdrgroutetable.SetupGated,
 		defaultroutetable.SetupGated,
 		defaultsecuritylist.SetupGated,
 		dhcpoptions.SetupGated,

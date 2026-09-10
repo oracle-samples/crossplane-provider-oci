@@ -33,10 +33,9 @@ type AutonomousDatabaseBackupConfigInitParameters struct {
 
 type AutonomousDatabaseBackupConfigObservation struct {
 
-	// Name of Object Storage bucket to use for storing manual backups.
+	// (Updatable) Name of the day of the week.
 	ManualBackupBucketName *string `json:"manualBackupBucketName,omitempty" tf:"manual_backup_bucket_name,omitempty"`
 
-	// The manual backup destination type.
 	ManualBackupType *string `json:"manualBackupType,omitempty" tf:"manual_backup_type,omitempty"`
 }
 
@@ -135,11 +134,14 @@ type AutonomousDatabaseInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AutonomousDatabaseIDSelector *v1.Selector `json:"autonomousDatabaseIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	// (Updatable) Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
 	AutonomousDatabaseMaintenanceWindow []AutonomousDatabaseMaintenanceWindowInitParameters `json:"autonomousDatabaseMaintenanceWindow,omitempty" tf:"autonomous_database_maintenance_window,omitempty"`
 
 	// (Updatable) The maintenance schedule type of the Autonomous AI Database Serverless. An EARLY maintenance schedule follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType *string `json:"autonomousMaintenanceScheduleType,omitempty" tf:"autonomous_maintenance_schedule_type,omitempty"`
+
+	// (Updatable) The AD in which the maintenance will occur.
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// (Updatable) Retention period, in days, for long-term backups
 	BackupRetentionPeriodInDays *float64 `json:"backupRetentionPeriodInDays,omitempty" tf:"backup_retention_period_in_days,omitempty"`
@@ -251,6 +253,8 @@ type AutonomousDatabaseInitParameters struct {
 	// (Updatable) Autonomous AI Database for Developers are fixed-shape Autonomous AI Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 	IsDevTier *bool `json:"isDevTier,omitempty" tf:"is_dev_tier,omitempty"`
 
+	IsDisableAdUpdateSchedule *bool `json:"isDisableAdUpdateSchedule,omitempty" tf:"is_disable_ad_update_schedule,omitempty"`
+
 	IsDisableDBVersionUpgradeSchedule *bool `json:"isDisableDbVersionUpgradeSchedule,omitempty" tf:"is_disable_db_version_upgrade_schedule,omitempty"`
 
 	IsDisconnectPeer *bool `json:"isDisconnectPeer,omitempty" tf:"is_disconnect_peer,omitempty"`
@@ -272,6 +276,8 @@ type AutonomousDatabaseInitParameters struct {
 
 	// (Applicable when source=CROSS_REGION_DISASTER_RECOVERY | CROSS_TENANCY_DISASTER_RECOVERY) If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `json:"isReplicateAutomaticBackups,omitempty" tf:"is_replicate_automatic_backups,omitempty"`
+
+	IsScheduleAdUpdateToEarliest *bool `json:"isScheduleAdUpdateToEarliest,omitempty" tf:"is_schedule_ad_update_to_earliest,omitempty"`
 
 	IsScheduleDBVersionUpgradeToEarliest *bool `json:"isScheduleDbVersionUpgradeToEarliest,omitempty" tf:"is_schedule_db_version_upgrade_to_earliest,omitempty"`
 
@@ -352,6 +358,9 @@ type AutonomousDatabaseInitParameters struct {
 	// (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated databases i.e. where is_dedicated is true.
 	RotateKeyTrigger *bool `json:"rotateKeyTrigger,omitempty" tf:"rotate_key_trigger,omitempty"`
 
+	// Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	ScheduledMaintenanceWindow []ScheduledMaintenanceWindowInitParameters `json:"scheduledMaintenanceWindow,omitempty" tf:"scheduled_maintenance_window,omitempty"`
+
 	// (Updatable) The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	ScheduledOperations []ScheduledOperationsInitParameters `json:"scheduledOperations,omitempty" tf:"scheduled_operations,omitempty"`
 
@@ -417,8 +426,14 @@ type AutonomousDatabaseInitParameters struct {
 	// (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The the date and time that auto-refreshing will begin for an Autonomous AI Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the autoRefreshFrequencyInSeconds parameter.
 	TimeOfAutoRefreshStart *string `json:"timeOfAutoRefreshStart,omitempty" tf:"time_of_auto_refresh_start,omitempty"`
 
+	// The date and time to which the Autonomous Database availability domain update is scheduled.
+	TimeScheduledAdUpdate *string `json:"timeScheduledAdUpdate,omitempty" tf:"time_scheduled_ad_update,omitempty"`
+
 	// The date and time the Autonomous AI Database scheduled to upgrade to 26ai.
 	TimeScheduledDBVersionUpgrade *string `json:"timeScheduledDbVersionUpgrade,omitempty" tf:"time_scheduled_db_version_upgrade,omitempty"`
+
+	// The date and time at which operation to change Maintenance Window is scheduled to take place.
+	TimeScheduledMaintenanceWindowUpdate *string `json:"timeScheduledMaintenanceWindowUpdate,omitempty" tf:"time_scheduled_maintenance_window_update,omitempty"`
 
 	// (Applicable when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous AI Database. The timestamp must be in the past.
 	Timestamp *string `json:"timestamp,omitempty" tf:"timestamp,omitempty"`
@@ -473,8 +488,14 @@ type AutonomousDatabaseKeyHistoryEntryParameters struct {
 
 type AutonomousDatabaseMaintenanceWindowInitParameters struct {
 
+	// (Updatable) The AD in which the maintenance will occur.
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// (Updatable) Day of the week.
 	DayOfWeek []DayOfWeekInitParameters `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
 
 	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
 	MaintenanceEndTime *string `json:"maintenanceEndTime,omitempty" tf:"maintenance_end_time,omitempty"`
@@ -485,8 +506,14 @@ type AutonomousDatabaseMaintenanceWindowInitParameters struct {
 
 type AutonomousDatabaseMaintenanceWindowObservation struct {
 
+	// (Updatable) The AD in which the maintenance will occur.
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// (Updatable) Day of the week.
 	DayOfWeek []DayOfWeekObservation `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
 
 	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
 	MaintenanceEndTime *string `json:"maintenanceEndTime,omitempty" tf:"maintenance_end_time,omitempty"`
@@ -497,9 +524,17 @@ type AutonomousDatabaseMaintenanceWindowObservation struct {
 
 type AutonomousDatabaseMaintenanceWindowParameters struct {
 
+	// (Updatable) The AD in which the maintenance will occur.
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
 	// (Updatable) Day of the week.
 	// +kubebuilder:validation:Optional
 	DayOfWeek []DayOfWeekParameters `json:"dayOfWeek" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	// +kubebuilder:validation:Optional
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
 
 	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
 	// +kubebuilder:validation:Optional
@@ -514,6 +549,9 @@ type AutonomousDatabaseObservation struct {
 
 	// The current amount of storage in use for user and system data, in terabytes (TB).
 	ActualUsedDataStorageSizeInTbs *float64 `json:"actualUsedDataStorageSizeInTbs,omitempty" tf:"actual_used_data_storage_size_in_tbs,omitempty"`
+
+	// The Availability Domain which is planned for Scheduled Update
+	AdScheduledForUpdate *string `json:"adScheduledForUpdate,omitempty" tf:"ad_scheduled_for_update,omitempty"`
 
 	// Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: { "gcpAccountName": "gcpName" }
 	// +mapType=granular
@@ -543,13 +581,13 @@ type AutonomousDatabaseObservation struct {
 	// The OCID of the source Autonomous AI Database that you will clone to create a new Autonomous AI Database.
 	AutonomousDatabaseID *string `json:"autonomousDatabaseId,omitempty" tf:"autonomous_database_id,omitempty"`
 
-	// (Updatable) Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	// (Updatable) Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
 	AutonomousDatabaseMaintenanceWindow []AutonomousDatabaseMaintenanceWindowObservation `json:"autonomousDatabaseMaintenanceWindow,omitempty" tf:"autonomous_database_maintenance_window,omitempty"`
 
 	// (Updatable) The maintenance schedule type of the Autonomous AI Database Serverless. An EARLY maintenance schedule follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType *string `json:"autonomousMaintenanceScheduleType,omitempty" tf:"autonomous_maintenance_schedule_type,omitempty"`
 
-	// The availability domain where the Autonomous AI Database Serverless instance is located.
+	// (Updatable) The AD in which the maintenance will occur.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// List of Oracle AI Database versions available for a database upgrade. If there are no version upgrades available, this list is empty.
@@ -695,6 +733,8 @@ type AutonomousDatabaseObservation struct {
 	// (Updatable) Autonomous AI Database for Developers are fixed-shape Autonomous AI Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 	IsDevTier *bool `json:"isDevTier,omitempty" tf:"is_dev_tier,omitempty"`
 
+	IsDisableAdUpdateSchedule *bool `json:"isDisableAdUpdateSchedule,omitempty" tf:"is_disable_ad_update_schedule,omitempty"`
+
 	IsDisableDBVersionUpgradeSchedule *bool `json:"isDisableDbVersionUpgradeSchedule,omitempty" tf:"is_disable_db_version_upgrade_schedule,omitempty"`
 
 	IsDisconnectPeer *bool `json:"isDisconnectPeer,omitempty" tf:"is_disconnect_peer,omitempty"`
@@ -725,6 +765,8 @@ type AutonomousDatabaseObservation struct {
 
 	// (Applicable when source=CROSS_REGION_DISASTER_RECOVERY | CROSS_TENANCY_DISASTER_RECOVERY) If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `json:"isReplicateAutomaticBackups,omitempty" tf:"is_replicate_automatic_backups,omitempty"`
+
+	IsScheduleAdUpdateToEarliest *bool `json:"isScheduleAdUpdateToEarliest,omitempty" tf:"is_schedule_ad_update_to_earliest,omitempty"`
 
 	IsScheduleDBVersionUpgradeToEarliest *bool `json:"isScheduleDbVersionUpgradeToEarliest,omitempty" tf:"is_schedule_db_version_upgrade_to_earliest,omitempty"`
 
@@ -858,6 +900,9 @@ type AutonomousDatabaseObservation struct {
 	// (Updatable) An optional property when flipped triggers rotation of KMS key. It is only applicable on dedicated databases i.e. where is_dedicated is true.
 	RotateKeyTrigger *bool `json:"rotateKeyTrigger,omitempty" tf:"rotate_key_trigger,omitempty"`
 
+	// Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	ScheduledMaintenanceWindow []ScheduledMaintenanceWindowObservation `json:"scheduledMaintenanceWindow,omitempty" tf:"scheduled_maintenance_window,omitempty"`
+
 	// (Updatable) The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	ScheduledOperations []ScheduledOperationsObservation `json:"scheduledOperations,omitempty" tf:"scheduled_operations,omitempty"`
 
@@ -922,8 +967,14 @@ type AutonomousDatabaseObservation struct {
 	// The date and time the Disaster Recovery role was switched for the standby Autonomous AI Database.
 	TimeDisasterRecoveryRoleChanged *string `json:"timeDisasterRecoveryRoleChanged,omitempty" tf:"time_disaster_recovery_role_changed,omitempty"`
 
+	// The earliest date and time to which you can schedule an Autonomous Database availability domain update.
+	TimeEarliestAvailableAdUpdate *string `json:"timeEarliestAvailableAdUpdate,omitempty" tf:"time_earliest_available_ad_update,omitempty"`
+
 	// The earliest(min) date and time the Autonomous AI Database can be scheduled to upgrade to 26ai.
 	TimeEarliestAvailableDBVersionUpgrade *string `json:"timeEarliestAvailableDbVersionUpgrade,omitempty" tf:"time_earliest_available_db_version_upgrade,omitempty"`
+
+	// The latest date and time to which you can schedule an Autonomous Database availability domain update.
+	TimeLatestAvailableAdUpdate *string `json:"timeLatestAvailableAdUpdate,omitempty" tf:"time_latest_available_ad_update,omitempty"`
 
 	// The max date and time the Autonomous AI Database can be scheduled to upgrade to 26ai.
 	TimeLatestAvailableDBVersionUpgrade *string `json:"timeLatestAvailableDbVersionUpgrade,omitempty" tf:"time_latest_available_db_version_upgrade,omitempty"`
@@ -964,8 +1015,14 @@ type AutonomousDatabaseObservation struct {
 	// The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state.
 	TimeReclamationOfFreeAutonomousDatabase *string `json:"timeReclamationOfFreeAutonomousDatabase,omitempty" tf:"time_reclamation_of_free_autonomous_database,omitempty"`
 
+	// The date and time to which the Autonomous Database availability domain update is scheduled.
+	TimeScheduledAdUpdate *string `json:"timeScheduledAdUpdate,omitempty" tf:"time_scheduled_ad_update,omitempty"`
+
 	// The date and time the Autonomous AI Database scheduled to upgrade to 26ai.
 	TimeScheduledDBVersionUpgrade *string `json:"timeScheduledDbVersionUpgrade,omitempty" tf:"time_scheduled_db_version_upgrade,omitempty"`
+
+	// The date and time at which operation to change Maintenance Window is scheduled to take place.
+	TimeScheduledMaintenanceWindowUpdate *string `json:"timeScheduledMaintenanceWindowUpdate,omitempty" tf:"time_scheduled_maintenance_window_update,omitempty"`
 
 	// The date and time the Autonomous AI Database was most recently undeleted.
 	TimeUndeleted *string `json:"timeUndeleted,omitempty" tf:"time_undeleted,omitempty"`
@@ -1065,13 +1122,17 @@ type AutonomousDatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	AutonomousDatabaseIDSelector *v1.Selector `json:"autonomousDatabaseIdSelector,omitempty" tf:"-"`
 
-	// (Updatable) Autonomous Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	// (Updatable) Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
 	// +kubebuilder:validation:Optional
 	AutonomousDatabaseMaintenanceWindow []AutonomousDatabaseMaintenanceWindowParameters `json:"autonomousDatabaseMaintenanceWindow,omitempty" tf:"autonomous_database_maintenance_window,omitempty"`
 
 	// (Updatable) The maintenance schedule type of the Autonomous AI Database Serverless. An EARLY maintenance schedule follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	// +kubebuilder:validation:Optional
 	AutonomousMaintenanceScheduleType *string `json:"autonomousMaintenanceScheduleType,omitempty" tf:"autonomous_maintenance_schedule_type,omitempty"`
+
+	// (Updatable) The AD in which the maintenance will occur.
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// (Updatable) Retention period, in days, for long-term backups
 	// +kubebuilder:validation:Optional
@@ -1217,6 +1278,9 @@ type AutonomousDatabaseParameters struct {
 	IsDevTier *bool `json:"isDevTier,omitempty" tf:"is_dev_tier,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	IsDisableAdUpdateSchedule *bool `json:"isDisableAdUpdateSchedule,omitempty" tf:"is_disable_ad_update_schedule,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	IsDisableDBVersionUpgradeSchedule *bool `json:"isDisableDbVersionUpgradeSchedule,omitempty" tf:"is_disable_db_version_upgrade_schedule,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -1245,6 +1309,9 @@ type AutonomousDatabaseParameters struct {
 	// (Applicable when source=CROSS_REGION_DISASTER_RECOVERY | CROSS_TENANCY_DISASTER_RECOVERY) If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	// +kubebuilder:validation:Optional
 	IsReplicateAutomaticBackups *bool `json:"isReplicateAutomaticBackups,omitempty" tf:"is_replicate_automatic_backups,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IsScheduleAdUpdateToEarliest *bool `json:"isScheduleAdUpdateToEarliest,omitempty" tf:"is_schedule_ad_update_to_earliest,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IsScheduleDBVersionUpgradeToEarliest *bool `json:"isScheduleDbVersionUpgradeToEarliest,omitempty" tf:"is_schedule_db_version_upgrade_to_earliest,omitempty"`
@@ -1348,6 +1415,10 @@ type AutonomousDatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	RotateKeyTrigger *bool `json:"rotateKeyTrigger,omitempty" tf:"rotate_key_trigger,omitempty"`
 
+	// Autonomous AI Database maintenance window. The maintenance window can be configured during database creation. To change the maintenance window of an existing Autonomous AI Database Serverless instance, clone the database and specify the maintenance window for the new cloned instance.
+	// +kubebuilder:validation:Optional
+	ScheduledMaintenanceWindow []ScheduledMaintenanceWindowParameters `json:"scheduledMaintenanceWindow,omitempty" tf:"scheduled_maintenance_window,omitempty"`
+
 	// (Updatable) The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// +kubebuilder:validation:Optional
 	ScheduledOperations []ScheduledOperationsParameters `json:"scheduledOperations,omitempty" tf:"scheduled_operations,omitempty"`
@@ -1428,9 +1499,17 @@ type AutonomousDatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	TimeOfAutoRefreshStart *string `json:"timeOfAutoRefreshStart,omitempty" tf:"time_of_auto_refresh_start,omitempty"`
 
+	// The date and time to which the Autonomous Database availability domain update is scheduled.
+	// +kubebuilder:validation:Optional
+	TimeScheduledAdUpdate *string `json:"timeScheduledAdUpdate,omitempty" tf:"time_scheduled_ad_update,omitempty"`
+
 	// The date and time the Autonomous AI Database scheduled to upgrade to 26ai.
 	// +kubebuilder:validation:Optional
 	TimeScheduledDBVersionUpgrade *string `json:"timeScheduledDbVersionUpgrade,omitempty" tf:"time_scheduled_db_version_upgrade,omitempty"`
+
+	// The date and time at which operation to change Maintenance Window is scheduled to take place.
+	// +kubebuilder:validation:Optional
+	TimeScheduledMaintenanceWindowUpdate *string `json:"timeScheduledMaintenanceWindowUpdate,omitempty" tf:"time_scheduled_maintenance_window_update,omitempty"`
 
 	// (Applicable when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous AI Database. The timestamp must be in the past.
 	// +kubebuilder:validation:Optional
@@ -1950,7 +2029,7 @@ type LocalStandbyDBInitParameters struct {
 
 type LocalStandbyDBObservation struct {
 
-	// The availability domain where the Autonomous AI Database Serverless instance is located.
+	// (Updatable) The AD in which the maintenance will occur.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// The external logical zone where the Autonomous AI Database Serverless instance is located (Intended for multicloud use).
@@ -2181,6 +2260,84 @@ type ResourcePoolSummaryParameters struct {
 	PoolStorageSizeInTbs *float64 `json:"poolStorageSizeInTbs,omitempty" tf:"pool_storage_size_in_tbs,omitempty"`
 }
 
+type ScheduledMaintenanceWindowDayOfWeekInitParameters struct {
+
+	// (Updatable) Name of the day of the week.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ScheduledMaintenanceWindowDayOfWeekObservation struct {
+
+	// (Updatable) Name of the day of the week.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ScheduledMaintenanceWindowDayOfWeekParameters struct {
+
+	// (Updatable) Name of the day of the week.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type ScheduledMaintenanceWindowInitParameters struct {
+
+	// (Updatable) The AD in which the maintenance will occur.
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) Day of the week.
+	DayOfWeek []ScheduledMaintenanceWindowDayOfWeekInitParameters `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
+
+	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	MaintenanceEndTime *string `json:"maintenanceEndTime,omitempty" tf:"maintenance_end_time,omitempty"`
+
+	// (Updatable) The maintenance start time. The value must use the ISO-8601 format "hh:mm".
+	MaintenanceStartTime *string `json:"maintenanceStartTime,omitempty" tf:"maintenance_start_time,omitempty"`
+}
+
+type ScheduledMaintenanceWindowObservation struct {
+
+	// (Updatable) The AD in which the maintenance will occur.
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) Day of the week.
+	DayOfWeek []ScheduledMaintenanceWindowDayOfWeekObservation `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
+
+	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	MaintenanceEndTime *string `json:"maintenanceEndTime,omitempty" tf:"maintenance_end_time,omitempty"`
+
+	// (Updatable) The maintenance start time. The value must use the ISO-8601 format "hh:mm".
+	MaintenanceStartTime *string `json:"maintenanceStartTime,omitempty" tf:"maintenance_start_time,omitempty"`
+}
+
+type ScheduledMaintenanceWindowParameters struct {
+
+	// (Updatable) The AD in which the maintenance will occur.
+	// +kubebuilder:validation:Optional
+	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// (Updatable) Day of the week.
+	// +kubebuilder:validation:Optional
+	DayOfWeek []ScheduledMaintenanceWindowDayOfWeekParameters `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// (Updatable) Indicates if the maintenance window change is scheduled or not for the Autonomous AI Database.
+	// +kubebuilder:validation:Optional
+	IsMaintenanceWindowChangeScheduled *bool `json:"isMaintenanceWindowChangeScheduled,omitempty" tf:"is_maintenance_window_change_scheduled,omitempty"`
+
+	// (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
+	// +kubebuilder:validation:Optional
+	MaintenanceEndTime *string `json:"maintenanceEndTime,omitempty" tf:"maintenance_end_time,omitempty"`
+
+	// (Updatable) The maintenance start time. The value must use the ISO-8601 format "hh:mm".
+	// +kubebuilder:validation:Optional
+	MaintenanceStartTime *string `json:"maintenanceStartTime,omitempty" tf:"maintenance_start_time,omitempty"`
+}
+
 type ScheduledOperationsDayOfWeekInitParameters struct {
 
 	// (Updatable) Name of the day of the week.
@@ -2244,7 +2401,7 @@ type StandbyDBInitParameters struct {
 
 type StandbyDBObservation struct {
 
-	// The availability domain where the Autonomous AI Database Serverless instance is located.
+	// (Updatable) The AD in which the maintenance will occur.
 	AvailabilityDomain *string `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
 	// The external logical zone where the Autonomous AI Database Serverless instance is located (Intended for multicloud use).
