@@ -1840,7 +1840,6 @@ type DbSystem struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbHome) || (has(self.initProvider) && has(self.initProvider.dbHome))",message="spec.forProvider.dbHome is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostname) || (has(self.initProvider) && has(self.initProvider.hostname))",message="spec.forProvider.hostname is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.shape) || (has(self.initProvider) && has(self.initProvider.shape))",message="spec.forProvider.shape is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sshPublicKeys) || (has(self.initProvider) && has(self.initProvider.sshPublicKeys))",message="spec.forProvider.sshPublicKeys is a required parameter"
 	Spec   DbSystemSpec   `json:"spec"`
 	Status DbSystemStatus `json:"status,omitempty"`
 }

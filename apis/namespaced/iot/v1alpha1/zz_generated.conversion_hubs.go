@@ -35,3 +35,15 @@ func (tr *IotDomainGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *IotDomainGroupConfigureDataAccess) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IotFlowRuntime) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IotFlowRuntimeActivate) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IotFlowRuntimeDeactivate) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IotFlowRuntimeFlow) Hub() {}

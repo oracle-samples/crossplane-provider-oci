@@ -1,0 +1,21 @@
+apiVersion: clusterplacementgroups.oci.m.upbound.io/v1alpha1
+kind: HealthDiagnosisStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: clusterplacementgroups/v1alpha1/healthdiagnosisstore
+  labels:
+    testing.upbound.io/example-name: test_diagnosis_store
+  name: test-diagnosis-store
+  namespace: upbound-system
+spec:
+  forProvider:
+    compartmentIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    definedTags:
+      Operations.CostCenter: "42"
+    displayName: ${var.diagnosis_store_display_name}
+    freeformTags:
+      Department: Finance
+    objectStoreBucket: ${var.diagnosis_store_object_store_bucket}
+    objectStoreNamespace: ${var.diagnosis_store_object_store_namespace}

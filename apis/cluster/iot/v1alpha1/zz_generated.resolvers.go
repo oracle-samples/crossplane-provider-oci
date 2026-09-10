@@ -775,3 +775,436 @@ func (mg *IotDomainGroupConfigureDataAccess) ResolveReferences(ctx context.Conte
 
 	return nil
 }
+
+// ResolveReferences of this IotFlowRuntime.
+func (mg *IotFlowRuntime) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("identity.oci.upbound.io", "v1alpha1", "Compartment", "CompartmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CompartmentID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.CompartmentIDRef,
+			Selector:     mg.Spec.ForProvider.CompartmentIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CompartmentID")
+	}
+	mg.Spec.ForProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CompartmentIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotDomain", "IotDomainList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IotDomainID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IotDomainIDRef,
+			Selector:     mg.Spec.ForProvider.IotDomainIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IotDomainID")
+	}
+	mg.Spec.ForProvider.IotDomainID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IotDomainIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.LogConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("logging.oci.upbound.io", "v1alpha1", "LogGroup", "LogGroupList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LogConfig[i3].LogGroupID),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.LogConfig[i3].LogGroupIDRef,
+				Selector:     mg.Spec.ForProvider.LogConfig[i3].LogGroupIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.LogConfig[i3].LogGroupID")
+		}
+		mg.Spec.ForProvider.LogConfig[i3].LogGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.LogConfig[i3].LogGroupIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("filestorage.oci.upbound.io", "v1alpha1", "Export", "ExportList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDRef,
+					Selector:     mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID")
+			}
+			mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("filestorage.oci.upbound.io", "v1alpha1", "MountTarget", "MountTargetList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDRef,
+					Selector:     mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID")
+			}
+			mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].SubnetID),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.NetworkConfig[i3].SubnetIDRef,
+				Selector:     mg.Spec.ForProvider.NetworkConfig[i3].SubnetIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig[i3].SubnetID")
+		}
+		mg.Spec.ForProvider.NetworkConfig[i3].SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.NetworkConfig[i3].SubnetIDRef = rsp.ResolvedReference
+
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("identity.oci.upbound.io", "v1alpha1", "Compartment", "CompartmentList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CompartmentID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.CompartmentIDRef,
+			Selector:     mg.Spec.InitProvider.CompartmentIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CompartmentID")
+	}
+	mg.Spec.InitProvider.CompartmentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CompartmentIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotDomain", "IotDomainList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.IotDomainID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.IotDomainIDRef,
+			Selector:     mg.Spec.InitProvider.IotDomainIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.IotDomainID")
+	}
+	mg.Spec.InitProvider.IotDomainID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.IotDomainIDRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.LogConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("logging.oci.upbound.io", "v1alpha1", "LogGroup", "LogGroupList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LogConfig[i3].LogGroupID),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.LogConfig[i3].LogGroupIDRef,
+				Selector:     mg.Spec.InitProvider.LogConfig[i3].LogGroupIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.LogConfig[i3].LogGroupID")
+		}
+		mg.Spec.InitProvider.LogConfig[i3].LogGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.LogConfig[i3].LogGroupIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("filestorage.oci.upbound.io", "v1alpha1", "Export", "ExportList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDRef,
+					Selector:     mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID")
+			}
+			mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].ExportIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("filestorage.oci.upbound.io", "v1alpha1", "MountTarget", "MountTargetList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDRef,
+					Selector:     mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID")
+			}
+			mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig[i3].FileStorageMounts[i4].MountTargetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.NetworkConfig); i3++ {
+		{
+			m, l, err = apisresolver.GetManagedResource("networking.oci.upbound.io", "v1alpha1", "Subnet", "SubnetList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig[i3].SubnetID),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.NetworkConfig[i3].SubnetIDRef,
+				Selector:     mg.Spec.InitProvider.NetworkConfig[i3].SubnetIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig[i3].SubnetID")
+		}
+		mg.Spec.InitProvider.NetworkConfig[i3].SubnetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.NetworkConfig[i3].SubnetIDRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this IotFlowRuntimeActivate.
+func (mg *IotFlowRuntimeActivate) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.ForProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.ForProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.InitProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.InitProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this IotFlowRuntimeDeactivate.
+func (mg *IotFlowRuntimeDeactivate) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.ForProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.ForProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.InitProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.InitProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this IotFlowRuntimeFlow.
+func (mg *IotFlowRuntimeFlow) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.ForProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.ForProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iot.oci.upbound.io", "v1alpha1", "IotFlowRuntime", "IotFlowRuntimeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.IotFlowRuntimeID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.IotFlowRuntimeIDRef,
+			Selector:     mg.Spec.InitProvider.IotFlowRuntimeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.IotFlowRuntimeID")
+	}
+	mg.Spec.InitProvider.IotFlowRuntimeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.IotFlowRuntimeIDRef = rsp.ResolvedReference
+
+	return nil
+}

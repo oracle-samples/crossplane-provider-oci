@@ -4223,10 +4223,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.shape)
                 || (has(self.initProvider) && has(self.initProvider.shape))'
-            - message: spec.forProvider.sshPublicKeys is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.sshPublicKeys)
-                || (has(self.initProvider) && has(self.initProvider.sshPublicKeys))'
           status:
             description: DbSystemStatus defines the observed state of DbSystem.
             properties:

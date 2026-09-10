@@ -17,9 +17,11 @@
 package config
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func assertValidGroupAndKind(t *testing.T, resourceName, group, kind string) {
@@ -67,6 +69,52 @@ func TestGroupMapValidity(t *testing.T) {
 		group, kind := calculator(resourceName)
 
 		assertValidGroupAndKind(t, resourceName, group, kind)
+	}
+}
+
+func TestTerraformUpgradeRemediationConfiguration(t *testing.T) {
+	tests := map[string]*config.Provider{
+		"cluster":    GetProvider(),
+		"namespaced": GetProviderNamespaced(),
+	}
+
+	computeOverrides := map[string]string{
+		"PlacementConstraintDetailsInitParameters": "ComputeClusterPlacementConstraintDetailsInitParameters",
+		"PlacementConstraintDetailsObservation":    "ComputeClusterPlacementConstraintDetailsObservation",
+		"PlacementConstraintDetailsParameters":     "ComputeClusterPlacementConstraintDetailsParameters",
+	}
+	mysqlOverrides := map[string]string{
+		"SSLCACertificateInitParameters": "BlueGreenDeploymentSSLCACertificateInitParameters",
+		"SSLCACertificateObservation":    "BlueGreenDeploymentSSLCACertificateObservation",
+		"SSLCACertificateParameters":     "BlueGreenDeploymentSSLCACertificateParameters",
+	}
+
+	for scope, provider := range tests {
+		t.Run(scope, func(t *testing.T) {
+			if got := provider.Resources["oci_core_compute_cluster"].OverrideFieldNames; !reflect.DeepEqual(got, computeOverrides) {
+				t.Errorf("unexpected Compute Cluster field-name overrides: %#v", got)
+			}
+			if got := provider.Resources["oci_mysql_blue_green_deployment"].OverrideFieldNames; !reflect.DeepEqual(got, mysqlOverrides) {
+				t.Errorf("unexpected MySQL Blue/Green field-name overrides: %#v", got)
+			}
+
+			secretReference, ok := provider.Resources["oci_bds_bds_instance"].References["secret_id"]
+			if !ok || secretReference.TerraformName != "oci_vault_secret" {
+				t.Errorf("unexpected BDS secret_id reference: %#v", secretReference)
+			}
+
+			if !provider.Resources["oci_ai_data_platform_ai_data_platform"].TerraformResource.Schema["vector_db_admin_cred"].Sensitive {
+				t.Error("AI Data Platform vector_db_admin_cred is not sensitive")
+			}
+
+			authDetails, ok := provider.Resources["oci_golden_gate_connection"].TerraformResource.Schema["auth_details"].Elem.(*schema.Resource)
+			if !ok {
+				t.Fatal("GoldenGate auth_details does not contain a nested resource schema")
+			}
+			if !authDetails.Schema["api_key"].Sensitive {
+				t.Error("GoldenGate auth_details.api_key is not sensitive")
+			}
+		})
 	}
 }
 
@@ -126,6 +174,7 @@ func TestServiceGroupings(t *testing.T) {
 		},
 		"networkconnectivity": {
 			"oci_core_drg",
+			"oci_core_default_drg_route_table",
 			"oci_core_drg_attachment",
 			"oci_core_drg_attachment_management",
 			"oci_core_drg_attachments_list",
