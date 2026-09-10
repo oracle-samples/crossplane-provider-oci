@@ -39,6 +39,7 @@ import (
 	v1alpha1cloudbridge "github.com/oracle/provider-oci/apis/cluster/cloudbridge/v1alpha1"
 	v1alpha1cloudguard "github.com/oracle/provider-oci/apis/cluster/cloudguard/v1alpha1"
 	v1alpha1cloudmigrations "github.com/oracle/provider-oci/apis/cluster/cloudmigrations/v1alpha1"
+	v1alpha1clusterhealth "github.com/oracle/provider-oci/apis/cluster/clusterhealth/v1alpha1"
 	v1alpha1clusterplacementgroups "github.com/oracle/provider-oci/apis/cluster/clusterplacementgroups/v1alpha1"
 	v1alpha1compute "github.com/oracle/provider-oci/apis/cluster/compute/v1alpha1"
 	v1alpha1computecloudatcustomer "github.com/oracle/provider-oci/apis/cluster/computecloudatcustomer/v1alpha1"
@@ -177,6 +178,7 @@ func init() {
 		v1alpha1cloudbridge.SchemeBuilder.AddToScheme,
 		v1alpha1cloudguard.SchemeBuilder.AddToScheme,
 		v1alpha1cloudmigrations.SchemeBuilder.AddToScheme,
+		v1alpha1clusterhealth.SchemeBuilder.AddToScheme,
 		v1alpha1clusterplacementgroups.SchemeBuilder.AddToScheme,
 		v1alpha1compute.SchemeBuilder.AddToScheme,
 		v1alpha1computecloudatcustomer.SchemeBuilder.AddToScheme,

@@ -14,18 +14,18 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this HealthDiagnosisStore
-func (mg *HealthDiagnosisStore) GetTerraformResourceType() string {
+// GetTerraformResourceType returns Terraform resource type for this DiagnosisStore
+func (mg *DiagnosisStore) GetTerraformResourceType() string {
 	return "oci_cluster_health_diagnosis_store"
 }
 
-// GetConnectionDetailsMapping for this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this DiagnosisStore
+func (tr *DiagnosisStore) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetObservation() (map[string]any, error) {
+// GetObservation of this DiagnosisStore
+func (tr *DiagnosisStore) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -34,8 +34,8 @@ func (tr *HealthDiagnosisStore) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) SetObservation(obs map[string]any) error {
+// SetObservation for this DiagnosisStore
+func (tr *DiagnosisStore) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -43,16 +43,16 @@ func (tr *HealthDiagnosisStore) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetID() string {
+// GetID returns ID of underlying Terraform resource of this DiagnosisStore
+func (tr *DiagnosisStore) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetParameters() (map[string]any, error) {
+// GetParameters of this DiagnosisStore
+func (tr *DiagnosisStore) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -61,8 +61,8 @@ func (tr *HealthDiagnosisStore) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) SetParameters(params map[string]any) error {
+// SetParameters for this DiagnosisStore
+func (tr *DiagnosisStore) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -70,8 +70,8 @@ func (tr *HealthDiagnosisStore) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this DiagnosisStore
+func (tr *DiagnosisStore) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (tr *HealthDiagnosisStore) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// GetInitParameters of this HealthDiagnosisStore
-func (tr *HealthDiagnosisStore) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
+// GetInitParameters of this DiagnosisStore
+func (tr *DiagnosisStore) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot get parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
@@ -110,10 +110,10 @@ func (tr *HealthDiagnosisStore) GetMergedParameters(shouldMergeInitProvider bool
 	return params, nil
 }
 
-// LateInitialize this HealthDiagnosisStore using its observed tfState.
+// LateInitialize this DiagnosisStore using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *HealthDiagnosisStore) LateInitialize(attrs []byte) (bool, error) {
-	params := &HealthDiagnosisStoreParameters{}
+func (tr *DiagnosisStore) LateInitialize(attrs []byte) (bool, error) {
+	params := &DiagnosisStoreParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -124,6 +124,6 @@ func (tr *HealthDiagnosisStore) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *HealthDiagnosisStore) GetTerraformSchemaVersion() int {
+func (tr *DiagnosisStore) GetTerraformSchemaVersion() int {
 	return 0
 }

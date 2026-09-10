@@ -1,8 +1,8 @@
-apiVersion: clusterplacementgroups.oci.upbound.io/v1alpha1
-kind: HealthDiagnosisStore
+apiVersion: clusterhealth.oci.upbound.io/v1alpha1
+kind: DiagnosisStore
 metadata:
   annotations:
-    meta.upbound.io/example-id: clusterplacementgroups/v1alpha1/healthdiagnosisstore
+    meta.upbound.io/example-id: clusterhealth/v1alpha1/diagnosisstore
   labels:
     testing.upbound.io/example-name: test_diagnosis_store
   name: test-diagnosis-store

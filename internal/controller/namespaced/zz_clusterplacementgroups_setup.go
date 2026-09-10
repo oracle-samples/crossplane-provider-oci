@@ -10,7 +10,6 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	clusterplacementgroup "github.com/oracle/provider-oci/internal/controller/namespaced/clusterplacementgroups/clusterplacementgroup"
-	healthdiagnosisstore "github.com/oracle/provider-oci/internal/controller/namespaced/clusterplacementgroups/healthdiagnosisstore"
 )
 
 // Setup_clusterplacementgroups creates all controllers with the supplied logger and adds them to
@@ -18,7 +17,6 @@ import (
 func Setup_clusterplacementgroups(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		clusterplacementgroup.Setup,
-		healthdiagnosisstore.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -32,7 +30,6 @@ func Setup_clusterplacementgroups(mgr ctrl.Manager, o controller.Options) error 
 func SetupGated_clusterplacementgroups(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		clusterplacementgroup.SetupGated,
-		healthdiagnosisstore.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

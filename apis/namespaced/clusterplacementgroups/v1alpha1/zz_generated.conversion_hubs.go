@@ -8,6 +8,3 @@ package v1alpha1
 
 // Hub marks this type as a conversion hub.
 func (tr *ClusterPlacementGroup) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *HealthDiagnosisStore) Hub() {}

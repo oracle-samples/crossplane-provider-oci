@@ -11,21 +11,22 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
-type HealthDiagnosisStoreInitParameters struct {
+type DiagnosisStoreInitParameters struct {
 
 	// (Updatable) The OCID of the compartment to create the Diagnosis in.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/cluster/identity/v1alpha1.Compartment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/namespaced/identity/v1alpha1.Compartment
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// Reference to a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
-	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+	CompartmentIDRef *v1.NamespacedReference `json:"compartmentIdRef,omitempty" tf:"-"`
 
 	// Selector for a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
-	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+	CompartmentIDSelector *v1.NamespacedSelector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +mapType=granular
@@ -45,7 +46,7 @@ type HealthDiagnosisStoreInitParameters struct {
 	ObjectStoreNamespace *string `json:"objectStoreNamespace,omitempty" tf:"object_store_namespace,omitempty"`
 }
 
-type HealthDiagnosisStoreObservation struct {
+type DiagnosisStoreObservation struct {
 
 	// (Updatable) The OCID of the compartment to create the Diagnosis in.
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
@@ -93,20 +94,20 @@ type HealthDiagnosisStoreObservation struct {
 	TimeUpdated *string `json:"timeUpdated,omitempty" tf:"time_updated,omitempty"`
 }
 
-type HealthDiagnosisStoreParameters struct {
+type DiagnosisStoreParameters struct {
 
 	// (Updatable) The OCID of the compartment to create the Diagnosis in.
-	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/cluster/identity/v1alpha1.Compartment
+	// +crossplane:generate:reference:type=github.com/oracle/provider-oci/apis/namespaced/identity/v1alpha1.Compartment
 	// +kubebuilder:validation:Optional
 	CompartmentID *string `json:"compartmentId,omitempty" tf:"compartment_id,omitempty"`
 
 	// Reference to a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
-	CompartmentIDRef *v1.Reference `json:"compartmentIdRef,omitempty" tf:"-"`
+	CompartmentIDRef *v1.NamespacedReference `json:"compartmentIdRef,omitempty" tf:"-"`
 
 	// Selector for a Compartment in identity to populate compartmentId.
 	// +kubebuilder:validation:Optional
-	CompartmentIDSelector *v1.Selector `json:"compartmentIdSelector,omitempty" tf:"-"`
+	CompartmentIDSelector *v1.NamespacedSelector `json:"compartmentIdSelector,omitempty" tf:"-"`
 
 	// (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags.  Example: {"Operations.CostCenter": "42"}
 	// +kubebuilder:validation:Optional
@@ -131,10 +132,10 @@ type HealthDiagnosisStoreParameters struct {
 	ObjectStoreNamespace *string `json:"objectStoreNamespace,omitempty" tf:"object_store_namespace,omitempty"`
 }
 
-// HealthDiagnosisStoreSpec defines the desired state of HealthDiagnosisStore
-type HealthDiagnosisStoreSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     HealthDiagnosisStoreParameters `json:"forProvider"`
+// DiagnosisStoreSpec defines the desired state of DiagnosisStore
+type DiagnosisStoreSpec struct {
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            DiagnosisStoreParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -145,49 +146,49 @@ type HealthDiagnosisStoreSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider HealthDiagnosisStoreInitParameters `json:"initProvider,omitempty"`
+	InitProvider DiagnosisStoreInitParameters `json:"initProvider,omitempty"`
 }
 
-// HealthDiagnosisStoreStatus defines the observed state of HealthDiagnosisStore.
-type HealthDiagnosisStoreStatus struct {
+// DiagnosisStoreStatus defines the observed state of DiagnosisStore.
+type DiagnosisStoreStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        HealthDiagnosisStoreObservation `json:"atProvider,omitempty"`
+	AtProvider        DiagnosisStoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// HealthDiagnosisStore is the Schema for the HealthDiagnosisStores API. Provides the Diagnosis Store resource in Oracle Cloud Infrastructure Cluster Health service
+// DiagnosisStore is the Schema for the DiagnosisStores API. Provides the Diagnosis Store resource in Oracle Cloud Infrastructure Cluster Health service
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,oci}
-type HealthDiagnosisStore struct {
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,oci}
+type DiagnosisStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              HealthDiagnosisStoreSpec   `json:"spec"`
-	Status            HealthDiagnosisStoreStatus `json:"status,omitempty"`
+	Spec              DiagnosisStoreSpec   `json:"spec"`
+	Status            DiagnosisStoreStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// HealthDiagnosisStoreList contains a list of HealthDiagnosisStores
-type HealthDiagnosisStoreList struct {
+// DiagnosisStoreList contains a list of DiagnosisStores
+type DiagnosisStoreList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []HealthDiagnosisStore `json:"items"`
+	Items           []DiagnosisStore `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	HealthDiagnosisStore_Kind             = "HealthDiagnosisStore"
-	HealthDiagnosisStore_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: HealthDiagnosisStore_Kind}.String()
-	HealthDiagnosisStore_KindAPIVersion   = HealthDiagnosisStore_Kind + "." + CRDGroupVersion.String()
-	HealthDiagnosisStore_GroupVersionKind = CRDGroupVersion.WithKind(HealthDiagnosisStore_Kind)
+	DiagnosisStore_Kind             = "DiagnosisStore"
+	DiagnosisStore_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: DiagnosisStore_Kind}.String()
+	DiagnosisStore_KindAPIVersion   = DiagnosisStore_Kind + "." + CRDGroupVersion.String()
+	DiagnosisStore_GroupVersionKind = CRDGroupVersion.WithKind(DiagnosisStore_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&HealthDiagnosisStore{}, &HealthDiagnosisStoreList{})
+	SchemeBuilder.Register(&DiagnosisStore{}, &DiagnosisStoreList{})
 }
