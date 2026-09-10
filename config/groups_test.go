@@ -126,6 +126,7 @@ func TestServiceGroupings(t *testing.T) {
 		},
 		"networkconnectivity": {
 			"oci_core_drg",
+			"oci_core_default_drg_route_table",
 			"oci_core_drg_attachment",
 			"oci_core_drg_attachment_management",
 			"oci_core_drg_attachments_list",
@@ -174,6 +175,42 @@ func TestGroupKindOverrides(t *testing.T) {
 
 	if testResource.Kind != "Instance" {
 		t.Errorf("Expected Kind to be 'Instance', got '%s'", testResource.Kind)
+	}
+}
+
+// TestGroupKindOverridesExactMappings verifies that exact overrides win over
+// broader service detectors whose precedence would otherwise misroute them.
+func TestGroupKindOverridesExactMappings(t *testing.T) {
+	testCases := []struct {
+		resourceName string
+		wantGroup    string
+		wantKind     string
+	}{
+		{
+			resourceName: "oci_cluster_health_diagnosis_store",
+			wantGroup:    "clusterhealth",
+			wantKind:     "DiagnosisStore",
+		},
+		{
+			resourceName: "oci_core_default_drg_route_table",
+			wantGroup:    "networkconnectivity",
+			wantKind:     "DefaultDrgRouteTable",
+		},
+	}
+
+	override := GroupKindOverrides()
+	for _, tc := range testCases {
+		t.Run(tc.resourceName, func(t *testing.T) {
+			resource := &config.Resource{Name: tc.resourceName}
+			override(resource)
+
+			if resource.ShortGroup != tc.wantGroup {
+				t.Errorf("ShortGroup = %q, want %q", resource.ShortGroup, tc.wantGroup)
+			}
+			if resource.Kind != tc.wantKind {
+				t.Errorf("Kind = %q, want %q", resource.Kind, tc.wantKind)
+			}
+		})
 	}
 }
 
@@ -254,6 +291,8 @@ func TestSpecificServiceMappings(t *testing.T) {
 		{"oci_core_vcn", "networking", "Vcn"},
 		{"oci_core_volume", "blockstorage", "Volume"},
 		{"oci_core_drg", "networkconnectivity", "Drg"},
+		{"oci_core_default_drg_route_table", "networkconnectivity", "DefaultDrgRouteTable"},
+		{"oci_cluster_health_diagnosis_store", "clusterhealth", "DiagnosisStore"},
 		{"oci_identity_compartment", "identity", "Compartment"},
 		{"oci_containerengine_cluster", "containerengine", "Cluster"},
 		{"oci_objectstorage_bucket", "objectstorage", "Bucket"},

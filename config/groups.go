@@ -36,6 +36,12 @@ type GroupKindCalculator func(resource string) (group string, kind string)
 // GroupMap remaps OCI Terraform resources to service-based groups
 // This solves the API group vs service mismatch (e.g., oci_core_* → appropriate services)
 var GroupMap = map[string]GroupKindCalculator{
+	// Cluster Health Service - generic cluster detection otherwise routes this
+	// resource to Cluster Placement Groups.
+	"oci_cluster_health_diagnosis_store": func(name string) (string, string) {
+		return "clusterhealth", "DiagnosisStore"
+	},
+
 	// Compute Service - Instance and compute-related resources from oci_core_*
 	"oci_core_instance": func(name string) (string, string) {
 		return "compute", "Instance"
@@ -180,6 +186,9 @@ var GroupMap = map[string]GroupKindCalculator{
 	// Network Connectivity Service - Advanced networking, DRG, cross-connects from oci_core_*
 	"oci_core_drg": func(name string) (string, string) {
 		return "networkconnectivity", "Drg"
+	},
+	"oci_core_default_drg_route_table": func(name string) (string, string) {
+		return "networkconnectivity", "DefaultDrgRouteTable"
 	},
 	"oci_core_drg_attachment": func(name string) (string, string) {
 		return "networkconnectivity", "DrgAttachment"
